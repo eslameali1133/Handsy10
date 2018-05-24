@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CustomInfoWindow" customModule="Handsy" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="200" height="100"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg overlay" translatesAutoresizingMaskIntoConstraints="NO" id="eKX-3M-4Gc">
+                    <rect key="frame" x="0.0" y="0.0" width="200" height="100"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Office Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JlZ-g7-flG">
+                    <rect key="frame" x="8" y="8" width="74" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="0a3-T3-bbo"/>
+                        <constraint firstAttribute="width" constant="74" id="g8c-AP-gY8"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Office Email:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mgV-14-X4S">
+                    <rect key="frame" x="8" y="37" width="72" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="2Xg-5g-ZR2"/>
+                        <constraint firstAttribute="width" constant="72" id="kHM-K2-CbH"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="1Kr-g6-DQU">
+                    <rect key="frame" x="83" y="8" width="109" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="4ye-mv-Zb8"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <color key="textColor" red="0.85098039215686272" green="0.30196078431372547" blue="0.23921568627450979" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="vee-y5-dv0">
+                    <rect key="frame" x="81" y="37" width="111" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="aPm-25-1zU"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <color key="textColor" red="0.85098039219999999" green="0.30196078430000001" blue="0.23921568630000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Sh-jF-Aqv">
+                    <rect key="frame" x="8" y="79" width="53" height="16"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.0" green="0.47934520244598389" blue="0.99908632040023804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="7"/>
+                    <state key="normal" title="تفاصيل المكتب">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7jw-z4-ST9">
+                    <rect key="frame" x="139" y="79" width="53" height="16"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.0" green="0.4793452024" blue="0.99908632040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="7"/>
+                    <state key="normal" title="اختيار المكتب">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="JlZ-g7-flG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="09g-a5-NSw"/>
+                <constraint firstItem="1Kr-g6-DQU" firstAttribute="leading" secondItem="JlZ-g7-flG" secondAttribute="trailing" constant="1" id="2pD-9t-C82"/>
+                <constraint firstAttribute="trailing" secondItem="eKX-3M-4Gc" secondAttribute="trailing" id="8g7-Jg-6ed"/>
+                <constraint firstItem="JlZ-g7-flG" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="ABv-Jt-Cni"/>
+                <constraint firstItem="eKX-3M-4Gc" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Ajk-se-ngj"/>
+                <constraint firstItem="mgV-14-X4S" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="D74-Xm-Gta"/>
+                <constraint firstAttribute="bottom" secondItem="eKX-3M-4Gc" secondAttribute="bottom" id="ZwB-Tt-o0N"/>
+                <constraint firstItem="vee-y5-dv0" firstAttribute="top" secondItem="1Kr-g6-DQU" secondAttribute="bottom" constant="8" id="ZyR-SO-MgF"/>
+                <constraint firstAttribute="trailing" secondItem="vee-y5-dv0" secondAttribute="trailing" constant="8" id="bj6-Zw-Htp"/>
+                <constraint firstAttribute="trailing" secondItem="1Kr-g6-DQU" secondAttribute="trailing" constant="8" id="d4y-BG-uEP"/>
+                <constraint firstItem="vee-y5-dv0" firstAttribute="leading" secondItem="mgV-14-X4S" secondAttribute="trailing" constant="1" id="dGe-t7-bk0"/>
+                <constraint firstItem="mgV-14-X4S" firstAttribute="top" secondItem="JlZ-g7-flG" secondAttribute="bottom" constant="8" id="djg-xX-CX8"/>
+                <constraint firstItem="1Kr-g6-DQU" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="iLw-hi-8MM"/>
+                <constraint firstItem="eKX-3M-4Gc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="vFy-Vf-cFX"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="OfficeDetialsOut" destination="9Sh-jF-Aqv" id="Rj9-gD-qML"/>
+                <outlet property="architectLbl" destination="1Kr-g6-DQU" id="ArA-FQ-qo1"/>
+                <outlet property="chooseOfficeOut" destination="7jw-z4-ST9" id="XPM-C5-Ezd"/>
+                <outlet property="completedYearLbl" destination="vee-y5-dv0" id="162-sM-fuc"/>
+            </connections>
+            <point key="canvasLocation" x="416" y="363"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="bg overlay" width="125" height="60"/>
+    </resources>
+</document>
