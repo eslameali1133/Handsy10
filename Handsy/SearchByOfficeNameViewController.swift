@@ -155,7 +155,7 @@ class SearchByOfficeNameViewController: UIViewController, UITableViewDelegate, U
             print("nil")
             cell.CompanyLogoImage.image = #imageLiteral(resourceName: "officePlaceholder")
         }
-        cell.OfficeName.text = offices.ComapnyName
+        cell.OfficeName.setTitle(offices.ComapnyName, for: .normal)
         let lat = offices.Lat
         let lng = offices.Long
         let markerTarget = CLLocation(latitude: lat, longitude: lng)
@@ -259,12 +259,21 @@ class SearchByOfficeNameViewController: UIViewController, UITableViewDelegate, U
             secondView.LngBranch = self.filteredOffices[index!].Long
             secondView.ZoomBranch = self.filteredOffices[index!].Zoom
         }else{
-            
             self.CompanyInfoID = self.arrayOfResulr[index!].CompanyInfoID
             self.CompanyName = self.arrayOfResulr[index!].ComapnyName
             self.CompanyAddress = self.arrayOfResulr[index!].Address
             self.CompanyImage = self.arrayOfResulr[index!].Logo
             self.branchId = self.arrayOfResulr[index!].BranchID
+            secondView.CompanyInfoID = self.CompanyInfoID
+            secondView.CompanyName = self.CompanyName
+            secondView.CompanyAddress = self.CompanyAddress
+            secondView.CompanyImage = self.CompanyImage
+            secondView.BranchID = self.branchId
+            secondView.EmpMobile = self.arrayOfResulr[index!].CompanyMobile
+            secondView.IsCompany = self.arrayOfResulr[index!].IsCompany
+            secondView.LatBranch = self.arrayOfResulr[index!].Lat
+            secondView.LngBranch = self.arrayOfResulr[index!].Long
+            secondView.ZoomBranch = self.arrayOfResulr[index!].Zoom
         }
         
         self.navigationController?.pushViewController(secondView, animated: true)

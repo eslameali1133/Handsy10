@@ -19,7 +19,7 @@ class NeerOfficesTableViewCell: UITableViewCell {
             }
         }
     }
-    @IBOutlet weak var OfficeName: UILabel!
+    @IBOutlet weak var OfficeName: UIButton!
     @IBOutlet weak var NeerBeLabel: UILabel!
     @IBOutlet weak var AddressLabel: UILabel!
     @IBOutlet weak var chooseBtnOut: UIButton!{

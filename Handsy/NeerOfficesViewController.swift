@@ -257,7 +257,7 @@ class NeerOfficesViewController: UIViewController, UITableViewDelegate, UITableV
             print("nil")
             cell.CompanyLogoImage.image = #imageLiteral(resourceName: "officePlaceholder")
         }
-        cell.OfficeName.text = offices.ComapnyName
+        cell.OfficeName.setTitle(offices.ComapnyName, for: .normal)
         let lat = offices.Lat
         let lng = offices.Long
         let markerTarget = CLLocation(latitude: lat, longitude: lng)

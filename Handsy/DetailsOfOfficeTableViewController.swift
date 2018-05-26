@@ -28,6 +28,9 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
     @IBOutlet weak var MailLabel: UIButton!
     
     @IBOutlet weak var FBLabel: UIButton!
+    @IBOutlet weak var FBStackView: UIStackView!
+    
+    @IBOutlet weak var experienceTitleLabel: UILabel!
     
     @IBOutlet weak var AboutTextView: UILabel!
     
@@ -175,7 +178,12 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
             self.MobileLabel.setTitle("\(detialsOfOfficeArray[0].CompanyMobile ?? "")", for: .normal)
             self.FaxLabel.setTitle("\(detialsOfOfficeArray[0].Fax ?? "")", for: .normal)
             self.MailLabel.setTitle("\(detialsOfOfficeArray[0].CompanyEmail ?? "")", for: .normal)
-            self.FBLabel.setTitle("\(detialsOfOfficeArray[0].BranchFB ?? "")", for: .normal)
+            if detialsOfOfficeArray[0].BranchFB == "" {
+                FBStackView.isHidden = true
+            }else {
+                FBStackView.isHidden = false
+                self.FBLabel.setTitle("\(detialsOfOfficeArray[0].BranchFB ?? "")", for: .normal)
+            }
             if self.isCompany == "1" {
                 self.chooseOut.setTitle("اختار المكتب", for: .normal)
             }else {
@@ -225,7 +233,31 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
     @objc func backButtonPressed(){
         self.navigationController!.popViewController(animated: true)
     }
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0  && projectImagesArr.count == 0{
+            return 0.0
+        }
+        if section == 3 && getTeamImagesArr.count == 0{
+            return 0.0
+        }
+        return UITableViewAutomaticDimension
+    }
     
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 0{
+            if indexPath.row == 0 && projectImagesArr.count == 0 {
+                return 0.0
+            }
+        }
+        if indexPath.section == 3 {
+            if indexPath.row == 0 && getTeamImagesArr.count == 0{
+                return 0.0
+            }
+        }
+        return UITableViewAutomaticDimension
+    }
+
     func dataReady() {
         // Access the video objects that have been downloaded
         self.getTeamImagesArr = self.TeamModel.resultArray
@@ -242,6 +274,7 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
         // Tell the collection to reload
         TeamWorkSlider.reloadData()
         OurProjectsSlider.reloadData()
+        tableView.reloadData()
     }
     
     func GetAbout() {
@@ -275,6 +308,9 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
                 }
                 let AboutText = "\(json["ExperienceContent"].stringValue)"
                 self.AboutTextView.text = AboutText
+                let ExperienceTitle = json["ExperienceTitle"].stringValue
+                self.experienceTitleLabel.text = ExperienceTitle
+                self.tableView.reloadData()
                 print("Validation Successful")
                 UIViewController.removeSpinner(spinner: sv)
             case .failure(let error):
@@ -286,7 +322,7 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
                 }))
                 
                 alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
-                    self.navigationController!.popViewController(animated: true)
+                    UIViewController.removeSpinner(spinner: sv)
                 }))
                 
                 self.present(alertAction, animated: true, completion: nil)
@@ -432,7 +468,13 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
             self.MobileLabel.setTitle("\(self.CompanyMobile)", for: .normal)
             self.FaxLabel.setTitle("\(self.Fax)", for: .normal)
             self.MailLabel.setTitle("\(self.CompanyEmail)", for: .normal)
-            self.FBLabel.setTitle("\(self.BranchFB)", for: .normal)
+            if self.BranchFB == "" {
+                self.FBStackView.isHidden = true
+            } else {
+                self.FBStackView.isHidden = false
+                self.FBLabel.setTitle("\(self.BranchFB)", for: .normal)
+            }
+            
             if self.isCompany == "1" {
                 self.chooseOut.setTitle("اختار المكتب", for: .normal)
             }else {

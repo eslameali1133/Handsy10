@@ -36,7 +36,7 @@ class AboutCompanyTableViewController: UITableViewController, ServiceOfCompanyMo
             print("Internet Connection Available!")
             GetAbout()
             model.delegate = self
-            model.GetServices(view: self.view)
+            model.GetServices(view: self.view, VC: self)
         }else{
             aboutModel.loadItems()
             if CompanyInfoID == "" {
@@ -65,7 +65,7 @@ class AboutCompanyTableViewController: UITableViewController, ServiceOfCompanyMo
         if isCompany == "0" {
             navigationItem.title = "عن المهندس"
         }else {
-            navigationItem.title = "عن الشركة"
+            navigationItem.title = "عن المكتب"
         }
     }
 
@@ -175,6 +175,7 @@ class AboutCompanyTableViewController: UITableViewController, ServiceOfCompanyMo
             self.AboutContent = json["AboutContent"].stringValue
             self.ExperTitle = json["ExperienceTitle"].stringValue
             self.ExperContent = json["ExperienceContent"].stringValue
+            self.tableView.reloadData()
             UIViewController.removeSpinner(spinner: sv)
         }
     }

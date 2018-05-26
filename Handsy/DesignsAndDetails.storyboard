@@ -45,16 +45,16 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="384" height="40"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="po8-db-0fN">
-                                                                    <rect key="frame" x="5" y="5" width="90.5" height="30"/>
+                                                                    <rect key="frame" x="5" y="5" width="85" height="30"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="تحت الانتظار" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i1l-av-yHy">
-                                                                            <rect key="frame" x="0.0" y="2" width="68.5" height="26.5"/>
+                                                                            <rect key="frame" x="0.0" y="7" width="63" height="16.5"/>
                                                                             <fontDescription key="fontDescription" name="AJannatLT" family="A Jannat LT" pointSize="14"/>
                                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="zr4-Ql-uM0">
-                                                                            <rect key="frame" x="73.5" y="6.5" width="17" height="17"/>
+                                                                            <rect key="frame" x="68" y="6.5" width="17" height="17"/>
                                                                             <subviews>
                                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imageView:3Mb-b2-doo:image" translatesAutoresizingMaskIntoConstraints="NO" id="3Mb-b2-doo">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="17" height="17"/>
@@ -68,16 +68,16 @@
                                                                     </subviews>
                                                                 </stackView>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uLh-Hq-i63">
-                                                                    <rect key="frame" x="256" y="5" width="123" height="30"/>
+                                                                    <rect key="frame" x="257" y="5" width="122" height="30"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="16/08/2017" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eUA-lJ-fEb">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="73" height="30"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="72" height="30"/>
                                                                             <fontDescription key="fontDescription" name="AJannatLT" family="A Jannat LT" pointSize="14"/>
                                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  التاريخ : " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8yM-6y-etq">
-                                                                            <rect key="frame" x="73" y="0.0" width="50" height="30"/>
+                                                                            <rect key="frame" x="72" y="0.0" width="50" height="30"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="width" constant="50" id="hHo-af-8bL"/>
                                                                             </constraints>
@@ -114,7 +114,7 @@
                                                                     </constraints>
                                                                 </imageView>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="yco-vG-e7B">
-                                                                    <rect key="frame" x="10" y="10" width="234" height="87"/>
+                                                                    <rect key="frame" x="10" y="10" width="234" height="78"/>
                                                                     <subviews>
                                                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="IsL-5H-j2q">
                                                                             <rect key="frame" x="0.0" y="0.0" width="234" height="26"/>
@@ -151,10 +151,10 @@
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="vE6-on-YoB">
-                                                                            <rect key="frame" x="0.0" y="52" width="234" height="35"/>
+                                                                            <rect key="frame" x="0.0" y="52" width="234" height="26"/>
                                                                             <subviews>
                                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fSI-IQ-06Y">
-                                                                                    <rect key="frame" x="0.0" y="8.5" width="18" height="18"/>
+                                                                                    <rect key="frame" x="0.0" y="4" width="18" height="18"/>
                                                                                     <constraints>
                                                                                         <constraint firstAttribute="height" constant="18" id="X27-j5-gZg"/>
                                                                                         <constraint firstAttribute="width" constant="18" id="meT-mv-ShS"/>
@@ -167,7 +167,7 @@
                                                                                     </connections>
                                                                                 </button>
                                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Neo-T1-E4K">
-                                                                                    <rect key="frame" x="23" y="0.0" width="211" height="35"/>
+                                                                                    <rect key="frame" x="23" y="0.0" width="211" height="26"/>
                                                                                     <fontDescription key="fontDescription" name="AJannatLT" family="A Jannat LT" pointSize="12"/>
                                                                                     <state key="normal" title="Button"/>
                                                                                     <connections>
@@ -258,16 +258,16 @@
                                                                                                     </constraints>
                                                                                                 </stackView>
                                                                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lRY-Zu-fNU">
-                                                                                                    <rect key="frame" x="224" y="40" width="140" height="17"/>
+                                                                                                    <rect key="frame" x="235.5" y="40" width="128.5" height="17"/>
                                                                                                     <subviews>
                                                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="تصميم الوجهات" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bai-pI-V2E">
-                                                                                                            <rect key="frame" x="0.0" y="0.0" width="88" height="17"/>
+                                                                                                            <rect key="frame" x="0.0" y="0.0" width="76.5" height="17"/>
                                                                                                             <fontDescription key="fontDescription" name="AJannatLT" family="A Jannat LT" pointSize="14"/>
                                                                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                                                             <nil key="highlightedColor"/>
                                                                                                         </label>
                                                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="مرحلة  : " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6gf-lw-7ad">
-                                                                                                            <rect key="frame" x="88" y="0.0" width="52" height="17"/>
+                                                                                                            <rect key="frame" x="76.5" y="0.0" width="52" height="17"/>
                                                                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                                                                             <color key="textColor" red="0.79993158580000001" green="0.65909171099999997" blue="0.19559401269999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                                             <nil key="highlightedColor"/>
