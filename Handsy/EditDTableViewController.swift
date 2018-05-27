@@ -359,7 +359,7 @@ class EditDTableViewController: UITableViewController, ImagePickerDelegate, UICo
                 }
         },
             usingThreshold:UInt64.init(),
-            to: "http://handasy.promit2030.comm/UploadFile/api.php",
+            to: "http://handasy.promit2030.com/UploadFile/api.php",
             method: .post,
             encodingCompletion: { encodingResult in
                 switch encodingResult {

@@ -281,7 +281,7 @@ class NewProjectCViewController: UIViewController, CLLocationManagerDelegate {
 
 
 // MARK: - GMSMapViewDelegate
-extension NewProjectCViewController : GMSAutocompleteResultsViewControllerDelegate, GMSMapViewDelegate {
+extension NewProjectCViewController: GMSAutocompleteResultsViewControllerDelegate, GMSMapViewDelegate {
     
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
                            didAutocompleteWith place: GMSPlace) {
