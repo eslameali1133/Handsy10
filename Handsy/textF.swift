@@ -16,7 +16,7 @@ extension UITextField {
         
         self.layer.masksToBounds = false
         self.layer.shadowColor = UIColor.gray.cgColor
-        self.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        self.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
         self.layer.shadowOpacity = 1.0
         self.layer.shadowRadius = 0.0
     }
@@ -39,7 +39,7 @@ extension UITextField {
         self.layer.masksToBounds = false
         let yellow = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
         self.layer.shadowColor = yellow.cgColor
-        self.layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
+        self.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
         self.layer.shadowOpacity = 1.0
         self.layer.shadowRadius = 0.0
     }

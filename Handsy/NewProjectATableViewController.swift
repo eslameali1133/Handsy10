@@ -56,10 +56,14 @@ class NewProjectATableViewController: UITableViewController, UITextFieldDelegate
     @IBOutlet weak var alertProject: UILabel!
     
     
-    @IBOutlet weak var chooseProjectLable: UITextField!
+    @IBOutlet weak var chooseProjectLable: UITextField!{
+        didSet {
+            chooseProjectLable.layer.borderWidth = 1.0
+            chooseProjectLable.layer.borderColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+        }
+    }
     
-    
-   
+    @IBOutlet weak var descriptionTV: UITextView!
     
     @IBOutlet weak var companyNameLabel: UILabel!
     @IBOutlet weak var companyAddressLabel: UILabel!
@@ -97,19 +101,31 @@ class NewProjectATableViewController: UITableViewController, UITextFieldDelegate
         pikerProjectLable.delegate = self
         pikerProjectLable.dataSource = self
         chooseProjectLable.inputView = pikerProjectLable
-        chooseProjectLable.setBottomBorderGray()
+        chooseProjectLable.setBottomBorderYellow()
         
-        DispatchQueue.main.async {
-            self.NextView.frame = CGRect.init(x: 0 , y: self.tableView.frame.height-170, width: self.tableView.frame.width, height: 110)
-            self.tableView.addSubview(self.NextView)
-        }
+//        DispatchQueue.main.async {
+//            self.NextView.frame = CGRect.init(x: 0 , y: self.tableView.frame.height-170, width: self.tableView.frame.width, height: 110)
+//            self.tableView.addSubview(self.NextView)
+//        }
         
         alertProject.isHidden = true
         
         let black = UIColor(red: 24.0/255.0, green: 23.0/255.0, blue: 23.0/255.0, alpha: 1.0)
         
         self.chooseProjectLable.AddImage(.left, imageName: "star", Frame: CGRect(x: 3, y: 0, width: 7, height: 7), backgroundColor: black)
-        
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.isTranslucent = true
+        toolBar.tintColor = UIColor.black
+        toolBar.sizeToFit()
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.bordered, target: self, action: #selector(AlertDesignOkViewController.donePicker))
+        toolBar.setItems([doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        descriptionTV.inputAccessoryView = toolBar
+    }
+    
+    @objc func donePicker(){
+        self.view.endEditing(true)
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -148,7 +164,6 @@ class NewProjectATableViewController: UITableViewController, UITextFieldDelegate
         if chooseProjectLable.text != "" {
             let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
             let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectCViewController") as! NewProjectCViewController
-            self.navigationController?.pushViewController(secondView, animated: true)
             let selectProject = PrjTypeID
             
             secondView.selectSection = BranchID
@@ -160,9 +175,8 @@ class NewProjectATableViewController: UITableViewController, UITextFieldDelegate
             secondView.spacePlace = spacePlace
             secondView.dateRagh = dateRghsa
             secondView.dateSk = dateOfSak
-            secondView.note = Notes
-            
-            
+            secondView.note = descriptionTV.text!
+            self.navigationController?.pushViewController(secondView, animated: true)
         } else {
             if chooseProjectLable.text == "" {
                 alertProject.isHidden = false
@@ -200,7 +214,7 @@ class NewProjectATableViewController: UITableViewController, UITextFieldDelegate
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 3
     }
     
    
@@ -217,12 +231,19 @@ class NewProjectATableViewController: UITableViewController, UITextFieldDelegate
     //    }
     
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        if indexPath.row == 1 {
+            return tableView.frame.height/2.3
+        }else {
+            return 50
+        }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        return UITableViewAutomaticDimension
+        if indexPath.row == 1 {
+            return tableView.frame.height/2.3
+        }else {
+            return UITableViewAutomaticDimension
+        }
     }
     
     func assignbackground(){
