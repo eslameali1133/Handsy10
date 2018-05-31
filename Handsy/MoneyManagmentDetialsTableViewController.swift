@@ -24,20 +24,57 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
     @IBOutlet weak var alertLabel: UILabel!
     @IBOutlet weak var AlertImageOut: UIImageView!
     
-    @IBOutlet weak var HeaderViewOut: UIView!
     @IBOutlet weak var HeaderMoneyOut: UIView!
     @IBOutlet weak var HeaderTypeOut: UIView!
     
-    @IBOutlet weak var companyNameLabel: UILabel!
-    @IBOutlet weak var porjectTitleLabel: UILabel!
-    @IBOutlet weak var companyImageOut: UIImageView!{
+    @IBOutlet weak var callBtn: UIButton! {
         didSet {
+            callBtn.layer.borderWidth = 1.0
+            callBtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            callBtn.layer.cornerRadius = 4.0
+        }
+    }
+    
+    @IBOutlet weak var officeDetialsBtn: UIButton! {
+        didSet {
+            officeDetialsBtn.layer.borderWidth = 1.0
+            officeDetialsBtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            officeDetialsBtn.layer.cornerRadius = 4.0
+        }
+    }
+    @IBOutlet weak var messageBtn: UIButton! {
+        didSet {
+            messageBtn.layer.borderWidth = 1.0
+            messageBtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            messageBtn.layer.cornerRadius = 4.0
+        }
+    }
+    
+    @IBOutlet weak var companyImageOut: UIImageView!
+    @IBOutlet weak var projectTitleLabel: UILabel!
+    @IBOutlet weak var EngNameLabel: UILabel!
+    @IBOutlet weak var engJobName: UILabel!
+    @IBOutlet weak var statusView: UIView!{
+        didSet{
             DispatchQueue.main.async {
-                self.companyImageOut.layer.cornerRadius = 7.0
-                self.companyImageOut.layer.masksToBounds = true
+                self.statusView.roundCorners([.topLeft, .topRight], radius: 10)
             }
         }
     }
+    @IBOutlet weak var lastStatusLabel: UILabel!
+    @IBOutlet weak var statusImgView: UIImageView!
+    @IBOutlet weak var statusNameLabel: UILabel!
+    @IBOutlet weak var notficationAlertBtnOut: UIButton!
+    @IBOutlet weak var notficationCountLabel: UILabel!{
+        didSet {
+            DispatchQueue.main.async {
+                self.notficationCountLabel.layer.cornerRadius = self.notficationCountLabel.frame.width/2
+                self.notficationCountLabel.layer.masksToBounds = true
+            }
+        }
+    }
+    var ProjectOfResult: [ProjectDetialsArray] = [ProjectDetialsArray]()
+    var arrayOfResulr = [GetOfficesArray]()
     
     @IBOutlet weak var contractBtnOut: UIButton!{
         didSet {
@@ -116,11 +153,9 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
     @IBOutlet weak var statusLabelB: UILabel!
     @IBOutlet weak var contractBtn: UIButton!
     @IBOutlet weak var acceptContractBtn: UIButton!
-    @IBOutlet weak var EngNameLabel: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        HeaderViewOut.backgroundColor = #colorLiteral(red: 0.2274509804, green: 0.231372549, blue: 0.2352941176, alpha: 1)
         HeaderMoneyOut.backgroundColor = #colorLiteral(red: 0.2274509804, green: 0.231372549, blue: 0.2352941176, alpha: 1)
         HeaderTypeOut.backgroundColor = #colorLiteral(red: 0.2274509804, green: 0.231372549, blue: 0.2352941176, alpha: 1)
         
@@ -180,17 +215,54 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
     }
     
     func setHeaderDetials(){
-        companyNameLabel.text = ComapnyName
-        let projectTitle = "\(ProjectTitle)"
-        porjectTitleLabel.text = projectTitle
-        let img = Logo
-        if let url = URL.init(string: img) {
+        lastStatusLabel.text = ProjectOfResult[0].ProjectLastComment!
+        let NotLabel = ProjectOfResult[0].NotifiCount!
+        
+        if NotLabel != 0 {
+            notficationAlertBtnOut.isHidden = false
+            notficationCountLabel.isHidden = false
+            notficationCountLabel.text = "\(NotLabel)"
+        } else {
+            notficationAlertBtnOut.isHidden = false
+            notficationCountLabel.isHidden = true
+        }
+        let status = ProjectOfResult[0].ProjectStatusID!
+        let statusName = ProjectOfResult[0].ProjectStatusName!
+        if status == "5"{
+            statusNameLabel.text = statusName
+            statusImgView.backgroundColor = #colorLiteral(red: 0.9921568627, green: 0.4274509804, blue: 0.337254902, alpha: 1)
+        }else if status == "4"{
+            statusNameLabel.text = statusName
+            statusImgView.backgroundColor = #colorLiteral(red: 0.1176470588, green: 0.368627451, blue: 0.4666666667, alpha: 1)
+        }else if status == "3"{
+            statusNameLabel.text = statusName
+            statusImgView.backgroundColor = #colorLiteral(red: 0.1764705882, green: 0.4745098039, blue: 0.8862745098, alpha: 1)
+        }else if status == "1"{
+            statusNameLabel.text = statusName
+            statusImgView.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+        }else if status == "2"{
+            statusNameLabel.text = statusName
+            statusImgView.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
+        }else if status == "6"{
+            statusNameLabel.text = statusName
+            statusImgView.backgroundColor = #colorLiteral(red: 0.2588235294, green: 0.8666666667, blue: 0.1764705882, alpha: 1)
+        }else if status == "7"{
+            statusNameLabel.text = statusName
+            statusImgView.backgroundColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+        }else {
+            print("error status \(status)")
+        }
+        //        companyNameLabel.text = ProjectOfResult[0].ComapnyName!
+        projectTitleLabel.text = "( \(ProjectOfResult[0].ProjectTitle!) )"
+        EngNameLabel.text = ProjectOfResult[0].EmpName
+        engJobName.text = ProjectOfResult[0].JobName
+        let img = ProjectOfResult[0].EmpImage
+        if let url = URL.init(string: img!) {
             companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
             print("nil")
             companyImageOut.image = #imageLiteral(resourceName: "officePlaceholder")
         }
-        EngNameLabel.setTitle(EmpName, for: .normal)
     }
     
     func GetProjectByProjectId(){
@@ -310,7 +382,7 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
             acceptContractBtn.isHidden = true
             newContractBtnOut.isHidden = true
             contractBtnOut.isHidden = true
-            viewMoney.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 410)
+            viewMoney.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 510)
             self.view.setNeedsLayout()
             self.view.layoutIfNeeded()
         } else {
@@ -319,7 +391,7 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
             acceptContractBtn.isHidden = true
             newContractBtnOut.isHidden = true
             contractBtnOut.isHidden = true
-            viewMoney.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 410)
+            viewMoney.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 510)
             self.view.setNeedsLayout()
             self.view.layoutIfNeeded()
         }
@@ -513,6 +585,67 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
         }
     }
     
+    @IBAction func goOfficeDetials(_ sender: UIButton) {
+        GetOfficesByProvincesID()
+    }
+    
+    func GetOfficesByProvincesID(){
+        let sv = UIViewController.displaySpinner(onView: self.view)
+        //        let id = UserDefaults.standard.string(forKey: "account_id")!
+        //        let account_type = UserDefaults.standard.string(forKey: "account_type")!
+        
+        
+        let Parameters: Parameters = [
+            "companyInfoID": ProjectOfResult[0].CompanyInfoID!
+        ]
+        
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetOfficeByCompanyInfoID", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
+            debugPrint(response)
+            
+            let json = JSON(response.result.value!)
+            let requestProjectObj = GetOfficesArray()
+            requestProjectObj.CompanyInfoID = json["CompanyInfoID"].stringValue
+            requestProjectObj.ComapnyName = json["ComapnyName"].stringValue
+            requestProjectObj.CompanyMobile = json["CompanyMobile"].stringValue
+            requestProjectObj.Street = json["Street"].stringValue
+            requestProjectObj.BiuldNumber = json["BiuldNumber"].stringValue
+            requestProjectObj.PostNumber = json["PostNumber"].stringValue
+            requestProjectObj.PostSymbol = json["PostSymbol"].stringValue
+            requestProjectObj.PostNumberWasl = json["PostNumberWasl"].stringValue
+            requestProjectObj.Phone = json["Phone"].stringValue
+            requestProjectObj.Fax = json["Fax"].stringValue
+            requestProjectObj.Long = json["Long"].doubleValue
+            requestProjectObj.Lat = json["Lat"].doubleValue
+            requestProjectObj.Zoom = json["Zoom"].stringValue
+            requestProjectObj.LicenceNumber = json["LicenceNumber"].stringValue
+            requestProjectObj.CommercialNumber = json["CommercialNumber"].stringValue
+            requestProjectObj.CompanyEmail = json["CompanyEmail"].stringValue
+            requestProjectObj.IsCompany = json["IsCompany"].stringValue
+            requestProjectObj.Specialty = json["Specialty"].stringValue
+            requestProjectObj.IsSCE = json["IsSCE"].stringValue
+            requestProjectObj.Logo = json["Logo"].stringValue
+            requestProjectObj.BranchFB = json["BranchFB"].stringValue
+            requestProjectObj.BranchID = json["BranchID"].stringValue
+            requestProjectObj.Address = json["Address"].stringValue
+            
+            self.arrayOfResulr.append(requestProjectObj)
+            UIViewController.removeSpinner(spinner: sv)
+            self.goH()
+        }
+    }
+    
+    func goH(){
+        let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "DetailsOfOfficeTableViewController") as! DetailsOfOfficeTableViewController
+        secondView.arrayOfResulr = self.arrayOfResulr
+        print("arrr: \(self.arrayOfResulr.count)")
+        secondView.CompanyInfoID = self.ProjectOfResult[0].CompanyInfoID!
+        secondView.conditionService = "condition"
+        secondView.LatBranch = LatBranch
+        secondView.LngBranch = LngBranch
+        self.navigationController?.pushViewController(secondView, animated: true)
+    }
+    
     @IBAction func directionBtn(_ sender: UIButton) {
         let location = CLLocation(latitude: LatBranch, longitude: LngBranch)
         print(location.coordinate)
@@ -554,5 +687,10 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
             }
         }
     }
-    
+    @IBAction func goToNotfication(_ sender: UIButton) {
+        let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "MyProjectNotficationViewController") as! MyProjectNotficationViewController
+        secondView.projectId = self.ProjectOfResult[0].ProjectId!
+        self.navigationController?.pushViewController(secondView, animated: true)
+    }
 }

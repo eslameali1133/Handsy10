@@ -22,19 +22,46 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
     @IBOutlet weak var tableView: UITableView!
     
     
-    @IBOutlet weak var projectTitle: UILabel!
-    @IBOutlet weak var HeaderViewOut: UIView!
-    
-    @IBOutlet weak var companyNameLabel: UILabel!
-    @IBOutlet weak var AddressLabel: UILabel!
-    @IBOutlet weak var companyImageOut: UIImageView!{
+    @IBOutlet weak var callBtn: UIButton! {
         didSet {
+            callBtn.layer.borderWidth = 1.0
+            callBtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            callBtn.layer.cornerRadius = 4.0
+        }
+    }
+    
+    @IBOutlet weak var officeDetialsBtn: UIButton! {
+        didSet {
+            officeDetialsBtn.layer.borderWidth = 1.0
+            officeDetialsBtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            officeDetialsBtn.layer.cornerRadius = 4.0
+        }
+    }
+    
+    @IBOutlet weak var companyImageOut: UIImageView!
+    @IBOutlet weak var projectTitleLabel: UILabel!
+    @IBOutlet weak var EngNameLabel: UILabel!
+    @IBOutlet weak var engJobName: UILabel!
+    @IBOutlet weak var statusView: UIView!{
+        didSet{
             DispatchQueue.main.async {
-                self.companyImageOut.layer.cornerRadius = 7.0
-                self.companyImageOut.layer.masksToBounds = true
+                self.statusView.roundCorners([.topLeft, .topRight], radius: 10)
             }
         }
     }
+    @IBOutlet weak var lastStatusLabel: UILabel!
+    @IBOutlet weak var statusImgView: UIImageView!
+    @IBOutlet weak var statusNameLabel: UILabel!
+    @IBOutlet weak var notficationAlertBtnOut: UIButton!
+    @IBOutlet weak var notficationCountLabel: UILabel!{
+        didSet {
+            DispatchQueue.main.async {
+                self.notficationCountLabel.layer.cornerRadius = self.notficationCountLabel.frame.width/2
+                self.notficationCountLabel.layer.masksToBounds = true
+            }
+        }
+    }
+    var ProjectOfResult: [ProjectDetialsArray] = [ProjectDetialsArray]()
     
     var ProjectId: String = ""
     var projectTitleView: String = ""
@@ -55,6 +82,7 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        ComapnyNameFunc()
         DispatchQueue.main.async {
             self.NothingLabel.isHidden = true
             self.AlertImage.isHidden = true
@@ -70,7 +98,7 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
             if designProjectIdModel.returnProjectDetials(at: ProjectId) != nil {
                 let  designsDetials = designProjectIdModel.returnProjectDetials(at: ProjectId)
                 self.searchResu = designsDetials!
-                ComapnyNameFunc()
+                
             }
             tableView.reloadData()
         }
@@ -87,12 +115,49 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     func ComapnyNameFunc(){
-        companyNameLabel.text = ComapnyName
-        projectTitle.text = projectTitleView
-        if searchResu.count != 0 {
-            AddressLabel.text = searchResu[0].Address
+        lastStatusLabel.text = ProjectOfResult[0].ProjectLastComment!
+        let NotLabel = ProjectOfResult[0].NotifiCount!
+        
+        if NotLabel != 0 {
+            notficationAlertBtnOut.isHidden = false
+            notficationCountLabel.isHidden = false
+            notficationCountLabel.text = "\(NotLabel)"
+        } else {
+            notficationAlertBtnOut.isHidden = false
+            notficationCountLabel.isHidden = true
         }
-        if let url = URL.init(string: Logo) {
+        let status = ProjectOfResult[0].ProjectStatusID!
+        let statusName = ProjectOfResult[0].ProjectStatusName!
+        if status == "5"{
+            statusNameLabel.text = statusName
+            statusImgView.backgroundColor = #colorLiteral(red: 0.9921568627, green: 0.4274509804, blue: 0.337254902, alpha: 1)
+        }else if status == "4"{
+            statusNameLabel.text = statusName
+            statusImgView.backgroundColor = #colorLiteral(red: 0.1176470588, green: 0.368627451, blue: 0.4666666667, alpha: 1)
+        }else if status == "3"{
+            statusNameLabel.text = statusName
+            statusImgView.backgroundColor = #colorLiteral(red: 0.1764705882, green: 0.4745098039, blue: 0.8862745098, alpha: 1)
+        }else if status == "1"{
+            statusNameLabel.text = statusName
+            statusImgView.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+        }else if status == "2"{
+            statusNameLabel.text = statusName
+            statusImgView.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
+        }else if status == "6"{
+            statusNameLabel.text = statusName
+            statusImgView.backgroundColor = #colorLiteral(red: 0.2588235294, green: 0.8666666667, blue: 0.1764705882, alpha: 1)
+        }else if status == "7"{
+            statusNameLabel.text = statusName
+            statusImgView.backgroundColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+        }else {
+            print("error status \(status)")
+        }
+        //        companyNameLabel.text = ProjectOfResult[0].ComapnyName!
+        projectTitleLabel.text = "( \(ProjectOfResult[0].ProjectTitle!) )"
+        EngNameLabel.text = ProjectOfResult[0].EmpName
+        engJobName.text = ProjectOfResult[0].JobName
+        let img = ProjectOfResult[0].EmpImage
+        if let url = URL.init(string: img!) {
             companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
             print("nil")
@@ -106,7 +171,6 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
         self.searchResu = self.model.resultArray
         self.designProjectIdModel.append(self.model.resultArray, index: ProjectId)
         // Tell the tableview to reload
-        ComapnyNameFunc()
         tableView.reloadData()
     }
     
@@ -386,6 +450,35 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
             if (application.canOpenURL(phoneCallURL)) {
                 application.open(phoneCallURL, options: [:], completionHandler: nil)
             }
+        }
+    }
+    
+    @IBAction func goToNotfication(_ sender: UIButton) {
+        let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "MyProjectNotficationViewController") as! MyProjectNotficationViewController
+        secondView.projectId = self.ProjectOfResult[0].ProjectId!
+        self.navigationController?.pushViewController(secondView, animated: true)
+    }
+    
+    @IBAction func CallEng(_ sender: UIButton) {
+        let mobileNum = ProjectOfResult[0].EmpMobile
+        var mobile: String = (mobileNum)!
+        if mobile.count == 10 {
+            if mobile.first! == "0" {
+                if mobile[mobile.index(mobile.startIndex, offsetBy: 1)] == "5" {
+                    mobile.remove(at: mobile.startIndex)
+                    mobile.insert("6", at: mobile.startIndex)
+                    mobile.insert("6", at: mobile.startIndex)
+                    mobile.insert("9", at: mobile.startIndex)
+                    callNumber(phoneNumber: mobile)
+                } else {
+                    callNumber(phoneNumber: mobile)
+                }
+            } else {
+                callNumber(phoneNumber: mobile)
+            }
+        } else {
+            callNumber(phoneNumber: mobile)
         }
     }
 }

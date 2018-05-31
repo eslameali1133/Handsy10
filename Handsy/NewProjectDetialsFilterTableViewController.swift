@@ -859,6 +859,8 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         self.navigationController?.pushViewController(secondView, animated: true)
     }
     
+    
+    
     @IBAction func openDetialsViewController(_ sender: UIButton) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
         let vc1 = storyBoard.instantiateViewController(withIdentifier: "DetailsOfProjectViewController") as! DetailsOfProjectViewController
@@ -937,7 +939,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         vc1.ComapnyName = self.ProjectOfResult[0].ComapnyName!
         vc1.CompanyAddress = self.ProjectOfResult[0].CompanyAddress!
         vc1.Logo = self.ProjectOfResult[0].Logo!
-        
+        vc1.ProjectOfResult = ProjectOfResult
         self.navigationController?.pushViewController(vc1, animated: true)
     }
     
@@ -958,6 +960,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         secondView.EmpName = self.ProjectOfResult[0].EmpName!
         secondView.LatBranch = self.ProjectOfResult[0].LatBranch
         secondView.LngBranch = self.ProjectOfResult[0].LngBranch
+        secondView.ProjectOfResult = ProjectOfResult
         self.navigationController?.pushViewController(secondView, animated: true)
     }
     
@@ -978,6 +981,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         secondView.EmpName = self.ProjectOfResult[0].EmpName!
         secondView.LatBranch = LatBranch
         secondView.LngBranch = LngBranch
+        secondView.ProjectOfResult = ProjectOfResult
         self.navigationController?.pushViewController(secondView, animated: true)
     }
     
