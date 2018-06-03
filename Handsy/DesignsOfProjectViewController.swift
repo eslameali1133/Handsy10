@@ -38,29 +38,15 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
         }
     }
     
-    @IBOutlet weak var companyImageOut: UIImageView!
-    @IBOutlet weak var projectTitleLabel: UILabel!
-    @IBOutlet weak var EngNameLabel: UILabel!
-    @IBOutlet weak var engJobName: UILabel!
-    @IBOutlet weak var statusView: UIView!{
-        didSet{
-            DispatchQueue.main.async {
-                self.statusView.roundCorners([.topLeft, .topRight], radius: 10)
-            }
-        }
-    }
-    @IBOutlet weak var lastStatusLabel: UILabel!
-    @IBOutlet weak var statusImgView: UIImageView!
-    @IBOutlet weak var statusNameLabel: UILabel!
-    @IBOutlet weak var notficationAlertBtnOut: UIButton!
-    @IBOutlet weak var notficationCountLabel: UILabel!{
+    @IBOutlet weak var companyImageOut: UIImageView!{
         didSet {
-            DispatchQueue.main.async {
-                self.notficationCountLabel.layer.cornerRadius = self.notficationCountLabel.frame.width/2
-                self.notficationCountLabel.layer.masksToBounds = true
-            }
+            companyImageOut.layer.cornerRadius = 14.0
         }
     }
+    @IBOutlet weak var projectTitleLabel: UILabel!
+    @IBOutlet weak var companyNameLabel: UILabel!
+    @IBOutlet weak var addressLabel: UILabel!
+    
     var ProjectOfResult: [ProjectDetialsArray] = [ProjectDetialsArray]()
     
     var ProjectId: String = ""
@@ -82,6 +68,9 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        DispatchQueue.main.async {
+            self.companyImageOut.layer.cornerRadius = 14.0
+        }
         ComapnyNameFunc()
         DispatchQueue.main.async {
             self.NothingLabel.isHidden = true
@@ -115,48 +104,11 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     func ComapnyNameFunc(){
-        lastStatusLabel.text = ProjectOfResult[0].ProjectLastComment!
-        let NotLabel = ProjectOfResult[0].NotifiCount!
         
-        if NotLabel != 0 {
-            notficationAlertBtnOut.isHidden = false
-            notficationCountLabel.isHidden = false
-            notficationCountLabel.text = "\(NotLabel)"
-        } else {
-            notficationAlertBtnOut.isHidden = false
-            notficationCountLabel.isHidden = true
-        }
-        let status = ProjectOfResult[0].ProjectStatusID!
-        let statusName = ProjectOfResult[0].ProjectStatusName!
-        if status == "5"{
-            statusNameLabel.text = statusName
-            statusImgView.backgroundColor = #colorLiteral(red: 0.9921568627, green: 0.4274509804, blue: 0.337254902, alpha: 1)
-        }else if status == "4"{
-            statusNameLabel.text = statusName
-            statusImgView.backgroundColor = #colorLiteral(red: 0.1176470588, green: 0.368627451, blue: 0.4666666667, alpha: 1)
-        }else if status == "3"{
-            statusNameLabel.text = statusName
-            statusImgView.backgroundColor = #colorLiteral(red: 0.1764705882, green: 0.4745098039, blue: 0.8862745098, alpha: 1)
-        }else if status == "1"{
-            statusNameLabel.text = statusName
-            statusImgView.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
-        }else if status == "2"{
-            statusNameLabel.text = statusName
-            statusImgView.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
-        }else if status == "6"{
-            statusNameLabel.text = statusName
-            statusImgView.backgroundColor = #colorLiteral(red: 0.2588235294, green: 0.8666666667, blue: 0.1764705882, alpha: 1)
-        }else if status == "7"{
-            statusNameLabel.text = statusName
-            statusImgView.backgroundColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
-        }else {
-            print("error status \(status)")
-        }
-        //        companyNameLabel.text = ProjectOfResult[0].ComapnyName!
+        companyNameLabel.text = ProjectOfResult[0].ComapnyName!
         projectTitleLabel.text = "( \(ProjectOfResult[0].ProjectTitle!) )"
-        EngNameLabel.text = ProjectOfResult[0].EmpName
-        engJobName.text = ProjectOfResult[0].JobName
-        let img = ProjectOfResult[0].EmpImage
+        addressLabel.text = ProjectOfResult[0].CompanyAddress
+        let img = ProjectOfResult[0].Logo
         if let url = URL.init(string: img!) {
             companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
@@ -234,7 +186,6 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
             cell.Status.image = #imageLiteral(resourceName: "stat1")
             cell.nameOfStatus.text = "انتظار الموافقة"
             cell.nameOfStatus.textColor = #colorLiteral(red: 0.8279563785, green: 0.3280953765, blue: 0, alpha: 1)
-            cell.PDF.isHidden = false
             cell.BtnOutlet.isHidden = false
             if searchResu[indexPath.section].DesignFile == "" {
                 cell.BtnOutlet.isHidden = true
@@ -243,7 +194,6 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
             cell.Status.image = #imageLiteral(resourceName: "stat2")
             cell.nameOfStatus.text = "موافقة"
             cell.nameOfStatus.textColor = #colorLiteral(red: 0.1521916687, green: 0.6835762858, blue: 0.376893878, alpha: 1)
-            cell.PDF.isHidden = false
             cell.BtnOutlet.isHidden = false
             if searchResu[indexPath.section].DesignFile == "" {
                 cell.BtnOutlet.isHidden = true
@@ -252,7 +202,6 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
             cell.Status.image = #imageLiteral(resourceName: "stat3")
             cell.nameOfStatus.text = "مرفوض"
             cell.nameOfStatus.textColor = #colorLiteral(red: 0.7531306148, green: 0.2227272987, blue: 0.1705473661, alpha: 1)
-            cell.PDF.isHidden = false
             cell.BtnOutlet.isHidden = false
             if searchResu[indexPath.section].DesignFile == "" {
                 cell.BtnOutlet.isHidden = true
@@ -261,14 +210,12 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
             cell.Status.image = #imageLiteral(resourceName: "stat4")
             cell.nameOfStatus.text = "جاري العمل"
             cell.nameOfStatus.textColor = #colorLiteral(red: 0.9019555449, green: 0.4952987432, blue: 0.1308369637, alpha: 1)
-            cell.PDF.isHidden = true
             cell.BtnOutlet.isHidden = true
             if searchResu[indexPath.section].DesignFile == "" {
                 cell.BtnOutlet.isHidden = true
             }
         }else {
             print("error status")
-            cell.PDF.isHidden = false
             if searchResu[indexPath.section].DesignFile == "" {
                 cell.BtnOutlet.isHidden = true
             }

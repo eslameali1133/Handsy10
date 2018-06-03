@@ -17,13 +17,17 @@ class DesignsOfProjectTableViewCell: UITableViewCell {
     @IBOutlet weak var nameOfStatus: UILabel!
     @IBOutlet weak var EmpMobile: UIButton!
     
-    @IBOutlet weak var BtnOutlet: UIStackView!
-    
-    @IBOutlet weak var PDF: UIButton!{
+    @IBOutlet weak var BtnOutlet: UIButton!{
         didSet {
-            DispatchQueue.main.async {
-                self.PDF.circleView(UIColor.clear, borderWidth: 1.0)
-            }
+            BtnOutlet.layer.cornerRadius = 4.0
+        }
+    }
+    
+    @IBOutlet weak var messageChat: UIButton!{
+        didSet {
+            messageChat.layer.borderWidth = 1.0
+            messageChat.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            messageChat.layer.cornerRadius = 4.0
         }
     }
     
