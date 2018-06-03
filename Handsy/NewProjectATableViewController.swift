@@ -59,11 +59,18 @@ class NewProjectATableViewController: UITableViewController, UITextFieldDelegate
     @IBOutlet weak var chooseProjectLable: UITextField!{
         didSet {
             chooseProjectLable.layer.borderWidth = 1.0
-            chooseProjectLable.layer.borderColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            chooseProjectLable.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            chooseProjectLable.layer.cornerRadius = 6.0
         }
     }
     
-    @IBOutlet weak var descriptionTV: UITextView!
+    @IBOutlet weak var descriptionTV: UITextView!{
+        didSet {
+            descriptionTV.layer.borderWidth = 1.0
+            descriptionTV.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            descriptionTV.layer.cornerRadius = 6.0
+        }
+    }
     
     @IBOutlet weak var companyNameLabel: UILabel!
     @IBOutlet weak var companyAddressLabel: UILabel!
@@ -101,7 +108,7 @@ class NewProjectATableViewController: UITableViewController, UITextFieldDelegate
         pikerProjectLable.delegate = self
         pikerProjectLable.dataSource = self
         chooseProjectLable.inputView = pikerProjectLable
-        chooseProjectLable.setBottomBorderYellow()
+//        chooseProjectLable.setBottomBorderYellow()
         
 //        DispatchQueue.main.async {
 //            self.NextView.frame = CGRect.init(x: 0 , y: self.tableView.frame.height-170, width: self.tableView.frame.width, height: 110)

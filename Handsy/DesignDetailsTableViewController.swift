@@ -17,9 +17,21 @@ class DesignDetailsTableViewController: UITableViewController {
     
     @IBOutlet weak var PDF: UIButton!{
         didSet {
-            DispatchQueue.main.async {
-                self.PDF.circleView(UIColor.clear, borderWidth: 1.0)
-            }
+            PDF.layer.cornerRadius = 4.0
+        }
+    }
+    @IBOutlet weak var messageChat: UIButton!{
+        didSet {
+            messageChat.layer.borderWidth = 1.0
+            messageChat.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            messageChat.layer.cornerRadius = 4.0
+        }
+    }
+    @IBOutlet weak var officeLocation: UIButton!{
+        didSet {
+            officeLocation.layer.borderWidth = 1.0
+            officeLocation.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            officeLocation.layer.cornerRadius = 4.0
         }
     }
     
@@ -36,13 +48,7 @@ class DesignDetailsTableViewController: UITableViewController {
     @IBOutlet weak var NotesCus: UITextView!
     @IBOutlet weak var NotesEng: UITextView!
     @IBOutlet weak var MyDetials: UIView!
-    @IBOutlet weak var DetailsEmp: UIView!
     @IBOutlet weak var DetailsEngView: UIView!
-    @IBOutlet weak var DetailsEng: UIView!
-    
-    @IBOutlet weak var DetailsUser: UIStackView!
-    
-    @IBOutlet weak var DetailsEmpl: UIStackView!
     
     
     
@@ -59,7 +65,6 @@ class DesignDetailsTableViewController: UITableViewController {
             }
         }
     }
-    @IBOutlet weak var HeaderView: AMUILabel!
     
     var CreateDate: String = ""
     var DesignFile: String = ""
@@ -104,12 +109,6 @@ class DesignDetailsTableViewController: UITableViewController {
                 self.setData(condition: "offline")
             }
         }
-        
-        HeaderView.backgroundColor = UIColor(red: 49/255.0, green: 49/255.0, blue: 49/255.0, alpha: 1.0)
-        HeaderView.layer.cornerRadius = 7
-        HeaderView.layer.borderColor = UIColor(red: 49/255.0, green: 49/255.0, blue: 49/255.0, alpha: 1.0).cgColor // set cell border color here
-        HeaderView.layer.masksToBounds = true
-        
         
         InformationDetiView.isHidden = false
         NotesEng.isHidden = false
@@ -168,24 +167,16 @@ class DesignDetailsTableViewController: UITableViewController {
             adjustUITextViewHeight(arg: DetailsDes)
             
             if ClientReply == ""{
-                DetailsUser.isHidden = true
-                DetailsEmp.isHidden = true
                 MyDetials.isHidden = true
                 NotesCus.isHidden = true
             } else {
-                DetailsUser.isHidden = false
-                DetailsEmp.isHidden = false
                 MyDetials.isHidden = false
                 NotesCus.isHidden = false
             }
             if EmpReply == "" {
-                DetailsEmpl.isHidden = true
-                DetailsEng.isHidden = true
                 DetailsEngView.isHidden = true
                 NotesEng.isHidden = true
             } else {
-                DetailsEmpl.isHidden = false
-                DetailsEng.isHidden = false
                 DetailsEngView.isHidden = false
                 NotesEng.isHidden = false
             }
@@ -207,17 +198,21 @@ class DesignDetailsTableViewController: UITableViewController {
             if Status == "1"{
                 StatusIm.image = #imageLiteral(resourceName: "جاري العمل-1")
                 StatusLa.text = "انتظار الموافقة"
+                StatusLa.textColor = #colorLiteral(red: 0.8196078431, green: 0.3294117647, blue: 0.09803921569, alpha: 1)
                 OK.isHidden = false
                 Cancel.isHidden = false
             }else if Status == "2" {
                 StatusIm.image = #imageLiteral(resourceName: "تم الانجاز-1")
                 StatusLa.text = "موافقة"
+                StatusLa.textColor = #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
             }else if Status == "3" {
                 StatusIm.image = #imageLiteral(resourceName: "مرفوض-1")
                 StatusLa.text = "مرفوض"
+                StatusLa.textColor = #colorLiteral(red: 0.7450980392, green: 0.2274509804, blue: 0.1921568627, alpha: 1)
             }else if Status == "5" {
                 StatusIm.image = #imageLiteral(resourceName: "مرفوض-1")
                 StatusLa.text = "جاري العمل"
+                StatusLa.textColor = #colorLiteral(red: 0.7450980392, green: 0.2274509804, blue: 0.1921568627, alpha: 1)
                 BtnOutLet.isHidden = true
             }else {
                 print("error status")
@@ -237,24 +232,20 @@ class DesignDetailsTableViewController: UITableViewController {
             adjustUITextViewHeight(arg: DetailsDes)
             
             if designsDetialsOfResult[0].ClientReply == "" {
-                DetailsUser.isHidden = true
-                DetailsEmp.isHidden = true
+               
                 MyDetials.isHidden = true
                 NotesCus.isHidden = true
             } else {
-                DetailsUser.isHidden = false
-                DetailsEmp.isHidden = false
+                
                 MyDetials.isHidden = false
                 NotesCus.isHidden = false
             }
             if designsDetialsOfResult[0].EmpReply == "" {
-                DetailsEmpl.isHidden = true
-                DetailsEng.isHidden = true
+                
                 DetailsEngView.isHidden = true
                 NotesEng.isHidden = true
             } else {
-                DetailsEmpl.isHidden = false
-                DetailsEng.isHidden = false
+                
                 DetailsEngView.isHidden = false
                 NotesEng.isHidden = false
             }

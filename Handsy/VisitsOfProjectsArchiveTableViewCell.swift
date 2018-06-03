@@ -9,7 +9,21 @@
 import UIKit
 
 class VisitsOfProjectsArchiveTableViewCell: UITableViewCell {
-
+    @IBOutlet weak var companyCallBtn: UIButton! {
+        didSet {
+            companyCallBtn.layer.borderWidth = 1.0
+            companyCallBtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            companyCallBtn.layer.cornerRadius = 4.0
+        }
+    }
+    
+    @IBOutlet weak var officeDetialsBtn: UIButton! {
+        didSet {
+            officeDetialsBtn.layer.borderWidth = 1.0
+            officeDetialsBtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            officeDetialsBtn.layer.cornerRadius = 4.0
+        }
+    }
     @IBOutlet weak var titleVisit: UILabel!
     @IBOutlet weak var dateOfVisit: UILabel!
     @IBOutlet weak var statusImage: UIImageView!
