@@ -17,11 +17,19 @@ class VisitsOfProjectsArchiveTableViewCell: UITableViewCell {
         }
     }
     
-    @IBOutlet weak var officeDetialsBtn: UIButton! {
+    @IBOutlet weak var visitsDetialsBtn: UIButton! {
         didSet {
-            officeDetialsBtn.layer.borderWidth = 1.0
-            officeDetialsBtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
-            officeDetialsBtn.layer.cornerRadius = 4.0
+            visitsDetialsBtn.layer.borderWidth = 1.0
+            visitsDetialsBtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            visitsDetialsBtn.layer.cornerRadius = 4.0
+        }
+    }
+    
+    @IBOutlet weak var visitsMessageBtn: UIButton! {
+        didSet {
+            visitsMessageBtn.layer.borderWidth = 1.0
+            visitsMessageBtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            visitsMessageBtn.layer.cornerRadius = 4.0
         }
     }
     @IBOutlet weak var titleVisit: UILabel!

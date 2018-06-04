@@ -17,32 +17,40 @@ class DetailsDesignTableViewController: UITableViewController {
     
     @IBOutlet weak var PDF: UIButton!{
         didSet {
-            DispatchQueue.main.async {
-                self.PDF.circleView(UIColor.clear, borderWidth: 1.0)
-            }
+            PDF.layer.cornerRadius = 4.0
+        }
+    }
+    @IBOutlet weak var messageChat: UIButton!{
+        didSet {
+            messageChat.layer.borderWidth = 1.0
+            messageChat.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            messageChat.layer.cornerRadius = 4.0
+        }
+    }
+    @IBOutlet weak var officeLocation: UIButton!{
+        didSet {
+            officeLocation.layer.borderWidth = 1.0
+            officeLocation.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            officeLocation.layer.cornerRadius = 4.0
         }
     }
     
-
+    
     @IBOutlet weak var DateOul: UILabel!
     @IBOutlet weak var BtnOutLet: UIStackView!
     @IBOutlet weak var StatusIm: UIImageView!
     @IBOutlet weak var StatusLa: UILabel!
     @IBOutlet weak var TitleDesign: UILabel!
     @IBOutlet weak var StagesDe: UILabel!
-    @IBOutlet weak var Mobile: UIButton!
     @IBOutlet weak var DetailsDes: UITextView!
     @IBOutlet weak var InformationDetiView: UIView!
     
     @IBOutlet weak var NotesCus: UITextView!
     @IBOutlet weak var NotesEng: UITextView!
     @IBOutlet weak var MyDetials: UIView!
-    @IBOutlet weak var DetailsEmp: UIView!
     @IBOutlet weak var DetailsEngView: UIView!
-    @IBOutlet weak var DetailsEng: UIView!
-    @IBOutlet weak var DetailsUser: UIStackView!
     
-    @IBOutlet weak var DetailsEmpl: UIStackView!
+    
     
     @IBOutlet weak var EngNameLabel: UIButton!
     @IBOutlet weak var JopNameLabel: UILabel!
@@ -57,7 +65,6 @@ class DetailsDesignTableViewController: UITableViewController {
             }
         }
     }
-    @IBOutlet weak var HeaderView: AMUILabel!
     
     var CreateDate: String = ""
     var DesignFile: String = ""
@@ -104,18 +111,13 @@ class DetailsDesignTableViewController: UITableViewController {
                 self.setData(condition: "offline")
             }
         }
-        HeaderView.backgroundColor = UIColor(red: 49/255.0, green: 49/255.0, blue: 49/255.0, alpha: 1.0)
-        HeaderView.layer.cornerRadius = 7
-        HeaderView.layer.borderColor = UIColor(red: 49/255.0, green: 49/255.0, blue: 49/255.0, alpha: 1.0).cgColor // set cell border color here
-        HeaderView.layer.masksToBounds = true
-        
         
         InformationDetiView.isHidden = false
         NotesEng.isHidden = false
         NotesCus.isHidden = false
         OK.isHidden = true
         Cancel.isHidden = true
-       
+        
     }
     
     func GetDesignsByDesignStagesID(){
@@ -172,7 +174,7 @@ class DetailsDesignTableViewController: UITableViewController {
         }
         tableView.reloadData()
     }
-
+    
     func setData(condition: String) {
         if condition == "online" {
             adjustUITextViewHeight(arg: NotesCus)
@@ -180,24 +182,17 @@ class DetailsDesignTableViewController: UITableViewController {
             adjustUITextViewHeight(arg: DetailsDes)
             
             if ClientReply == ""{
-                DetailsUser.isHidden = true
-                DetailsEmp.isHidden = true
                 MyDetials.isHidden = true
                 NotesCus.isHidden = true
             } else {
-                DetailsUser.isHidden = false
-                DetailsEmp.isHidden = false
+                
                 MyDetials.isHidden = false
                 NotesCus.isHidden = false
             }
             if EmpReply == "" {
-                DetailsEmpl.isHidden = true
-                DetailsEng.isHidden = true
                 DetailsEngView.isHidden = true
                 NotesEng.isHidden = true
             } else {
-                DetailsEmpl.isHidden = false
-                DetailsEng.isHidden = false
                 DetailsEngView.isHidden = false
                 NotesEng.isHidden = false
             }
@@ -249,24 +244,20 @@ class DetailsDesignTableViewController: UITableViewController {
             adjustUITextViewHeight(arg: DetailsDes)
             
             if designsDetialsOfResult[0].ClientReply == "" {
-                DetailsUser.isHidden = true
-                DetailsEmp.isHidden = true
+                
                 MyDetials.isHidden = true
                 NotesCus.isHidden = true
             } else {
-                DetailsUser.isHidden = false
-                DetailsEmp.isHidden = false
+                
                 MyDetials.isHidden = false
                 NotesCus.isHidden = false
             }
             if designsDetialsOfResult[0].EmpReply == "" {
-                DetailsEmpl.isHidden = true
-                DetailsEng.isHidden = true
+                
                 DetailsEngView.isHidden = true
                 NotesEng.isHidden = true
             } else {
-                DetailsEmpl.isHidden = false
-                DetailsEng.isHidden = false
+                
                 DetailsEngView.isHidden = false
                 NotesEng.isHidden = false
             }
@@ -283,17 +274,21 @@ class DetailsDesignTableViewController: UITableViewController {
             if designsDetialsOfResult[0].Status == "1"{
                 StatusIm.image = #imageLiteral(resourceName: "جاري العمل-1")
                 StatusLa.text = "انتظار الموافقة"
+                StatusLa.textColor = #colorLiteral(red: 0.8196078431, green: 0.3294117647, blue: 0.09803921569, alpha: 1)
                 OK.isHidden = false
                 Cancel.isHidden = false
             }else if designsDetialsOfResult[0].Status == "2" {
                 StatusIm.image = #imageLiteral(resourceName: "تم الانجاز-1")
                 StatusLa.text = "موافقة"
+                StatusLa.textColor = #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
             }else if designsDetialsOfResult[0].Status == "3" {
                 StatusIm.image = #imageLiteral(resourceName: "مرفوض-1")
                 StatusLa.text = "مرفوض"
+                StatusLa.textColor = #colorLiteral(red: 0.7450980392, green: 0.2274509804, blue: 0.1921568627, alpha: 1)
             }else if designsDetialsOfResult[0].Status == "5" {
                 StatusIm.image = #imageLiteral(resourceName: "مرفوض-1")
                 StatusLa.text = "جاري العمل"
+                StatusLa.textColor = #colorLiteral(red: 0.7450980392, green: 0.2274509804, blue: 0.1921568627, alpha: 1)
                 BtnOutLet.isHidden = true
             }else {
                 print("error status")
@@ -313,7 +308,7 @@ class DetailsDesignTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 10
     }
@@ -323,15 +318,15 @@ class DetailsDesignTableViewController: UITableViewController {
     }
     
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 2
+        return 1
     }
     
     
@@ -354,10 +349,10 @@ class DetailsDesignTableViewController: UITableViewController {
         //        }
     }
     
-//    @IBAction func downloadPdf(_ sender: UIButton) {
-//        let openPdf = DesignFile
-//        download(url: openPdf)
-//    }
+    //    @IBAction func downloadPdf(_ sender: UIButton) {
+    //        let openPdf = DesignFile
+    //        download(url: openPdf)
+    //    }
     
     func download(url: String){
         let destination: DownloadRequest.DownloadFileDestination = { _, _ in
@@ -378,7 +373,7 @@ class DetailsDesignTableViewController: UITableViewController {
             
         }
     }
-
+    
     @IBAction func designCancel(_ sender: UIButton) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "AlertDetialsDesignCancelViewController") as! AlertDetialsDesignCancelViewController
@@ -405,26 +400,7 @@ class DetailsDesignTableViewController: UITableViewController {
         }
     }
     
-    @IBAction func CallName(_ sender: UIButton) {
-        var mobile: String = mobileStr
-        if mobile.count == 10 {
-            if mobile.first! == "0" {
-                if mobile[mobile.index(mobile.startIndex, offsetBy: 1)] == "5" {
-                    mobile.remove(at: mobile.startIndex)
-                    mobile.insert("6", at: mobile.startIndex)
-                    mobile.insert("6", at: mobile.startIndex)
-                    mobile.insert("9", at: mobile.startIndex)
-                    callNumber(phoneNumber: mobile)
-                } else {
-                    callNumber(phoneNumber: mobile)
-                }
-            } else {
-                callNumber(phoneNumber: mobile)
-            }
-        } else {
-            callNumber(phoneNumber: mobile)
-        }
-    }
+    
     @IBAction func CallMe(_ sender: UIButton) {
         var mobile: String = mobileStr
         if mobile.count == 10 {

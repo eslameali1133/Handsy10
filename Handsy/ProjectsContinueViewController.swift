@@ -112,8 +112,7 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
         cell.ProjectBildTypeName.text = "(\(projectTit))"
         cell.StagesDetailsName.text = searchResu[indexPath.section].StagesDetailsName
         cell.Details.text = searchResu[indexPath.section].Details
-        cell.EmpName.text = searchResu[indexPath.section].EmpName
-        
+        cell.companyAddress.text = searchResu[indexPath.section].Address
         let img = searchResu[indexPath.section].Logo
         if let url = URL.init(string: img) {
             cell.CompanyLogoImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
@@ -129,30 +128,25 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
             cell.nameOfStatus.text = "انتظار الموافقة"
             cell.nameOfStatus.textColor = #colorLiteral(red: 0.8279563785, green: 0.3280953765, blue: 0, alpha: 1)
             cell.PDF.isHidden = false
-            cell.BtnOutlet.isHidden = false
         }else if status == "2"{
             cell.Status.image = #imageLiteral(resourceName: "stat2")
             cell.nameOfStatus.text = "موافقة"
             cell.nameOfStatus.textColor = #colorLiteral(red: 0.1521916687, green: 0.6835762858, blue: 0.376893878, alpha: 1)
             cell.PDF.isHidden = false
-            cell.BtnOutlet.isHidden = false
         }else if status == "3"{
             cell.Status.image = #imageLiteral(resourceName: "stat3")
             cell.nameOfStatus.text = "مرفوض"
             cell.nameOfStatus.textColor = #colorLiteral(red: 0.7531306148, green: 0.2227272987, blue: 0.1705473661, alpha: 1)
             cell.PDF.isHidden = false
-            cell.BtnOutlet.isHidden = false
         }else if status == "5"{
             cell.Status.image = #imageLiteral(resourceName: "stat4")
             cell.nameOfStatus.text = "جاري العمل"
             cell.nameOfStatus.textColor = #colorLiteral(red: 0.9019555449, green: 0.4952987432, blue: 0.1308369637, alpha: 1)
             cell.PDF.isHidden = true
-            cell.BtnOutlet.isHidden = false
         }else {
             print("error status")
             cell.PDF.isHidden = false
         }
-        
         
         cell.contentView.layer.borderColor = UIColor.clear.cgColor
         cell.contentView.layer.borderWidth = 0

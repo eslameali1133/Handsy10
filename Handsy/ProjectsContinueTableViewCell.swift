@@ -14,7 +14,7 @@ class ProjectsContinueTableViewCell: UITableViewCell {
     @IBOutlet weak var ProjectBildTypeName: UILabel!
     @IBOutlet weak var StagesDetailsName: UILabel!
     @IBOutlet weak var CreateDate: UILabel!
-    @IBOutlet weak var EmpName: UILabel!
+    @IBOutlet weak var companyAddress: UILabel!
     @IBOutlet weak var Details: UILabel!
     @IBOutlet weak var Status: UIImageView!
     @IBOutlet weak var nameOfStatus: UILabel!
@@ -26,13 +26,36 @@ class ProjectsContinueTableViewCell: UITableViewCell {
             }
         }
     }
+    @IBOutlet weak var officeDirection: UIButton!{
+        didSet {
+            officeDirection.layer.borderWidth = 1.0
+            officeDirection.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            officeDirection.layer.cornerRadius = 4.0
+        }
+    }
+    @IBOutlet weak var callBtn: UIButton!{
+        didSet {
+            callBtn.layer.borderWidth = 1.0
+            callBtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            callBtn.layer.cornerRadius = 4.0
+        }
+    }
+    
+    
+    @IBOutlet weak var messageChat: UIButton!{
+        didSet {
+            messageChat.layer.borderWidth = 1.0
+            messageChat.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            messageChat.layer.cornerRadius = 4.0
+        }
+    }
     
     @IBOutlet weak var BtnOutlet: UIStackView!
     
     @IBOutlet weak var PDF: UIButton!{
         didSet {
             DispatchQueue.main.async {
-                self.PDF.circleView(UIColor.clear, borderWidth: 1.0)
+                self.PDF.layer.cornerRadius = 4.0
             }
         }
     }

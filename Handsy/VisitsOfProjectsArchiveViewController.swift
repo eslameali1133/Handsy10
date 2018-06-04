@@ -253,6 +253,35 @@ class VisitsOfProjectsArchiveViewController: UIViewController, UITableViewDelega
         }
     }
     
+    @IBAction func openVisitDetials(_ sender: UIButton) {
+        let point = sender.convert(CGPoint.zero, to: tableView)
+        let index = tableView.indexPathForRow(at: point)?.section
+        let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle: nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "VisitsOfProjectsDetialsTableViewController") as! VisitsOfProjectsDetialsTableViewController
+        secondView.visitTitle = visitsByProjectIdArr[index!].Title!
+        secondView.meetingID = visitsByProjectIdArr[index!].MeetingID!
+        MeetingID = visitsByProjectIdArr[index!].MeetingID!
+        secondView.Description = visitsByProjectIdArr[index!].Description!
+        secondView.Mobile = visitsByProjectIdArr[index!].Mobile!
+        secondView.EmpName = visitsByProjectIdArr[index!].EmpName!
+        secondView.MeetingStatus = visitsByProjectIdArr[index!].MeetingStatus!
+        secondView.DateReply = visitsByProjectIdArr[index!].DateReply!
+        secondView.Notes = visitsByProjectIdArr[index!].Notes!
+        secondView.ProjectBildTypeName = visitsByProjectIdArr[index!].ProjectBildTypeName!
+        secondView.Replay = visitsByProjectIdArr[index!].Replay!
+        secondView.Start = visitsByProjectIdArr[index!].Start!
+        secondView.TimeStartMeeting = visitsByProjectIdArr[index!].TimeStartMeeting!
+        secondView.StartTime = visitsByProjectIdArr[index!].StartTime!
+        secondView.EndTime = visitsByProjectIdArr[index!].EndTime!
+        secondView.ComapnyName = visitsByProjectIdArr[index!].ComapnyName!
+        secondView.Address = visitsByProjectIdArr[index!].Address!
+        secondView.Logo = visitsByProjectIdArr[index!].Logo!
+        secondView.LatBranch = LatBranch
+        secondView.LngBranch = LngBranch
+        secondView.CompanyInfoID = CompanyInfoID
+        self.navigationController?.pushViewController(secondView, animated: true)
+    }
+    
     @IBAction func directionBtn(_ sender: UIButton) {
         let location = CLLocation(latitude: LatBranch, longitude: LngBranch)
         print(location.coordinate)
