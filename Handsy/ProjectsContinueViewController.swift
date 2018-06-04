@@ -223,6 +223,31 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
         }
     }
     
+    @IBAction func openDesignDetials(_ sender: UIButton) {
+        let point = sender.convert(CGPoint.zero, to: tableView)
+        let index = tableView.indexPathForRow(at: point)?.section
+        let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle:nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "DetailsDesignTableViewController") as! DetailsDesignTableViewController
+        secondView.CreateDate = searchResu[index!].CreateDate
+        secondView.DesignFile = searchResu[index!].DesignFile
+        designStagesID = searchResu[index!].DesignStagesID
+        secondView.Details = searchResu[index!].Details
+        secondView.EmpName = searchResu[index!].EmpName
+        secondView.mobileStr = searchResu[index!].Mobile
+        secondView.ProjectBildTypeName = searchResu[index!].ProjectBildTypeName
+        secondView.ProjectStatusID = searchResu[index!].ProjectStatusID
+        secondView.SakNum = searchResu[index!].SakNum
+        secondView.StagesDetailsName = searchResu[index!].StagesDetailsName
+        secondView.Status = searchResu[index!].Status
+        secondView.ClientReply = searchResu[index!].ClientReply
+        secondView.EmpReply = searchResu[index!].EmpReply
+        secondView.ComapnyName = searchResu[index!].ComapnyName
+        secondView.Logo = searchResu[index!].Logo
+        secondView.Address = searchResu[index!].Address
+        self.navigationController?.pushViewController(secondView, animated: true)
+    }
+    
+    
     @IBAction func directionBtn(_ sender: UIButton) {
         let point = sender.convert(CGPoint.zero, to: tableView)
         let index = tableView.indexPathForRow(at: point)?.section

@@ -59,6 +59,14 @@ class ProjectsContinueTableViewCell: UITableViewCell {
             }
         }
     }
+    
+    @IBOutlet weak var designDetials: UIButton!{
+        didSet {
+            designDetials.layer.borderWidth = 1.0
+            designDetials.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            designDetials.layer.cornerRadius = 4.0
+        }
+    }
 
     @IBOutlet weak var DownPdf: UIButton!{
         didSet {
