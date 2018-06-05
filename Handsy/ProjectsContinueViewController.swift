@@ -108,6 +108,7 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
         
         cell.officeNameLabel.text = searchResu[indexPath.section].ComapnyName
         cell.CreateDate.text = searchResu[indexPath.section].CreateDate
+        cell.EngName.text = searchResu[indexPath.section].EmpName
         let projectTit = searchResu[indexPath.section].ProjectBildTypeName
         cell.ProjectBildTypeName.text = "(\(projectTit))"
         cell.StagesDetailsName.text = searchResu[indexPath.section].StagesDetailsName
@@ -259,6 +260,30 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
             if error != nil {
                 print("Could not open maps" + error!.localizedDescription)
             }
+        }
+    }
+    
+    @IBAction func CallEng(_ sender: UIButton) {
+        let point = sender.convert(CGPoint.zero, to: tableView)
+        let index = tableView.indexPathForRow(at: point)?.section
+        let mobileNum = searchResu[index!].Mobile
+        var mobile: String = (mobileNum)
+        if mobile.count == 10 {
+            if mobile.first! == "0" {
+                if mobile[mobile.index(mobile.startIndex, offsetBy: 1)] == "5" {
+                    mobile.remove(at: mobile.startIndex)
+                    mobile.insert("6", at: mobile.startIndex)
+                    mobile.insert("6", at: mobile.startIndex)
+                    mobile.insert("9", at: mobile.startIndex)
+                    callNumber(phoneNumber: mobile)
+                } else {
+                    callNumber(phoneNumber: mobile)
+                }
+            } else {
+                callNumber(phoneNumber: mobile)
+            }
+        } else {
+            callNumber(phoneNumber: mobile)
         }
     }
     

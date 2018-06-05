@@ -399,7 +399,26 @@ class DetailsDesignTableViewController: UITableViewController {
             }
         }
     }
-    
+    @IBAction func CallEng(_ sender: UIButton) {
+        var mobile: String = mobileStr
+        if mobile.count == 10 {
+            if mobile.first! == "0" {
+                if mobile[mobile.index(mobile.startIndex, offsetBy: 1)] == "5" {
+                    mobile.remove(at: mobile.startIndex)
+                    mobile.insert("6", at: mobile.startIndex)
+                    mobile.insert("6", at: mobile.startIndex)
+                    mobile.insert("9", at: mobile.startIndex)
+                    callNumber(phoneNumber: mobile)
+                } else {
+                    callNumber(phoneNumber: mobile)
+                }
+            } else {
+                callNumber(phoneNumber: mobile)
+            }
+        } else {
+            callNumber(phoneNumber: mobile)
+        }
+    }
     
     @IBAction func CallMe(_ sender: UIButton) {
         var mobile: String = mobileStr

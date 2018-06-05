@@ -5253,7 +5253,7 @@
                                 <rect key="frame" x="30" y="94" width="315" height="494"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="لا يوجد إشعارات!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="84m-hw-Uke">
-                                <rect key="frame" x="130.5" y="321" width="115.5" height="40"/>
+                                <rect key="frame" x="130" y="321" width="115.5" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="Wqa-Ur-oM3"/>
                                 </constraints>
@@ -5342,7 +5342,7 @@
         <image name="قيد الالستقبال" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="waP-8Y-MaL"/>
+        <segue reference="eC8-b4-JcH"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.21176470589999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

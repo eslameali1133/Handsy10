@@ -55,11 +55,11 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="ProjectsContinueTableViewCell" rowHeight="301" id="dcp-CC-190" customClass="ProjectsContinueTableViewCell" customModule="Handsy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="25" width="365" height="301"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="ProjectsContinueTableViewCell" rowHeight="332" id="dcp-CC-190" customClass="ProjectsContinueTableViewCell" customModule="Handsy" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="25" width="365" height="332"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dcp-CC-190" id="Ems-83-l23">
-                                            <rect key="frame" x="0.0" y="0.0" width="365" height="300.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="365" height="331.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="d2m-u8-b2y">
@@ -102,16 +102,8 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="BbD-4M-OG3">
                                                     <rect key="frame" x="5" y="98" width="345" height="35"/>
                                                     <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z33-N8-wyx">
-                                                            <rect key="frame" x="0.0" y="0.0" width="105" height="35"/>
-                                                            <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="12"/>
-                                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="20" maxY="0.0"/>
-                                                            <state key="normal" title="محادثة" image="proMessage">
-                                                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            </state>
-                                                        </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GLT-aY-NNy">
-                                                            <rect key="frame" x="120" y="0.0" width="105" height="35"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="165" height="35"/>
                                                             <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="12"/>
                                                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="20" maxY="0.0"/>
                                                             <state key="normal" title="اتصل بنا" image="NewProCallBtn">
@@ -122,7 +114,7 @@
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DmI-r0-a9K">
-                                                            <rect key="frame" x="240" y="0.0" width="105" height="35"/>
+                                                            <rect key="frame" x="180" y="0.0" width="165" height="35"/>
                                                             <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="12"/>
                                                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
                                                             <state key="normal" title="موقع المكتب" image="officeLoc">
@@ -158,26 +150,26 @@
                                                     </state>
                                                 </button>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="OLd-RW-eiZ">
-                                                    <rect key="frame" x="14" y="147" width="332" height="141"/>
+                                                    <rect key="frame" x="14" y="147" width="336" height="172"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="1Ny-mM-rFc">
-                                                            <rect key="frame" x="0.0" y="0.0" width="332" height="92.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="336" height="123.5"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Xw8-0Z-dYV">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="332" height="33.5"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="336" height="33"/>
                                                                     <subviews>
                                                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="ZD7-6w-Abx">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="116" height="33.5"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="116" height="33"/>
                                                                             <subviews>
                                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="قيد الالستقبال" translatesAutoresizingMaskIntoConstraints="NO" id="AAd-Gi-SZ1">
-                                                                                    <rect key="frame" x="0.0" y="12" width="10" height="10"/>
+                                                                                    <rect key="frame" x="0.0" y="11.5" width="10" height="10"/>
                                                                                     <constraints>
                                                                                         <constraint firstAttribute="height" constant="10" id="Coi-qs-hB1"/>
                                                                                         <constraint firstAttribute="width" constant="10" id="kJE-Lz-jtL"/>
                                                                                     </constraints>
                                                                                 </imageView>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="قيد الاستقبال" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LhX-oB-TSf">
-                                                                                    <rect key="frame" x="13" y="6" width="103" height="22"/>
+                                                                                    <rect key="frame" x="13" y="5.5" width="103" height="22"/>
                                                                                     <constraints>
                                                                                         <constraint firstAttribute="height" constant="22" id="GNn-LL-LGY"/>
                                                                                         <constraint firstAttribute="width" constant="103" id="OTh-Kh-7FC"/>
@@ -189,7 +181,7 @@
                                                                             </subviews>
                                                                         </stackView>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="اسكتش الواقع العام" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sHI-f1-Rzg">
-                                                                            <rect key="frame" x="124" y="0.0" width="208" height="33.5"/>
+                                                                            <rect key="frame" x="124" y="0.0" width="212" height="33"/>
                                                                             <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="18"/>
                                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <nil key="highlightedColor"/>
@@ -197,38 +189,49 @@
                                                                     </subviews>
                                                                 </stackView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="الوصف يقع هنا ويكتب تفصيلا او اجمالاً" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y4k-GE-cYW">
-                                                                    <rect key="frame" x="0.0" y="38.5" width="332" height="26.5"/>
+                                                                    <rect key="frame" x="0.0" y="38" width="336" height="26.5"/>
                                                                     <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="14"/>
                                                                     <color key="textColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20/08/1329 الموافق 2018/05/05" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rPd-y5-h0p">
-                                                                    <rect key="frame" x="0.0" y="70" width="332" height="22.5"/>
+                                                                    <rect key="frame" x="0.0" y="69.5" width="336" height="22.5"/>
                                                                     <fontDescription key="fontDescription" name="AJannatLT" family="A Jannat LT" pointSize="12"/>
                                                                     <color key="textColor" red="0.58431372550000005" green="0.59607843140000005" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" م/" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="edZ-59-6S0">
+                                                                    <rect key="frame" x="0.0" y="97" width="336" height="26.5"/>
+                                                                    <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="14"/>
+                                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="s9G-eg-h82">
-                                                            <rect key="frame" x="0.0" y="104.5" width="332" height="36.5"/>
+                                                            <rect key="frame" x="0.0" y="135.5" width="336" height="36.5"/>
                                                             <subviews>
-                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zc7-mi-5E8">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="162" height="36.5"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="height" constant="36.5" id="FpU-LE-mAg"/>
-                                                                    </constraints>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="afq-eh-W7J">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="106.5" height="36.5"/>
                                                                     <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="12"/>
-                                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
-                                                                    <state key="normal" title="تفاصيل" image="designDetialsBtn">
+                                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="20" maxY="0.0"/>
+                                                                    <state key="normal" title="تحدث معي" image="proMessage">
+                                                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    </state>
+                                                                </button>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ar8-vQ-RU7">
+                                                                    <rect key="frame" x="114.5" y="0.0" width="107" height="36.5"/>
+                                                                    <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="12"/>
+                                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="20" maxY="0.0"/>
+                                                                    <state key="normal" title="اتصل بي" image="NewProCallBtn">
                                                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     </state>
                                                                     <connections>
-                                                                        <action selector="openDesignDetials:" destination="gXp-mB-IzK" eventType="touchUpInside" id="A6d-yU-odb"/>
+                                                                        <action selector="CallEng:" destination="gXp-mB-IzK" eventType="touchUpInside" id="BLD-Wk-dlN"/>
                                                                     </connections>
                                                                 </button>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uFq-su-izA">
-                                                                    <rect key="frame" x="170" y="0.0" width="162" height="36.5"/>
+                                                                    <rect key="frame" x="229.5" y="0.0" width="106.5" height="36.5"/>
                                                                     <color key="backgroundColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="36.5" id="OGZ-11-noN"/>
@@ -254,7 +257,7 @@
                                                 </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="OLd-RW-eiZ" secondAttribute="trailing" constant="19" id="4tB-cP-bdi"/>
+                                                <constraint firstAttribute="trailing" secondItem="OLd-RW-eiZ" secondAttribute="trailing" constant="15" id="4tB-cP-bdi"/>
                                                 <constraint firstItem="EVe-wn-1Ca" firstAttribute="top" secondItem="Ems-83-l23" secondAttribute="top" constant="11" id="6Y0-DT-7ll"/>
                                                 <constraint firstItem="BbD-4M-OG3" firstAttribute="top" secondItem="EVe-wn-1Ca" secondAttribute="bottom" constant="7" id="Cme-IG-iRM"/>
                                                 <constraint firstItem="zSg-Bk-CAL" firstAttribute="top" secondItem="Ems-83-l23" secondAttribute="top" constant="11" id="Qcb-Xu-Kx2"/>
@@ -275,14 +278,15 @@
                                             <outlet property="CompanyLogoImage" destination="EVe-wn-1Ca" id="Yek-Xl-zTK"/>
                                             <outlet property="CreateDate" destination="rPd-y5-h0p" id="P6a-oh-bRe"/>
                                             <outlet property="Details" destination="y4k-GE-cYW" id="zYx-y6-vBp"/>
+                                            <outlet property="EngName" destination="edZ-59-6S0" id="ce2-gK-7Ss"/>
                                             <outlet property="PDF" destination="uFq-su-izA" id="8Pi-Hd-LLt"/>
                                             <outlet property="ProjectBildTypeName" destination="JqJ-e5-0MP" id="27t-U9-cuA"/>
                                             <outlet property="StagesDetailsName" destination="sHI-f1-Rzg" id="gqM-Tf-ktq"/>
                                             <outlet property="Status" destination="AAd-Gi-SZ1" id="d8t-VM-3Gc"/>
                                             <outlet property="callBtn" destination="GLT-aY-NNy" id="Pmg-uj-nX0"/>
+                                            <outlet property="callEng" destination="Ar8-vQ-RU7" id="82q-71-59q"/>
                                             <outlet property="companyAddress" destination="8f1-Lx-J2S" id="V27-PM-ICD"/>
-                                            <outlet property="designDetials" destination="Zc7-mi-5E8" id="7Zu-Qh-4S2"/>
-                                            <outlet property="messageChat" destination="z33-N8-wyx" id="UC9-6H-Dg5"/>
+                                            <outlet property="messageChat" destination="afq-eh-W7J" id="c8d-6H-cAd"/>
                                             <outlet property="nameOfStatus" destination="LhX-oB-TSf" id="Eid-o6-c75"/>
                                             <outlet property="officeDirection" destination="DmI-r0-a9K" id="DGi-sx-MEX"/>
                                             <outlet property="officeNameLabel" destination="dDV-5N-b32" id="dWN-25-YaA"/>
@@ -1817,7 +1821,6 @@
         <image name="NewBackGround" width="330" height="513"/>
         <image name="NewProCallBtn" width="16" height="16"/>
         <image name="XGrayBtn" width="20" height="20"/>
-        <image name="designDetialsBtn" width="23" height="21"/>
         <image name="editOut" width="187" height="187"/>
         <image name="officeLoc" width="12" height="16"/>
         <image name="previewEye" width="18" height="18"/>

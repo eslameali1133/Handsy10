@@ -14,6 +14,8 @@ class ProjectsContinueTableViewCell: UITableViewCell {
     @IBOutlet weak var ProjectBildTypeName: UILabel!
     @IBOutlet weak var StagesDetailsName: UILabel!
     @IBOutlet weak var CreateDate: UILabel!
+    
+    @IBOutlet weak var EngName: UILabel!
     @IBOutlet weak var companyAddress: UILabel!
     @IBOutlet weak var Details: UILabel!
     @IBOutlet weak var Status: UIImageView!
@@ -47,6 +49,14 @@ class ProjectsContinueTableViewCell: UITableViewCell {
             messageChat.layer.borderWidth = 1.0
             messageChat.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
             messageChat.layer.cornerRadius = 4.0
+        }
+    }
+    
+    @IBOutlet weak var callEng: UIButton!{
+        didSet {
+            callEng.layer.borderWidth = 1.0
+            callEng.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            callEng.layer.cornerRadius = 4.0
         }
     }
     

@@ -117,12 +117,12 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         cell.officeNameLabel.text = searchResu[indexPath.section].ComapnyName
         cell.titleVisit.text = searchResu[indexPath.section].Title
         let projTit = searchResu[indexPath.section].ProjectBildTypeName
-        cell.descriptionProject.text = "(\(projTit))"
-        cell.empName.setTitle(searchResu[indexPath.section].EmpName, for: .normal)
+        cell.descriptionProject.text = projTit
+        cell.empName.text = searchResu[indexPath.section].EmpName
         cell.dateOfVisit.text = searchResu[indexPath.section].Start
         cell.startTime.text = searchResu[indexPath.section].StartTime
         cell.endTime.text = searchResu[indexPath.section].EndTime
-        
+        cell.companyAddress.text = searchResu[indexPath.section].Address
         let img = searchResu[indexPath.section].Logo
         if let url = URL.init(string: img) {
             cell.companyLogoImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
@@ -191,6 +191,33 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
+    @IBAction func openVisitDetials(_ sender: UIButton) {
+        let point = sender.convert(CGPoint.zero, to: tableView)
+        let index = tableView.indexPathForRow(at: point)?.section
+        let storyBoard : UIStoryboard = UIStoryboard(name: "VisitsAndDetails", bundle:nil)
+        let cont = storyBoard.instantiateViewController(withIdentifier: "VisitsDetialsTableViewController") as! VisitsDetialsTableViewController
+        cont.visitTitle = searchResu[index!].Title
+        MeetingID = searchResu[index!].MeetingID
+        cont.Description = searchResu[index!].Description
+        cont.Mobile = searchResu[index!].Mobile
+        cont.EmpName = searchResu[index!].EmpName
+        cont.MeetingStatus = searchResu[index!].MeetingStatus
+        cont.DateReply = searchResu[index!].DateReply
+        cont.Notes = searchResu[index!].Notes
+        cont.ProjectBildTypeName = searchResu[index!].ProjectBildTypeName
+        cont.Replay = searchResu[index!].Replay
+        cont.Start = searchResu[index!].Start
+        cont.TimeStartMeeting = searchResu[index!].TimeStartMeeting
+        cont.StartTime = searchResu[index!].StartTime
+        cont.EndTime = searchResu[index!].EndTime
+        cont.ComapnyName = searchResu[index!].ComapnyName
+        cont.Address = searchResu[index!].Address
+        cont.Logo = searchResu[index!].Logo
+        self.navigationController?.pushViewController(cont, animated: true)
+
+    }
+    
+    
     @IBAction func directionBtn(_ sender: UIButton) {
         let point = sender.convert(CGPoint.zero, to: tableView)
         let index = tableView.indexPathForRow(at: point)?.section
@@ -202,6 +229,30 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             if error != nil {
                 print("Could not open maps" + error!.localizedDescription)
             }
+        }
+    }
+    
+    @IBAction func CallEng(_ sender: UIButton) {
+        let point = sender.convert(CGPoint.zero, to: tableView)
+        let index = tableView.indexPathForRow(at: point)?.section
+        let mobileNum = searchResu[index!].Mobile
+        var mobile: String = (mobileNum)
+        if mobile.count == 10 {
+            if mobile.first! == "0" {
+                if mobile[mobile.index(mobile.startIndex, offsetBy: 1)] == "5" {
+                    mobile.remove(at: mobile.startIndex)
+                    mobile.insert("6", at: mobile.startIndex)
+                    mobile.insert("6", at: mobile.startIndex)
+                    mobile.insert("9", at: mobile.startIndex)
+                    callNumber(phoneNumber: mobile)
+                } else {
+                    callNumber(phoneNumber: mobile)
+                }
+            } else {
+                callNumber(phoneNumber: mobile)
+            }
+        } else {
+            callNumber(phoneNumber: mobile)
         }
     }
     

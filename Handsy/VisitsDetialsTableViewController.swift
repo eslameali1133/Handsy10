@@ -12,7 +12,21 @@ import SwiftyJSON
 import MapKit
 
 class VisitsDetialsTableViewController: UITableViewController {
-
+    @IBOutlet weak var MessageBtn: UIButton! {
+        didSet {
+            MessageBtn.layer.borderWidth = 1.0
+            MessageBtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            MessageBtn.layer.cornerRadius = 4.0
+        }
+    }
+    
+    @IBOutlet weak var officeDetialsBtn: UIButton! {
+        didSet {
+            officeDetialsBtn.layer.borderWidth = 1.0
+            officeDetialsBtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            officeDetialsBtn.layer.cornerRadius = 4.0
+        }
+    }
     var visitTitle: String = ""
     var MeetingStatus: String = ""
     var Description: String = ""
@@ -36,15 +50,26 @@ class VisitsDetialsTableViewController: UITableViewController {
     @IBOutlet weak var visitsTitle: UILabel!
     @IBOutlet weak var EngReplay: UITextView!
     @IBOutlet weak var dateEngReplay: UILabel!
-    @IBOutlet weak var OKVisit: UIButton!
-    @IBOutlet weak var CancelVisit: UIButton!
-    @IBOutlet weak var PauseVisit: UIButton!
+    @IBOutlet weak var OKVisit: UIButton!{
+        didSet {
+            OKVisit.layer.cornerRadius = 4.0
+        }
+    }
+    @IBOutlet weak var CancelVisit: UIButton!{
+        didSet {
+            CancelVisit.layer.cornerRadius = 4.0
+        }
+    }
+    @IBOutlet weak var PauseVisit: UIButton!{
+        didSet {
+            PauseVisit.layer.cornerRadius = 4.0
+        }
+    }
     @IBOutlet weak var discrbtion: UITextView!
     @IBOutlet weak var buttonsView: UIView!
     @IBOutlet weak var engDetials: UIView!
     @IBOutlet weak var startTimeLabel: UILabel!
     @IBOutlet weak var endTimeLabel: UILabel!
-    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var NotesLabel: UILabel!
     
     @IBOutlet weak var ClientReplayView: UIView!
@@ -53,8 +78,6 @@ class VisitsDetialsTableViewController: UITableViewController {
     
     
     @IBOutlet weak var InformationVisit: UIView!
-    @IBOutlet weak var EngNotesView: UIView!
-    @IBOutlet weak var HeaderViewOut: AMUILabel!
     @IBOutlet weak var EngNameLabel: UIButton!
     @IBOutlet weak var JopNameLabel: UILabel!
     
@@ -95,11 +118,6 @@ class VisitsDetialsTableViewController: UITableViewController {
                 self.setDetiales(condition: "offline")
             }
         }
-        HeaderViewOut.backgroundColor = UIColor(red: 49/255.0, green: 49/255.0, blue: 49/255.0, alpha: 1.0)
-        HeaderViewOut.layer.cornerRadius = 7
-        HeaderViewOut.layer.borderColor = UIColor(red: 49/255.0, green: 49/255.0, blue: 49/255.0, alpha: 1.0).cgColor // set cell border color here
-        HeaderViewOut.layer.masksToBounds = true
-        
         
     }
     func GetMeetingWaitingByMeetingID(){
@@ -168,6 +186,7 @@ class VisitsDetialsTableViewController: UITableViewController {
             if MeetingStatus == "0"{
                 status.text = "قيد المقابلة"
                 statusImage.image = #imageLiteral(resourceName: "Yellow")
+                status.textColor = #colorLiteral(red: 0.9411764706, green: 0.7647058824, blue: 0.1882352941, alpha: 1)
                 OKVisit.isEnabled = true
                 CancelVisit.isEnabled = true
                 PauseVisit.isEnabled = true
@@ -175,6 +194,7 @@ class VisitsDetialsTableViewController: UITableViewController {
             }else if MeetingStatus == "1"{
                 status.text = "تمت المقابلة"
                 statusImage.image = #imageLiteral(resourceName: "Green")
+                status.textColor = #colorLiteral(red: 0.2235294118, green: 0.7921568627, blue: 0.4549019608, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
                 PauseVisit.isEnabled = false
@@ -182,6 +202,7 @@ class VisitsDetialsTableViewController: UITableViewController {
             }else if MeetingStatus == "2"{
                 status.text = "ملغية"
                 statusImage.image = #imageLiteral(resourceName: "Orange")
+                status.textColor = #colorLiteral(red: 0.8941176471, green: 0.4941176471, blue: 0.1882352941, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
                 PauseVisit.isEnabled = false
@@ -189,6 +210,7 @@ class VisitsDetialsTableViewController: UITableViewController {
             }else if MeetingStatus == "3"{
                 status.text = "فائته"
                 statusImage.image = #imageLiteral(resourceName: "Red")
+                status.textColor = #colorLiteral(red: 0.8980392157, green: 0.3019607843, blue: 0.2588235294, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
                 PauseVisit.isEnabled = false
@@ -196,6 +218,7 @@ class VisitsDetialsTableViewController: UITableViewController {
             }else if MeetingStatus == "4"{
                 status.text = "مؤجلة"
                 statusImage.image = #imageLiteral(resourceName: "Blue")
+                status.textColor = #colorLiteral(red: 0.2274509804, green: 0.6, blue: 0.8470588235, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
                 PauseVisit.isEnabled = false
@@ -203,6 +226,7 @@ class VisitsDetialsTableViewController: UITableViewController {
             }else if MeetingStatus == "5"{
                 status.text = "موافقة و قيد المقابلة"
                 statusImage.image = #imageLiteral(resourceName: "تم الانجاز-1")
+                status.textColor = #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
                 PauseVisit.isEnabled = false
@@ -239,6 +263,7 @@ class VisitsDetialsTableViewController: UITableViewController {
             if visitsDetialsArray[0].MeetingStatus == "0"{
                 status.text = "قيد المقابلة"
                 statusImage.image = #imageLiteral(resourceName: "Yellow")
+                status.textColor = #colorLiteral(red: 0.9411764706, green: 0.7647058824, blue: 0.1882352941, alpha: 1)
                 OKVisit.isEnabled = true
                 CancelVisit.isEnabled = true
                 PauseVisit.isEnabled = true
@@ -246,6 +271,7 @@ class VisitsDetialsTableViewController: UITableViewController {
             }else if visitsDetialsArray[0].MeetingStatus == "1"{
                 status.text = "تمت المقابلة"
                 statusImage.image = #imageLiteral(resourceName: "Green")
+                status.textColor = #colorLiteral(red: 0.2235294118, green: 0.7921568627, blue: 0.4549019608, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
                 PauseVisit.isEnabled = false
@@ -253,6 +279,7 @@ class VisitsDetialsTableViewController: UITableViewController {
             }else if visitsDetialsArray[0].MeetingStatus == "2"{
                 status.text = "ملغية"
                 statusImage.image = #imageLiteral(resourceName: "Orange")
+                status.textColor = #colorLiteral(red: 0.8941176471, green: 0.4941176471, blue: 0.1882352941, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
                 PauseVisit.isEnabled = false
@@ -260,6 +287,7 @@ class VisitsDetialsTableViewController: UITableViewController {
             }else if visitsDetialsArray[0].MeetingStatus == "3"{
                 status.text = "فائته"
                 statusImage.image = #imageLiteral(resourceName: "Red")
+                status.textColor = #colorLiteral(red: 0.8980392157, green: 0.3019607843, blue: 0.2588235294, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
                 PauseVisit.isEnabled = false
@@ -267,6 +295,7 @@ class VisitsDetialsTableViewController: UITableViewController {
             }else if visitsDetialsArray[0].MeetingStatus == "4"{
                 status.text = "مؤجلة"
                 statusImage.image = #imageLiteral(resourceName: "Blue")
+                status.textColor = #colorLiteral(red: 0.2274509804, green: 0.6, blue: 0.8470588235, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
                 PauseVisit.isEnabled = false
@@ -274,6 +303,7 @@ class VisitsDetialsTableViewController: UITableViewController {
             }else if visitsDetialsArray[0].MeetingStatus == "5"{
                 status.text = "موافقة و قيد المقابلة"
                 statusImage.image = #imageLiteral(resourceName: "تم الانجاز-1")
+                status.textColor = #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
                 PauseVisit.isEnabled = false
@@ -289,7 +319,13 @@ class VisitsDetialsTableViewController: UITableViewController {
             DataStart.text = visitsDetialsArray[0].Start
             startTimeLabel.text = visitsDetialsArray[0].StartTime
             endTimeLabel.text = visitsDetialsArray[0].EndTime
-            discrbtion.text = visitsDetialsArray[0].Description
+            if visitsDetialsArray[0].Description != "" {
+                discrbtion.isHidden = false
+                discrbtion.text = visitsDetialsArray[0].Description
+            } else {
+                discrbtion.isHidden = true
+            }
+            
             adjustUITextViewHeight(arg: discrbtion)
             adjustUITextViewHeight(arg: EngReplay)
             ClientReplayTF.text = visitsDetialsArray[0].ClientReply
@@ -367,26 +403,7 @@ class VisitsDetialsTableViewController: UITableViewController {
         }
     }
     
-    @IBAction func CallName(_ sender: UIButton) {
-        var mobile: String = Mobile
-        if mobile.count == 10 {
-            if mobile.first! == "0" {
-                if mobile[mobile.index(mobile.startIndex, offsetBy: 1)] == "5" {
-                    mobile.remove(at: mobile.startIndex)
-                    mobile.insert("6", at: mobile.startIndex)
-                    mobile.insert("6", at: mobile.startIndex)
-                    mobile.insert("9", at: mobile.startIndex)
-                    callNumber(phoneNumber: mobile)
-                } else {
-                    callNumber(phoneNumber: mobile)
-                }
-            } else {
-                callNumber(phoneNumber: mobile)
-            }
-        } else {
-            callNumber(phoneNumber: mobile)
-        }
-    }
+    
     @IBAction func CallMe(_ sender: UIButton) {
         var mobile: String = Mobile
         if mobile.count == 10 {
