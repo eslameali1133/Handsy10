@@ -328,9 +328,9 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     
     @objc func backButtonPressed(){
         let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
-        let secondView = storyBoard.instantiateViewController(withIdentifier: "NewMyProjectsViewController") as! NewMyProjectsViewController
-        let topController = UIApplication.topViewController()
-        topController?.show(secondView, sender: true)
+        let NavController = storyBoard.instantiateViewController(withIdentifier: "NewMain") as! NewTabBarViewController
+        NavController.selectedIndex = 0
+        self.present(NavController, animated: false, completion: nil)
     }
     
     

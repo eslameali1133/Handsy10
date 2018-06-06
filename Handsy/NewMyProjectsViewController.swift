@@ -49,7 +49,6 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
     var qustion = 0
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         titleVCLabel.text = "مشاريعي"
         DispatchQueue.main.async {
             self.navViewOut.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 32)
@@ -94,19 +93,17 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         archiveButton.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
         archiveButton.layer.cornerRadius = 4.0
         archiveButton.frame = CGRect.init(x: 0, y: 0, width: 104, height: 30)
-        archiveButton.setTitle("الأرشيف", for: .normal)
+        archiveButton.setTitle("محادثة", for: .normal)
         archiveButton.titleEdgeInsets.left = 5
         archiveButton.titleEdgeInsets.right = -5
-        archiveButton.setImage(UIImage(named: "Search"), for: .normal)
+        archiveButton.setImage(UIImage(named: "proMessage"), for: .normal)
         archiveButton.addTarget(self, action: #selector(archiveButtonPressed), for: .touchUpInside)
         archiveButton.sizeToFit()
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: archiveButton)
     }
     
     @objc func archiveButtonPressed() {
-        let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle: nil)
-        let secondView = storyBoard.instantiateViewController(withIdentifier: "FilterViewController") as! FilterViewController
-        self.navigationController?.pushViewController(secondView, animated: true)
+        
     }
     
     func addCallBarButtonItem() {
