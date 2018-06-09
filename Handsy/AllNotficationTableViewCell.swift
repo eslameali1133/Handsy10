@@ -38,7 +38,7 @@ class AllNotficationTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        notficationTimeLabel.isHidden = true
+//        notficationTimeLabel.isHidden = true
         newNotficationBtn.isHidden = true
     }
 

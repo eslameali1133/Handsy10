@@ -53,6 +53,7 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
     @IBOutlet weak var DataStart: UILabel!
     @IBOutlet weak var statusImage: UIImageView!
     @IBOutlet weak var status: UILabel!
+    @IBOutlet weak var lastStatus: UILabel!
     @IBOutlet weak var visitsTitle: UILabel!
     @IBOutlet weak var EngReplay: UITextView!
     @IBOutlet weak var dateEngReplay: UILabel!
@@ -233,7 +234,7 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
             }else {
                 print("error status")
             }
-            
+            lastStatus.text = ProjectBildTypeName
             visitsTitle.text = visitTitle
             //        empMobile.setTitle(Mobile, for: .normal)
             EngReplay.text = Replay
@@ -310,7 +311,7 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
             }else {
                 print("error status")
             }
-            
+            lastStatus.text = visitsDetialsArray[0].ProjectBildTypeName
             visitsTitle.text = visitsDetialsArray[0].visitTitle
             //        empMobile.setTitle(Mobile, for: .normal)
             EngReplay.text = visitsDetialsArray[0].Replay

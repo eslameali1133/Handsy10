@@ -47,6 +47,13 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         }
     }
     
+    @IBOutlet weak var cancelProView: UIView!{
+        didSet {
+            cancelProView.layer.cornerRadius = 4.0
+        }
+    }
+    
+    
     @IBOutlet weak var projectDetialsBtnOut: UIButton!{
         didSet {
             DispatchQueue.main.async {
@@ -243,7 +250,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        cancelProView.isHidden = true
         statusView.roundCorners([.topLeft, .topRight], radius: 10)
         contractBtn.isHidden = true
 //        if norma != "" {
@@ -363,24 +370,31 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         let status = ProjectOfResult[0].ProjectStatusID!
         let statusName = ProjectOfResult[0].ProjectStatusName!
         if status == "5"{
+            cancelProView.isHidden = true
             statusNameLabel.text = statusName
             statusImgView.backgroundColor = #colorLiteral(red: 0.9921568627, green: 0.4274509804, blue: 0.337254902, alpha: 1)
         }else if status == "4"{
+            cancelProView.isHidden = false
             statusNameLabel.text = statusName
             statusImgView.backgroundColor = #colorLiteral(red: 0.1176470588, green: 0.368627451, blue: 0.4666666667, alpha: 1)
         }else if status == "3"{
+            cancelProView.isHidden = true
             statusNameLabel.text = statusName
             statusImgView.backgroundColor = #colorLiteral(red: 0.1764705882, green: 0.4745098039, blue: 0.8862745098, alpha: 1)
         }else if status == "1"{
+            cancelProView.isHidden = true
             statusNameLabel.text = statusName
             statusImgView.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
         }else if status == "2"{
+            cancelProView.isHidden = true
             statusNameLabel.text = statusName
             statusImgView.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
         }else if status == "6"{
+            cancelProView.isHidden = false
             statusNameLabel.text = statusName
             statusImgView.backgroundColor = #colorLiteral(red: 0.2588235294, green: 0.8666666667, blue: 0.1764705882, alpha: 1)
         }else if status == "7"{
+            cancelProView.isHidden = false
             statusNameLabel.text = statusName
             statusImgView.backgroundColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
         }else {
@@ -516,6 +530,9 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         }
     }
     
+    @IBAction func showCancelPopUp(_ sender: UIButton) {
+        popUp.isHidden = false
+    }
     
     @IBOutlet weak var popUp: UIView!
     @IBOutlet weak var endPopUp: UIView!

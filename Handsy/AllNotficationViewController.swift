@@ -97,7 +97,7 @@ class AllNotficationViewController: UIViewController, UITableViewDelegate, UITab
         cell.companyNameLabel.text = allNotifications[indexPath.row].ComapnyName
         cell.notficationTitleLabel.text = allNotifications[indexPath.row].Desc
         cell.projectNameLabel.text = allNotifications[indexPath.row].ProjectTitle
-        cell.notficationTimeLabel.text = allNotifications[indexPath.row].TimeAgo
+//        cell.notficationTimeLabel.text = allNotifications[indexPath.row].TimeAgo
         cell.notficationDateLabel.text = allNotifications[indexPath.row].DateCreate
         return cell
     }

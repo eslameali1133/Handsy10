@@ -78,8 +78,7 @@ class AlertVisitPauseViewController: UIViewController {
             debugPrint(response)
             
             let json = JSON(response.result.value!)
-            
-            if json == "Done" {
+            if json["result"].stringValue == "Done" {
                 let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
                 let secondView = storyBoard.instantiateViewController(withIdentifier: "AlertDoneViewController") as! AlertDoneViewController
                 secondView.modalPresentationStyle = .custom

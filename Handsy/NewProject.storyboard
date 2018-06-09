@@ -112,7 +112,7 @@
                                     <constraint firstAttribute="height" constant="186" id="oZI-LG-Yac"/>
                                 </constraints>
                             </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="هل تريد مكتب أم مهندس ؟!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kC8-yH-Iha">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="هل تبحث عن مكتب معتمد أم مهندس حُر ؟" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kC8-yH-Iha">
                                 <rect key="frame" x="10" y="233.33333333333334" width="394" height="21.666666666666657"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2978,7 +2978,6 @@
                                                                     </state>
                                                                     <connections>
                                                                         <action selector="goAboutBtn:" destination="KVw-0b-Es7" eventType="touchUpInside" id="Low-Uw-Y9d"/>
-                                                                        <action selector="goAboutBtn:" destination="x19-pb-rkN" eventType="touchUpInside" id="umx-dq-H4b"/>
                                                                     </connections>
                                                                 </button>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="2.6594567 كيلو متر بعيدا عنك" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="cX7-8G-ZkU">
