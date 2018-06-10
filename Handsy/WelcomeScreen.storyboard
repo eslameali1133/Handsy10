@@ -147,6 +147,7 @@
                         <outlet property="LayerFour" destination="mWn-nH-O1y" id="mwv-u3-hVd"/>
                         <outlet property="Layerthree" destination="8z3-Ng-eHu" id="axq-vv-25F"/>
                         <outlet property="StartBtnOut" destination="JyA-rv-T8H" id="X5F-9R-Fmf"/>
+                        <outlet property="aboutUsBtn" destination="wfW-1D-xJe" id="cfM-73-aj5"/>
                         <outlet property="layerOne" destination="xJx-IH-94K" id="mve-jo-pBj"/>
                         <outlet property="layerTwo" destination="78A-tg-bzM" id="Ao5-fc-QN3"/>
                         <outlet property="subscribeBtn" destination="ocZ-9a-Z4E" id="jb8-bp-xAi"/>

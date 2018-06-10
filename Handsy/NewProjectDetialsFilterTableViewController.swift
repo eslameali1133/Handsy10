@@ -87,7 +87,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             }
         }
     }
-    @IBOutlet weak var newContractOut: UIButton!
+    @IBOutlet weak var newContractOut: UIView!
     
     @IBOutlet weak var DesignsNewBtn: UIButton!{
         didSet {
@@ -250,6 +250,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         cancelProView.isHidden = true
         statusView.roundCorners([.topLeft, .topRight], radius: 10)
         contractBtn.isHidden = true
@@ -284,6 +285,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             self.tableView.bringSubview(toFront: self.detialsBtnView)
             self.tableView.addSubview(self.detialsBtnView)
         }
+        
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
             GetProjectByProjectId()
@@ -423,7 +425,6 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         } else if ProjectContract == "2" {
             contractBtn.isEnabled = false
             contractBtn.setImage(#imageLiteral(resourceName: "Subtraction"), for: .disabled)
-            contractBtnOut.isHidden = true
             newContractOut.isHidden = true
             contractBtnOut.isHidden = true
         } else {
@@ -506,15 +507,32 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 5
+        return 6
     }
     
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        if indexPath.section == 0 {
+            if newContractOut.isHidden == true {
+                return 0.0
+            }else {
+                return 115
+            }
+        }else {
+            return 100
+        }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        if indexPath.section == 0 {
+            if newContractOut.isHidden == true {
+                return 0.0
+            }else {
+                return 115
+            }
+        }else {
+            return UITableViewAutomaticDimension
+        }
+        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

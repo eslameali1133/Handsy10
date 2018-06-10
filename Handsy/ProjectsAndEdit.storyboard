@@ -586,7 +586,7 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="Evo-NU-1Cn">
                                                         <rect key="frame" x="0.0" y="62.5" width="335" height="90"/>
                                                         <subviews>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="sev-AW-UYf">
+                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="bottom" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="sev-AW-UYf">
                                                                 <rect key="frame" x="0.0" y="0.0" width="239" height="90"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="رئيس قسم الاستشارات الهندسية  " textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nAW-8m-3Yv">
@@ -595,18 +595,40 @@
                                                                         <color key="textColor" red="0.83142238859999995" green="0.68671125170000002" blue="0.20569747690000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="المهندس محمد احمد عبدالله" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kz7-le-siR">
+                                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="HOU-UI-8Ff">
                                                                         <rect key="frame" x="0.0" y="31.5" width="239" height="27"/>
-                                                                        <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="15"/>
-                                                                        <color key="textColor" red="0.83142238859999995" green="0.68671125170000002" blue="0.20569747690000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                        <nil key="highlightedColor"/>
-                                                                    </label>
-                                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="W4N-OT-fhS">
-                                                                        <rect key="frame" x="5" y="63.5" width="234" height="26.5"/>
+                                                                        <subviews>
+                                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gwr-Ho-Hkt">
+                                                                                <rect key="frame" x="0.0" y="0.0" width="81" height="27"/>
+                                                                                <color key="backgroundColor" red="0.83142238859999995" green="0.68671125170000002" blue="0.20569747690000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                                <constraints>
+                                                                                    <constraint firstAttribute="width" constant="81" id="xYY-fJ-v71"/>
+                                                                                </constraints>
+                                                                                <fontDescription key="fontDescription" name="AJannatLT" family="A Jannat LT" pointSize="15"/>
+                                                                                <state key="normal" title="موقعي">
+                                                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                                </state>
+                                                                                <connections>
+                                                                                    <action selector="directionsAction:" destination="REL-3H-hxf" eventType="touchUpInside" id="vOX-eG-pZs"/>
+                                                                                </connections>
+                                                                            </button>
+                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="المهندس محمد احمد عبدالله" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Kz7-le-siR">
+                                                                                <rect key="frame" x="86" y="0.0" width="153" height="27"/>
+                                                                                <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="15"/>
+                                                                                <color key="textColor" red="0.83142238859999995" green="0.68671125170000002" blue="0.20569747690000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                                <nil key="highlightedColor"/>
+                                                                            </label>
+                                                                        </subviews>
+                                                                    </stackView>
+                                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="W4N-OT-fhS">
+                                                                        <rect key="frame" x="0.0" y="63.5" width="239" height="26.5"/>
                                                                         <subviews>
                                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nCH-Fz-FgR">
                                                                                 <rect key="frame" x="0.0" y="0.0" width="81" height="26.5"/>
                                                                                 <color key="backgroundColor" red="0.83142238859999995" green="0.68671125170000002" blue="0.20569747690000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                                <constraints>
+                                                                                    <constraint firstAttribute="width" constant="81" id="Av0-Gs-bBH"/>
+                                                                                </constraints>
                                                                                 <fontDescription key="fontDescription" name="AJannatLT" family="A Jannat LT" pointSize="15"/>
                                                                                 <state key="normal" title="اتصال">
                                                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -616,13 +638,13 @@
                                                                                 </connections>
                                                                             </button>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="01019048325" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9N4-q5-llR">
-                                                                                <rect key="frame" x="91" y="0.0" width="108" height="26.5"/>
+                                                                                <rect key="frame" x="86" y="0.0" width="123" height="26.5"/>
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                                 <color key="textColor" red="0.83142238859999995" green="0.68671125170000002" blue="0.20569747690000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="phone-call-button3" translatesAutoresizingMaskIntoConstraints="NO" id="OD1-LK-qKY">
-                                                                                <rect key="frame" x="209" y="0.0" width="25" height="26.5"/>
+                                                                                <rect key="frame" x="214" y="0.0" width="25" height="26.5"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="width" constant="25" id="0vu-6r-qzE"/>
                                                                                 </constraints>
@@ -631,15 +653,12 @@
                                                                     </stackView>
                                                                 </subviews>
                                                                 <constraints>
-                                                                    <constraint firstItem="W4N-OT-fhS" firstAttribute="leading" secondItem="sev-AW-UYf" secondAttribute="leading" constant="5" id="3vd-FB-3Sc"/>
+                                                                    <constraint firstItem="W4N-OT-fhS" firstAttribute="leading" secondItem="sev-AW-UYf" secondAttribute="leading" id="9yk-V8-C5v"/>
                                                                     <constraint firstAttribute="trailing" secondItem="W4N-OT-fhS" secondAttribute="trailing" id="MRT-i8-QLB"/>
-                                                                    <constraint firstAttribute="trailing" secondItem="Kz7-le-siR" secondAttribute="trailing" id="RYg-GZ-ukf"/>
-                                                                    <constraint firstItem="Kz7-le-siR" firstAttribute="leading" secondItem="sev-AW-UYf" secondAttribute="leading" id="Tq2-cI-gLS"/>
                                                                     <constraint firstItem="nAW-8m-3Yv" firstAttribute="leading" secondItem="sev-AW-UYf" secondAttribute="leading" id="WeL-uC-p5t"/>
-                                                                    <constraint firstItem="nAW-8m-3Yv" firstAttribute="height" secondItem="Kz7-le-siR" secondAttribute="height" id="bZk-d8-tlB"/>
                                                                     <constraint firstAttribute="bottom" secondItem="W4N-OT-fhS" secondAttribute="bottom" id="lbR-XI-7nD"/>
+                                                                    <constraint firstItem="HOU-UI-8Ff" firstAttribute="leading" secondItem="sev-AW-UYf" secondAttribute="leading" id="s50-7A-Spd"/>
                                                                     <constraint firstAttribute="trailing" secondItem="nAW-8m-3Yv" secondAttribute="trailing" id="uat-lt-plc"/>
-                                                                    <constraint firstItem="W4N-OT-fhS" firstAttribute="height" secondItem="Kz7-le-siR" secondAttribute="height" id="zNO-Cw-Ox7"/>
                                                                 </constraints>
                                                             </stackView>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="t3S-qT-ksx">
@@ -737,6 +756,7 @@
                         <outlet property="jobTitle" destination="nAW-8m-3Yv" id="qoU-0g-nqF"/>
                         <outlet property="mapType" destination="NDf-Ld-CLH" id="mdE-yh-OCz"/>
                         <outlet property="mapView" destination="YcI-BL-47M" id="cLn-6Q-Y7h"/>
+                        <outlet property="myLocationBtn" destination="gwr-Ho-Hkt" id="FR0-c1-wuG"/>
                         <outlet property="officeLocation" destination="bQ0-PD-hMD" id="GkD-bx-yPi"/>
                     </connections>
                 </viewController>
@@ -2070,20 +2090,20 @@
                                                     </constraints>
                                                 </stackView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CBh-9Q-1WB">
-                                                    <rect key="frame" x="390" y="0.0" width="4" height="85"/>
+                                                    <rect key="frame" x="390" y="0.0" width="4" height="84.5"/>
                                                     <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="4" id="Nv1-yu-LqB"/>
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="الدفعة رقم 1" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sCx-yN-75f">
-                                                    <rect key="frame" x="55.5" y="10" width="324.5" height="26.5"/>
+                                                    <rect key="frame" x="55.5" y="10" width="324.5" height="26"/>
                                                     <fontDescription key="fontDescription" name="AJannatLT" family="A Jannat LT" pointSize="14"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="انتظار الدفع" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xU6-g0-P4f">
-                                                    <rect key="frame" x="324" y="48.5" width="56" height="20"/>
+                                                    <rect key="frame" x="324" y="48" width="56" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="7Xp-Mv-C4g"/>
                                                     </constraints>

@@ -17,9 +17,29 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
             self.profileBtn.layer.cornerRadius = self.profileBtn.frame.width / 2
         }
     }
-    @IBOutlet weak var archiveBtn: UIButton!{
+    @IBOutlet weak var contactUSBtn: UIButton!{
         didSet {
-            self.archiveBtn.layer.cornerRadius = self.archiveBtn.frame.width / 2
+            self.contactUSBtn.layer.cornerRadius = self.contactUSBtn.frame.width / 2
+        }
+    }
+    @IBOutlet weak var chatBtn: UIButton!{
+        didSet {
+            self.chatBtn.layer.cornerRadius = self.chatBtn.frame.width / 2
+        }
+    }
+    @IBOutlet weak var archiveVisitsBtn: UIButton!{
+        didSet {
+            self.archiveVisitsBtn.layer.cornerRadius = self.archiveVisitsBtn.frame.width / 2
+        }
+    }
+    @IBOutlet weak var archiveDesignsBtn: UIButton!{
+        didSet {
+            self.archiveDesignsBtn.layer.cornerRadius = self.archiveDesignsBtn.frame.width / 2
+        }
+    }
+    @IBOutlet weak var archiveFilesBtn: UIButton!{
+        didSet {
+            self.archiveFilesBtn.layer.cornerRadius = self.archiveFilesBtn.frame.width / 2
         }
     }
     override func viewDidLoad() {
@@ -57,14 +77,37 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
         let topController = UIApplication.topViewController()
         topController?.show(secondView, sender: true)
     }
-    @IBAction func goArchive(_ sender: UIButton) {
+    
+    @IBAction func callBtnAction(_ sender: UIButton) {
         buttonsView.removeFromSuperview()
         let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle: nil)
-        let secondView = storyBoard.instantiateViewController(withIdentifier: "FilterViewController") as! FilterViewController
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "ContactUSViewController") as! ContactUSViewController
         let topController = UIApplication.topViewController()
         topController?.show(secondView, sender: true)
     }
     
+    @IBAction func goVisitsArchive(_ sender: UIButton) {
+        buttonsView.removeFromSuperview()
+        let storyBoard : UIStoryboard = UIStoryboard(name: "VisitsAndDetails", bundle: nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "VisitsViewController") as! VisitsViewController
+        let topController = UIApplication.topViewController()
+        topController?.show(secondView, sender: true)
+    }
+    
+    @IBAction func goDesignsArchive(_ sender: UIButton) {
+        buttonsView.removeFromSuperview()
+        let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "ProjectsContinueViewController") as! ProjectsContinueViewController
+        let topController = UIApplication.topViewController()
+        topController?.show(secondView, sender: true)
+    }
+    @IBAction func goFilesArchive(_ sender: UIButton) {
+        buttonsView.removeFromSuperview()
+        let storyBoard : UIStoryboard = UIStoryboard(name: "MyFilesAndMoney", bundle: nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "MyFilesViewController") as! MyFilesViewController
+        let topController = UIApplication.topViewController()
+        topController?.show(secondView, sender: true)
+    }
     @IBAction func logOut(_ sender: UIButton) {
         backButtonPressed()
     }

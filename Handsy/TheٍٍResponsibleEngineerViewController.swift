@@ -30,7 +30,25 @@ class TheResponsibleEngineerViewController: UIViewController, GMSMapViewDelegate
     @IBOutlet weak var emplName: UILabel!
     @IBOutlet weak var empMobile: UILabel!
     @IBOutlet weak var EmpImagePro: AMCircleImageView!
-    @IBOutlet weak var callBtn: UIButton!
+    @IBOutlet weak var myLocationBtn: UIButton!{
+        didSet {
+            DispatchQueue.main.async {
+                self.myLocationBtn.layer.cornerRadius = 20.0
+                self.myLocationBtn.layer.masksToBounds = true
+            }
+        }
+        
+    }
+    
+    @IBOutlet weak var callBtn: UIButton!{
+        didSet {
+            DispatchQueue.main.async {
+                self.callBtn.layer.cornerRadius = 20.0
+                self.callBtn.layer.masksToBounds = true
+            }
+        }
+        
+    }
     @IBOutlet weak var directionsOut: UIButton!{
         didSet {
             DispatchQueue.main.async {

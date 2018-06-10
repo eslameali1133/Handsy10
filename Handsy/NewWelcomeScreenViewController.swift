@@ -23,6 +23,21 @@ class NewWelcomeScreenViewController: UIViewController {
         }
     }
     
+    @IBOutlet weak var aboutUsBtn: UIButton!{
+        didSet {
+            DispatchQueue.main.async {
+                self.aboutUsBtn.layer.shadowColor = UIColor.black.cgColor
+                self.aboutUsBtn.layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
+                self.aboutUsBtn.layer.shadowRadius = 2.0
+                self.aboutUsBtn.layer.shadowOpacity = 0.5
+                self.aboutUsBtn.layer.borderColor = UIColor.black.cgColor
+                self.aboutUsBtn.layer.borderWidth = 0.5
+                self.aboutUsBtn.layer.cornerRadius = 7.0
+                self.aboutUsBtn.layer.masksToBounds = false
+            }
+        }
+    }
+    
     @IBOutlet weak var subscribeBtn: UIButton!{
         didSet {
             DispatchQueue.main.async {
@@ -51,6 +66,7 @@ class NewWelcomeScreenViewController: UIViewController {
         self.LabelTwo.alpha = 0
         StartBtnOut.isHidden = true
         subscribeBtn.isHidden = true
+        aboutUsBtn.isHidden = true
         if logout != "" {
             _ = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(checkLogOut), userInfo: nil, repeats: false)
         } else {
@@ -73,16 +89,19 @@ class NewWelcomeScreenViewController: UIViewController {
             }else{
                 self.StartBtnOut.isHidden = false
                 self.subscribeBtn.isHidden = false
+                self.aboutUsBtn.isHidden = false
             }
         }else {
             self.StartBtnOut.isHidden = false
             self.subscribeBtn.isHidden = false
+            self.aboutUsBtn.isHidden = false
         }
     }
     
     @objc func checkLogOut() {
         self.StartBtnOut.isHidden = false
         self.subscribeBtn.isHidden = false
+        self.aboutUsBtn.isHidden = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
