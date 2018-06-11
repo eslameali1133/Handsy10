@@ -2436,7 +2436,6 @@
                                                                                     </state>
                                                                                     <connections>
                                                                                         <action selector="designCancel:" destination="QTr-2p-J79" eventType="touchUpInside" id="Gg6-OR-c8T"/>
-                                                                                        <action selector="visitCancel:" destination="QNU-Tu-X28" eventType="touchUpInside" id="psz-Ck-qJP"/>
                                                                                     </connections>
                                                                                 </button>
                                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yjk-Ux-AMc">
@@ -2452,7 +2451,6 @@
                                                                                     </state>
                                                                                     <connections>
                                                                                         <action selector="designOk:" destination="QTr-2p-J79" eventType="touchUpInside" id="e1N-eL-URk"/>
-                                                                                        <action selector="visitOk:" destination="QNU-Tu-X28" eventType="touchUpInside" id="Ehl-QW-8Z4"/>
                                                                                     </connections>
                                                                                 </button>
                                                                             </subviews>

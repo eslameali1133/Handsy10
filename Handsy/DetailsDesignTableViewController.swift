@@ -12,8 +12,16 @@ import SwiftyJSON
 import MapKit
 
 class DetailsDesignTableViewController: UITableViewController {
-    @IBOutlet weak var OK: UIButton!
-    @IBOutlet weak var Cancel: UIButton!
+    @IBOutlet weak var OK: UIButton!{
+        didSet {
+            OK.layer.cornerRadius = 4.0
+        }
+    }
+    @IBOutlet weak var Cancel: UIButton!{
+        didSet {
+            Cancel.layer.cornerRadius = 4.0
+        }
+    }
     
     @IBOutlet weak var PDF: UIButton!{
         didSet {
@@ -115,6 +123,7 @@ class DetailsDesignTableViewController: UITableViewController {
         InformationDetiView.isHidden = false
         NotesEng.isHidden = false
         NotesCus.isHidden = false
+        BtnOutLet.isHidden = true
         OK.isHidden = true
         Cancel.isHidden = true
         
@@ -214,14 +223,19 @@ class DetailsDesignTableViewController: UITableViewController {
             if Status == "1"{
                 StatusIm.image = #imageLiteral(resourceName: "جاري العمل-1")
                 StatusLa.text = "انتظار الموافقة"
+                BtnOutLet.isHidden = false
                 OK.isHidden = false
                 Cancel.isHidden = false
             }else if Status == "2" {
                 StatusIm.image = #imageLiteral(resourceName: "تم الانجاز-1")
                 StatusLa.text = "موافقة"
+                BtnOutLet.isHidden = true
             }else if Status == "3" {
                 StatusIm.image = #imageLiteral(resourceName: "مرفوض-1")
                 StatusLa.text = "مرفوض"
+                BtnOutLet.isHidden = false
+                OK.isHidden = true
+                Cancel.isHidden = false
             }else if Status == "5" {
                 StatusIm.image = #imageLiteral(resourceName: "مرفوض-1")
                 StatusLa.text = "جاري العمل"
@@ -275,16 +289,21 @@ class DetailsDesignTableViewController: UITableViewController {
                 StatusIm.image = #imageLiteral(resourceName: "جاري العمل-1")
                 StatusLa.text = "انتظار الموافقة"
                 StatusLa.textColor = #colorLiteral(red: 0.8196078431, green: 0.3294117647, blue: 0.09803921569, alpha: 1)
+                BtnOutLet.isHidden = false
                 OK.isHidden = false
                 Cancel.isHidden = false
             }else if designsDetialsOfResult[0].Status == "2" {
                 StatusIm.image = #imageLiteral(resourceName: "تم الانجاز-1")
                 StatusLa.text = "موافقة"
                 StatusLa.textColor = #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
+                BtnOutLet.isHidden = true
             }else if designsDetialsOfResult[0].Status == "3" {
                 StatusIm.image = #imageLiteral(resourceName: "مرفوض-1")
                 StatusLa.text = "مرفوض"
                 StatusLa.textColor = #colorLiteral(red: 0.7450980392, green: 0.2274509804, blue: 0.1921568627, alpha: 1)
+                BtnOutLet.isHidden = false
+                OK.isHidden = true
+                Cancel.isHidden = false
             }else if designsDetialsOfResult[0].Status == "5" {
                 StatusIm.image = #imageLiteral(resourceName: "مرفوض-1")
                 StatusLa.text = "جاري العمل"
