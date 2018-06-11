@@ -11,8 +11,11 @@ import UIKit
 class RequestPanelTableViewCell: UITableViewCell {
 
     @IBOutlet weak var nameOfProject: UILabel!
-    @IBOutlet weak var nameOfStatus: UILabel!
-    @IBOutlet weak var imageOfStatus: UIImageView!
+    @IBOutlet weak var infoHeaderView: UIView!{
+        didSet {
+            infoHeaderView.roundCorners([.topLeft, .topRight], radius: 10)
+        }
+    }
     @IBOutlet weak var projectType: UILabel!
     @IBOutlet weak var numberOfSake: UILabel!
     @IBOutlet weak var numberPlan: UILabel!

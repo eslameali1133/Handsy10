@@ -83,7 +83,7 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
             }
         }
     }
-    @IBOutlet weak var newContractBtnOut: UIButton!
+    @IBOutlet weak var contractViewOut: UIView!
     
     func dataReady() {
         // Access the video objects that have been downloaded
@@ -158,7 +158,9 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
         super.viewDidLoad()
         HeaderMoneyOut.backgroundColor = #colorLiteral(red: 0.2274509804, green: 0.231372549, blue: 0.2352941176, alpha: 1)
         HeaderTypeOut.backgroundColor = #colorLiteral(red: 0.2274509804, green: 0.231372549, blue: 0.2352941176, alpha: 1)
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         if pushCond == "" {
             
         }else {
@@ -374,24 +376,24 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
             contractBtn.isEnabled = true
             contractBtn.setImage(#imageLiteral(resourceName: "NewConterct"), for: .normal)
             acceptContractBtn.isHidden = false
-            newContractBtnOut.isHidden = false
+            contractViewOut.isHidden = false
             contractBtnOut.isHidden = false
         } else if ProjectContract == "2" {
             contractBtn.isEnabled = false
             contractBtn.setImage(#imageLiteral(resourceName: "Subtraction"), for: .disabled)
             acceptContractBtn.isHidden = true
-            newContractBtnOut.isHidden = true
+            contractViewOut.isHidden = true
             contractBtnOut.isHidden = true
-            viewMoney.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 510)
+            viewMoney.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 525)
             self.view.setNeedsLayout()
             self.view.layoutIfNeeded()
         } else {
             contractBtn.isEnabled = true
             contractBtn.setImage(#imageLiteral(resourceName: "NewConterct"), for: .normal)
             acceptContractBtn.isHidden = true
-            newContractBtnOut.isHidden = true
+            contractViewOut.isHidden = true
             contractBtnOut.isHidden = true
-            viewMoney.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 510)
+            viewMoney.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 525)
             self.view.setNeedsLayout()
             self.view.layoutIfNeeded()
         }
@@ -531,6 +533,7 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
             case .success:
                 let json = JSON(response.result.value!)
                 print(json)
+                self.viewWillAppear(false)
             case .failure(let error):
                 print(error)
                 UIViewController.removeSpinner(spinner: sv)

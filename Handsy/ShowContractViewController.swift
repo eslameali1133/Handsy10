@@ -12,6 +12,7 @@ import SwiftyJSON
 
 class ShowContractViewController: UIViewController, UIWebViewDelegate {
     @IBOutlet weak var WebViewContract: UIWebView!
+    @IBOutlet weak var AcceptViewOut: UIView!
     @IBOutlet weak var AcceptBtnOut: UIButton!{
         didSet {
             DispatchQueue.main.async {
@@ -60,6 +61,8 @@ class ShowContractViewController: UIViewController, UIWebViewDelegate {
             case .success:
                 let json = JSON(response.result.value!)
                 print(json)
+                self.AcceptViewOut.isHidden = true
+                self.navigationController!.popViewController(animated: false)
             case .failure(let error):
                 print(error)
                 UIViewController.removeSpinner(spinner: sv)

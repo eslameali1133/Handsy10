@@ -177,7 +177,13 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
         
         cell.CreateDate.text = searchResu[indexPath.section].CreateDate
         cell.StagesDetailsName.text = searchResu[indexPath.section].StagesDetailsName
-        cell.Details.text = searchResu[indexPath.section].Details
+        if searchResu[indexPath.section].Details == "" {
+            cell.Details.isHidden = true
+        }else {
+            print("det: \(searchResu[indexPath.section].Details)")
+            cell.Details.isHidden = false
+            cell.Details.text = searchResu[indexPath.section].Details
+        }
         let status = searchResu[indexPath.section].Status
         if searchResu[indexPath.section].DesignFile == "" {
             cell.BtnOutlet.isHidden = true

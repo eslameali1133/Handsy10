@@ -89,6 +89,7 @@
 		C147CF351F52D961000DBD02 /* AlertVisitPauseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C147CF341F52D961000DBD02 /* AlertVisitPauseViewController.swift */; };
 		C14EBBB41FCEF63400394607 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C14EBBB21FCEF63300394607 /* GoogleMaps.framework */; };
 		C14EBBB71FCEF65500394607 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C14EBBB61FCEF65500394607 /* GoogleMaps.bundle */; };
+		C150D51020CEB177005F1682 /* ShapeUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C150D50F20CEB177005F1682 /* ShapeUIView.swift */; };
 		C152DA921F28AC820032C03F /* GalaryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C152DA911F28AC820032C03F /* GalaryCollectionViewCell.swift */; };
 		C152DA941F28B9D20032C03F /* GalaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C152DA931F28B9D20032C03F /* GalaryViewController.swift */; };
 		C157D274203C2DD2007ED59D /* ShowContractViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C157D273203C2DD2007ED59D /* ShowContractViewController.swift */; };
@@ -171,7 +172,6 @@
 		C1C8FA921F234E1000C89AE2 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C8FA911F234E1000C89AE2 /* CustomTextField.swift */; };
 		C1C8FA941F236A8A00C89AE2 /* textF.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C8FA931F236A8A00C89AE2 /* textF.swift */; };
 		C1C8FA961F237E9100C89AE2 /* DesignableUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C8FA951F237E9100C89AE2 /* DesignableUITextField.swift */; };
-		C1CE905A206A973800BBDCFF /* ShapeUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CE9059206A973800BBDCFF /* ShapeUIView.swift */; };
 		C1D06EFA1FF90F790062CEA0 /* DesignsOfProjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D06EF91FF90F790062CEA0 /* DesignsOfProjectViewController.swift */; };
 		C1D06EFC1FF90F8A0062CEA0 /* DesignsOfProjectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D06EFB1FF90F8A0062CEA0 /* DesignsOfProjectTableViewCell.swift */; };
 		C1D06EFE1FF932300062CEA0 /* DesignDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D06EFD1FF932300062CEA0 /* DesignDetailsTableViewController.swift */; };
@@ -347,6 +347,7 @@
 		C147CF341F52D961000DBD02 /* AlertVisitPauseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertVisitPauseViewController.swift; sourceTree = "<group>"; };
 		C14EBBB21FCEF63300394607 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework; sourceTree = SOURCE_ROOT; };
 		C14EBBB61FCEF65500394607 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle; sourceTree = SOURCE_ROOT; };
+		C150D50F20CEB177005F1682 /* ShapeUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShapeUIView.swift; path = "../../HandsyEngineer/HandsyEngineer/New Group/ShapeUIView.swift"; sourceTree = "<group>"; };
 		C152DA911F28AC820032C03F /* GalaryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalaryCollectionViewCell.swift; sourceTree = "<group>"; };
 		C152DA931F28B9D20032C03F /* GalaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalaryViewController.swift; sourceTree = "<group>"; };
 		C156616C1FAE007C00096801 /* AJannatLTBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AJannatLTBold.ttf; sourceTree = SOURCE_ROOT; };
@@ -432,7 +433,6 @@
 		C1C8FA911F234E1000C89AE2 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		C1C8FA931F236A8A00C89AE2 /* textF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = textF.swift; sourceTree = "<group>"; };
 		C1C8FA951F237E9100C89AE2 /* DesignableUITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DesignableUITextField.swift; sourceTree = "<group>"; };
-		C1CE9059206A973800BBDCFF /* ShapeUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeUIView.swift; sourceTree = "<group>"; };
 		C1D06EF91FF90F790062CEA0 /* DesignsOfProjectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignsOfProjectViewController.swift; sourceTree = "<group>"; };
 		C1D06EFB1FF90F8A0062CEA0 /* DesignsOfProjectTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignsOfProjectTableViewCell.swift; sourceTree = "<group>"; };
 		C1D06EFD1FF932300062CEA0 /* DesignDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignDetailsTableViewController.swift; sourceTree = "<group>"; };
@@ -955,6 +955,7 @@
 				C1DE247F1F65AEB8004D0771 /* VisubleViewController.swift */,
 				C117F5751F3771A200CEBECF /* Extensions.swift */,
 				C1C8FA951F237E9100C89AE2 /* DesignableUITextField.swift */,
+				C150D50F20CEB177005F1682 /* ShapeUIView.swift */,
 				C13EEF7C1F24BD72001498FC /* StringCheck.swift */,
 				C1C8FA931F236A8A00C89AE2 /* textF.swift */,
 				C1C8FA911F234E1000C89AE2 /* CustomTextField.swift */,
@@ -968,7 +969,6 @@
 				C13582FC1F2DE97F00AD6FF9 /* UIFont+Zeplin.swift */,
 				C1AD08AD1F41CC45007FD648 /* KMPlaceholderTextView.swift */,
 				C115D8491FE27D5500A5FCE4 /* DoubleImageButton.swift */,
-				C1CE9059206A973800BBDCFF /* ShapeUIView.swift */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -1401,7 +1401,6 @@
 				C1E2E0ED1FCECB8D001AFDB8 /* BranchSectionTableViewCell.swift in Sources */,
 				C124E52C1F31E3480027640C /* RequestTableViewCell.swift in Sources */,
 				C1E7C5421FE685F300D67EDB /* OfficesImagesCollectionViewCell.swift in Sources */,
-				C1CE905A206A973800BBDCFF /* ShapeUIView.swift in Sources */,
 				C17925492018C64B002BF018 /* VisitsOfProjectsArchiveTableViewCell.swift in Sources */,
 				C12C6556206D00A000793E9D /* MyProjectNotfications.swift in Sources */,
 				C191ACE41F8BE22E00229971 /* EditDTableViewController.swift in Sources */,
@@ -1436,6 +1435,7 @@
 				C1969C5E203F0BA2001D87BA /* PopUPRegisterViewController.swift in Sources */,
 				C117F5741F373A6F00CEBECF /* AWTabBar.swift in Sources */,
 				C1BEE7831F3A20BC009DCE08 /* TeamWorkCollectionViewCell.swift in Sources */,
+				C150D51020CEB177005F1682 /* ShapeUIView.swift in Sources */,
 				C1EAA5D41FFA5A44008C2249 /* DesignByProjectIdArray.swift in Sources */,
 				C130AB671F76B7100054F9D5 /* ProjectPanelTableViewCell.swift in Sources */,
 				C13646821FF2541900C72AE7 /* NewWelcomeScreenViewController.swift in Sources */,

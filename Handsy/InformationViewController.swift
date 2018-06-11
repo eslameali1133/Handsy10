@@ -22,6 +22,7 @@ class InformationViewController: UIViewController, UITableViewDelegate, UITableV
     @IBOutlet weak var informationTableView: UITableView!
     
     
+    
     var nameOfStatus = ""
     var EngNotes = ""
     var officePlace = ""
@@ -74,7 +75,6 @@ class InformationViewController: UIViewController, UITableViewDelegate, UITableV
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         informationTableView.delegate = self
         informationTableView.dataSource = self
         self.informationTableView.flashScrollIndicators()
@@ -173,7 +173,6 @@ class InformationViewController: UIViewController, UITableViewDelegate, UITableV
                 return 80
             }
         }
-        
     }
     
     
@@ -181,24 +180,6 @@ class InformationViewController: UIViewController, UITableViewDelegate, UITableV
         switch (indexPath.section) {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "RequestPanelTableViewCell", for: indexPath) as! RequestPanelTableViewCell
-            if self.ProjectStatusID == "5"{
-                cell.imageOfStatus.image = #imageLiteral(resourceName: "تم الالغاء-1")
-            }else if self.ProjectStatusID == "4"{
-                cell.imageOfStatus.image = #imageLiteral(resourceName: "قيد الالستقبال")
-            }else if self.ProjectStatusID == "3"{
-                cell.imageOfStatus.image = #imageLiteral(resourceName: "تم الانجاز-1")
-            }else if self.ProjectStatusID == "1"{
-                cell.imageOfStatus.image = #imageLiteral(resourceName: "جاري العمل-1")
-            }else if self.ProjectStatusID == "2"{
-                cell.imageOfStatus.image = #imageLiteral(resourceName: "مرفوض-1")
-            }else if self.ProjectStatusID == "6"{
-                cell.imageOfStatus.image = #imageLiteral(resourceName: "تم الالغاء-1")
-            }else if self.ProjectStatusID == "7"{
-                cell.imageOfStatus.image = #imageLiteral(resourceName: "جاري العمل-1")
-            }else {
-                print("error status")
-            }
-            cell.nameOfStatus.text = nameOfStatus
             cell.nameOfProject.text = nameOfProject
             cell.projectType.text = projectType
             cell.numberALlmogh.text = numberALlmogh
@@ -214,21 +195,22 @@ class InformationViewController: UIViewController, UITableViewDelegate, UITableV
             cell.dataOfSak.text = dataOfSak
             cell.dataOfLicence.text = dataOfLicence
             adjustUITextViewHeight(arg: cell.customerDetials)
-            cell.contentView.backgroundColor = UIColor(red: 58/255.0, green: 59/255.0, blue: 60/255.0, alpha: 1.0)
-            cell.layer.cornerRadius = 7
-            cell.layer.borderColor = UIColor(red: 58/255.0, green: 59/255.0, blue: 60/255.0, alpha: 1.0).cgColor // set cell border color here
-            cell.layer.masksToBounds = true
             if EngNotes != "" {
-                cell.EngNotesStack.heightAnchor.constraint(greaterThanOrEqualToConstant: 30)
+                cell.EngNotesStack.isHidden = false
                 cell.EngNotes.isHidden = false
                 cell.EngNotesLabel.isHidden = false
                 cell.EngNotes.text = EngNotes
+                print("engNotes: \(EngNotes)")
                 adjustUITextViewHeight(arg: cell.EngNotes)
             } else {
                 cell.EngNotes.isHidden = true
                 cell.EngNotesLabel.isHidden = true
-                cell.EngNotesStack.heightAnchor.constraint(equalToConstant: 2.0)
+                cell.EngNotesStack.isHidden = true
             }
+            cell.contentView.backgroundColor = UIColor(red: 58/255.0, green: 59/255.0, blue: 60/255.0, alpha: 1.0)
+            cell.layer.cornerRadius = 7
+            cell.layer.borderColor = UIColor(red: 58/255.0, green: 59/255.0, blue: 60/255.0, alpha: 1.0).cgColor // set cell border color here
+            cell.layer.masksToBounds = true
             return cell
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProjectPanelTableViewCell", for: indexPath) as! ProjectPanelTableViewCell

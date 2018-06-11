@@ -106,7 +106,11 @@ class DetailsOfProjectViewController: UIViewController, GMSMapViewDelegate {
     
 //    @IBOutlet weak var companyNameLabel: UILabel!
     @IBOutlet weak var projectTitleLabel: UILabel!
-//    @IBOutlet weak var EngNameLabel: UILabel!
+    
+    @IBOutlet weak var nameOfStatus: UILabel!
+    
+    @IBOutlet weak var imageOfStatus: UIImageView!
+    //    @IBOutlet weak var EngNameLabel: UILabel!
 //    @IBOutlet weak var companyImageOut: UIImageView!{
 //        didSet {
 //            DispatchQueue.main.async {
@@ -304,15 +308,32 @@ class DetailsOfProjectViewController: UIViewController, GMSMapViewDelegate {
     }
     
     func CompanyNamefunc() {
-//        companyNameLabel.text = self.ComapnyName
         projectTitleLabel.text = ProjectTitle ?? ""
-//        EngNameLabel.text = self.EmpName
-//        if let url = URL.init(string: self.Logo!) {
-//            companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
-//        } else{
-//            print("nil")
-//            companyImageOut.image = #imageLiteral(resourceName: "officePlaceholder")
-//        }
+        if self.ProjectStatusID == "5"{
+            imageOfStatus.image = #imageLiteral(resourceName: "تم الالغاء-1")
+            nameOfStatus.textColor = #colorLiteral(red: 0.1843137255, green: 0.5058823529, blue: 0.7176470588, alpha: 1)
+        }else if self.ProjectStatusID == "4"{
+            imageOfStatus.image = #imageLiteral(resourceName: "قيد الالستقبال")
+            nameOfStatus.textColor = #colorLiteral(red: 0.4980392157, green: 0.5490196078, blue: 0.5529411765, alpha: 1)
+        }else if self.ProjectStatusID == "3"{
+            imageOfStatus.image = #imageLiteral(resourceName: "تم الانجاز-1")
+            nameOfStatus.textColor = #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
+        }else if self.ProjectStatusID == "1"{
+            imageOfStatus.image = #imageLiteral(resourceName: "جاري العمل-1")
+            nameOfStatus.textColor = #colorLiteral(red: 0.8196078431, green: 0.3294117647, blue: 0.09803921569, alpha: 1)
+        }else if self.ProjectStatusID == "2"{
+            imageOfStatus.image = #imageLiteral(resourceName: "مرفوض-1")
+            nameOfStatus.textColor = #colorLiteral(red: 0.7450980392, green: 0.2274509804, blue: 0.1921568627, alpha: 1)
+        }else if self.ProjectStatusID == "6"{
+            imageOfStatus.image = #imageLiteral(resourceName: "تم الالغاء-1")
+            nameOfStatus.textColor = #colorLiteral(red: 0.1843137255, green: 0.5058823529, blue: 0.7176470588, alpha: 1)
+        }else if self.ProjectStatusID == "7"{
+            imageOfStatus.image = #imageLiteral(resourceName: "جاري العمل-1")
+            nameOfStatus.textColor = #colorLiteral(red: 0.8196078431, green: 0.3294117647, blue: 0.09803921569, alpha: 1)
+        }else {
+            print("error status")
+        }
+        nameOfStatus.text = ProjectStatusName
     }
     
     override func didReceiveMemoryWarning() {
