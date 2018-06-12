@@ -71,14 +71,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             }
         }
     }
-    @IBOutlet weak var DesignsDetialsBtnOut: UIButton!{
-        didSet {
-            DispatchQueue.main.async {
-                self.DesignsDetialsBtnOut.layer.cornerRadius = 7.0
-                self.DesignsDetialsBtnOut.layer.masksToBounds = true
-            }
-        }
-    }
+    @IBOutlet weak var DesignsDetialsBtnOut: UIButton!
     
     @IBOutlet weak var contractBtnOut: UIButton!{
         didSet {
@@ -89,48 +82,30 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     }
     @IBOutlet weak var newContractOut: UIView!
     
-    @IBOutlet weak var DesignsNewBtn: UIButton!{
+    @IBOutlet weak var newVisitsCountLabel: UILabel!{
         didSet {
             DispatchQueue.main.async {
-                self.DesignsNewBtn.circleView(UIColor.clear, borderWidth: 1.0)
+                self.newVisitsCountLabel.layer.cornerRadius = self.newVisitsCountLabel.frame.width/2
+                self.newVisitsCountLabel.layer.masksToBounds = true
             }
         }
     }
     
-    @IBOutlet weak var VisitsDetialsBtnOut: UIButton!{
+    @IBOutlet weak var newDesignsCountLabel: UILabel!{
         didSet {
             DispatchQueue.main.async {
-                self.VisitsDetialsBtnOut.layer.cornerRadius = 7.0
-                self.VisitsDetialsBtnOut.layer.masksToBounds = true
-            }
-        }
-    }
-    @IBOutlet weak var VisitsNewBtn: UIButton!{
-        didSet {
-            DispatchQueue.main.async {
-                self.VisitsNewBtn.circleView(UIColor.clear, borderWidth: 1.0)
+                self.newDesignsCountLabel.layer.cornerRadius = self.newDesignsCountLabel.frame.width/2
+                self.newDesignsCountLabel.layer.masksToBounds = true
             }
         }
     }
     
-    @IBOutlet weak var FilesOneDetialsBtnOut: UIButton!{
-        didSet {
-            DispatchQueue.main.async {
-                self.FilesOneDetialsBtnOut.layer.cornerRadius = 7.0
-                self.FilesOneDetialsBtnOut.layer.masksToBounds = true
-            }
-        }
-    }
+    @IBOutlet weak var VisitsDetialsBtnOut: UIButton!
     
     
-    @IBOutlet weak var FilesTwoDetialsBtnOut: UIButton!{
-        didSet {
-            DispatchQueue.main.async {
-                self.FilesTwoDetialsBtnOut.layer.cornerRadius = 7.0
-                self.FilesTwoDetialsBtnOut.layer.masksToBounds = true
-            }
-        }
-    }
+    @IBOutlet weak var FilesOneDetialsBtnOut: UIButton!
+    
+    @IBOutlet weak var FilesTwoDetialsBtnOut: UIButton!
     
     @IBOutlet weak var paymentsCost: UILabel!
     @IBOutlet weak var projectTotalPaid: UILabel!
@@ -225,14 +200,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     var isCompany = ""
     var nou = ""
     var nour = ""
-    @IBOutlet weak var numberOfDesignsLabel: UILabel!
-    @IBOutlet weak var newNumberOfDesignsLabel: UILabel!
     
-    @IBOutlet weak var DesignStackOut: UIStackView!
-    
-    @IBOutlet weak var meetingCountLabel: UILabel!
-    
-    @IBOutlet weak var VisitsNotOut: UILabel!
     
     @IBOutlet weak var statusView: UIView!
     @IBOutlet weak var lastStatusLabel: UILabel!
@@ -250,7 +218,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        newVisitsCountLabel.isHidden = true
         cancelProView.isHidden = true
         statusView.roundCorners([.topLeft, .topRight], radius: 10)
         contractBtn.isHidden = true
@@ -260,9 +228,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
 //            navigationItem.title = searchResu[index!].ProjectTitle
 //        }
         
-        DesignsNewBtn.isHidden = true
-        VisitsNewBtn.isHidden = true
-        VisitsNotOut.isHidden = true
+       
         popUp.isHidden = true
         DispatchQueue.main.async {
             self.popUp.frame = CGRect.init(x: 0, y: 0, width: 338, height: 190)
@@ -471,35 +437,31 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     }
     
     func setThirdSection() {
-        DesignStackOut.isHidden = false
-        if ProjectOfResult[0].DesignCount != "0" {
-            numberOfDesignsLabel.text = "لديك \(ProjectOfResult[0].DesignCount!) تصميم"
-            numberOfDesignsLabel.isHidden = false
-        } else {
-            DesignStackOut.isHidden = true
-            tableView.reloadData()
-        }
-        
+//        DesignStackOut.isHidden = false
+//        if ProjectOfResult[0].DesignCount != "0" {
+//            numberOfDesignsLabel.text = "لديك \(ProjectOfResult[0].DesignCount!) تصميم"
+//            numberOfDesignsLabel.isHidden = false
+//        } else {
+//            DesignStackOut.isHidden = true
+//            tableView.reloadData()
+//        }
+//
         if ProjectOfResult[0].DesignNotifiCount != "0" {
             print("Design: \(ProjectOfResult[0].DesignNotifiCount!)")
-            DesignsNewBtn.isHidden = false
-            newNumberOfDesignsLabel.isHidden = false
-            newNumberOfDesignsLabel.text = "(\(ProjectOfResult[0].DesignNotifiCount!) تصميم جديد)"
+            newDesignsCountLabel.isHidden = false
+            newDesignsCountLabel.text = ProjectOfResult[0].DesignNotifiCount!
         } else {
-            DesignsNewBtn.isHidden = true
-            newNumberOfDesignsLabel.isHidden = true
+            newDesignsCountLabel.isHidden = true
         }
     }
     
     func setFourthSection() {
-        if ProjectOfResult[0].MeetingDate != "" && ProjectOfResult[0].MeetingTime != "" {
-            VisitsNewBtn.isHidden = false
-            VisitsNotOut.isHidden = false
-            VisitsNotOut.text = "لديك زيارة جديدة بتاريخ \(ProjectOfResult[0].MeetingDate!) - \(ProjectOfResult[0].MeetingTime!)"
-            meetingCountLabel.text = "لديك \(ProjectOfResult[0].MeetingNotifiCount!) زيارة"
+        if ProjectOfResult[0].MeetingDate != "" {
+            print("visits: \(ProjectOfResult[0].MeetingDate!)")
+            newVisitsCountLabel.isHidden = false
+            newVisitsCountLabel.text = "1"
         } else {
-            VisitsNotOut.isHidden = true
-            VisitsNewBtn.isHidden = true
+            newVisitsCountLabel.isHidden = true
         }
     }
     
@@ -507,7 +469,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 6
+        return 4
     }
     
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
