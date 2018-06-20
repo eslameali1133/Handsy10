@@ -60,6 +60,7 @@ class NewWelcomeScreenViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        aboutUsBtn.isHidden = true
 //        self.navigationItem.hidesBackButton = true
 //        self.tabBarController?.tabBar.isHidden = true
         self.LabelOne.alpha = 0
@@ -89,19 +90,19 @@ class NewWelcomeScreenViewController: UIViewController {
             }else{
                 self.StartBtnOut.isHidden = false
                 self.subscribeBtn.isHidden = false
-                self.aboutUsBtn.isHidden = false
+                self.aboutUsBtn.isHidden = true
             }
         }else {
             self.StartBtnOut.isHidden = false
             self.subscribeBtn.isHidden = false
-            self.aboutUsBtn.isHidden = false
+            self.aboutUsBtn.isHidden = true
         }
     }
     
     @objc func checkLogOut() {
         self.StartBtnOut.isHidden = false
         self.subscribeBtn.isHidden = false
-        self.aboutUsBtn.isHidden = false
+        self.aboutUsBtn.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {

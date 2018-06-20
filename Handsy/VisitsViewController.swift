@@ -120,8 +120,7 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         cell.descriptionProject.text = projTit
         cell.empName.text = searchResu[indexPath.section].EmpName
         cell.dateOfVisit.text = searchResu[indexPath.section].Start
-        cell.startTime.text = searchResu[indexPath.section].StartTime
-        cell.endTime.text = searchResu[indexPath.section].EndTime
+        cell.startTime.text = "\(searchResu[indexPath.section].StartTime) - \(searchResu[indexPath.section].EndTime)"
         cell.companyAddress.text = searchResu[indexPath.section].Address
         let img = searchResu[indexPath.section].Logo
         if let url = URL.init(string: img) {

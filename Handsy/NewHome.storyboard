@@ -12,11 +12,11 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="A.Jannat.LT.Bold.ttf">
-            <string>AJannatLT-Bold</string>
-        </array>
-        <array key="A.Jannat.LT.Regular.ttf">
+        <array key="AJannatLT.otf">
             <string>AJannatLT</string>
+        </array>
+        <array key="AJannatLTBold.ttf">
+            <string>AJannatLT-Bold</string>
         </array>
     </customFonts>
     <scenes>
@@ -1181,8 +1181,28 @@
                                                                 <constraint firstAttribute="height" constant="80" id="HTl-Ae-T4b"/>
                                                             </constraints>
                                                         </stackView>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mdd-Y4-pmu">
+                                                            <rect key="frame" x="5" y="107.5" width="60" height="70"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="60" id="9Oh-q1-LdH"/>
+                                                                <constraint firstAttribute="height" constant="70" id="chk-ei-FgH"/>
+                                                            </constraints>
+                                                            <state key="normal" image="NewConterct"/>
+                                                            <connections>
+                                                                <action selector="VisubleContractAction:" destination="4Zv-I7-56v" eventType="touchUpInside" id="EgW-FK-8nH"/>
+                                                            </connections>
+                                                        </button>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="لم يتم التعاقد علي المشروع" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ejc-ND-CCD">
+                                                            <rect key="frame" x="70" y="122" width="258" height="47"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="47" id="ziu-8h-AQv"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="18"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hQz-DY-VHT">
-                                                            <rect key="frame" x="70" y="121.5" width="258" height="47"/>
+                                                            <rect key="frame" x="70" y="121" width="258" height="47"/>
                                                             <color key="backgroundColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.21176470589999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="47" id="6je-Dk-4pk"/>
@@ -1196,33 +1216,27 @@
                                                                 <action selector="openMoneyViewController:" destination="4Zv-I7-56v" eventType="touchUpInside" id="GIx-If-AV8"/>
                                                             </connections>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mdd-Y4-pmu">
-                                                            <rect key="frame" x="5" y="107.5" width="60" height="70"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" constant="60" id="9Oh-q1-LdH"/>
-                                                                <constraint firstAttribute="height" constant="70" id="chk-ei-FgH"/>
-                                                            </constraints>
-                                                            <state key="normal" image="NewConterct"/>
-                                                            <connections>
-                                                                <action selector="VisubleContractAction:" destination="4Zv-I7-56v" eventType="touchUpInside" id="EgW-FK-8nH"/>
-                                                            </connections>
-                                                        </button>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.18431372549019609" green="0.1803921568627451" blue="0.17254901960784313" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstItem="mdd-Y4-pmu" firstAttribute="leading" secondItem="t3F-Dj-lJb" secondAttribute="leading" constant="5" id="1do-QW-M0W"/>
+                                                        <constraint firstItem="Ejc-ND-CCD" firstAttribute="top" secondItem="EjW-gB-ymP" secondAttribute="bottom" constant="20" id="4oj-QA-kan"/>
                                                         <constraint firstItem="hQz-DY-VHT" firstAttribute="leading" secondItem="mdd-Y4-pmu" secondAttribute="trailing" constant="5" id="5DR-Lx-nzq"/>
                                                         <constraint firstItem="HGu-j2-aSd" firstAttribute="leading" secondItem="t3F-Dj-lJb" secondAttribute="leading" id="65H-XO-8SX"/>
                                                         <constraint firstItem="HGu-j2-aSd" firstAttribute="top" secondItem="t3F-Dj-lJb" secondAttribute="top" id="Akb-xF-3KG"/>
                                                         <constraint firstAttribute="trailing" secondItem="EjW-gB-ymP" secondAttribute="trailing" constant="27" id="C4H-ir-Rzq"/>
+                                                        <constraint firstAttribute="trailing" secondItem="Ejc-ND-CCD" secondAttribute="trailing" constant="70" id="Cr4-Fb-0ZS"/>
                                                         <constraint firstAttribute="bottom" secondItem="hQz-DY-VHT" secondAttribute="bottom" constant="17" id="CrQ-tQ-yX9"/>
                                                         <constraint firstAttribute="trailing" secondItem="HGu-j2-aSd" secondAttribute="trailing" id="FeL-cR-NWO"/>
                                                         <constraint firstItem="hQz-DY-VHT" firstAttribute="top" secondItem="EjW-gB-ymP" secondAttribute="bottom" constant="20" id="Icd-Wf-zOo"/>
+                                                        <constraint firstAttribute="bottom" secondItem="Ejc-ND-CCD" secondAttribute="bottom" constant="17" id="JWS-Hb-UoQ"/>
                                                         <constraint firstItem="EjW-gB-ymP" firstAttribute="top" secondItem="HGu-j2-aSd" secondAttribute="bottom" constant="6.5" id="OXJ-JF-vzk"/>
+                                                        <constraint firstItem="mdd-Y4-pmu" firstAttribute="top" secondItem="EjW-gB-ymP" secondAttribute="bottom" constant="6" id="Qmz-vP-xaB"/>
                                                         <constraint firstAttribute="bottom" secondItem="mdd-Y4-pmu" secondAttribute="bottom" constant="8" id="bqe-z9-wE5"/>
                                                         <constraint firstItem="EjW-gB-ymP" firstAttribute="leading" secondItem="t3F-Dj-lJb" secondAttribute="leading" constant="27" id="dGT-Ul-mAW"/>
                                                         <constraint firstAttribute="trailing" secondItem="hQz-DY-VHT" secondAttribute="trailing" constant="70" id="gFg-p4-6It"/>
                                                         <constraint firstItem="hQz-DY-VHT" firstAttribute="leading" secondItem="t3F-Dj-lJb" secondAttribute="leading" constant="70" id="kQg-pa-HhT"/>
+                                                        <constraint firstItem="Ejc-ND-CCD" firstAttribute="leading" secondItem="t3F-Dj-lJb" secondAttribute="leading" constant="70" id="ojT-bU-AKN"/>
                                                     </constraints>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
@@ -1569,6 +1583,7 @@
                         <outlet property="cancelProView" destination="uAI-La-eCU" id="STM-RM-rQx"/>
                         <outlet property="companyImageOut" destination="bEw-sn-huS" id="Dxj-Uc-Mxv"/>
                         <outlet property="companyNameLabel" destination="LPL-Xl-uMi" id="zUp-ba-PhI"/>
+                        <outlet property="contractAlertLabel" destination="Ejc-ND-CCD" id="YJQ-Sq-kzI"/>
                         <outlet property="contractBtn" destination="mdd-Y4-pmu" id="qQv-lI-7dQ"/>
                         <outlet property="contractBtnOut" destination="52p-hk-0Ic" id="IUl-Ai-NjQ"/>
                         <outlet property="detialsBtnView" destination="lVL-ds-7E0" id="hDf-eN-5AH"/>
@@ -1833,41 +1848,8 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="cKl-9p-bxC">
                                             <rect key="frame" x="0.0" y="0.0" width="142" height="412"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Vb-Ae-qzU">
-                                                    <rect key="frame" x="0.0" y="0.0" width="142" height="62"/>
-                                                    <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="14"/>
-                                                    <state key="normal" title="حسابي">
-                                                        <color key="titleColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="goProfile:" destination="b1k-XW-nsE" eventType="touchUpInside" id="9pM-h7-fQe"/>
-                                                    </connections>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G6a-gj-qPD">
-                                                    <rect key="frame" x="0.0" y="70" width="142" height="62"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="62" id="UMv-KA-SUh"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="14"/>
-                                                    <state key="normal" title=" الشكاوي والاستفسارات">
-                                                        <color key="titleColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="callBtnAction:" destination="b1k-XW-nsE" eventType="touchUpInside" id="ekn-9R-zUR"/>
-                                                    </connections>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V6f-l2-Unb">
-                                                    <rect key="frame" x="0.0" y="140" width="142" height="62"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="62" id="oeD-vG-ZEl"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="14"/>
-                                                    <state key="normal" title="محادثة فورية">
-                                                        <color key="titleColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                    </state>
-                                                </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bw0-ZS-8wV">
-                                                    <rect key="frame" x="0.0" y="210" width="142" height="62"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="142" height="62"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="62" id="2OA-8W-dPc"/>
                                                     </constraints>
@@ -1880,7 +1862,7 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rmN-iD-Oo0">
-                                                    <rect key="frame" x="0.0" y="280" width="142" height="62"/>
+                                                    <rect key="frame" x="0.0" y="70" width="142" height="62"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="62" id="1bb-7Q-BeL"/>
                                                     </constraints>
@@ -1893,7 +1875,7 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MvR-hA-ATc">
-                                                    <rect key="frame" x="0.0" y="350" width="142" height="62"/>
+                                                    <rect key="frame" x="0.0" y="140" width="142" height="62"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="62" id="Qx3-wB-nHn"/>
                                                     </constraints>
@@ -1905,49 +1887,46 @@
                                                         <action selector="goFilesArchive:" destination="b1k-XW-nsE" eventType="touchUpInside" id="4Va-Y2-y5q"/>
                                                     </connections>
                                                 </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V6f-l2-Unb">
+                                                    <rect key="frame" x="0.0" y="210" width="142" height="62"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="62" id="oeD-vG-ZEl"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="14"/>
+                                                    <state key="normal" title="محادثة فورية">
+                                                        <color key="titleColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </state>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G6a-gj-qPD">
+                                                    <rect key="frame" x="0.0" y="280" width="142" height="62"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="62" id="UMv-KA-SUh"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="14"/>
+                                                    <state key="normal" title=" الشكاوي والاستفسارات">
+                                                        <color key="titleColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="callBtnAction:" destination="b1k-XW-nsE" eventType="touchUpInside" id="ekn-9R-zUR"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Vb-Ae-qzU">
+                                                    <rect key="frame" x="0.0" y="350" width="142" height="62"/>
+                                                    <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="14"/>
+                                                    <state key="normal" title="حسابي">
+                                                        <color key="titleColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="goProfile:" destination="b1k-XW-nsE" eventType="touchUpInside" id="9pM-h7-fQe"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                         </stackView>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ef0-FM-5ss">
                                             <rect key="frame" x="157" y="0.0" width="62" height="412"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Uy-xM-kL8">
-                                                    <rect key="frame" x="0.0" y="0.0" width="62" height="62"/>
-                                                    <color key="backgroundColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="62" id="03d-zO-n7Q"/>
-                                                        <constraint firstAttribute="width" constant="62" id="CNB-j7-78x"/>
-                                                    </constraints>
-                                                    <color key="tintColor" red="0.2274509804" green="0.22352941179999999" blue="0.2156862745" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <state key="normal" image="profileImg"/>
-                                                    <connections>
-                                                        <action selector="goProfile:" destination="b1k-XW-nsE" eventType="touchUpInside" id="iIq-TM-bgF"/>
-                                                    </connections>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vwp-he-WJc">
-                                                    <rect key="frame" x="0.0" y="70" width="62" height="62"/>
-                                                    <color key="backgroundColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="62" id="1fC-5q-ydE"/>
-                                                        <constraint firstAttribute="width" constant="62" id="XQe-HB-BGG"/>
-                                                    </constraints>
-                                                    <color key="tintColor" red="0.2274509804" green="0.22352941179999999" blue="0.2156862745" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <state key="normal" image="filterRules"/>
-                                                    <connections>
-                                                        <action selector="callBtnAction:" destination="b1k-XW-nsE" eventType="touchUpInside" id="qEW-es-A10"/>
-                                                    </connections>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VUO-2l-QKN">
-                                                    <rect key="frame" x="0.0" y="140" width="62" height="62"/>
-                                                    <color key="backgroundColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="62" id="fyK-t7-SfE"/>
-                                                        <constraint firstAttribute="width" constant="62" id="s5W-tJ-tXM"/>
-                                                    </constraints>
-                                                    <color key="tintColor" red="0.2274509804" green="0.22352941179999999" blue="0.2156862745" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <state key="normal" image="filterChat"/>
-                                                </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JjN-KK-66z">
-                                                    <rect key="frame" x="0.0" y="210" width="62" height="62"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="62" height="62"/>
                                                     <color key="backgroundColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="62" id="d3k-qF-grq"/>
@@ -1960,7 +1939,7 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MYi-oj-coL">
-                                                    <rect key="frame" x="0.0" y="280" width="62" height="62"/>
+                                                    <rect key="frame" x="0.0" y="70" width="62" height="62"/>
                                                     <color key="backgroundColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="62" id="65K-YX-lAE"/>
@@ -1973,7 +1952,7 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1q1-5Q-Ie5">
-                                                    <rect key="frame" x="0.0" y="350" width="62" height="62"/>
+                                                    <rect key="frame" x="0.0" y="140" width="62" height="62"/>
                                                     <color key="backgroundColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="62" id="WXR-iv-ggA"/>
@@ -1983,6 +1962,42 @@
                                                     <state key="normal" image="filterFiles"/>
                                                     <connections>
                                                         <action selector="goFilesArchive:" destination="b1k-XW-nsE" eventType="touchUpInside" id="b0g-On-AOv"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VUO-2l-QKN">
+                                                    <rect key="frame" x="0.0" y="210" width="62" height="62"/>
+                                                    <color key="backgroundColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="62" id="fyK-t7-SfE"/>
+                                                        <constraint firstAttribute="width" constant="62" id="s5W-tJ-tXM"/>
+                                                    </constraints>
+                                                    <color key="tintColor" red="0.2274509804" green="0.22352941179999999" blue="0.2156862745" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <state key="normal" image="filterChat"/>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vwp-he-WJc">
+                                                    <rect key="frame" x="0.0" y="280" width="62" height="62"/>
+                                                    <color key="backgroundColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="62" id="1fC-5q-ydE"/>
+                                                        <constraint firstAttribute="width" constant="62" id="XQe-HB-BGG"/>
+                                                    </constraints>
+                                                    <color key="tintColor" red="0.2274509804" green="0.22352941179999999" blue="0.2156862745" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <state key="normal" image="filterRules"/>
+                                                    <connections>
+                                                        <action selector="callBtnAction:" destination="b1k-XW-nsE" eventType="touchUpInside" id="qEW-es-A10"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Uy-xM-kL8">
+                                                    <rect key="frame" x="0.0" y="350" width="62" height="62"/>
+                                                    <color key="backgroundColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="62" id="03d-zO-n7Q"/>
+                                                        <constraint firstAttribute="width" constant="62" id="CNB-j7-78x"/>
+                                                    </constraints>
+                                                    <color key="tintColor" red="0.2274509804" green="0.22352941179999999" blue="0.2156862745" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <state key="normal" image="profileImg"/>
+                                                    <connections>
+                                                        <action selector="goProfile:" destination="b1k-XW-nsE" eventType="touchUpInside" id="iIq-TM-bgF"/>
                                                     </connections>
                                                 </button>
                                             </subviews>

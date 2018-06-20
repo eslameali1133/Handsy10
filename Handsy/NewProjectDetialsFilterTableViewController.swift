@@ -63,6 +63,8 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         }
     }
     
+    @IBOutlet weak var contractAlertLabel: UILabel!
+    
     @IBOutlet weak var MoneyDetialsBtnOut: UIButton!{
         didSet {
             DispatchQueue.main.async {
@@ -220,6 +222,8 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         super.viewDidLoad()
         newVisitsCountLabel.isHidden = true
         cancelProView.isHidden = true
+        MoneyDetialsBtnOut.isHidden = true
+        contractAlertLabel.isHidden = true
         statusView.roundCorners([.topLeft, .topRight], radius: 10)
         contractBtn.isHidden = true
 //        if norma != "" {
@@ -382,23 +386,36 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     }
     
     func setSecondSection() {
+//        let condition = ProjectOfResult[0].ProjectStatusNum
+//        if condition == "1" {
+//            MoneyDetialsBtnOut.isHidden = true
+//            contractAlertLabel.isHidden = false
+//        } else {
+//            MoneyDetialsBtnOut.isHidden = false
+//            contractAlertLabel.isHidden = true
+//        }
         if ProjectOfResult[0].ProjectContract == "1" {
             contractBtn.isHidden = false
             contractBtn.isEnabled = true
             contractBtn.setImage(#imageLiteral(resourceName: "NewConterct"), for: .normal)
             newContractOut.isHidden = false
             contractBtnOut.isHidden = false
-        } else if ProjectContract == "2" {
-            contractBtn.isEnabled = false
-            contractBtn.setImage(#imageLiteral(resourceName: "Subtraction"), for: .disabled)
-            newContractOut.isHidden = true
-            contractBtnOut.isHidden = true
-        } else {
+            MoneyDetialsBtnOut.isHidden = true
+            contractAlertLabel.isHidden = false
+        } else if ProjectOfResult[0].ProjectContract == "3" {
             contractBtn.isEnabled = true
             contractBtn.setImage(#imageLiteral(resourceName: "NewConterct"), for: .normal)
             contractBtn.isHidden = false
             newContractOut.isHidden = true
             contractBtnOut.isHidden = true
+            MoneyDetialsBtnOut.isHidden = false
+            contractAlertLabel.isHidden = true
+        } else {
+            contractBtn.isHidden = true
+            newContractOut.isHidden = true
+            contractBtnOut.isHidden = true
+            MoneyDetialsBtnOut.isHidden = true
+            contractAlertLabel.isHidden = false
         }
         tableView.reloadData()
        
@@ -941,45 +958,55 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     }
     
     @IBAction func goDesignsViewController(_ sender: UIButton) {
-        let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
-        let secondView = storyBoard.instantiateViewController(withIdentifier: "DesignsOfProjectViewController") as! DesignsOfProjectViewController
-        secondView.ProjectId = self.ProjectOfResult[0].ProjectId!
-        secondView.projectTitleView = "(\(self.ProjectOfResult[0].ProjectTitle!)"+" - "+"\(self.ProjectOfResult[0].ProjectTypeName!))"
-        secondView.ComapnyName = self.ProjectOfResult[0].ComapnyName!
-        secondView.Logo = self.ProjectOfResult[0].Logo!
-        secondView.CompanyInfoID = self.ProjectOfResult[0].CompanyInfoID!
-        if Reachability.isConnectedToNetwork(){
-            print("Internet Connection Available!")
-            secondView.EmpMobile = self.ProjectOfResult[0].EmpMobile!
-        }else{
-            secondView.EmpMobile = self.EmpMobile
+        let desCount = self.ProjectOfResult[0].DesignCount!
+        if desCount == "" || desCount == "0" {
+            Toast.long(message: "لا يوجد لك تصاميم حالياً")
+        } else {
+            let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
+            let secondView = storyBoard.instantiateViewController(withIdentifier: "DesignsOfProjectViewController") as! DesignsOfProjectViewController
+            secondView.ProjectId = self.ProjectOfResult[0].ProjectId!
+            secondView.projectTitleView = "(\(self.ProjectOfResult[0].ProjectTitle!)"+" - "+"\(self.ProjectOfResult[0].ProjectTypeName!))"
+            secondView.ComapnyName = self.ProjectOfResult[0].ComapnyName!
+            secondView.Logo = self.ProjectOfResult[0].Logo!
+            secondView.CompanyInfoID = self.ProjectOfResult[0].CompanyInfoID!
+            if Reachability.isConnectedToNetwork(){
+                print("Internet Connection Available!")
+                secondView.EmpMobile = self.ProjectOfResult[0].EmpMobile!
+            }else{
+                secondView.EmpMobile = self.EmpMobile
+            }
+            secondView.EmpName = self.ProjectOfResult[0].EmpName!
+            secondView.LatBranch = self.ProjectOfResult[0].LatBranch
+            secondView.LngBranch = self.ProjectOfResult[0].LngBranch
+            secondView.ProjectOfResult = ProjectOfResult
+            self.navigationController?.pushViewController(secondView, animated: true)
         }
-        secondView.EmpName = self.ProjectOfResult[0].EmpName!
-        secondView.LatBranch = self.ProjectOfResult[0].LatBranch
-        secondView.LngBranch = self.ProjectOfResult[0].LngBranch
-        secondView.ProjectOfResult = ProjectOfResult
-        self.navigationController?.pushViewController(secondView, animated: true)
     }
     
     @IBAction func goVisitsViewController(_ sender: UIButton) {
-        let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
-        let secondView = storyBoard.instantiateViewController(withIdentifier: "VisitsOfProjectsViewController") as! VisitsOfProjectsViewController
-        secondView.ProjectId = self.ProjectOfResult[0].ProjectId!
-        secondView.projectTitleView = "(\(self.ProjectOfResult[0].ProjectTitle!)"+" - "+"\(self.ProjectOfResult[0].ProjectTypeName!))"
-        secondView.ComapnyName = self.ProjectOfResult[0].ComapnyName!
-        secondView.Logo = self.ProjectOfResult[0].Logo!
-        secondView.CompanyInfoID = self.ProjectOfResult[0].CompanyInfoID!
-        if Reachability.isConnectedToNetwork(){
-            print("Internet Connection Available!")
-            secondView.EmpMobile = self.ProjectOfResult[0].EmpMobile!
-        }else{
-            secondView.EmpMobile = self.EmpMobile
+        let meetingCount = self.ProjectOfResult[0].MeetingNotifiCount!
+        if meetingCount == "" || meetingCount == "0" {
+            Toast.long(message: "لا يوجد زيارات لك حالياً")
+        }else {
+            let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
+            let secondView = storyBoard.instantiateViewController(withIdentifier: "VisitsOfProjectsViewController") as! VisitsOfProjectsViewController
+            secondView.ProjectId = self.ProjectOfResult[0].ProjectId!
+            secondView.projectTitleView = "(\(self.ProjectOfResult[0].ProjectTitle!)"+" - "+"\(self.ProjectOfResult[0].ProjectTypeName!))"
+            secondView.ComapnyName = self.ProjectOfResult[0].ComapnyName!
+            secondView.Logo = self.ProjectOfResult[0].Logo!
+            secondView.CompanyInfoID = self.ProjectOfResult[0].CompanyInfoID!
+            if Reachability.isConnectedToNetwork(){
+                print("Internet Connection Available!")
+                secondView.EmpMobile = self.ProjectOfResult[0].EmpMobile!
+            }else{
+                secondView.EmpMobile = self.EmpMobile
+            }
+            secondView.EmpName = self.ProjectOfResult[0].EmpName!
+            secondView.LatBranch = LatBranch
+            secondView.LngBranch = LngBranch
+            secondView.ProjectOfResult = ProjectOfResult
+            self.navigationController?.pushViewController(secondView, animated: true)
         }
-        secondView.EmpName = self.ProjectOfResult[0].EmpName!
-        secondView.LatBranch = LatBranch
-        secondView.LngBranch = LngBranch
-        secondView.ProjectOfResult = ProjectOfResult
-        self.navigationController?.pushViewController(secondView, animated: true)
     }
     
     
