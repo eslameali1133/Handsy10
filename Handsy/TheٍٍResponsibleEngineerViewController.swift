@@ -98,7 +98,7 @@ class TheResponsibleEngineerViewController: UIViewController, GMSMapViewDelegate
         mapView.camera = GMSCameraPosition.camera(withLatitude: dLati, longitude: dLang, zoom: dZoom)
         mapView.animate(toZoom: dZoom)
 //        GMSMapView.map(withFrame: CGRect.zero, camera: mapView.camera)
-        mapView.isMyLocationEnabled = true
+//        mapView.isMyLocationEnabled = true
 
         // Creates a marker in the center of the map.
         let marker = GMSMarker()
@@ -160,7 +160,26 @@ class TheResponsibleEngineerViewController: UIViewController, GMSMapViewDelegate
     
     
     @IBAction func directionsAction(_ sender: UIButton) {
-        openMapsForLocation()
+        let dLati = Double(BranchLat) ?? 0.0
+        let dLang = Double(BranchLng) ?? 0.0
+        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
+        
+        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
+            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(dLati),\(dLang)&zoom=14&views=traffic&q=\(dLati),\(dLang)")!, options: [:], completionHandler: nil)
+            } else {
+                print("Can't use comgooglemaps://")
+                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(dLati),\(dLang)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+            }
+        }))
+        
+        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
+            self.openMapsForLocation()
+        }))
+        
+        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+        }))
+        self.present(alertAction, animated: true, completion: nil)
     }
     
     func openMapsForLocation() {

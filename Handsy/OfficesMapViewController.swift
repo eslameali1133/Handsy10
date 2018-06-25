@@ -487,7 +487,26 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     @IBAction func directionsAction(_ sender: UIButton) {
-        openMapsForLocation()
+        let dLati = arrayOfResulr[indexi!].Lat
+        let dLang = arrayOfResulr[indexi!].Long
+        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
+        
+        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
+            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(dLati),\(dLang)&zoom=14&views=traffic&q=\(dLati),\(dLang)")!, options: [:], completionHandler: nil)
+            } else {
+                print("Can't use comgooglemaps://")
+                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(dLati),\(dLang)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+            }
+        }))
+        
+        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
+            self.openMapsForLocation()
+        }))
+        
+        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+        }))
+        self.present(alertAction, animated: true, completion: nil)
     }
     
     func openMapsForLocation() {

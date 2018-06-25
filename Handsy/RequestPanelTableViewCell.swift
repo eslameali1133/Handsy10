@@ -13,7 +13,9 @@ class RequestPanelTableViewCell: UITableViewCell {
     @IBOutlet weak var nameOfProject: UILabel!
     @IBOutlet weak var infoHeaderView: UIView!{
         didSet {
-            infoHeaderView.roundCorners([.topLeft, .topRight], radius: 10)
+            DispatchQueue.main.async {
+                self.infoHeaderView.roundCorners([.topLeft, .topRight], radius: 10)
+            }
         }
     }
     @IBOutlet weak var projectType: UILabel!

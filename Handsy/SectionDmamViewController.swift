@@ -160,7 +160,24 @@ class SectionDmamViewController: UIViewController, GMSMapViewDelegate {
     
     
     @IBAction func directionsAction(_ sender: UIButton) {
-        openMapsForLocation()
+        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
+        
+        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
+            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(self.BranchLat),\(self.BranchLng)&zoom=14&views=traffic&q=\(self.BranchLat),\(self.BranchLng)")!, options: [:], completionHandler: nil)
+            } else {
+                print("Can't use comgooglemaps://")
+                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(self.BranchLat),\(self.BranchLng)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+            }
+        }))
+        
+        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
+            self.openMapsForLocation()
+        }))
+        
+        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+        }))
+        self.present(alertAction, animated: true, completion: nil)
     }
     
     func openMapsForLocation() {

@@ -237,6 +237,9 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
         if section == 0  && projectImagesArr.count == 0{
             return 0.0
         }
+        if section == 2 && self.AboutTextView.text == "" && self.experienceTitleLabel.text == "" {
+            return 0.0
+        }
         if section == 3 && getTeamImagesArr.count == 0{
             return 0.0
         }
@@ -247,6 +250,11 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0{
             if indexPath.row == 0 && projectImagesArr.count == 0 {
+                return 0.0
+            }
+        }
+        if indexPath.section == 2 {
+            if indexPath.row == 0 && self.AboutTextView.text == "" && self.experienceTitleLabel.text == "" {
                 return 0.0
             }
         }
@@ -315,18 +323,10 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
                 UIViewController.removeSpinner(spinner: sv)
             case .failure(let error):
                 print(error)
-                let alertAction = UIAlertController(title: "خطاء في الاتصال", message: "اعادة المحاولة", preferredStyle: .alert)
-                
-                alertAction.addAction(UIAlertAction(title: "نعم", style: .default, handler: { action in
-                    self.GetAbout()
-                }))
-                
-                alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
-                    UIViewController.removeSpinner(spinner: sv)
-                }))
-                
-                self.present(alertAction, animated: true, completion: nil)
-                
+                self.AboutTextView.text = ""
+                self.experienceTitleLabel.text = ""
+                UIViewController.removeSpinner(spinner: sv)
+                self.tableView.reloadData()
             }
             
             //            self.ExperTitle = json["ExperienceTitle"].stringValue
@@ -485,13 +485,12 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
     }
     
     func get() {
-      
         
         //        let dZoom = Float(ZoomPrj) ?? 0.0
         mapView.animate(toBearing: 90)
         mapView.camera = GMSCameraPosition.camera(withLatitude: Lat, longitude: Long, zoom: 17)
         //        GMSMapView.map(withFrame: CGRect.zero, camera: mapView.camera)
-        mapView.isMyLocationEnabled = true
+//        mapView.isMyLocationEnabled = true
         
         // Creates a marker in the center of the map.
         marker.position = CLLocationCoordinate2D(latitude: Lat, longitude: Long)
@@ -502,19 +501,18 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
         
         mapView.delegate = self
         
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
+//        locationManager.delegate = self
+//        locationManager.requestWhenInUseAuthorization()
         
     }
     
     func getMapOffline() {
         
-        
         //        let dZoom = Float(ZoomPrj) ?? 0.0
         mapView.animate(toBearing: 90)
         mapView.camera = GMSCameraPosition.camera(withLatitude: detialsOfOfficeArray[0].Lat!, longitude: detialsOfOfficeArray[0].Long!, zoom: 17)
         //        GMSMapView.map(withFrame: CGRect.zero, camera: mapView.camera)
-        mapView.isMyLocationEnabled = true
+//        mapView.isMyLocationEnabled = true
         
         // Creates a marker in the center of the map.
         marker.position = CLLocationCoordinate2D(latitude: detialsOfOfficeArray[0].Lat!, longitude: detialsOfOfficeArray[0].Long!)
@@ -525,9 +523,9 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
         
         mapView.delegate = self
         
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        
+//        locationManager.delegate = self
+//        locationManager.requestWhenInUseAuthorization()
+//
     }
     
     override func didReceiveMemoryWarning() {
@@ -723,7 +721,25 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
 extension DetailsOfOfficeTableViewController: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        openMapsForLocation()
+        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
+        
+        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
+            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(self.Lat),\(self.Long)&zoom=14&views=traffic&q=\(self.Lat),\(self.Long)")!, options: [:], completionHandler: nil)
+            } else {
+                print("Can't use comgooglemaps://")
+                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(self.Lat),\(self.Long)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+            }
+        }))
+        
+        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
+            self.openMapsForLocation()
+        }))
+        
+        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+        }))
+        self.present(alertAction, animated: true, completion: nil)
+        
         return true
     }
     

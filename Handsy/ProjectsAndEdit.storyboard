@@ -3961,7 +3961,7 @@
                                                             <rect key="frame" x="10" y="10" width="70" height="70.5"/>
                                                         </imageView>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plus" translatesAutoresizingMaskIntoConstraints="NO" id="Xx3-fE-Xoq">
-                                                            <rect key="frame" x="-0.5" y="0.0" width="90.5" height="90.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="90.5" height="90.5"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="Xx3-fE-Xoq" secondAttribute="height" multiplier="1:1" id="fC7-EQ-k75"/>
                                                             </constraints>

@@ -1382,17 +1382,18 @@
                                     </constraints>
                                 </imageView>
                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="gDT-SS-tUT">
-                                    <rect key="frame" x="80" y="103" width="186" height="34"/>
+                                    <rect key="frame" x="62" y="103" width="204" height="34"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="erw-lC-uxQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="102" height="34"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="120" height="34"/>
                                             <color key="backgroundColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.21176470589999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="102" id="1gr-hC-xJP"/>
+                                                <constraint firstAttribute="width" constant="120" id="1gr-hC-xJP"/>
                                                 <constraint firstAttribute="height" constant="34" id="ZrU-qZ-num"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                            <state key="normal" title="تعديل" image="pens">
+                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
+                                            <state key="normal" title="تغيير المكتب" image="pens">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </state>
                                             <connections>
@@ -1400,7 +1401,7 @@
                                             </connections>
                                         </button>
                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="nHc-Ks-9OP">
-                                            <rect key="frame" x="110" y="0.0" width="76" height="34"/>
+                                            <rect key="frame" x="128" y="0.0" width="76" height="34"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ehn-fd-PHY">
                                                     <rect key="frame" x="0.0" y="0.0" width="34" height="34"/>

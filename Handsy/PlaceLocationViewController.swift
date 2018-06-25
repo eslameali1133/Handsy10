@@ -34,7 +34,7 @@ class PlaceLocationViewController: UIViewController, GMSMapViewDelegate {
             mapType.setImage(#imageLiteral(resourceName: "google-drive-image copy copy"), for: .normal)
         }
         
-        mapView.isMyLocationEnabled = true
+//        mapView.isMyLocationEnabled = true
         // Do any additional setup after loading the view.
     }
     
@@ -81,7 +81,24 @@ class PlaceLocationViewController: UIViewController, GMSMapViewDelegate {
         
     }
     @IBAction func directionsAction(_ sender: UIButton) {
-        openMapsForLocation()
+        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
+        
+        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
+            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(self.latitudeDer!),\(self.lngitudeDer!)&zoom=14&views=traffic&q=\(self.latitudeDer!),\(self.lngitudeDer!)")!, options: [:], completionHandler: nil)
+            } else {
+                print("Can't use comgooglemaps://")
+                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(self.latitudeDer!),\(self.lngitudeDer!)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+            }
+        }))
+        
+        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
+            self.openMapsForLocation()
+        }))
+        
+        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+        }))
+        self.present(alertAction, animated: true, completion: nil)
     }
     
     func openMapsForLocation() {
@@ -103,7 +120,7 @@ class PlaceLocationViewController: UIViewController, GMSMapViewDelegate {
         //        mapView.camera = GMSCameraPosition.camera(withTarget: target
         //            , zoom: Z)
         mapView.delegate = self
-        mapView.isMyLocationEnabled = true
+//        mapView.isMyLocationEnabled = true
         var zooml = Z
         if zooml == 0.0 {
             zooml = 17

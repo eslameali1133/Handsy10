@@ -118,11 +118,8 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     
     var searchResu:[GetProjectEngCustByCustID] = [GetProjectEngCustByCustID]()
     var index: Int?
-    
     var ProjectOfResult: [ProjectDetialsArray] = [ProjectDetialsArray]()
     var projectsDetialsModel: ProjectsDetialsModel = ProjectsDetialsModel()
-    
-    
     var BranchID: String = ""
     var BranchName: String = ""
     var ProjectsPaymentsCost: String = ""
@@ -224,7 +221,9 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         cancelProView.isHidden = true
         MoneyDetialsBtnOut.isHidden = true
         contractAlertLabel.isHidden = true
-        statusView.roundCorners([.topLeft, .topRight], radius: 10)
+        DispatchQueue.main.async {
+            self.statusView.roundCorners([.topLeft, .topRight], radius: 10)
+        }
         contractBtn.isHidden = true
 //        if norma != "" {
 //            navigationItem.title = ProjectTitle
@@ -256,6 +255,21 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             self.tableView.addSubview(self.detialsBtnView)
         }
         
+        if nou == "" {
+            
+        } else if norma != "" {
+            
+        } else {
+            if nour == "loll" {
+                
+            }else {
+                addBackBarButtonItem()
+            }
+        }
+        // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
             GetProjectByProjectId()
@@ -280,20 +294,6 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             self.BtnSettingFunc()
             tableView.reloadData()
         }
-        
-        
-        if nou == "" {
-            
-        } else if norma != "" {
-            
-        } else {
-            if nour == "loll" {
-                
-            }else {
-                addBackBarButtonItem()
-            }
-        }
-        // Do any additional setup after loading the view.
     }
     
     func addBackBarButtonItem() {
@@ -890,11 +890,26 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     @IBAction func VisubleContractAction(_ sender: UIButton) {
         let openContract = self.ProjectOfResult[0].projectOrderContractPhotoPath!
         print(self.ProjectOfResult[0].projectOrderContractPhotoPath!)
-        let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle:nil)
-        let secondView = storyBoard.instantiateViewController(withIdentifier: "openPdfViewController") as! openPdfViewController
-        secondView.url = openContract
-        secondView.Webtitle = "العقد"
-        self.navigationController?.pushViewController(secondView, animated: true)
+        if ProjectContract == "1" {
+            let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
+            let secondView = storyBoard.instantiateViewController(withIdentifier: "ShowContractViewController") as! ShowContractViewController
+            secondView.url = openContract
+            secondView.ProjectId = ProjectId
+            secondView.Webtitle = "العقد"
+            self.navigationController?.pushViewController(secondView, animated: true)
+        } else if ProjectContract == "2" {
+            let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle:nil)
+            let secondView = storyBoard.instantiateViewController(withIdentifier: "openPdfViewController") as! openPdfViewController
+            secondView.url = openContract
+            secondView.Webtitle = "العقد"
+            self.navigationController?.pushViewController(secondView, animated: true)
+        } else {
+            let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle:nil)
+            let secondView = storyBoard.instantiateViewController(withIdentifier: "openPdfViewController") as! openPdfViewController
+            secondView.url = openContract
+            secondView.Webtitle = "العقد"
+            self.navigationController?.pushViewController(secondView, animated: true)
+        }
     }
     
     @IBAction func openMoneyViewController(_ sender: UIButton) {

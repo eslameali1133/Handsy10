@@ -58,6 +58,7 @@ UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: UI
         UserDefaults.standard.set(token, forKey: "token")
         let udidKey = UIDevice.current.identifierForVendor!.uuidString
         UserDefaults.standard.set(udidKey, forKey: "udidKey")
+        print("udidKey: \(udidKey)")
         
         if let userInfo = launchOptions?[UIApplicationLaunchOptionsKey.remoteNotification] as? [String: AnyObject] {
             let storyboard:UIStoryboard = UIStoryboard(name: "NewHome", bundle: nil)
