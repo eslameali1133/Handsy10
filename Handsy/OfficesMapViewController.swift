@@ -172,22 +172,11 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
     var resultsText = "نتائج البحث : "
     var resultsText1 = ""
     var resultsText2 = ""
-        
+    var conditionCount = 0
     override func viewDidLoad() {
         super.viewDidLoad()
         addBackBarButtonItem()
-        if SortExp == "-1" || SortExp == "" || SortExp == nil{
-            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
-            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-            self.filterOfficeTypeOut.layer.borderWidth = 1.0
-            self.filterOfficeTypeOut.layer.masksToBounds = true
-        }else {
-            self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
-            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
-            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
-            self.filterOfficeTypeOut.layer.borderWidth = 1.0
-            self.filterOfficeTypeOut.layer.masksToBounds = true
-        }
+        addFilterOfficeTypeOut()
         title = "الخريطة" 
         if #available(iOS 11.0, *) {
             self.navigationController?.navigationBar.prefersLargeTitles = false
@@ -222,12 +211,10 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
         }
         PopUpView.isHidden = true
         self.navigationItem.hidesBackButton = true
-        mapView.delegate = self
+        popUpLocation()
         GetOfficesByProvincesID(SortBy: "1", SortExp: "")
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
         
-        //        mapView.delegate = self
+        mapView.delegate = self
         mapView.mapType = .terrain
         if mapView.mapType == .satellite {
             mapType.setImage(#imageLiteral(resourceName: "landscape-with-mountains"), for: .normal)
@@ -271,6 +258,56 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
         searchController?.hidesNavigationBarDuringPresentation = false
     }
     
+    func popUpLocation() {
+        if let conditionCount = UserDefaults.standard.string(forKey: "conditionCount"){
+            if conditionCount == "0" {
+                let alertAction = UIAlertController(title: "تفعيل الموقع", message: "اضغط موافقة لتتمكن من رؤية المكاتب والمهندسين على الخريطة والاختيار", preferredStyle: .alert)
+                
+                alertAction.addAction(UIAlertAction(title: "موافقة", style: .default, handler: { action in
+                    UserDefaults.standard.set("1", forKey: "conditionCount")
+                }))
+                
+                alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+                    self.navigationController!.popViewController(animated: true)
+                }))
+                self.present(alertAction, animated: true, completion: nil)
+            }else{
+                self.locationManager.delegate = self
+                self.locationManager.requestWhenInUseAuthorization()
+            }
+        }else {
+            if conditionCount == 0 {
+                let alertAction = UIAlertController(title: "تفعيل الموقع", message: "اضغط موافقة لتتمكن من رؤية المكاتب والمهندسين على الخريطة والاختيار", preferredStyle: .alert)
+                
+                alertAction.addAction(UIAlertAction(title: "موافقة", style: .default, handler: { action in
+                    UserDefaults.standard.set("1", forKey: "conditionCount")
+                    self.locationManager.delegate = self
+                    self.locationManager.requestWhenInUseAuthorization()
+                }))
+                
+                alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+                    self.navigationController!.popViewController(animated: true)
+                }))
+                self.present(alertAction, animated: true, completion: nil)
+            }
+        }
+        
+    }
+    
+    func addFilterOfficeTypeOut() {
+        if SortExp == "-1" || SortExp == "" || SortExp == nil{
+            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.filterOfficeTypeOut.layer.borderWidth = 1.0
+            self.filterOfficeTypeOut.layer.masksToBounds = true
+        }else {
+            self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.filterOfficeTypeOut.layer.borderWidth = 1.0
+            self.filterOfficeTypeOut.layer.masksToBounds = true
+        }
+    }
     
     @IBAction func mapTypeAction(_ sender: UIButton) {
         if mapView.mapType == .satellite {
@@ -409,8 +446,6 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
                 self.cam = Double(self.mapView.camera.zoom)
                 print("zoom: \(Double(self.mapView.camera.zoom))")
             }
-            
-            
             UIViewController.removeSpinner(spinner: sv)
         }
         
@@ -607,7 +642,6 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
         self.barOut.isUserInteractionEnabled = true
         self.PopUpView.isUserInteractionEnabled = true
         self.searchController?.searchBar.isUserInteractionEnabled = true
-        
     }
     
     @IBAction func confirmChooseThisBtn(_ sender: UIButton) {
@@ -676,13 +710,16 @@ extension OfficesMapViewController: GMSAutocompleteResultsViewControllerDelegate
             let lat = marker.position.latitude
             let lng = marker.position.longitude
             let markerTarget = CLLocation(latitude: lat, longitude: lng)
-            let distance : CLLocationDistance = markerTarget.distance(from: targetMyLocation!)
-            if distance >= 1000 {
-                neerbeLabel.text = "يبعد عنك \(Int(distance/1000)) كيلو متر"
-            }else {
-                neerbeLabel.text = "يبعد عنك \(Int(distance)) متر"
+            if targetMyLocation != nil {
+                let distance : CLLocationDistance = markerTarget.distance(from: targetMyLocation!)
+                if distance >= 1000 {
+                    neerbeLabel.text = "يبعد عنك \(Int(distance/1000)) كيلو متر"
+                }else {
+                    neerbeLabel.text = "يبعد عنك \(Int(distance)) متر"
+                }
+                print("distance = \(Double(distance)) m")
             }
-            print("distance = \(Double(distance)) m")
+            
             print("arrc: \(arrayOfResulr.count)")
             if arrayOfResulr.count > index {
                 CompanyNameLabel.text = arrayOfResulr[index].ComapnyName

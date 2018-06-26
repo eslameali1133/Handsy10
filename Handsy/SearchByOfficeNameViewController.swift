@@ -160,11 +160,13 @@ class SearchByOfficeNameViewController: UIViewController, UITableViewDelegate, U
         let lng = offices.Long
         let markerTarget = CLLocation(latitude: lat, longitude: lng)
         let distance : CLLocationDistance = markerTarget.distance(from: resultMyLocation2!)
-        let newDistance: CLLocationDistance = markerTarget.distance(from: targetMyLocation!)
-        if newDistance > 1000 {
-            cell.NeerBeLabel.text = "يبعد عنك \(Int(newDistance/1000)) كيلو متر"
-        }else{
-            cell.NeerBeLabel.text = "يبعد عنك \(Int(newDistance)) متر"
+        if targetMyLocation != nil {
+            let newDistance: CLLocationDistance = markerTarget.distance(from: targetMyLocation!)
+            if newDistance > 1000 {
+                cell.NeerBeLabel.text = "يبعد عنك \(Int(newDistance/1000)) كيلو متر"
+            }else{
+                cell.NeerBeLabel.text = "يبعد عنك \(Int(newDistance)) متر"
+            }
         }
         
         cell.AddressLabel.text = offices.Address
@@ -219,8 +221,10 @@ class SearchByOfficeNameViewController: UIViewController, UITableViewDelegate, U
                 requestProjectObj.BranchID = json["BranchID"].stringValue
                 requestProjectObj.Address = json["Address"].stringValue
                 requestProjectObj.ProjCount = json["ProjCount"].stringValue
-                let myLocation = self.targetMyLocation!
-                self.arrayOfResulr = self.arrayOfResulr.sorted(by: { $0.distance(to: myLocation) < $1.distance(to: myLocation) })
+                if self.targetMyLocation != nil {
+                    let myLocation = self.targetMyLocation!
+                    self.arrayOfResulr = self.arrayOfResulr.sorted(by: { $0.distance(to: myLocation) < $1.distance(to: myLocation) })
+                }
                 self.arrayOfResulr.append(requestProjectObj)
             }
             

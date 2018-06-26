@@ -1582,15 +1582,15 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="318" id="wCJ-yt-x3k">
-                                        <rect key="frame" x="0.0" y="297" width="414" height="318"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="300" id="wCJ-yt-x3k">
+                                        <rect key="frame" x="0.0" y="297" width="414" height="300"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wCJ-yt-x3k" id="k4o-Hy-eyQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="318"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="c4P-RU-nUp">
-                                                    <rect key="frame" x="10" y="0.0" width="394" height="313"/>
+                                                    <rect key="frame" x="10" y="0.0" width="394" height="295"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gio-TR-yfP">
                                                             <rect key="frame" x="154" y="0.0" width="240" height="10"/>
@@ -1609,10 +1609,10 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lM1-sT-4aL">
-                                                            <rect key="frame" x="0.0" y="45" width="394" height="268"/>
+                                                            <rect key="frame" x="0.0" y="45" width="394" height="250"/>
                                                             <subviews>
                                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="LbR-Iy-SLz" customClass="KMPlaceholderTextView" customModule="Handsy" customModuleProvider="target">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="394" height="268"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="394" height="250"/>
                                                                     <color key="backgroundColor" red="0.090196078431372548" green="0.090196078431372548" blue="0.090196078431372548" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <fontDescription key="fontDescription" name="AJannatLT" family="A Jannat LT" pointSize="17"/>
@@ -1650,7 +1650,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="110" id="RQJ-WD-HmE">
-                                        <rect key="frame" x="0.0" y="615" width="414" height="110"/>
+                                        <rect key="frame" x="0.0" y="597" width="414" height="110"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="RQJ-WD-HmE" id="3Tf-l3-xKa">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="110"/>

@@ -63,6 +63,7 @@ class NewProjectDViewController: UIViewController, ImagePickerDelegate, UICollec
     var JobName = ""
     var BranchName = ""
     var zoomOffice = ""
+    var conditionCamCount = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,10 +79,7 @@ class NewProjectDViewController: UIViewController, ImagePickerDelegate, UICollec
         }
         collectionView.delegate = self
         collectionView.dataSource = self
-        
         collectionView.reloadData()
-        
-        
         // Do any additional setup after loading the view.
     }
     
@@ -133,7 +131,6 @@ class NewProjectDViewController: UIViewController, ImagePickerDelegate, UICollec
     func doneButtonDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
         AddItemPhotos += images
         imagePicker.dismiss(animated: true, completion: nil)
-        
         collectionView.reloadData()
     }
     
@@ -151,8 +148,6 @@ class NewProjectDViewController: UIViewController, ImagePickerDelegate, UICollec
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        
-        
         return AddItemPhotos.count+1
     }
     
@@ -183,16 +178,13 @@ class NewProjectDViewController: UIViewController, ImagePickerDelegate, UICollec
         let index = collectionView.indexPathForItem(at: point)?.row
         self.AddItemPhotos.remove(at: index!-1)
         collectionView.reloadData()
-        
     }
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         if indexPath.row == 0 {
-            setupPicker()
+            popUpCamera()
         } else {
-            
             let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
             let secondView = storyBoard.instantiateViewController(withIdentifier: "GalaryViewController") as! GalaryViewController
             self.navigationController?.pushViewController(secondView, animated: true)
@@ -203,7 +195,38 @@ class NewProjectDViewController: UIViewController, ImagePickerDelegate, UICollec
         }
         
     }
-    
+    func popUpCamera() {
+        if let conditionCamCount = UserDefaults.standard.string(forKey: "conditionCamCount"){
+            if conditionCamCount == "0" {
+                let alertAction = UIAlertController(title: "تفعيل الكاميرا", message: "اضغط موافقة لتتمكن من إرفاق المستندات والصور عن مشروعك", preferredStyle: .alert)
+                
+                alertAction.addAction(UIAlertAction(title: "موافقة", style: .default, handler: { action in
+                    UserDefaults.standard.set("1", forKey: "conditionCamCount")
+                    self.setupPicker()
+                }))
+                
+                alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+                }))
+                self.present(alertAction, animated: true, completion: nil)
+            }else {
+                self.setupPicker()
+            }
+        }else {
+            if conditionCamCount == 0 {
+                let alertAction = UIAlertController(title: "تفعيل الكاميرا", message: "اضغط موافقة لتتمكن من إرفاق المستندات والصور عن مشروعك", preferredStyle: .alert)
+                
+                alertAction.addAction(UIAlertAction(title: "موافقة", style: .default, handler: { action in
+                    UserDefaults.standard.set("1", forKey: "conditionCamCount")
+                    self.setupPicker()
+                }))
+                
+                alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+                }))
+                self.present(alertAction, animated: true, completion: nil)
+            }
+        }
+        
+    }
     @IBAction func BackBtn(_ sender: UIButton) {
         self.navigationController!.popViewController(animated: true)
     }
