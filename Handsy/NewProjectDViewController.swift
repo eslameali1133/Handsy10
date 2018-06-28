@@ -183,7 +183,7 @@ class NewProjectDViewController: UIViewController, ImagePickerDelegate, UICollec
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            popUpCamera()
+           self.setupPicker()
         } else {
             let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
             let secondView = storyBoard.instantiateViewController(withIdentifier: "GalaryViewController") as! GalaryViewController

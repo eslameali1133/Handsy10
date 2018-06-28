@@ -214,6 +214,7 @@
 		C1EFB88A1FD6AA6F0092732D /* OfficesMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EFB8891FD6AA6F0092732D /* OfficesMapViewController.swift */; };
 		C1F0A6992000C902006091C9 /* OtherViewCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F0A6982000C902006091C9 /* OtherViewCollectionViewController.swift */; };
 		C1F32ABA200CEE9200C69893 /* VisitsOfProjectsDetialsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F32AB9200CEE9200C69893 /* VisitsOfProjectsDetialsTableViewController.swift */; };
+		C1F5333020E53F7A00B06E5A /* FilterDesignsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F5332F20E53F7A00B06E5A /* FilterDesignsViewController.swift */; };
 		C1F6B7471F4456FB00A34526 /* AlertDoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F6B7461F4456FB00A34526 /* AlertDoneViewController.swift */; };
 		C1F6B7491F448B7200A34526 /* DetailsDesignTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F6B7481F448B7200A34526 /* DetailsDesignTableViewController.swift */; };
 		C1FA0F121F3B577800A13132 /* GetTeamGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FA0F111F3B577800A13132 /* GetTeamGallery.swift */; };
@@ -481,6 +482,7 @@
 		C1EFB8891FD6AA6F0092732D /* OfficesMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficesMapViewController.swift; sourceTree = "<group>"; };
 		C1F0A6982000C902006091C9 /* OtherViewCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherViewCollectionViewController.swift; sourceTree = "<group>"; };
 		C1F32AB9200CEE9200C69893 /* VisitsOfProjectsDetialsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsOfProjectsDetialsTableViewController.swift; sourceTree = "<group>"; };
+		C1F5332F20E53F7A00B06E5A /* FilterDesignsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDesignsViewController.swift; sourceTree = "<group>"; };
 		C1F6B7461F4456FB00A34526 /* AlertDoneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertDoneViewController.swift; sourceTree = "<group>"; };
 		C1F6B7481F448B7200A34526 /* DetailsDesignTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsDesignTableViewController.swift; sourceTree = "<group>"; };
 		C1FA0F111F3B577800A13132 /* GetTeamGallery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetTeamGallery.swift; sourceTree = "<group>"; };
@@ -863,6 +865,7 @@
 				C1EAA5D11FFA593B008C2249 /* DesignByProjectIdModel.swift */,
 				C1EAA5D31FFA5A44008C2249 /* DesignByProjectIdArray.swift */,
 				C1D06EFD1FF932300062CEA0 /* DesignDetailsTableViewController.swift */,
+				C1F5332F20E53F7A00B06E5A /* FilterDesignsViewController.swift */,
 			);
 			name = DesignsByProjectId;
 			sourceTree = "<group>";
@@ -1337,6 +1340,7 @@
 				C1714CE1201384020070A9EE /* NewProjectAlertViewController.swift in Sources */,
 				C12C6553206CF20B00793E9D /* MyProjectNotficationViewController.swift in Sources */,
 				C12C655C206D1C8600793E9D /* AllNotificationsModel.swift in Sources */,
+				C1F5333020E53F7A00B06E5A /* FilterDesignsViewController.swift in Sources */,
 				C15CEDD91F6FDF74009C4C4A /* CollectedDetialRowTableViewCell.swift in Sources */,
 				C1969C56203EE5C4001D87BA /* OfficeLoginNumTableViewController.swift in Sources */,
 				C1E707351FD8195600A58BAD /* CustomInfoWindow.swift in Sources */,

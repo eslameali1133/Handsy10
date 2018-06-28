@@ -84,14 +84,15 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     }
     @IBOutlet weak var newContractOut: UIView!
     
-    @IBOutlet weak var newVisitsCountLabel: UILabel!{
-        didSet {
-            DispatchQueue.main.async {
-                self.newVisitsCountLabel.layer.cornerRadius = self.newVisitsCountLabel.frame.width/2
-                self.newVisitsCountLabel.layer.masksToBounds = true
-            }
-        }
-    }
+    @IBOutlet weak var newVisitsCountImage: UIImageView!
+//        {
+//        didSet {
+//            DispatchQueue.main.async {
+//                self.newVisitsCountLabel.layer.cornerRadius = self.newVisitsCountLabel.frame.width/2
+//                self.newVisitsCountLabel.layer.masksToBounds = true
+//            }
+//        }
+//    }
     
     @IBOutlet weak var newDesignsCountLabel: UILabel!{
         didSet {
@@ -217,7 +218,8 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        newVisitsCountLabel.isHidden = true
+//        newVisitsCountLabel.isHidden = true
+        newVisitsCountImage.isHidden = true
         cancelProView.isHidden = true
         MoneyDetialsBtnOut.isHidden = true
         contractAlertLabel.isHidden = true
@@ -475,10 +477,12 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     func setFourthSection() {
         if ProjectOfResult[0].MeetingDate != "" {
             print("visits: \(ProjectOfResult[0].MeetingDate!)")
-            newVisitsCountLabel.isHidden = false
-            newVisitsCountLabel.text = "1"
+            newVisitsCountImage.isHidden = false
+//            newVisitsCountLabel.isHidden = false
+//            newVisitsCountLabel.text = "1"
         } else {
-            newVisitsCountLabel.isHidden = true
+            newVisitsCountImage.isHidden = true
+//            newVisitsCountLabel.isHidden = true
         }
     }
     
@@ -978,7 +982,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             Toast.long(message: "لا يوجد لك تصاميم حالياً")
         } else {
             let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
-            let secondView = storyBoard.instantiateViewController(withIdentifier: "DesignsOfProjectViewController") as! DesignsOfProjectViewController
+            let secondView = storyBoard.instantiateViewController(withIdentifier: "FilterDesignsViewController") as! FilterDesignsViewController
             secondView.ProjectId = self.ProjectOfResult[0].ProjectId!
             secondView.projectTitleView = "(\(self.ProjectOfResult[0].ProjectTitle!)"+" - "+"\(self.ProjectOfResult[0].ProjectTypeName!))"
             secondView.ComapnyName = self.ProjectOfResult[0].ComapnyName!

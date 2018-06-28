@@ -211,7 +211,8 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
         }
         PopUpView.isHidden = true
         self.navigationItem.hidesBackButton = true
-        popUpLocation()
+        self.locationManager.delegate = self
+        self.locationManager.requestWhenInUseAuthorization()
         GetOfficesByProvincesID(SortBy: "1", SortExp: "")
         
         mapView.delegate = self

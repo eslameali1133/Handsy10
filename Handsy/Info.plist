@@ -19,7 +19,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.03</string>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>3</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>tel</string>
@@ -34,13 +34,13 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) uses photos</string>
+	<string>By accessing your camera, you can attach any contracts or any images</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>$(PRODUCT_NAME) uses locations</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>By accessing your location, this app can find you a good place to eat.</string>
+	<string>By accessing your location, this app can find nearby offices and Engineers.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>$(PRODUCT_NAME) uses photos</string>
+	<string>By accessing your photo library, you can attach any contracts or any images</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AJannatLT.otf</string>
