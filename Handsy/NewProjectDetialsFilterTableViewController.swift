@@ -84,15 +84,14 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     }
     @IBOutlet weak var newContractOut: UIView!
     
-    @IBOutlet weak var newVisitsCountImage: UIImageView!
-//        {
-//        didSet {
-//            DispatchQueue.main.async {
-//                self.newVisitsCountLabel.layer.cornerRadius = self.newVisitsCountLabel.frame.width/2
-//                self.newVisitsCountLabel.layer.masksToBounds = true
-//            }
-//        }
-//    }
+    @IBOutlet weak var newVisitsCountLabel: UILabel!{
+        didSet {
+            DispatchQueue.main.async {
+                self.newVisitsCountLabel.layer.cornerRadius = self.newVisitsCountLabel.frame.width/2
+                self.newVisitsCountLabel.layer.masksToBounds = true
+            }
+        }
+    }
     
     @IBOutlet weak var newDesignsCountLabel: UILabel!{
         didSet {
@@ -218,8 +217,8 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        newVisitsCountLabel.isHidden = true
-        newVisitsCountImage.isHidden = true
+        newVisitsCountLabel.isHidden = true
+//        newVisitsCountImage.isHidden = true
         cancelProView.isHidden = true
         MoneyDetialsBtnOut.isHidden = true
         contractAlertLabel.isHidden = true
@@ -477,12 +476,12 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     func setFourthSection() {
         if ProjectOfResult[0].MeetingDate != "" {
             print("visits: \(ProjectOfResult[0].MeetingDate!)")
-            newVisitsCountImage.isHidden = false
-//            newVisitsCountLabel.isHidden = false
-//            newVisitsCountLabel.text = "1"
+//            newVisitsCountImage.isHidden = false
+            newVisitsCountLabel.isHidden = false
+            newVisitsCountLabel.text = "1"
         } else {
-            newVisitsCountImage.isHidden = true
-//            newVisitsCountLabel.isHidden = true
+//            newVisitsCountImage.isHidden = true
+            newVisitsCountLabel.isHidden = true
         }
     }
     
