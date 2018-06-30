@@ -981,7 +981,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             Toast.long(message: "لا يوجد لك تصاميم حالياً")
         } else {
             let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
-            let secondView = storyBoard.instantiateViewController(withIdentifier: "FilterDesignsViewController") as! FilterDesignsViewController
+            let secondView = storyBoard.instantiateViewController(withIdentifier: "DesignsOfProjectViewController") as! DesignsOfProjectViewController
             secondView.ProjectId = self.ProjectOfResult[0].ProjectId!
             secondView.projectTitleView = "(\(self.ProjectOfResult[0].ProjectTitle!)"+" - "+"\(self.ProjectOfResult[0].ProjectTypeName!))"
             secondView.ComapnyName = self.ProjectOfResult[0].ComapnyName!

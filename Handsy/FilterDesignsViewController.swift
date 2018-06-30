@@ -20,6 +20,8 @@ class FilterDesignsViewController: UIViewController {
     var LatBranch: Double = 0.0
     var LngBranch: Double = 0.0
     var ProjectOfResult: [ProjectDetialsArray] = [ProjectDetialsArray]()
+    var condition = ""
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,23 +36,38 @@ class FilterDesignsViewController: UIViewController {
     
 
     @IBAction func goNewDesigns(_ sender: UIButton) {
-        let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
-        let secondView = storyBoard.instantiateViewController(withIdentifier: "DesignsOfProjectViewController") as! DesignsOfProjectViewController
-        secondView.ProjectId = ProjectId
-        secondView.projectTitleView = "(\(self.ProjectOfResult[0].ProjectTitle!)"+" - "+"\(self.ProjectOfResult[0].ProjectTypeName!))"
-        secondView.ComapnyName = ComapnyName
-        secondView.Logo = Logo
-        secondView.CompanyInfoID = CompanyInfoID
-        secondView.EmpMobile = EmpMobile
-        secondView.EmpName = EmpName
-        secondView.LatBranch = LatBranch
-        secondView.LngBranch = LngBranch
-        secondView.ProjectOfResult = ProjectOfResult
-        self.navigationController?.pushViewController(secondView, animated: true)
+        if condition == "" {
+            let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
+            let secondView = storyBoard.instantiateViewController(withIdentifier: "DesignsOfProjectViewController") as! DesignsOfProjectViewController
+            secondView.ProjectId = ProjectId
+            secondView.projectTitleView = "(\(self.ProjectOfResult[0].ProjectTitle!)"+" - "+"\(self.ProjectOfResult[0].ProjectTypeName!))"
+            secondView.ComapnyName = ComapnyName
+            secondView.Logo = Logo
+            secondView.CompanyInfoID = CompanyInfoID
+            secondView.EmpMobile = EmpMobile
+            secondView.EmpName = EmpName
+            secondView.LatBranch = LatBranch
+            secondView.LngBranch = LngBranch
+            secondView.ProjectOfResult = ProjectOfResult
+            self.navigationController?.pushViewController(secondView, animated: true)
+        }else {
+            let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
+            let secondView = storyBoard.instantiateViewController(withIdentifier: "ProjectsContinueViewController") as! ProjectsContinueViewController
+            secondView.condition = "New"
+            self.navigationController?.pushViewController(secondView, animated: true)
+        }
     }
     
 
     @IBAction func goOldDesigns(_ sender: UIButton) {
+        if condition == ""{
+            
+        }else {
+            let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
+            let secondView = storyBoard.instantiateViewController(withIdentifier: "ProjectsContinueViewController") as! ProjectsContinueViewController
+            secondView.condition = "Other"
+            self.navigationController?.pushViewController(secondView, animated: true)
+        }
     }
     
 }

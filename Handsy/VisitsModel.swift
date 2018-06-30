@@ -18,18 +18,25 @@ class VisitsModel: NSObject {
     
     var delegate: VisitsModelDelegate?
     
-    func GetMeetingByCustId(view: UIView, VC: UIViewController){
+    func GetMeetingByCustId(view: UIView, VC: UIViewController, condition: String, StatusId: String){
         let sv = UIViewController.displaySpinner(onView: view)
         
         let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")!
+        var serviceName = ""
+        var parameters : Parameters = [:]
+        if condition == "New" {
+            serviceName = "GetNewMeetingsByCustID"
+            parameters = ["custId": CustmoerId]
+        }else if condition == "Other" {
+            serviceName = "GetOtherMeetingsByCustID"
+            parameters = ["custId": CustmoerId]
+        }else {
+            serviceName = "GetMeetingsByCustIDAndStatus"
+            parameters = ["custId": CustmoerId, "StatusId": StatusId]
+        }
         
-        let parameters: Parameters = [
-            "custId": CustmoerId
-        ]
-        
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetMeetingByCustId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/\(serviceName)", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
-            
             
             var arrayOfResulr = [VisitsArray]()
             switch response.result {
@@ -52,7 +59,7 @@ class VisitsModel: NSObject {
                 let alertAction = UIAlertController(title: "خطاء في الاتصال", message: "اعادة المحاولة", preferredStyle: .alert)
                 
                 alertAction.addAction(UIAlertAction(title: "نعم", style: .default, handler: { action in
-                    self.GetMeetingByCustId(view: view, VC: VC)
+                    self.GetMeetingByCustId(view: view, VC: VC, condition: condition, StatusId: StatusId)
                 }))
                 
                 alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in

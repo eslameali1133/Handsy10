@@ -19,13 +19,23 @@ class ProjectsContinueModel: NSObject {
     
     var delegate: ProjectsContinueModelDelegate?
     
-    func GetDesignsByCustID(view: UIView, VC: UIViewController){
+    func GetDesignsByCustID(view: UIView, VC: UIViewController, condition: String, StatusId: String){
         let sv = UIViewController.displaySpinner(onView: view)
         let custId = UserDefaults.standard.string(forKey: "CustmoerId")!
-        
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetDesignsByCustID?custId=\(custId)", method: .get, encoding: URLEncoding.default).responseJSON { response in
+        var serviceName = ""
+        var parameters : Parameters = [:]
+        if condition == "New" {
+            serviceName = "GetNewDesignsByCustID"
+            parameters = ["custId": custId]
+        }else if condition == "Other" {
+            serviceName = "GetOtherDesignsByCustID"
+            parameters = ["custId": custId]
+        }else {
+            serviceName = "GetDesignsByCustIDAndStatus"
+            parameters = ["custId": custId, "StatusId": StatusId]
+        }
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/\(serviceName)", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
-            
             
             var arrayOfResulr = [ProjectsContinue]()
             
@@ -51,7 +61,7 @@ class ProjectsContinueModel: NSObject {
                 let alertAction = UIAlertController(title: "خطاء في الاتصال", message: "اعادة المحاولة", preferredStyle: .alert)
                 
                 alertAction.addAction(UIAlertAction(title: "نعم", style: .default, handler: { action in
-                    self.GetDesignsByCustID(view: view, VC: VC)
+                    self.GetDesignsByCustID(view: view, VC: VC, condition: condition, StatusId: StatusId)
                 }))
                 
                 alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in

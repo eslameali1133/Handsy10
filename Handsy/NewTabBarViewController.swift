@@ -89,7 +89,8 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
     @IBAction func goVisitsArchive(_ sender: UIButton) {
         buttonsView.removeFromSuperview()
         let storyBoard : UIStoryboard = UIStoryboard(name: "VisitsAndDetails", bundle: nil)
-        let secondView = storyBoard.instantiateViewController(withIdentifier: "VisitsViewController") as! VisitsViewController
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "FilterVisitsViewController") as! FilterVisitsViewController
+        secondView.condition = "Filter"
         let topController = UIApplication.topViewController()
         topController?.show(secondView, sender: true)
     }
@@ -97,7 +98,8 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
     @IBAction func goDesignsArchive(_ sender: UIButton) {
         buttonsView.removeFromSuperview()
         let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
-        let secondView = storyBoard.instantiateViewController(withIdentifier: "ProjectsContinueViewController") as! ProjectsContinueViewController
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "FilterDesignsViewController") as! FilterDesignsViewController
+        secondView.condition = "Filter"
         let topController = UIApplication.topViewController()
         topController?.show(secondView, sender: true)
     }

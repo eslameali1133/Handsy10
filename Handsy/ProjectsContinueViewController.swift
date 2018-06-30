@@ -11,21 +11,31 @@ import Alamofire
 import SwiftyJSON
 import MapKit
 
+protocol FilterDesignsDelegate {
+    func filterDesignsByStatusId(StatusId: String, StatusName: String)
+}
+
 class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ProjectsContinueModelDelegate {
     
     var searchResu:[ProjectsContinue] = [ProjectsContinue]()
     
     let model: ProjectsContinueModel = ProjectsContinueModel()
     let designsModel: DesignsModel = DesignsModel()
+    var condition = ""
+    var StatusId = ""
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var NothingLabel: UILabel!
-    
     @IBOutlet weak var AlertImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        if condition == "New" {
+            navigationItem.title = "التصاميم الجديدة"
+        }else if condition == "Other" {
+            navigationItem.title = "التصاميم المنتهية"
+        }else {
+        }
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -41,7 +51,14 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
     override func viewWillAppear(_ animated: Bool) {
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
-            model.GetDesignsByCustID(view: self.view, VC: self)
+            if condition == "New" {
+                model.GetDesignsByCustID(view: self.view, VC: self, condition: condition, StatusId: "")
+            }else if condition == "Other" {
+                model.GetDesignsByCustID(view: self.view, VC: self, condition: condition, StatusId: "")
+            }else {
+                model.GetDesignsByCustID(view: self.view, VC: self, condition: condition, StatusId: StatusId)
+            }
+            
         }else{
             print("Internet Connection not Available!")
             designsModel.loadItems()
@@ -101,16 +118,9 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProjectsContinueTableViewCell", for: indexPath) as! ProjectsContinueTableViewCell
-        
-        cell.layer.cornerRadius = 10
-        cell.layer.borderColor = UIColor.clear.cgColor // set cell border color here
-        cell.layer.masksToBounds = true
-        
+            
         cell.officeNameLabel.text = searchResu[indexPath.section].ComapnyName
         cell.CreateDate.text = searchResu[indexPath.section].CreateDate
-        cell.EngName.text = searchResu[indexPath.section].EmpName
-        let projectTit = searchResu[indexPath.section].ProjectBildTypeName
-        cell.ProjectBildTypeName.text = "(\(projectTit))"
         cell.StagesDetailsName.text = searchResu[indexPath.section].StagesDetailsName
         cell.Details.text = searchResu[indexPath.section].Details
         cell.companyAddress.text = searchResu[indexPath.section].Address
@@ -123,34 +133,27 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
         }
         
         let status = searchResu[indexPath.section].Status
-        
+        cell.nameOfStatus.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         if status == "1"{
-            cell.Status.image = #imageLiteral(resourceName: "stat1")
+            cell.Status.backgroundColor = #colorLiteral(red: 0.8279563785, green: 0.3280953765, blue: 0, alpha: 1)
             cell.nameOfStatus.text = "انتظار الموافقة"
-            cell.nameOfStatus.textColor = #colorLiteral(red: 0.8279563785, green: 0.3280953765, blue: 0, alpha: 1)
             cell.PDF.isHidden = false
         }else if status == "2"{
-            cell.Status.image = #imageLiteral(resourceName: "stat2")
+            cell.Status.backgroundColor = #colorLiteral(red: 0.1521916687, green: 0.6835762858, blue: 0.376893878, alpha: 1)
             cell.nameOfStatus.text = "موافقة"
-            cell.nameOfStatus.textColor = #colorLiteral(red: 0.1521916687, green: 0.6835762858, blue: 0.376893878, alpha: 1)
             cell.PDF.isHidden = false
         }else if status == "3"{
-            cell.Status.image = #imageLiteral(resourceName: "stat3")
+            cell.Status.backgroundColor = #colorLiteral(red: 0.7531306148, green: 0.2227272987, blue: 0.1705473661, alpha: 1)
             cell.nameOfStatus.text = "مرفوض"
-            cell.nameOfStatus.textColor = #colorLiteral(red: 0.7531306148, green: 0.2227272987, blue: 0.1705473661, alpha: 1)
             cell.PDF.isHidden = false
         }else if status == "5"{
-            cell.Status.image = #imageLiteral(resourceName: "stat4")
+            cell.Status.backgroundColor = #colorLiteral(red: 0.9019555449, green: 0.4952987432, blue: 0.1308369637, alpha: 1)
             cell.nameOfStatus.text = "جاري العمل"
-            cell.nameOfStatus.textColor = #colorLiteral(red: 0.9019555449, green: 0.4952987432, blue: 0.1308369637, alpha: 1)
             cell.PDF.isHidden = true
         }else {
             print("error status")
             cell.PDF.isHidden = false
         }
-        
-        cell.contentView.layer.borderColor = UIColor.clear.cgColor
-        cell.contentView.layer.borderWidth = 0
         
         return cell
     }
@@ -172,33 +175,6 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
         tableView.reloadData()
         
     }
-    @IBAction func downloadPdf(_ sender: UIButton) {
-        let point = sender.convert(CGPoint.zero, to: tableView)
-        let index = tableView.indexPathForRow(at: point)?.section
-        let openPdf = searchResu[index!].DesignFile
-        download(url: openPdf)
-    }
-    
-    func download(url: String){
-        let destination: DownloadRequest.DownloadFileDestination = { _, _ in
-            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-            let date = Date(timeIntervalSinceNow: 0)
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateStyle = .medium
-            dateFormatter.timeStyle = .medium
-            dateFormatter.string(from: date)
-            let fileURL = documentsURL.appendingPathComponent("file\(date).pdf")
-            
-            return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
-        }
-        
-        Alamofire.download(url, to: destination).response { response in
-            print(response)
-            
-            
-        }
-    }
-    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDet" {
@@ -319,5 +295,11 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
                 application.open(phoneCallURL, options: [:], completionHandler: nil)
             }
         }
+    }
+}
+
+extension ProjectsContinueViewController: FilterDesignsDelegate {
+    func filterDesignsByStatusId(StatusId: String, StatusName: String) {
+        model.GetDesignsByCustID(view: self.view, VC: self, condition: "", StatusId: StatusId)
     }
 }

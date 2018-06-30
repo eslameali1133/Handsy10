@@ -11,14 +11,18 @@ import UIKit
 class ProjectsContinueTableViewCell: UITableViewCell {
     
     @IBOutlet weak var officeNameLabel: UILabel!
-    @IBOutlet weak var ProjectBildTypeName: UILabel!
     @IBOutlet weak var StagesDetailsName: UILabel!
     @IBOutlet weak var CreateDate: UILabel!
     
-    @IBOutlet weak var EngName: UILabel!
     @IBOutlet weak var companyAddress: UILabel!
     @IBOutlet weak var Details: UILabel!
-    @IBOutlet weak var Status: UIImageView!
+    @IBOutlet weak var Status: UIView!{
+        didSet {
+            DispatchQueue.main.async {
+                self.Status.roundCorners(.bottomRight, radius: 10.0)
+            }
+        }
+    }
     @IBOutlet weak var nameOfStatus: UILabel!
     @IBOutlet weak var CompanyLogoImage: UIImageView!{
         didSet {
@@ -28,39 +32,13 @@ class ProjectsContinueTableViewCell: UITableViewCell {
             }
         }
     }
-    @IBOutlet weak var officeDirection: UIButton!{
+    @IBOutlet weak var projectDetials: UIButton!{
         didSet {
-            officeDirection.layer.borderWidth = 1.0
-            officeDirection.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
-            officeDirection.layer.cornerRadius = 4.0
+            projectDetials.layer.borderWidth = 1.0
+            projectDetials.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            projectDetials.layer.cornerRadius = 4.0
         }
     }
-    @IBOutlet weak var callBtn: UIButton!{
-        didSet {
-            callBtn.layer.borderWidth = 1.0
-            callBtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
-            callBtn.layer.cornerRadius = 4.0
-        }
-    }
-    
-    
-    @IBOutlet weak var messageChat: UIButton!{
-        didSet {
-            messageChat.layer.borderWidth = 1.0
-            messageChat.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
-            messageChat.layer.cornerRadius = 4.0
-        }
-    }
-    
-    @IBOutlet weak var callEng: UIButton!{
-        didSet {
-            callEng.layer.borderWidth = 1.0
-            callEng.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
-            callEng.layer.cornerRadius = 4.0
-        }
-    }
-    
-    @IBOutlet weak var BtnOutlet: UIStackView!
     
     @IBOutlet weak var PDF: UIButton!{
         didSet {
@@ -69,27 +47,12 @@ class ProjectsContinueTableViewCell: UITableViewCell {
             }
         }
     }
-    
-    @IBOutlet weak var designDetials: UIButton!{
-        didSet {
-            designDetials.layer.borderWidth = 1.0
-            designDetials.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
-            designDetials.layer.cornerRadius = 4.0
-        }
-    }
 
-    @IBOutlet weak var DownPdf: UIButton!{
-        didSet {
-            DispatchQueue.main.async {
-                self.DownPdf.circleView(UIColor.clear, borderWidth: 1.0)
-            }
-        }
-    }
-
-    
-    
     override func awakeFromNib() {
         super.awakeFromNib()
+        DispatchQueue.main.async {
+            self.roundCorners([.bottomLeft,.bottomRight,.topRight], radius: 10)
+        }
         // Initialization code
     }
 

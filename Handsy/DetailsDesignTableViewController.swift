@@ -50,6 +50,8 @@ class DetailsDesignTableViewController: UITableViewController {
     @IBOutlet weak var StatusLa: UILabel!
     @IBOutlet weak var TitleDesign: UILabel!
     @IBOutlet weak var StagesDe: UILabel!
+    @IBOutlet weak var stackDetialsDes: UIStackView!
+    
     @IBOutlet weak var DetailsDes: UITextView!
     @IBOutlet weak var InformationDetiView: UIView!
     
@@ -58,11 +60,8 @@ class DetailsDesignTableViewController: UITableViewController {
     @IBOutlet weak var MyDetials: UIView!
     @IBOutlet weak var DetailsEngView: UIView!
     
-    
-    
     @IBOutlet weak var EngNameLabel: UIButton!
     @IBOutlet weak var JopNameLabel: UILabel!
-    
     @IBOutlet weak var companyNameLabel: UILabel!
     
     @IBOutlet weak var companyImageOut: UIImageView!{
@@ -215,6 +214,11 @@ class DetailsDesignTableViewController: UITableViewController {
             TitleDesign.text = ProjectBildTypeName
             StagesDe.text = StagesDetailsName
             //        Mobile.setTitle(mobileStr, for: .normal)
+            if Details == "" {
+                stackDetialsDes.isHidden = true
+            }else {
+                stackDetialsDes.isHidden = false
+            }
             DetailsDes.text = Details
             NotesCus.text = ClientReply
             NotesEng.text = EmpReply
@@ -280,6 +284,11 @@ class DetailsDesignTableViewController: UITableViewController {
             TitleDesign.text = designsDetialsOfResult[0].ProjectBildTypeName
             StagesDe.text = designsDetialsOfResult[0].StagesDetailsName
             //        Mobile.setTitle(mobileStr, for: .normal)
+            if designsDetialsOfResult[0].Details == "" {
+                stackDetialsDes.isHidden = true
+            }else {
+                stackDetialsDes.isHidden = false
+            }
             DetailsDes.text = designsDetialsOfResult[0].Details
             NotesCus.text = designsDetialsOfResult[0].ClientReply
             NotesEng.text = designsDetialsOfResult[0].EmpReply

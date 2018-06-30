@@ -89,6 +89,7 @@
 		C147CF351F52D961000DBD02 /* AlertVisitPauseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C147CF341F52D961000DBD02 /* AlertVisitPauseViewController.swift */; };
 		C14EBBB41FCEF63400394607 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C14EBBB21FCEF63300394607 /* GoogleMaps.framework */; };
 		C14EBBB71FCEF65500394607 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C14EBBB61FCEF65500394607 /* GoogleMaps.bundle */; };
+		C14F3E0120E7A38000EC935D /* FilterVisitsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14F3E0020E7A38000EC935D /* FilterVisitsViewController.swift */; };
 		C150D51020CEB177005F1682 /* ShapeUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C150D50F20CEB177005F1682 /* ShapeUIView.swift */; };
 		C152DA921F28AC820032C03F /* GalaryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C152DA911F28AC820032C03F /* GalaryCollectionViewCell.swift */; };
 		C152DA941F28B9D20032C03F /* GalaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C152DA931F28B9D20032C03F /* GalaryViewController.swift */; };
@@ -348,6 +349,7 @@
 		C147CF341F52D961000DBD02 /* AlertVisitPauseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertVisitPauseViewController.swift; sourceTree = "<group>"; };
 		C14EBBB21FCEF63300394607 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework; sourceTree = SOURCE_ROOT; };
 		C14EBBB61FCEF65500394607 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle; sourceTree = SOURCE_ROOT; };
+		C14F3E0020E7A38000EC935D /* FilterVisitsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterVisitsViewController.swift; sourceTree = "<group>"; };
 		C150D50F20CEB177005F1682 /* ShapeUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShapeUIView.swift; path = "../../HandsyEngineer/HandsyEngineer/New Group/ShapeUIView.swift"; sourceTree = "<group>"; };
 		C152DA911F28AC820032C03F /* GalaryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalaryCollectionViewCell.swift; sourceTree = "<group>"; };
 		C152DA931F28B9D20032C03F /* GalaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalaryViewController.swift; sourceTree = "<group>"; };
@@ -880,6 +882,7 @@
 				C1F32AB9200CEE9200C69893 /* VisitsOfProjectsDetialsTableViewController.swift */,
 				C1EAA5D61FFA5D2E008C2249 /* VisitsByProjectIdModel.swift */,
 				C1EAA5D81FFA5D8B008C2249 /* VisitsByProjectIdArray.swift */,
+				C14F3E0020E7A38000EC935D /* FilterVisitsViewController.swift */,
 			);
 			name = VisitsByProjectId;
 			sourceTree = "<group>";
@@ -1318,6 +1321,7 @@
 				C16CA9311F4318E90084F9AC /* AlertDesignCancelViewController.swift in Sources */,
 				C11CDC221F2773BD00AED847 /* NewProjectDViewController.swift in Sources */,
 				C1D34D8B1FD0322A000F066D /* EditProjectsDViewController.swift in Sources */,
+				C14F3E0120E7A38000EC935D /* FilterVisitsViewController.swift in Sources */,
 				C1714CE320139B580070A9EE /* ProfileImageViewController.swift in Sources */,
 				C119A1731F4C3E5C00FDAECA /* VisitsModel.swift in Sources */,
 				C114F2CC1F6D69880015C761 /* MomeyManagmentViewController.swift in Sources */,
