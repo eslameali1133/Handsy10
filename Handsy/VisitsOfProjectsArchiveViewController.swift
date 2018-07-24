@@ -18,6 +18,7 @@ class VisitsOfProjectsArchiveViewController: UIViewController, UITableViewDelega
     let model: VisitsByProjectIdModel = VisitsByProjectIdModel()
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var engNumber: UIButton!
     
     @IBOutlet weak var companyCallBtn: UIButton! {
         didSet {
@@ -45,7 +46,8 @@ class VisitsOfProjectsArchiveViewController: UIViewController, UITableViewDelega
     @IBOutlet weak var projectTitleLabel: UILabel!
     @IBOutlet weak var companyNameLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
-    
+    @IBOutlet weak var statusName: UILabel!
+    @IBOutlet weak var statusImage: AMCircleImageView!
     var ProjectOfResult: [ProjectDetialsArray] = [ProjectDetialsArray]()
     
     
@@ -68,9 +70,14 @@ class VisitsOfProjectsArchiveViewController: UIViewController, UITableViewDelega
     @IBOutlet weak var NothingLabel: UILabel!
     @IBOutlet weak var AlertImage: UIImageView!
     
+    @IBOutlet weak var statusNameBtn: UIButton!
+    @IBOutlet weak var cancelStatusBtn: UIButton!
+    var StatusId = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         ComapnyNameFunc()
+        cancelStatusBtn.isHidden = true
         DispatchQueue.main.async {
             self.NothingLabel.isHidden = true
             self.AlertImage.isHidden = true
@@ -81,7 +88,7 @@ class VisitsOfProjectsArchiveViewController: UIViewController, UITableViewDelega
         model.delegate = self
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
-            model.GetMeetingByCustId(view: self.view, projectId: ProjectId, condtion: "notfirst")
+            model.GetMeetingByCustId(view: self.view, projectId: ProjectId, condtion: "notfirst", type: "1", StatusId: "")
         }else{
             print("Internet Connection not Available!")
             visitsModel.loadItems()
@@ -106,7 +113,6 @@ class VisitsOfProjectsArchiveViewController: UIViewController, UITableViewDelega
         // Do any additional setup after loading the view.
     }
     
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -114,8 +120,35 @@ class VisitsOfProjectsArchiveViewController: UIViewController, UITableViewDelega
     
     func ComapnyNameFunc(){
         companyNameLabel.text = ProjectOfResult[0].ComapnyName!
-        projectTitleLabel.text = "( \(ProjectOfResult[0].ProjectTitle!) )"
+        projectTitleLabel.text = ProjectOfResult[0].ProjectTitle!
         addressLabel.text = ProjectOfResult[0].CompanyAddress
+        engNumber.setTitle(ProjectOfResult[0].EmpMobile, for: .normal)
+        let status = ProjectOfResult[0].ProjectStatusID!
+        let statusName = ProjectOfResult[0].ProjectStatusName!
+        if status == "5"{
+            self.statusName.text = statusName
+            statusImage.backgroundColor = #colorLiteral(red: 0.9921568627, green: 0.4274509804, blue: 0.337254902, alpha: 1)
+        }else if status == "4"{
+            self.statusName.text = statusName
+            statusImage.backgroundColor = #colorLiteral(red: 0.1176470588, green: 0.368627451, blue: 0.4666666667, alpha: 1)
+        }else if status == "3"{
+            self.statusName.text = statusName
+            statusImage.backgroundColor = #colorLiteral(red: 0.1764705882, green: 0.4745098039, blue: 0.8862745098, alpha: 1)
+        }else if status == "1"{
+            self.statusName.text = statusName
+            statusImage.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+        }else if status == "2"{
+            self.statusName.text = statusName
+            statusImage.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
+        }else if status == "6"{
+            self.statusName.text = statusName
+            statusImage.backgroundColor = #colorLiteral(red: 0.2588235294, green: 0.8666666667, blue: 0.1764705882, alpha: 1)
+        }else if status == "7"{
+            self.statusName.text = statusName
+            statusImage.backgroundColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+        }else {
+            print("error status \(status)")
+        }
         let img = ProjectOfResult[0].Logo
         if let url = URL.init(string: img!) {
             companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
@@ -178,10 +211,6 @@ class VisitsOfProjectsArchiveViewController: UIViewController, UITableViewDelega
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "VisitsOfProjectsArchiveTableViewCell", for: indexPath) as! VisitsOfProjectsArchiveTableViewCell
         
-        cell.layer.cornerRadius = 10
-        cell.layer.borderColor = UIColor.clear.cgColor // set cell border color here
-        cell.layer.masksToBounds = true
-        
         cell.titleVisit.text = visitsByProjectIdArr[indexPath.section].Title
         cell.dateOfVisit.text = visitsByProjectIdArr[indexPath.section].Start
         cell.startTime.text = visitsByProjectIdArr[indexPath.section].StartTime
@@ -190,30 +219,25 @@ class VisitsOfProjectsArchiveViewController: UIViewController, UITableViewDelega
         
         let status = visitsByProjectIdArr[indexPath.section].MeetingStatus!
         print(status)
+        cell.statusNameLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         if status == "0"{
-            cell.statusImage.image = #imageLiteral(resourceName: "Yellow")
+            cell.Status.backgroundColor = #colorLiteral(red: 0.9459478259, green: 0.7699176669, blue: 0.05561546981, alpha: 1)
             cell.statusNameLabel.text = "قيد المقابلة"
-            cell.statusNameLabel.textColor = #colorLiteral(red: 0.9459478259, green: 0.7699176669, blue: 0.05561546981, alpha: 1)
         }else if status == "1"{
-            cell.statusImage.image = #imageLiteral(resourceName: "Green")
+            cell.Status.backgroundColor = #colorLiteral(red: 0.1812162697, green: 0.7981202602, blue: 0.4416504204, alpha: 1)
             cell.statusNameLabel.text = "تمت المقابلة"
-            cell.statusNameLabel.textColor = #colorLiteral(red: 0.1812162697, green: 0.7981202602, blue: 0.4416504204, alpha: 1)
         }else if status == "2"{
-            cell.statusImage.image = #imageLiteral(resourceName: "Orange")
+            cell.Status.backgroundColor = #colorLiteral(red: 0.9019555449, green: 0.4952987432, blue: 0.1308369637, alpha: 1)
             cell.statusNameLabel.text = "ملغية"
-            cell.statusNameLabel.textColor = #colorLiteral(red: 0.9019555449, green: 0.4952987432, blue: 0.1308369637, alpha: 1)
         }else if status == "3"{
-            cell.statusImage.image = #imageLiteral(resourceName: "Red")
+            cell.Status.backgroundColor = #colorLiteral(red: 0.9074795842, green: 0.2969527543, blue: 0.2355833948, alpha: 1)
             cell.statusNameLabel.text = "فائتة"
-            cell.statusNameLabel.textColor = #colorLiteral(red: 0.9074795842, green: 0.2969527543, blue: 0.2355833948, alpha: 1)
         }else if status == "4"{
-            cell.statusImage.image = #imageLiteral(resourceName: "Blue")
+            cell.Status.backgroundColor = #colorLiteral(red: 0.2022456229, green: 0.5951007605, blue: 0.8569586277, alpha: 1)
             cell.statusNameLabel.text = "مؤجلة"
-            cell.statusNameLabel.textColor = #colorLiteral(red: 0.2022456229, green: 0.5951007605, blue: 0.8569586277, alpha: 1)
         }else if status == "5"{
-            cell.statusImage.image = #imageLiteral(resourceName: "تم الانجاز-1")
+            cell.Status.backgroundColor = #colorLiteral(red: 0.1521916687, green: 0.6835762858, blue: 0.376893878, alpha: 1)
             cell.statusNameLabel.text = "موافقة وقيد المقابلة"
-            cell.statusNameLabel.textColor = #colorLiteral(red: 0.1521916687, green: 0.6835762858, blue: 0.376893878, alpha: 1)
         }else {
             print("error status")
         }
@@ -249,6 +273,7 @@ class VisitsOfProjectsArchiveViewController: UIViewController, UITableViewDelega
                 cont.LatBranch = LatBranch
                 cont.LngBranch = LngBranch
                 cont.CompanyInfoID = CompanyInfoID
+                cont.ProjectId = ProjectId
             }
         }
     }
@@ -279,6 +304,7 @@ class VisitsOfProjectsArchiveViewController: UIViewController, UITableViewDelega
         secondView.LatBranch = LatBranch
         secondView.LngBranch = LngBranch
         secondView.CompanyInfoID = CompanyInfoID
+        secondView.ProjectId = ProjectId
         self.navigationController?.pushViewController(secondView, animated: true)
     }
     
@@ -354,6 +380,13 @@ class VisitsOfProjectsArchiveViewController: UIViewController, UITableViewDelega
         secondView.LngBranch = LngBranch
         self.navigationController?.pushViewController(secondView, animated: true)
     }
+    @IBAction func openChatBtn(_ sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Chat", bundle: nil)
+        let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
+        FirstViewController.ProjectId = ProjectId
+        let topController = UIApplication.topViewController()
+        topController?.present(FirstViewController, animated: false, completion: nil)
+    }
     
     @IBAction func goToNotfication(_ sender: UIButton) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
@@ -428,5 +461,38 @@ class VisitsOfProjectsArchiveViewController: UIViewController, UITableViewDelega
         }
     }
     
+    @IBAction func filtetByStatusName(_ sender: UIButton) {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "VisitsAndDetails", bundle: nil)
+        let dvc = storyBoard.instantiateViewController(withIdentifier: "MeetingStatusFilterTableViewController") as! MeetingStatusFilterTableViewController
+        dvc.filterVisitsDelegate = self
+        dvc.type = "2"
+        dvc.statusId = StatusId
+        dvc.modalPresentationStyle = .popover
+        dvc.popoverPresentationController?.sourceView = sender
+        dvc.popoverPresentationController?.sourceRect = CGRect(x: sender.frame.maxX, y: sender.frame.maxY, width: 0, height: 0)
+        dvc.popoverPresentationController?.delegate = self
+        dvc.preferredContentSize = CGSize(width: 200, height: 200)
+        dvc.popoverPresentationController?.permittedArrowDirections = [.up]
+        self.present(dvc, animated: true, completion: nil)
+    }
+    
+    @IBAction func cancelFilterStatus(_ sender: UIButton) {
+        cancelStatusBtn.isHidden = true
+        StatusId = ""
+        statusNameBtn.setTitle("تصفية بحالة الزيارة", for: .normal)
+        model.GetMeetingByCustId(view: self.view, projectId: ProjectId, condtion: "notfirst", type: "1", StatusId: "")
+    }
 }
-
+extension VisitsOfProjectsArchiveViewController: FilterVisitsDelegate {
+    func filterVisitsByStatusId(StatusId: String, StatusName: String){
+        model.GetMeetingByCustId(view: self.view, projectId: ProjectId, condtion: "notfirst", type: "2", StatusId: StatusId)
+        self.StatusId = StatusId
+        statusNameBtn.setTitle(StatusName, for: .normal)
+        cancelStatusBtn.isHidden = false
+    }
+}
+extension VisitsOfProjectsArchiveViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
+}

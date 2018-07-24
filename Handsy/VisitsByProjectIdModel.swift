@@ -18,14 +18,24 @@ class VisitsByProjectIdModel: NSObject {
     
     var delegate: VisitsByProjectIdModelDelegate?
     
-    func GetMeetingByCustId(view: UIView, projectId: String, condtion: String){
+    func GetMeetingByCustId(view: UIView, projectId: String, condtion: String, type: String, StatusId: String){
         let sv = UIViewController.displaySpinner(onView: view)
         
-        let parameters: Parameters = [
-            "projectId": projectId
-        ]
-        
         if condtion == "first" {
+            var parameters: Parameters = [:]
+            if type == "1" {
+                parameters = [
+                    "projectId": projectId,
+                    "Type": type
+                ]
+            }else {
+                parameters = [
+                    "projectId": projectId,
+                    "Type": type,
+                    "StatusId": StatusId
+                ]
+            }
+            
             Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetMeetingByProjectId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
                 debugPrint(response)
                 
@@ -68,6 +78,19 @@ class VisitsByProjectIdModel: NSObject {
                 
             }
         } else {
+            var parameters: Parameters = [:]
+            if type == "1" {
+                parameters = [
+                    "projectId": projectId,
+                    "Type": type
+                ]
+            }else {
+                parameters = [
+                    "projectId": projectId,
+                    "Type": type,
+                    "StatusId": StatusId
+                ]
+            }
             Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetMeetingArchiveByProjectId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
                 debugPrint(response)
                 

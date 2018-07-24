@@ -13,6 +13,7 @@ import GooglePlaces
 import Alamofire
 import SwiftyJSON
 import Firebase
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
@@ -24,13 +25,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     let badgeCount: Int = 0
     let applicationl = UIApplication.shared
+    var isGrantedNotificationAccess:Bool = true
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         UITabBar.appearance().unselectedItemTintColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
         UITabBar.appearance().backgroundColor = #colorLiteral(red: 0.03921568627, green: 0.03921568627, blue: 0.03921568627, alpha: 1)
-UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 10) ], for: .normal)
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 10) ], for: .normal)
         GMSServices.provideAPIKey(googleMapsApiKey)
         GMSPlacesClient.provideAPIKey(googleMapsApiKey)
         
@@ -66,7 +68,39 @@ UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: UI
             navigationController.selectedIndex = 0
             self.window?.rootViewController = navigationController
         }
+        let center =  UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .sound, .badge]) { (result, error) in
+            //handle result of request failure
+            print(result)
+        }
+        //        contentPush(title: " Jurassic Park", body: "Its lunch time at the park, please join us for a dinosaur feeding")
         return true
+    }
+    
+    func contentPush(title: String, body: String, userInfo: [AnyHashable: Any]) {
+        //get the notification center
+        let center =  UNUserNotificationCenter.current()
+        
+        //create the content for the notification
+        let content = UNMutableNotificationContent()
+        content.title = title
+        //        content.subtitle = subtitle
+        content.body = body
+        content.userInfo = userInfo
+        content.sound = UNNotificationSound.default()
+        
+        //notification trigger can be based on time, calendar or location
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval:2.0, repeats: false)
+        
+        //create request to display
+        let request = UNNotificationRequest(identifier: "ContentIdentifier", content: content, trigger: trigger)
+        
+        //add request to notification center
+        center.add(request) { (error) in
+            if error != nil {
+                print("error \(String(describing: error))")
+            }
+        }
     }
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
@@ -123,7 +157,7 @@ UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: UI
         // Messaging.messaging().appDidReceiveMessage(userInfo)
         self.applicationl.applicationIconBadgeNumber = badgeCount + 1
         // Print message ID.
-        if let messageID = userInfo["message"]{
+        if let messageID = userInfo["Type"]{
             print("Message ID: \(messageID)")
             let type = userInfo["Type"] as? String
             let notificationID = userInfo["NotificationID"] as? String
@@ -205,6 +239,31 @@ UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: UI
                 let topController = UIApplication.topViewController()
                 topController?.show(secondView, sender: true)
                 self.applicationl.applicationIconBadgeNumber = badgeCount - 1
+            }else if type == "9" {
+                let ProjectId = userInfo["ProjectId"] as? String
+                ReadAllMessageForCust(ProjectId: ProjectId!)
+                if let VC = UIApplication.shared.topMostViewController() as? ChatOfProjectsViewController {
+                    let messageByProjectIdObj = MessageByProjectId()
+                    messageByProjectIdObj.ImageName = userInfo["ImageName"] as? String
+                    messageByProjectIdObj.ImagePath = userInfo["ImagePath"] as? String
+                    messageByProjectIdObj.Message = userInfo["Message"] as? String
+                    messageByProjectIdObj.MessageTime = userInfo["MessageTime"] as? String
+                    messageByProjectIdObj.MessageType = userInfo["MessageType"] as? String
+                    messageByProjectIdObj.SenderId = userInfo["SenderId"] as? String
+                    messageByProjectIdObj.SenderImage = userInfo["SenderImage"] as? String
+                    messageByProjectIdObj.SenderName = userInfo["SenderName"] as? String
+                    messageByProjectIdObj.SenderType = userInfo["SenderType"] as? String
+                    VC.messagesList.append(messageByProjectIdObj)
+                    VC.scrollToBottom()
+                    VC.chatTableView.reloadData()
+                }else {
+                    let storyboard = UIStoryboard(name: "Chat", bundle: nil)
+                    let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
+                    FirstViewController.ProjectId = ProjectId!
+                    let topController = UIApplication.topViewController()
+                    topController?.present(FirstViewController, animated: false, completion: nil)
+                    self.applicationl.applicationIconBadgeNumber = badgeCount - 1
+                }
             }else {
                 print("type: \(type)")
             }
@@ -224,29 +283,33 @@ UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: UI
         }
     }
     
+    func ReadAllMessageForCust(ProjectId: String) {
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/ReadAllMessageForCust?ProjectId=\(ProjectId)", method: .post, encoding: URLEncoding.default).responseJSON { response in
+            debugPrint(response)
+        }
+    }
+    
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        // If you are receiving a notification message while your app is in the background,
-        // this callback will not be fired till the user taps on the notification launching the application.
-        // TODO: Handle data of notification
         
-        // With swizzling disabled you must let Messaging know about the message, for Analytics
-        // Messaging.messaging().appDidReceiveMessage(userInfo)
+        
         self.applicationl.applicationIconBadgeNumber = badgeCount + 1
+        // Print full message.
+        print(userInfo)
         // Print message ID.
-        if let messageID = userInfo["message"]{
+        if let messageID = userInfo["Type"]{
             print("Message ID: \(messageID)")
             let type = userInfo["Type"] as? String
             print("type: \(type)")
             let notificationID = userInfo["NotificationID"] as? String
-            var titleAlert = ""
-            var bodyAlert = ""
-            if let aps = userInfo["aps"] as? NSDictionary {
-                let alert = aps["alert"] as? NSDictionary
-                let title = alert?["title"] as? String
-                let body = alert?["body"] as? String
-                titleAlert = title!
-                bodyAlert = body!
-            }
+            //            var titleAlert = ""
+            //            var bodyAlert = ""
+            //            if let aps = userInfo["aps"] as? NSDictionary {
+            //                let alert = aps["alert"] as? NSDictionary
+            //                let title = alert?["title"] as? String
+            //                let body = alert?["body"] as? String
+            //                titleAlert = title!
+            //                bodyAlert = body!
+            //            }
             if type == "1" {
                 MarkNotifyReadByNotifyID(NotificationID: notificationID!)
                 let ProjectId = userInfo["ProjectId"] as? String
@@ -315,42 +378,101 @@ UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: UI
                 let topController = UIApplication.topViewController()
                 topController?.show(secondView, sender: true)
                 self.applicationl.applicationIconBadgeNumber = badgeCount - 1
+            }else if type == "9" {
+                let ProjectId = userInfo["ProjectId"] as? String
+                ReadAllMessageForCust(ProjectId: ProjectId!)
+                if let VC = UIApplication.shared.topMostViewController() as? ChatOfProjectsViewController {
+                    let messageByProjectIdObj = MessageByProjectId()
+                    messageByProjectIdObj.ImageName = userInfo["ImageName"] as? String
+                    messageByProjectIdObj.ImagePath = userInfo["ImagePath"] as? String
+                    messageByProjectIdObj.Message = userInfo["Message"] as? String
+                    messageByProjectIdObj.MessageTime = userInfo["MessageTime"] as? String
+                    messageByProjectIdObj.MessageType = userInfo["MessageType"] as? String
+                    messageByProjectIdObj.SenderId = userInfo["SenderId"] as? String
+                    messageByProjectIdObj.SenderImage = userInfo["SenderImage"] as? String
+                    messageByProjectIdObj.SenderName = userInfo["SenderName"] as? String
+                    messageByProjectIdObj.SenderType = userInfo["SenderType"] as? String
+                    VC.messagesList.append(messageByProjectIdObj)
+                    VC.scrollToBottom()
+                    VC.chatTableView.reloadData()
+                }else {
+                    let storyboard = UIStoryboard(name: "Chat", bundle: nil)
+                    let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
+                    FirstViewController.ProjectId = ProjectId!
+                    let topController = UIApplication.topViewController()
+                    topController?.present(FirstViewController, animated: false, completion: nil)
+                    self.applicationl.applicationIconBadgeNumber = badgeCount - 1
+                }
             }else {
                 print("type: \(type)")
             }
             
         }
+        completionHandler(UIBackgroundFetchResult.newData)
+    }
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let userInfo:[AnyHashable:Any] =  notification.request.content.userInfo
+        let state : UIApplicationState = applicationl.applicationState
+        switch state {
+        case UIApplicationState.active:
+            print("If needed notify user about the message")
+            if let messageID = userInfo["Type"]{
+                print("Message ID: \(messageID)")
+                let type = userInfo["Type"] as? String
+                print("type: \(type)")
+                let notificationID = userInfo["NotificationID"] as? String
+                if type == "9" {
+                    let ProjectId = userInfo["ProjectId"] as? String
+                    ReadAllMessageForCust(ProjectId: ProjectId!)
+                    if let VC = UIApplication.shared.topMostViewController() as? ChatOfProjectsViewController {
+                        let messageByProjectIdObj = MessageByProjectId()
+                        messageByProjectIdObj.ImageName = userInfo["ImageName"] as? String
+                        messageByProjectIdObj.ImagePath = userInfo["ImagePath"] as? String
+                        messageByProjectIdObj.Message = userInfo["Message"] as? String
+                        messageByProjectIdObj.MessageTime = userInfo["MessageTime"] as? String
+                        messageByProjectIdObj.MessageType = userInfo["MessageType"] as? String
+                        messageByProjectIdObj.SenderId = userInfo["SenderId"] as? String
+                        messageByProjectIdObj.SenderImage = userInfo["SenderImage"] as? String
+                        messageByProjectIdObj.SenderName = userInfo["SenderName"] as? String
+                        messageByProjectIdObj.SenderType = userInfo["SenderType"] as? String
+                        VC.messagesList.append(messageByProjectIdObj)
+                        VC.scrollToBottom()
+                        VC.chatTableView.reloadData()
+                        completionHandler([])
+                    }else {
+                        completionHandler([.alert,.badge])
+                    }
+                }
+            }else {
+                completionHandler([.alert,.badge])
+            }
+
+        default:
+            print("Run code to download content")
+            completionHandler([.alert,.badge,.sound])
+        }
         
         // Print full message.
         print(userInfo)
-        
-        completionHandler(UIBackgroundFetchResult.newData)
-    }
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                willPresent notification: UNNotification,
-                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        // Change this to your preferred presentation option
-        completionHandler([.alert,.badge,.sound])
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
         // Print message ID.
-        if let messageID = userInfo["message"]{
+        if let messageID = userInfo["Type"]{
             print("Message ID: \(messageID)")
             let type = userInfo["Type"] as? String
             print("type: \(type)")
             let notificationID = userInfo["NotificationID"] as? String
-            var titleAlert = ""
-            var bodyAlert = ""
-            if let aps = userInfo["aps"] as? NSDictionary {
-                let alert = aps["alert"] as? NSDictionary
-                let title = alert?["title"] as? String
-                let body = alert?["body"] as? String
-                titleAlert = title!
-                bodyAlert = body!
-            }
+            //            var titleAlert = ""
+            //            var bodyAlert = ""
+            //            if let aps = userInfo["aps"] as? NSDictionary {
+            //                let alert = aps["alert"] as? NSDictionary
+            //                let title = alert?["title"] as? String
+            //                let body = alert?["body"] as? String
+            //                titleAlert = title!
+            //                bodyAlert = body!
+            //            }
             if type == "1" {
                 MarkNotifyReadByNotifyID(NotificationID: notificationID!)
                 let ProjectId = userInfo["ProjectId"] as? String
@@ -418,6 +540,31 @@ UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: UI
                 let topController = UIApplication.topViewController()
                 topController?.show(secondView, sender: true)
                 self.applicationl.applicationIconBadgeNumber = badgeCount - 1
+            }else if type == "9" {
+                let ProjectId = userInfo["ProjectId"] as? String
+                ReadAllMessageForCust(ProjectId: ProjectId!)
+                if let VC = UIApplication.shared.topMostViewController() as? ChatOfProjectsViewController {
+                    let messageByProjectIdObj = MessageByProjectId()
+                    messageByProjectIdObj.ImageName = userInfo["ImageName"] as? String
+                    messageByProjectIdObj.ImagePath = userInfo["ImagePath"] as? String
+                    messageByProjectIdObj.Message = userInfo["Message"] as? String
+                    messageByProjectIdObj.MessageTime = userInfo["MessageTime"] as? String
+                    messageByProjectIdObj.MessageType = userInfo["MessageType"] as? String
+                    messageByProjectIdObj.SenderId = userInfo["SenderId"] as? String
+                    messageByProjectIdObj.SenderImage = userInfo["SenderImage"] as? String
+                    messageByProjectIdObj.SenderName = userInfo["SenderName"] as? String
+                    messageByProjectIdObj.SenderType = userInfo["SenderType"] as? String
+                    VC.messagesList.append(messageByProjectIdObj)
+                    VC.scrollToBottom()
+                    VC.chatTableView.reloadData()
+                }else {
+                    let storyboard = UIStoryboard(name: "Chat", bundle: nil)
+                    let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
+                    FirstViewController.ProjectId = ProjectId!
+                    let topController = UIApplication.topViewController()
+                    topController?.present(FirstViewController, animated: false, completion: nil)
+                    self.applicationl.applicationIconBadgeNumber = badgeCount - 1
+                }
             }else {
                 print("type: \(type)")
             }
@@ -426,8 +573,7 @@ UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: UI
         
         // Print full message.
         print(userInfo)
-        
         completionHandler()
     }
-
+    
 }

@@ -86,7 +86,7 @@ class Toast: NSObject {
         
         let x = CGFloat((topController?.view.frame.width)! / 2 - 150) // 150 is the half width of the toast message
         
-        toastView.top.constant = CGFloat(200 + index * 50)
+        toastView.top.constant = CGFloat(150 + index * 50)
         toastView.left.constant = x
         toastView.frame.size = CGSize(width: 0, height: 0)
     }

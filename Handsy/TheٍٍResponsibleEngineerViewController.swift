@@ -33,7 +33,7 @@ class TheResponsibleEngineerViewController: UIViewController, GMSMapViewDelegate
     @IBOutlet weak var myLocationBtn: UIButton!{
         didSet {
             DispatchQueue.main.async {
-                self.myLocationBtn.layer.cornerRadius = 15.0
+                self.myLocationBtn.layer.cornerRadius = 13.0
                 self.myLocationBtn.layer.masksToBounds = true
             }
         }
@@ -193,8 +193,6 @@ class TheResponsibleEngineerViewController: UIViewController, GMSMapViewDelegate
             }
         }
     }
-    
-    
     
     @IBAction func CallMe(_ sender: UIButton) {
         var mobile = empMobile.text!

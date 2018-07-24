@@ -28,7 +28,9 @@ class VisitsArray: NSObject, NSCoding {
     var ComapnyName: String = ""
     var Address: String = ""
     var Logo: String = ""
-    init(MeetingID: String, Title: String, MeetingStatus: String, Description: String, Notes: String, Start: String, TimeStartMeeting: String, ProjectBildTypeName: String, Mobile: String, EmpName: String, Replay: String, DateReply: String, StartTime: String, EndTime: String, LatBranch: Double, LngBranch: Double, ComapnyName: String, Address: String, Logo: String) {
+    var CompanyInfoID: String?
+    var IsCompany: String?
+    init(MeetingID: String, Title: String, MeetingStatus: String, Description: String, Notes: String, Start: String, TimeStartMeeting: String, ProjectBildTypeName: String, Mobile: String, EmpName: String, Replay: String, DateReply: String, StartTime: String, EndTime: String, LatBranch: Double, LngBranch: Double, ComapnyName: String, Address: String, Logo: String, CompanyInfoID: String, IsCompany: String) {
         self.MeetingID = MeetingID
         self.Title = Title
         self.MeetingStatus = MeetingStatus
@@ -48,6 +50,8 @@ class VisitsArray: NSObject, NSCoding {
         self.ComapnyName = ComapnyName
         self.Address = Address
         self.Logo = Logo
+        self.CompanyInfoID = CompanyInfoID
+        self.IsCompany = IsCompany
     }
     public required init?(coder aDecoder: NSCoder) {
         self.MeetingID = aDecoder.decodeObject(forKey: "MeetingID") as! String
@@ -69,6 +73,8 @@ class VisitsArray: NSObject, NSCoding {
         self.ComapnyName = aDecoder.decodeObject(forKey: "ComapnyName") as! String
         self.Address = aDecoder.decodeObject(forKey: "Address") as! String
         self.Logo = aDecoder.decodeObject(forKey: "Logo") as! String
+        self.CompanyInfoID = aDecoder.decodeObject(forKey: "CompanyInfoID") as? String
+        self.IsCompany = aDecoder.decodeObject(forKey: "IsCompany") as? String
     }
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(self.MeetingID, forKey: "MeetingID")
@@ -90,6 +96,8 @@ class VisitsArray: NSObject, NSCoding {
         aCoder.encode(self.ComapnyName, forKey: "ComapnyName")
         aCoder.encode(self.Address, forKey: "Address")
         aCoder.encode(self.Logo, forKey: "Logo")
+        aCoder.encode(self.CompanyInfoID, forKey: "CompanyInfoID")
+        aCoder.encode(self.IsCompany, forKey: "IsCompany")
     }
 }
 

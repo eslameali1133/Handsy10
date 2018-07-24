@@ -115,7 +115,7 @@ class VisitsDetialsTableViewController: UITableViewController {
             if visitsDetialsModel.returnProjectDetials(at: MeetingID) != nil {
                 let visitsDetials = visitsDetialsModel.returnProjectDetials(at: MeetingID)
                 self.visitsDetialsArray = [visitsDetials!]
-                self.ComapnyNameFunc(EmpName: visitsDetialsArray[0].EmpName!, companyName: visitsDetialsArray[0].ComapnyName!, companyLogo: visitsDetialsArray[0].Logo!, JobName: visitsDetialsArray[0].JobName!)
+                self.ComapnyNameFunc(EmpName: visitsDetialsArray[0].Mobile!, companyName: visitsDetialsArray[0].ComapnyName!, companyLogo: visitsDetialsArray[0].Logo!, JobName: visitsDetialsArray[0].EmpName!)
                 self.setDetiales(condition: "offline")
             }
         }
@@ -158,7 +158,7 @@ class VisitsDetialsTableViewController: UITableViewController {
             for i in self.visitsDetialsArray {
                 self.visitsDetialsModel.append(i)
             }
-            self.ComapnyNameFunc(EmpName: self.EmpName, companyName: self.ComapnyName, companyLogo: self.Logo, JobName: self.JobName)
+            self.ComapnyNameFunc(EmpName: self.Mobile, companyName: self.ComapnyName, companyLogo: self.Logo, JobName: self.EmpName)
             self.setDetiales(condition: "online")
         }
         

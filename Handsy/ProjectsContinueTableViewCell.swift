@@ -10,7 +10,9 @@ import UIKit
 
 class ProjectsContinueTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var officeNameLabel: UILabel!
+    @IBOutlet weak var officeNameLabel: UIButton!
+    
+    @IBOutlet weak var projectTitle: UILabel!
     @IBOutlet weak var StagesDetailsName: UILabel!
     @IBOutlet weak var CreateDate: UILabel!
     
@@ -39,7 +41,7 @@ class ProjectsContinueTableViewCell: UITableViewCell {
             projectDetials.layer.cornerRadius = 4.0
         }
     }
-    
+    @IBOutlet weak var companyMobile: UIButton!
     @IBOutlet weak var PDF: UIButton!{
         didSet {
             DispatchQueue.main.async {
@@ -47,6 +49,7 @@ class ProjectsContinueTableViewCell: UITableViewCell {
             }
         }
     }
+    
 
     override func awakeFromNib() {
         super.awakeFromNib()

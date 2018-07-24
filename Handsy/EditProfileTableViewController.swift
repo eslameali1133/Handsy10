@@ -43,7 +43,7 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
     
     var AddItemPhotos: [UIImage] = []
     var imagePath = ""
-    
+    var CustomerPhoto = URL(string: "")
     var code = ""
     
     override func viewDidLoad() {
@@ -261,6 +261,27 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
         dismiss(animated: true, completion: nil)
     }
     
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        //        let assetPath = info[UIImagePickerControllerReferenceURL] as! URL
+        //        let imgName = assetPath.lastPathComponent
+        
+        if #available(iOS 11.0, *) {
+            if let assetPath = info[UIImagePickerControllerImageURL] as? URL{
+                let imgName = assetPath.lastPathComponent
+                print(imgName)
+                if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+                    imageProfile.image = pickedImage
+                    print("image: \(pickedImage)")
+                    CustomerPhoto = assetPath
+                }
+            }
+        } else {
+            // Fallback on earlier versions
+        }
+        dismiss(animated: true, completion: nil)
+        
+    }
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
@@ -384,7 +405,7 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
             }
             
             if Mobile == "true" && self.userName.text != "" {
-                self.UploadImage()
+                self.UpdateCustomerProfile()
             }
             
         }
@@ -507,7 +528,6 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
     }
     
     func UpdateCustomers(imagePath: String) {
-        
         let mobile = UserDefaults.standard.string(forKey: "mobile")!
         let NewMobileNumber = mobileNumber.text!
         if mobile == NewMobileNumber {
@@ -555,8 +575,6 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
             self.navigationController?.pushViewController(secondView, animated: true)
             self.EditWillDone.hideLoading()
         }
-        
-        
     }
     
     func SendSmsCodeActivation() {
@@ -609,9 +627,7 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
                 
                 
             } else {
-                
                 self.PushInsertUpdate()
-                
                 UserDefaults.standard.set(json["UserId"].stringValue, forKey: "UserId")
                 UserDefaults.standard.set(json["CustmoerName"].stringValue, forKey: "CustmoerName")
                 UserDefaults.standard.set(json["Email"].stringValue, forKey: "Email")
@@ -647,4 +663,105 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
         }
     }
     
+    func UpdateCustomerProfile() {
+        let sv = UIViewController.displaySpinner(onView: self.view)
+        let UserId = UserDefaults.standard.string(forKey: "UserId")!
+        var parameters: Parameters = [:]
+        let mobile = UserDefaults.standard.string(forKey: "mobile")!
+        let NewMobileNumber = mobileNumber.text!
+        if mobile == NewMobileNumber {
+            if CustomerPhoto != nil {
+                parameters = [
+                    "UserId" : UserId,
+                    "CustmoerName": userName.text!,
+                    "CustomerPhoto": CustomerPhoto!,
+                    "Mobile": NewMobileNumber
+                ]
+            }else {
+                parameters = [
+                    "UserId" : UserId,
+                    "CustmoerName": userName.text!,
+                    "CustomerPhoto": imagePath,
+                    "Mobile": NewMobileNumber
+                ]
+            }
+            
+            Alamofire.upload(
+                multipartFormData: { multipartFormData in
+                    for (key,value) in parameters {
+                        if let value = value as? String {
+                            multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
+                        }
+                    }
+                    if self.CustomerPhoto != nil {
+                        multipartFormData.append(self.CustomerPhoto!, withName: "CustomerPhoto", fileName: "CustomerPhoto\(arc4random_uniform(100))"+".jpeg", mimeType: "image/jpeg")
+                    }
+            },
+                usingThreshold:UInt64.init(),
+                to: "http://smusers.promit2030.com/api/ApiService/UpdateCustomerProfile",
+                method: .post,
+                encodingCompletion: { encodingResult in
+                    switch encodingResult {
+                    case .success(let upload, _, _):
+                        
+                        upload.uploadProgress(closure: { (progress) in
+                            print(progress)
+                        })
+                        upload.responseJSON { response in
+                            // If the request to get activities is succesfull, store them
+                            if response.result.isSuccess{
+                                print(response.debugDescription)
+                                
+                                let json = JSON(response.result.value!)
+                                print(json)
+                                if json == "Done" {
+                                    self.GetEmptByMobileNum()
+                                }
+                                
+                                UIViewController.removeSpinner(spinner: sv)
+                            } else {
+                                var errorMessage = "ERROR MESSAGE: "
+                                if let data = response.data {
+                                    // Print message
+                                    let responseJSON = try? JSON(data: data)
+                                    let alertController = UIAlertController(title: "خطأ في الاتصال!", message: "لم يتم ارسال الطلب\n برجاء المحاولة مرة اخرى", preferredStyle: .alert)
+                                    alertController.addAction(UIAlertAction(title: "اعادة المحاولة", style: .cancel, handler: { action in
+                                        self.UpdateCustomerProfile()
+                                        UIViewController.removeSpinner(spinner: sv)
+                                    }))
+                                    self.present(alertController, animated: true, completion: nil)
+                                    
+                                }
+                                print(errorMessage) //Contains General error message or specific.
+                                print(response.debugDescription)
+                            }
+                            
+                            
+                        }
+                    case .failure(let encodingError):
+                        print("FALLE ------------")
+                        print(encodingError)
+                        let alertController = UIAlertController(title: "خطأ في الاتصال!", message: "لم يتم ارسال الطلب\n برجاء المحاولة مرة اخرى", preferredStyle: .alert)
+                        alertController.addAction(UIAlertAction(title: "اعادة المحاولة", style: .cancel, handler: { action in
+                            self.UpdateCustomerProfile()
+                            UIViewController.removeSpinner(spinner: sv)
+                        }))
+                        self.present(alertController, animated: true, completion: nil)
+                    }
+            }
+            )
+        }else {
+//            SendSmsCodeActivation()
+            let storyBoard : UIStoryboard = UIStoryboard(name: "NewLogin", bundle:nil)
+            let secondView = storyBoard.instantiateViewController(withIdentifier: "NewCheckCodeViewController") as! NewCheckCodeViewController
+            secondView.mobile = self.mobileNumber.text!
+            secondView.code = self.code
+            secondView.UserName = self.userName.text!
+            secondView.CustomerPhotos = self.CustomerPhoto!
+            secondView.imagePath = self.imagePath
+            secondView.conditionn = "lols"
+            self.navigationController?.pushViewController(secondView, animated: true)
+            self.EditWillDone.hideLoading()
+        }
+    }
 }

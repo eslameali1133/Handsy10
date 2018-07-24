@@ -35,20 +35,35 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         }
     }
     
+    @IBOutlet weak var messageNotfiCount: UILabel!{
+        didSet {
+            DispatchQueue.main.async {
+                self.messageNotfiCount.layer.cornerRadius = self.messageNotfiCount.frame.width/2
+                self.messageNotfiCount.layer.masksToBounds = true
+            }
+        }
+    }
+    
+    
     @IBOutlet weak var MyProjectsTableView: UITableView!
     
     var myProjects:[GetProjectEngCustByCustID] = [GetProjectEngCustByCustID]()
     
     let model: RequestProjectModel = RequestProjectModel()
-    
     let projectModel : projectsModel = projectsModel()
     
     @IBOutlet weak var NothingLabel: UILabel!
     @IBOutlet weak var AlertImage: UIImageView!
     let applicationl = UIApplication.shared
     var qustion = 0
+    
+    
+    var NotiProjectCount = 0
+    var NotiMessageCount = 0
+    var NotiTotalCount = 0
     override func viewDidLoad() {
         super.viewDidLoad()
+        messageNotfiCount.isHidden = true
         titleVCLabel.text = "مشاريعي"
         DispatchQueue.main.async {
             self.navViewOut.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 32)
@@ -74,17 +89,15 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         // Do any additional setup after loading the view.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     @IBAction func callBtnAction(_ sender: UIButton) {
         callButtonPressed() 
     }
     
-    @IBAction func archiveBtnAction(_ sender: UIButton) {
-        archiveButtonPressed()
+    @IBAction func homeChatAction(_ sender: UIButton) {
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Chat", bundle: nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "HomeChatOfProjectsViewController") as! HomeChatOfProjectsViewController
+        self.navigationController?.pushViewController(secondView, animated: true)
     }
     
     func addArchiveBarButtonItem() {
@@ -135,7 +148,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
             self.myProjects = projectModel.projects
             MyProjectsTableView.reloadData()
         }
-        
+        CountCustomerNotification()
     }
     
 
@@ -205,8 +218,6 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         secondView.modalPresentationStyle = .custom
         self.present(secondView, animated: false)
     }
-    
-    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if myProjects.count == 0 {
@@ -316,7 +327,6 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         for i in self.model.resultArray {
             self.projectModel.append(i)
         }
-        
         // Tell the tableview to reload
         self.MyProjectsTableView.reloadData()
         setBadge()
@@ -357,9 +367,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
             let second = tabBarController?.tabBar
             second?.items![1].badgeValue = "\(AllNot)"
             second?.items![1].badgeColor = #colorLiteral(red: 0.3058823529, green: 0.5058823529, blue: 0.5333333333, alpha: 1)
-            self.applicationl.applicationIconBadgeNumber = AllNot
         } else {
-            self.applicationl.applicationIconBadgeNumber = 0
         }
     }
     
@@ -370,6 +378,17 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         let secondView = storyBoard.instantiateViewController(withIdentifier: "MyProjectNotficationViewController") as! MyProjectNotficationViewController
         secondView.projectId = myProjects[index!].ProjectId
         self.navigationController?.pushViewController(secondView, animated: true)
+    }
+    
+    @IBAction func openChatBtn(_ sender: UIButton) {
+        let point = sender.convert(CGPoint.zero, to: MyProjectsTableView)
+        let index = MyProjectsTableView.indexPathForRow(at: point)?.row
+        let message = myProjects[index!]
+        let storyboard = UIStoryboard(name: "Chat", bundle: nil)
+        let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
+        FirstViewController.ProjectId = message.ProjectId
+        let topController = UIApplication.topViewController()
+        topController?.present(FirstViewController, animated: false, completion: nil)
     }
     
     @IBAction func DetialsBtnAction(_ sender: UIButton) {
@@ -437,7 +456,47 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
             }
         }
     }
-
+    
+    func CountCustomerNotification() {
+        let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")!
+        let parameters: Parameters = [
+            "CustmoerId":CustmoerId
+        ]
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+            switch response.result {
+            case .success:
+                let json = JSON(response.result.value!)
+                print(json)
+                self.NotiProjectCount = json["NotiProjectCount"].intValue
+                self.NotiMessageCount = json["NotiMessageCount"].intValue
+                self.NotiTotalCount = json["NotiTotalCount"].intValue
+                self.setAppBadge()
+            case .failure(let error):
+                print(error)
+                let alertAction = UIAlertController(title: "خطاء في الاتصال", message: "اعادة المحاولة", preferredStyle: .alert)
+                
+                alertAction.addAction(UIAlertAction(title: "نعم", style: .default, handler: { action in
+                    self.CountCustomerNotification()
+                }))
+                
+                alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+                }))
+                
+                self.present(alertAction, animated: true, completion: nil)
+                
+            }
+        }
+    }
+    func setAppBadge() {
+        let count = NotiTotalCount
+        applicationl.applicationIconBadgeNumber = count
+        if NotiMessageCount == 0 {
+            messageNotfiCount.isHidden = true
+        }else {
+            messageNotfiCount.text = "\(NotiMessageCount)"
+            messageNotfiCount.isHidden = false
+        }
+    }
 }
 import SystemConfiguration
 

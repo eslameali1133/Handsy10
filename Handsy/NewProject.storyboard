@@ -129,8 +129,84 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="CR8-xJ-Rj8"/>
                     </view>
+                    <connections>
+                        <outlet property="callBtn" destination="Bj6-XD-jgh" id="D9z-kB-M5s"/>
+                        <outlet property="messageBtn" destination="pbj-b1-NaY" id="Ynf-OH-VkU"/>
+                        <outlet property="messageNotfiCount" destination="9WK-RC-uCW" id="cSH-fH-zwi"/>
+                        <outlet property="navViewOut" destination="ap0-1R-2q2" id="BWa-oj-q0b"/>
+                        <outlet property="titleVCLabel" destination="uF7-Gq-2f7" id="wub-4M-D3C"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xlD-TB-eSy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="ap0-1R-2q2">
+                    <rect key="frame" x="0.0" y="0.0" width="418" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pbj-b1-NaY">
+                            <rect key="frame" x="10" y="0.0" width="104" height="32"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="104" id="RyO-Cc-xMU"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="12"/>
+                            <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
+                            <state key="normal" title="محادثة" image="proMessage">
+                                <color key="titleColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.21176470589999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="homeChatAction:" destination="KMD-JU-KvB" eventType="touchUpInside" id="rJ1-DB-c7f"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bj6-XD-jgh">
+                            <rect key="frame" x="304" y="0.0" width="104" height="32"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="104" id="BkR-qL-2zL"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="12"/>
+                            <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
+                            <state key="normal" title="هندسي" image="NewProCallBtn">
+                                <color key="titleColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.21176470589999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="callBtnAction:" destination="KMD-JU-KvB" eventType="touchUpInside" id="xDq-6i-G0Y"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="مشروع جديد" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uF7-Gq-2f7">
+                            <rect key="frame" x="114" y="0.0" width="190" height="32"/>
+                            <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="18"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9WK-RC-uCW">
+                            <rect key="frame" x="1" y="-3" width="20" height="20"/>
+                            <color key="backgroundColor" red="0.82745098039999998" green="0.68235294120000001" blue="0.25882352939999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="wca-se-WPr"/>
+                                <constraint firstAttribute="width" constant="20" id="zOr-27-I0e"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="9"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="opa-e5-KI6" firstAttribute="bottom" secondItem="pbj-b1-NaY" secondAttribute="bottom" id="4AM-xv-kaH"/>
+                        <constraint firstItem="opa-e5-KI6" firstAttribute="bottom" secondItem="Bj6-XD-jgh" secondAttribute="bottom" id="CUb-9s-e5a"/>
+                        <constraint firstItem="9WK-RC-uCW" firstAttribute="top" secondItem="ap0-1R-2q2" secondAttribute="top" constant="-3" id="S44-Sv-O3l"/>
+                        <constraint firstItem="uF7-Gq-2f7" firstAttribute="top" secondItem="opa-e5-KI6" secondAttribute="top" id="VGO-QW-rzb"/>
+                        <constraint firstItem="pbj-b1-NaY" firstAttribute="leading" secondItem="9WK-RC-uCW" secondAttribute="trailing" constant="-11" id="Yos-14-Lss"/>
+                        <constraint firstItem="opa-e5-KI6" firstAttribute="bottom" secondItem="uF7-Gq-2f7" secondAttribute="bottom" id="ZMC-7x-Qwv"/>
+                        <constraint firstItem="pbj-b1-NaY" firstAttribute="top" secondItem="opa-e5-KI6" secondAttribute="top" id="ZPM-Ob-BnY"/>
+                        <constraint firstItem="opa-e5-KI6" firstAttribute="trailing" secondItem="Bj6-XD-jgh" secondAttribute="trailing" constant="10" id="ZmW-21-z8p"/>
+                        <constraint firstItem="Bj6-XD-jgh" firstAttribute="top" secondItem="opa-e5-KI6" secondAttribute="top" id="aSe-RL-m8e"/>
+                        <constraint firstItem="Bj6-XD-jgh" firstAttribute="leading" secondItem="uF7-Gq-2f7" secondAttribute="trailing" id="ac3-5S-KuN"/>
+                        <constraint firstItem="pbj-b1-NaY" firstAttribute="leading" secondItem="opa-e5-KI6" secondAttribute="leading" constant="10" id="eMR-zr-zfc"/>
+                        <constraint firstItem="uF7-Gq-2f7" firstAttribute="leading" secondItem="pbj-b1-NaY" secondAttribute="trailing" id="hoe-sx-nuv"/>
+                    </constraints>
+                    <viewLayoutGuide key="safeArea" id="opa-e5-KI6"/>
+                </view>
             </objects>
             <point key="canvasLocation" x="-68847.826086956527" y="-4133.152173913044"/>
         </scene>
@@ -156,10 +232,10 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="389" height="31"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ZmB-xF-RS0">
-                                                        <rect key="frame" x="0.0" y="0.0" width="318.66666666666669" height="31"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="318" height="31"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dji-FF-fwA">
-                                                                <rect key="frame" x="0.0" y="0.0" width="101" height="31"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="100.66666666666667" height="31"/>
                                                                 <fontDescription key="fontDescription" name="AJannatLT" family="A Jannat LT" pointSize="14"/>
                                                                 <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="25" maxY="0.0"/>
                                                                 <inset key="imageEdgeInsets" minX="70" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -171,7 +247,7 @@
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hiD-nM-dBb">
-                                                                <rect key="frame" x="109" y="0.0" width="100.66666666666669" height="31"/>
+                                                                <rect key="frame" x="108.66666666666666" y="0.0" width="100.66666666666666" height="31"/>
                                                                 <fontDescription key="fontDescription" name="AJannatLT" family="A Jannat LT" pointSize="14"/>
                                                                 <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="25" maxY="0.0"/>
                                                                 <inset key="imageEdgeInsets" minX="70" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -183,7 +259,7 @@
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L6R-J7-6hG">
-                                                                <rect key="frame" x="217.66666666666663" y="0.0" width="101" height="31"/>
+                                                                <rect key="frame" x="217.33333333333334" y="0.0" width="100.66666666666666" height="31"/>
                                                                 <fontDescription key="fontDescription" name="AJannatLT" family="A Jannat LT" pointSize="14"/>
                                                                 <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="25" maxY="0.0"/>
                                                                 <inset key="imageEdgeInsets" minX="70" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -200,16 +276,16 @@
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Tk8-jY-AM0">
-                                                        <rect key="frame" x="326.66666666666669" y="2.3333333333333321" width="62.333333333333314" height="26.333333333333332"/>
+                                                        <rect key="frame" x="326" y="7.3333333333333321" width="63" height="16.333333333333332"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ابحث بـ" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DfR-lj-2r3">
-                                                                <rect key="frame" x="0.0" y="0.0" width="36.333333333333336" height="26.333333333333332"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="37" height="16.333333333333332"/>
                                                                 <fontDescription key="fontDescription" name="AJannatLT" family="A Jannat LT" pointSize="14"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="searchType" translatesAutoresizingMaskIntoConstraints="NO" id="CAI-00-Mdt">
-                                                                <rect key="frame" x="44.333333333333314" y="0.0" width="18" height="26.333333333333332"/>
+                                                                <rect key="frame" x="45" y="0.0" width="18" height="16.333333333333332"/>
                                                             </imageView>
                                                         </subviews>
                                                     </stackView>
@@ -3235,6 +3311,7 @@
         <image name="NewBackGround" width="330" height="513"/>
         <image name="NewCallBtn" width="55" height="55"/>
         <image name="NewLocBtn" width="55" height="55"/>
+        <image name="NewProCallBtn" width="16" height="16"/>
         <image name="OfficeBtnIcon1" width="151" height="151"/>
         <image name="ShareBtn" width="24" height="24"/>
         <image name="XBtn" width="24" height="24"/>
@@ -3435,6 +3512,7 @@ AAAnEA
         <image name="officesType" width="14" height="15"/>
         <image name="officesTypeGold" width="14" height="15"/>
         <image name="pens" width="15" height="15"/>
+        <image name="proMessage" width="15" height="15"/>
         <image name="searchType" width="18" height="12"/>
     </resources>
     <color key="tintColor" red="0.79605072740000005" green="0.65550351139999996" blue="0.060180984440000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

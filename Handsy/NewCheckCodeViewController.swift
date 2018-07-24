@@ -33,7 +33,7 @@ class NewCheckCodeViewController: UITableViewController {
     var mobile = ""
     var UserName = ""
     var imagePath = ""
-    
+    var CustomerPhotos = URL(string: "")
     var userId = ""
     var customerId = ""
     var customerName = ""
@@ -52,6 +52,7 @@ class NewCheckCodeViewController: UITableViewController {
     var CountryName = ""
     var condition = ""
     var conditionn = ""
+    
     
     @IBOutlet weak var alertTimeCode: UILabel!
     
@@ -202,10 +203,94 @@ class NewCheckCodeViewController: UITableViewController {
             GetEmptByMobileNum()
         }else {
             NextBtnOut.isEnabled = false
-            UpdateCustomers(imagePath: imagePath)
+            UpdateCustomerProfile()
         }
     }
-    
+    func UpdateCustomerProfile() {
+        let sv = UIViewController.displaySpinner(onView: self.view)
+        let UserId = UserDefaults.standard.string(forKey: "UserId")!
+        var parameters: Parameters = [:]
+        if CustomerPhotos != nil {
+            parameters = [
+                "UserId" : UserId,
+                "CustmoerName": UserName,
+                "CustomerPhoto": CustomerPhotos!,
+                "Mobile": mobile
+            ]
+        }else {
+            parameters = [
+                "UserId" : UserId,
+                "CustmoerName": UserName,
+                "CustomerPhoto": imagePath,
+                "Mobile": mobile
+            ]
+        }
+            
+            Alamofire.upload(
+                multipartFormData: { multipartFormData in
+                    for (key,value) in parameters {
+                        if let value = value as? String {
+                            multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
+                        }
+                    }
+                    if self.CustomerPhotos != nil {
+                        multipartFormData.append(self.CustomerPhotos!, withName: "CustomerPhoto", fileName: "CustomerPhoto\(arc4random_uniform(100))"+".jpeg", mimeType: "image/jpeg")
+                    }
+            },
+                usingThreshold:UInt64.init(),
+                to: "http://smusers.promit2030.com/api/ApiService/UpdateCustomerProfile",
+                method: .post,
+                encodingCompletion: { encodingResult in
+                    switch encodingResult {
+                    case .success(let upload, _, _):
+                        
+                        upload.uploadProgress(closure: { (progress) in
+                            print(progress)
+                        })
+                        upload.responseJSON { response in
+                            // If the request to get activities is succesfull, store them
+                            if response.result.isSuccess{
+                                print(response.debugDescription)
+                                
+                                let json = JSON(response.result.value!)
+                                print(json)
+                                if json == "Done" {
+                                    self.GetEmptByMobileNum()
+                                }
+                                
+                                UIViewController.removeSpinner(spinner: sv)
+                            } else {
+                                var errorMessage = "ERROR MESSAGE: "
+                                if let data = response.data {
+                                    // Print message
+                                    let responseJSON = try? JSON(data: data)
+                                    let alertController = UIAlertController(title: "خطأ في الاتصال!", message: "لم يتم ارسال الطلب\n برجاء المحاولة مرة اخرى", preferredStyle: .alert)
+                                    alertController.addAction(UIAlertAction(title: "اعادة المحاولة", style: .cancel, handler: { action in
+                                        self.UpdateCustomerProfile()
+                                        UIViewController.removeSpinner(spinner: sv)
+                                    }))
+                                    self.present(alertController, animated: true, completion: nil)
+                                    
+                                }
+                                print(errorMessage) //Contains General error message or specific.
+                                print(response.debugDescription)
+                            }
+                            
+                            
+                        }
+                    case .failure(let encodingError):
+                        print("FALLE ------------")
+                        print(encodingError)
+                        let alertController = UIAlertController(title: "خطأ في الاتصال!", message: "لم يتم ارسال الطلب\n برجاء المحاولة مرة اخرى", preferredStyle: .alert)
+                        alertController.addAction(UIAlertAction(title: "اعادة المحاولة", style: .cancel, handler: { action in
+                            self.UpdateCustomerProfile()
+                            UIViewController.removeSpinner(spinner: sv)
+                        }))
+                        self.present(alertController, animated: true, completion: nil)
+                    }
+            }
+            )
+    }
     func UpdateCustomers(imagePath: String) {
         let sv = UIViewController.displaySpinner(onView: view)
         let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")!
@@ -293,7 +378,7 @@ class NewCheckCodeViewController: UITableViewController {
                         self.CountryID = json["CountryID"].stringValue
                         self.CountryName = json["CountryName"].stringValue
                         UserDefaults.standard.set(self.userId, forKey: "UserId")
-                        UserDefaults.standard.set(self.customerId, forKey: "CustmoerId")
+                        UserDefaults.standard.set(json["CustmoerId"].stringValue, forKey: "CustmoerId")
                         UserDefaults.standard.set(self.customerName, forKey: "CustmoerName")
                         UserDefaults.standard.set(self.mobile,forKey: "mobile")
                         UserDefaults.standard.set(self.email, forKey: "Email")
@@ -315,13 +400,13 @@ class NewCheckCodeViewController: UITableViewController {
                         appDelegate.window?.rootViewController = sub
                         self.NextBtnOut.hideLoading()
                     }else {
-                        self.PushInsertUpdate()
-                        
+                        UserDefaults.standard.set(json["CustmoerId"].stringValue, forKey: "CustmoerId")
                         UserDefaults.standard.set(json["UserId"].stringValue, forKey: "UserId")
                         UserDefaults.standard.set(json["CustmoerName"].stringValue, forKey: "CustmoerName")
                         UserDefaults.standard.set(json["Email"].stringValue, forKey: "Email")
                         UserDefaults.standard.set(json["CustomerPhoto"].stringValue, forKey: "CustomerPhoto")
                         UserDefaults.standard.set(json["Mobile"].stringValue, forKey: "mobile")
+                        self.PushInsertUpdate()
                         let storyBoard : UIStoryboard = UIStoryboard(name: "Home", bundle:nil)
                         let sub = storyBoard.instantiateViewController(withIdentifier: "AlertUpdateDateViewController") as! AlertUpdateDateViewController
                         sub.modalPresentationStyle = .custom

@@ -171,9 +171,9 @@ class DetailsDesignTableViewController: UITableViewController {
     }
     
     func ComapnyNameFunc(companyName: String, companyLogo: String, JobName: String){
-        EngNameLabel.setTitle(self.EmpName, for: .normal)
+        EngNameLabel.setTitle(self.mobileStr, for: .normal)
         companyNameLabel.text = companyName
-        JopNameLabel.text = JobName
+        JopNameLabel.text = EmpName
         if let url = URL.init(string: companyLogo) {
             companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{

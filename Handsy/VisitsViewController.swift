@@ -25,11 +25,13 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var StatusId = ""
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var NothingLabel: UILabel!
-    
+    @IBOutlet weak var statusNameBtn: UIButton!
+    @IBOutlet weak var cancelStatusBtn: UIButton!
     @IBOutlet weak var AlertImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        cancelStatusBtn.isHidden = true
         if condition == "New" {
             navigationItem.title = "الزيارات الجديدة"
         }else if condition == "Other" {
@@ -99,6 +101,15 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
 //        view.backgroundColor = UIColor.clear
 //        return view
 //    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 20
+    }
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = UIColor.clear
+        return view
+    }
 
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -126,11 +137,18 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "VisitsTableViewCell", for: indexPath) as! VisitsTableViewCell
-    
-        cell.officeNameLabel.text = searchResu[indexPath.section].ComapnyName
+        DispatchQueue.main.async {
+            cell.statusV.roundCorners(.bottomRight, radius: 10.0)
+            cell.roundCorners([.bottomLeft,.bottomRight,.topRight], radius: 10)
+        }
+
+        cell.officeNameLabel.setTitle(searchResu[indexPath.section].ComapnyName, for: .normal)
         cell.titleVisit.text = searchResu[indexPath.section].Title
         cell.dateOfVisit.text = searchResu[indexPath.section].Start
-        cell.startTime.text = "\(searchResu[indexPath.section].StartTime) - \(searchResu[indexPath.section].EndTime)"
+        cell.startTime.text = searchResu[indexPath.section].StartTime
+        cell.endTime.text = searchResu[indexPath.section].EndTime
+        cell.projectTitle.text = searchResu[indexPath.section].ProjectBildTypeName
+        cell.companyMobile.setTitle(searchResu[indexPath.section].Mobile, for: .normal)
         cell.companyAddress.text = searchResu[indexPath.section].Address
         let img = searchResu[indexPath.section].Logo
         if let url = URL.init(string: img) {
@@ -190,6 +208,19 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 cont.Logo = searchResu[indexPath.section].Logo
             }
         }
+    }
+    
+    @IBAction func DetialsBtnAction(_ sender: UIButton) {
+        let point = sender.convert(CGPoint.zero, to: tableView)
+        let index = tableView.indexPathForRow(at: point)?.section
+        let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "DetailsOfOfficeTableViewController") as! DetailsOfOfficeTableViewController
+        secondView.isCompany = searchResu[index!].IsCompany!
+        secondView.CompanyInfoID = searchResu[index!].CompanyInfoID!
+        secondView.conditionService = "condition"
+        secondView.LatBranch = searchResu[index!].LatBranch
+        secondView.LngBranch = searchResu[index!].LngBranch
+        self.navigationController?.pushViewController(secondView, animated: true)
     }
     
     @IBAction func openVisitDetials(_ sender: UIButton) {
@@ -290,10 +321,50 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             }
         }
     }
+    
+    @IBAction func filtetByStatusName(_ sender: UIButton) {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "VisitsAndDetails", bundle: nil)
+        let dvc = storyBoard.instantiateViewController(withIdentifier: "MeetingStatusFilterTableViewController") as! MeetingStatusFilterTableViewController
+        dvc.filterVisitsDelegate = self
+        if condition == "New" {
+            dvc.type = "1"
+            dvc.preferredContentSize = CGSize(width: 200, height: 100)
+        }else {
+            dvc.type = "2"
+            dvc.preferredContentSize = CGSize(width: 200, height: 200)
+        }
+        dvc.statusId = StatusId
+        dvc.modalPresentationStyle = .popover
+        dvc.popoverPresentationController?.sourceView = sender
+        dvc.popoverPresentationController?.sourceRect = CGRect(x: sender.frame.maxX, y: sender.frame.maxY, width: 0, height: 0)
+        dvc.popoverPresentationController?.delegate = self
+        dvc.popoverPresentationController?.permittedArrowDirections = [.up]
+        self.present(dvc, animated: true, completion: nil)
+    }
+    
+    @IBAction func cancelFilterStatus(_ sender: UIButton) {
+        cancelStatusBtn.isHidden = true
+        statusNameBtn.setTitle("تصفية بحالة الزيارة", for: .normal)
+        if condition == "New" {
+            model.GetMeetingByCustId(view: self.view, VC: self, condition: condition, StatusId: "")
+        }else if condition == "Other" {
+            model.GetMeetingByCustId(view: self.view, VC: self, condition: condition, StatusId: "")
+        }else {
+        }
+    }
+    
 }
 
 extension VisitsViewController: FilterVisitsDelegate {
     func filterVisitsByStatusId(StatusId: String, StatusName: String){
         model.GetMeetingByCustId(view: self.view, VC: self, condition: "", StatusId: StatusId)
+        self.StatusId = StatusId
+        statusNameBtn.setTitle(StatusName, for: .normal)
+        cancelStatusBtn.isHidden = false
+    }
+}
+extension VisitsViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
     }
 }

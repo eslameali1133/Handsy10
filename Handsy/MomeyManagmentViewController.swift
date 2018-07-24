@@ -28,21 +28,51 @@ class MomeyManagmentViewController: UIViewController {
         
     }
     @IBOutlet weak var Segm: AWSegmentMoney!
+    @IBOutlet var navViewOut: UIView!
+    @IBOutlet weak var titleVCLabel: UILabel!
+    @IBOutlet weak var callBtn: UIButton!{
+        didSet {
+            callBtn.layer.borderWidth = 1.0
+            callBtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            callBtn.layer.cornerRadius = 4.0
+        }
+    }
+    @IBOutlet weak var messageBtn: UIButton!{
+        didSet {
+            messageBtn.layer.borderWidth = 1.0
+            messageBtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            messageBtn.layer.cornerRadius = 4.0
+        }
+    }
+    @IBOutlet weak var messageNotfiCount: UILabel!{
+        didSet {
+            DispatchQueue.main.async {
+                self.messageNotfiCount.layer.cornerRadius = self.messageNotfiCount.frame.width/2
+                self.messageNotfiCount.layer.masksToBounds = true
+            }
+        }
+    }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        messageNotfiCount.isHidden = true
         Segm.backgroundColor = UIColor(red: 58/255.0, green: 59/255.0, blue: 60/255.0, alpha: 1.0)
         navigationItem.title = "الماليات والعقد"
 //        assignbackground()
         CollectedView.isHidden = false
         DontCollectedView.isHidden = true
-        // Do any additional setup after loading the view.
+        DispatchQueue.main.async {
+            self.navViewOut.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 32)
+            self.navViewOut.widthAnchor.constraint(equalToConstant: self.view.frame.width-20).isActive = true
+            self.navigationItem.titleView = self.navViewOut
+        }
+        
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+   
+    
     func assignbackground(){
         DispatchQueue.main.async {
             let imageView = UIImageView(image: #imageLiteral(resourceName: "splash"))
@@ -58,14 +88,19 @@ class MomeyManagmentViewController: UIViewController {
         }
     }
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    @IBAction func callBtnAction(_ sender: UIButton) {
+        callButtonPressed()
+    }
+    
+    @IBAction func homeChatAction(_ sender: UIButton) {
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Chat", bundle: nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "HomeChatOfProjectsViewController") as! HomeChatOfProjectsViewController
+        self.navigationController?.pushViewController(secondView, animated: true)
+    }
+    @objc func callButtonPressed() {
+        let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle: nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "ContactUSViewController") as! ContactUSViewController
+        self.navigationController?.pushViewController(secondView, animated: true)
+    }
     
 }

@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
 
 class FilterDesignsViewController: UIViewController {
 
@@ -21,11 +23,12 @@ class FilterDesignsViewController: UIViewController {
     var LngBranch: Double = 0.0
     var ProjectOfResult: [ProjectDetialsArray] = [ProjectDetialsArray]()
     var condition = ""
-
+    var NewDesignsCount = ""
+    var FinishDesignsCount = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        DesignsCountByCustmoerId()
         // Do any additional setup after loading the view.
     }
 
@@ -51,10 +54,14 @@ class FilterDesignsViewController: UIViewController {
             secondView.ProjectOfResult = ProjectOfResult
             self.navigationController?.pushViewController(secondView, animated: true)
         }else {
-            let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
-            let secondView = storyBoard.instantiateViewController(withIdentifier: "ProjectsContinueViewController") as! ProjectsContinueViewController
-            secondView.condition = "New"
-            self.navigationController?.pushViewController(secondView, animated: true)
+            if NewDesignsCount == "0" {
+                Toast.long(message: "لايوجد تصاميم جديدة حالياً")
+            }else {
+                let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
+                let secondView = storyBoard.instantiateViewController(withIdentifier: "ProjectsContinueViewController") as! ProjectsContinueViewController
+                secondView.condition = "New"
+                self.navigationController?.pushViewController(secondView, animated: true)
+            }
         }
     }
     
@@ -63,10 +70,27 @@ class FilterDesignsViewController: UIViewController {
         if condition == ""{
             
         }else {
-            let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
-            let secondView = storyBoard.instantiateViewController(withIdentifier: "ProjectsContinueViewController") as! ProjectsContinueViewController
-            secondView.condition = "Other"
-            self.navigationController?.pushViewController(secondView, animated: true)
+            if FinishDesignsCount == "0" {
+                Toast.long(message: "لا يوجد تصاميم منتهية حالياً")
+            }else{
+                let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
+                let secondView = storyBoard.instantiateViewController(withIdentifier: "ProjectsContinueViewController") as! ProjectsContinueViewController
+                secondView.condition = "Other"
+                self.navigationController?.pushViewController(secondView, animated: true)
+            }
+        }
+    }
+    
+    func DesignsCountByCustmoerId() {
+        let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")!
+        let parameters: Parameters = [
+            "CustmoerId": CustmoerId
+        ]
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/DesignsCountByCustmoerId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+            debugPrint(response)
+            let json = JSON(response.result.value!)
+            self.FinishDesignsCount = json["FinishMeetingCount"].stringValue
+            self.NewDesignsCount = json["NewMeetingCount"].stringValue
         }
     }
     

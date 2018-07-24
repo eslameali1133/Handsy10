@@ -141,7 +141,10 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
     var ComapnyName = ""
     var CompanyAddress = ""
     var Logo = ""
-    
+    let applicationl = UIApplication.shared
+    var NotiProjectCount = 0
+    var NotiMessageCount = 0
+    var NotiTotalCount = 0
     var pushCond = ""
     
     @IBOutlet weak var paymentsCost: UILabel!
@@ -183,6 +186,7 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
         tableView.reloadData()
         tableView.delegate = self
         tableView.dataSource = self
+        CountCustomerNotification()
     }
     
     func loadTabel(){
@@ -255,7 +259,7 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
             print("error status \(status)")
         }
         //        companyNameLabel.text = ProjectOfResult[0].ComapnyName!
-        projectTitleLabel.text = "( \(ProjectOfResult[0].ProjectTitle!) )"
+        projectTitleLabel.text = "\(ProjectOfResult[0].ProjectTitle!)"
         EngNameLabel.text = ProjectOfResult[0].EmpName
         engJobName.text = ProjectOfResult[0].JobName
         let img = ProjectOfResult[0].EmpImage
@@ -695,5 +699,40 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
         let secondView = storyBoard.instantiateViewController(withIdentifier: "MyProjectNotficationViewController") as! MyProjectNotficationViewController
         secondView.projectId = self.ProjectOfResult[0].ProjectId!
         self.navigationController?.pushViewController(secondView, animated: true)
+    }
+    
+    func CountCustomerNotification() {
+        let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")!
+        let parameters: Parameters = [
+            "CustmoerId":CustmoerId
+        ]
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+            switch response.result {
+            case .success:
+                let json = JSON(response.result.value!)
+                print(json)
+                self.NotiProjectCount = json["NotiProjectCount"].intValue
+                self.NotiMessageCount = json["NotiMessageCount"].intValue
+                self.NotiTotalCount = json["NotiTotalCount"].intValue
+                self.setAppBadge()
+            case .failure(let error):
+                print(error)
+                let alertAction = UIAlertController(title: "خطاء في الاتصال", message: "اعادة المحاولة", preferredStyle: .alert)
+                
+                alertAction.addAction(UIAlertAction(title: "نعم", style: .default, handler: { action in
+                    self.CountCustomerNotification()
+                }))
+                
+                alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+                }))
+                
+                self.present(alertAction, animated: true, completion: nil)
+                
+            }
+        }
+    }
+    func setAppBadge() {
+        let count = NotiTotalCount
+        applicationl.applicationIconBadgeNumber = count
     }
 }

@@ -23,13 +23,7 @@ class VisitsTableViewCell: UITableViewCell {
     @IBOutlet weak var titleVisit: UILabel!
     @IBOutlet weak var companyAddress: UILabel!
     @IBOutlet weak var dateOfVisit: UILabel!
-    @IBOutlet weak var statusV: UIView!{
-        didSet {
-            DispatchQueue.main.async {
-                self.statusV.roundCorners(.bottomRight, radius: 10.0)
-            }
-        }
-    }
+    @IBOutlet weak var statusV: UIView!
     @IBOutlet weak var statusNameLabel: UILabel!
     @IBOutlet weak var companyLogoImage: UIImageView!{
         didSet {
@@ -41,14 +35,15 @@ class VisitsTableViewCell: UITableViewCell {
     }
     
     @IBOutlet weak var startTime: UILabel!
-    @IBOutlet weak var officeNameLabel: UILabel!
+    
+    @IBOutlet weak var endTime: UILabel!
+    @IBOutlet weak var officeNameLabel: UIButton!
+    @IBOutlet weak var projectTitle: UILabel!
+    @IBOutlet weak var companyMobile: UIButton!
     
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        DispatchQueue.main.async {
-            self.roundCorners([.bottomLeft,.bottomRight,.topRight], radius: 10)
-        }
         // Initialization code
     }
 

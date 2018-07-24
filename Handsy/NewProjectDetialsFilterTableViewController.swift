@@ -191,9 +191,11 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     var LastDesignStagesID: String = ""
     var LastMeetingID: String = ""
     var MeetingNotifiCount: String = ""
+    var MeetingCount = ""
     var DesignNotifiCount: String = ""
     var NotifiCount: Int?
-    
+    var ProjectFileCount: String = ""
+    var FileCount: String = ""
     var arrayOfResulr = [GetOfficesArray]()
     var indexi:Int = 0
     var isCompany = ""
@@ -374,7 +376,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             print("error status \(status)")
         }
 //        companyNameLabel.text = ProjectOfResult[0].ComapnyName!
-        projectTitleLabel.text = "( \(ProjectOfResult[0].ProjectTitle!) )"
+        projectTitleLabel.text = ProjectOfResult[0].ProjectTitle
         EngNameLabel.text = ProjectOfResult[0].EmpName
         engJobName.text = ProjectOfResult[0].JobName
         let img = ProjectOfResult[0].EmpImage
@@ -474,11 +476,14 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     }
     
     func setFourthSection() {
-        if ProjectOfResult[0].MeetingDate != "" {
-            print("visits: \(ProjectOfResult[0].MeetingDate!)")
+        if self.ProjectOfResult[0].Meetingcount != "" {
 //            newVisitsCountImage.isHidden = false
-            newVisitsCountLabel.isHidden = false
-            newVisitsCountLabel.text = "1"
+            if self.ProjectOfResult[0].Meetingcount == "0" {
+                newVisitsCountLabel.isHidden = true
+            }else {
+                newVisitsCountLabel.isHidden = false
+            }
+            newVisitsCountLabel.text = self.ProjectOfResult[0].Meetingcount
         } else {
 //            newVisitsCountImage.isHidden = true
             newVisitsCountLabel.isHidden = true
@@ -782,8 +787,10 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             debugPrint(response)
             
             let json = JSON(response.result.value!)
-            let requestProjectObj = ProjectDetialsArray(ProjectId: json["ProjectId"].stringValue, ProjectsPaymentsCost: json["ProjectsPaymentsCost"].stringValue, CountNotPaid: json["CountNotPaid"].stringValue, CountPaid: json["CountPaid"].stringValue, EmpImage: json["EmpImage"].stringValue, BranchID: json["BranchID"].stringValue, BranchName: json["BranchName"].stringValue, CustmoerName: json["CustmoerName"].stringValue, CustomerEmail: json["CustomerEmail"].stringValue, CustomerMobile: json["CustomerMobile"].stringValue, CustomerNationalId: json["CustomerNationalId"].stringValue, DataSake: json["DataSake"].stringValue, DateLicence: json["DateLicence"].stringValue, EmpMobile: json["EmpMobile"].stringValue, EmpName: json["EmpName"].stringValue, GroundId: json["GroundId"].stringValue, IsDeleted: json["IsDeleted"].stringValue, JobName: json["JobName"].stringValue, LatBranch: json["LatBranch"].doubleValue, LatPrj: json["LatPrj"].stringValue, LicenceNum: json["LicenceNum"].stringValue, LngBranch: json["LngBranch"].doubleValue, LngPrj: json["LngPrj"].stringValue, Notes: json["Notes"].stringValue, PlanId: json["PlanId"].stringValue, ProjectInvoice: json["ProjectInvoice"].stringValue, ProjectContract: json["ProjectContract"].stringValue, ProjectStatusNum: json["ProjectStatusNum"].stringValue, ProjectBildTypeId: json["ProjectBildTypeId"].stringValue, ProjectEngComment: json["ProjectEngComment"].stringValue, ProjectStatusColor: json["ProjectStatusColor"].stringValue, ProjectStatusID: json["ProjectStatusID"].stringValue, ProjectStatusName: json["ProjectStatusName"].stringValue, ProjectTitle: json["ProjectTitle"].stringValue, ProjectTypeId: json["ProjectTypeId"].stringValue, ProjectTypeName: json["ProjectTypeName"].stringValue, SakNum: json["SakNum"].stringValue, Space: json["Space"].stringValue, Status: json["Status"].stringValue, TotalNotPaid: json["TotalNotPaid"].stringValue, TotalPaid: json["TotalPaid"].stringValue, ZoomBranch: json["ZoomBranch"].stringValue, ZoomPrj: json["ZoomPrj"].stringValue, projectOrderContractPhotoPath: json["projectOrderContractPhotoPath"].stringValue, ProvincesName: json["ProvincesName"].stringValue, SectoinName: json["SectoinName"].stringValue, ProjectsOrdersCellarErea: json["ProjectsOrdersCellarErea"].stringValue, ProjectsOrdersReFloorErea: json["ProjectsOrdersReFloorErea"].stringValue, ProjectsOrdersSupplementErea: json["ProjectsOrdersSupplementErea"].stringValue, ProjectsOrdersSupplementExternalErea: json["ProjectsOrdersSupplementExternalErea"].stringValue, ProjectsOrdersFloorErea: json["ProjectsOrdersFloorErea"].stringValue, ProjectsOrdersLandErea: json["ProjectsOrdersLandErea"].stringValue, ProjectsOrdersFloorNummber: json["ProjectsOrdersFloorNummber"].stringValue, ProjectsOrdersTotalBildErea: json["ProjectsOrdersTotalBildErea"].stringValue, ProjectsPaymentsWork: json["ProjectsPaymentsWork"].stringValue, ProjectsPaymentsDiscount: json["ProjectsPaymentsDiscount"].stringValue, CompanyInfoID: json["CompanyInfoID"].stringValue, ComapnyName: json["ComapnyName"].stringValue, CompanyAddress: json["Address"].stringValue, Logo: json["Logo"].stringValue, isCompany: json["IsCompany"].stringValue, DesignNewCount: json["DesignNewCount"].stringValue, DesignCount: json["DesignCount"].stringValue, MeetingDate: json["MeetingDate"].stringValue, MeetingTime: json["MeetingTime"].stringValue, ProjectLastComment: json["ProjectLastComment"].stringValue, ProjectLastTpye: json["ProjectLastTpye"].stringValue, ProjectCommentOther: json["ProjectCommentOther"].stringValue, LastDesignStagesID: json["LastDesignStagesID"].stringValue, LastMeetingID: json["LastMeetingID"].stringValue, MeetingNotifiCount: json["MeetingNotifiCount"].stringValue, DesignNotifiCount: json["DesignNotifiCount"].stringValue, NotifiCount: json["NotifiCount"].intValue)
+            let requestProjectObj = ProjectDetialsArray(ProjectId: json["ProjectId"].stringValue, ProjectsPaymentsCost: json["ProjectsPaymentsCost"].stringValue, CountNotPaid: json["CountNotPaid"].stringValue, CountPaid: json["CountPaid"].stringValue, EmpImage: json["EmpImage"].stringValue, BranchID: json["BranchID"].stringValue, BranchName: json["BranchName"].stringValue, CustmoerName: json["CustmoerName"].stringValue, CustomerEmail: json["CustomerEmail"].stringValue, CustomerMobile: json["CustomerMobile"].stringValue, CustomerNationalId: json["CustomerNationalId"].stringValue, DataSake: json["DataSake"].stringValue, DateLicence: json["DateLicence"].stringValue, EmpMobile: json["EmpMobile"].stringValue, EmpName: json["EmpName"].stringValue, GroundId: json["GroundId"].stringValue, IsDeleted: json["IsDeleted"].stringValue, JobName: json["JobName"].stringValue, LatBranch: json["LatBranch"].doubleValue, LatPrj: json["LatPrj"].stringValue, LicenceNum: json["LicenceNum"].stringValue, LngBranch: json["LngBranch"].doubleValue, LngPrj: json["LngPrj"].stringValue, Notes: json["Notes"].stringValue, PlanId: json["PlanId"].stringValue, ProjectInvoice: json["ProjectInvoice"].stringValue, ProjectContract: json["ProjectContract"].stringValue, ProjectStatusNum: json["ProjectStatusNum"].stringValue, ProjectBildTypeId: json["ProjectBildTypeId"].stringValue, ProjectEngComment: json["ProjectEngComment"].stringValue, ProjectStatusColor: json["ProjectStatusColor"].stringValue, ProjectStatusID: json["ProjectStatusID"].stringValue, ProjectStatusName: json["ProjectStatusName"].stringValue, ProjectTitle: json["ProjectTitle"].stringValue, ProjectTypeId: json["ProjectTypeId"].stringValue, ProjectTypeName: json["ProjectTypeName"].stringValue, SakNum: json["SakNum"].stringValue, Space: json["Space"].stringValue, Status: json["Status"].stringValue, TotalNotPaid: json["TotalNotPaid"].stringValue, TotalPaid: json["TotalPaid"].stringValue, ZoomBranch: json["ZoomBranch"].stringValue, ZoomPrj: json["ZoomPrj"].stringValue, projectOrderContractPhotoPath: json["projectOrderContractPhotoPath"].stringValue, ProvincesName: json["ProvincesName"].stringValue, SectoinName: json["SectoinName"].stringValue, ProjectsOrdersCellarErea: json["ProjectsOrdersCellarErea"].stringValue, ProjectsOrdersReFloorErea: json["ProjectsOrdersReFloorErea"].stringValue, ProjectsOrdersSupplementErea: json["ProjectsOrdersSupplementErea"].stringValue, ProjectsOrdersSupplementExternalErea: json["ProjectsOrdersSupplementExternalErea"].stringValue, ProjectsOrdersFloorErea: json["ProjectsOrdersFloorErea"].stringValue, ProjectsOrdersLandErea: json["ProjectsOrdersLandErea"].stringValue, ProjectsOrdersFloorNummber: json["ProjectsOrdersFloorNummber"].stringValue, ProjectsOrdersTotalBildErea: json["ProjectsOrdersTotalBildErea"].stringValue, ProjectsPaymentsWork: json["ProjectsPaymentsWork"].stringValue, ProjectsPaymentsDiscount: json["ProjectsPaymentsDiscount"].stringValue, CompanyInfoID: json["CompanyInfoID"].stringValue, ComapnyName: json["ComapnyName"].stringValue, CompanyAddress: json["Address"].stringValue, Logo: json["Logo"].stringValue, isCompany: json["IsCompany"].stringValue, DesignNewCount: json["DesignNewCount"].stringValue, DesignCount: json["DesignCount"].stringValue, Meetingcount: json["Meetingcount"].stringValue, MeetingDate: json["MeetingDate"].stringValue, MeetingTime: json["MeetingTime"].stringValue, ProjectLastComment: json["ProjectLastComment"].stringValue, ProjectLastTpye: json["ProjectLastTpye"].stringValue, ProjectCommentOther: json["ProjectCommentOther"].stringValue, LastDesignStagesID: json["LastDesignStagesID"].stringValue, LastMeetingID: json["LastMeetingID"].stringValue, MeetingNotifiCount: json["MeetingNotifiCount"].stringValue, DesignNotifiCount: json["DesignNotifiCount"].stringValue, NotifiCount: json["NotifiCount"].intValue, FileCount: json["FileCount"].stringValue, ProjectFileCount: json["ProjectFileCount"].stringValue)
                 UserDefaults.standard.set(json["CompanyInfoID"].stringValue, forKey: "companyInfoID")
+            self.FileCount = json["FileCount"].stringValue
+            self.ProjectFileCount = json["ProjectFileCount"].stringValue
             self.ProjectId = json["ProjectId"].stringValue
             self.ProjectsPaymentsCost = json["ProjectsPaymentsCost"].stringValue
             self.CountNotPaid = json["CountNotPaid"].stringValue
@@ -847,6 +854,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             self.isCompany = json["IsCompany"].stringValue
             self.DesignNewCount = json["DesignNewCount"].stringValue
             self.DesignCount = json["DesignCount"].stringValue
+            self.MeetingCount = json["Meetingcount"].stringValue
             self.MeetingDate = json["MeetingDate"].stringValue
             self.MeetingTime = json["MeetingTime"].stringValue
             self.ProjectLastComment = json["ProjectLastComment"].stringValue
@@ -1002,7 +1010,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     }
     
     @IBAction func goVisitsViewController(_ sender: UIButton) {
-        let meetingCount = self.ProjectOfResult[0].MeetingNotifiCount!
+        let meetingCount = self.ProjectOfResult[0].MeetingNotifiCount
         if meetingCount == "" || meetingCount == "0" {
             Toast.long(message: "لا يوجد زيارات لك حالياً")
         }else {
@@ -1029,44 +1037,61 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     
     
     @IBAction func MyFilesBtn(_ sender: UIButton) {
-        let storyBoard : UIStoryboard = UIStoryboard(name: "MyFilesAndMoney", bundle:nil)
-        let secondView = storyBoard.instantiateViewController(withIdentifier: "ProjectFilesViewController") as! ProjectFilesViewController
-        secondView.ProjectId = self.ProjectOfResult[0].ProjectId!
-        secondView.projectTitleView = "(\(self.ProjectOfResult[0].ProjectTitle!)"+" - "+"\(self.ProjectOfResult[0].ProjectTypeName!))"
-        secondView.type = "1"
-        secondView.ProjectFilesTitle = "وثائق الأرض"
-        secondView.ComapnyName = self.ProjectOfResult[0].ComapnyName!
-        secondView.Logo = self.ProjectOfResult[0].Logo!
-        if Reachability.isConnectedToNetwork(){
-            print("Internet Connection Available!")
-            secondView.EmpMobile = self.ProjectOfResult[0].EmpMobile!
-        }else{
-            secondView.EmpMobile = self.EmpMobile
+        if FileCount == "0" {
+            Toast.long(message: "لايوجد وثائق للارض")
+        }else {
+            let storyBoard : UIStoryboard = UIStoryboard(name: "MyFilesAndMoney", bundle:nil)
+            let secondView = storyBoard.instantiateViewController(withIdentifier: "ProjectFilesViewController") as! ProjectFilesViewController
+            secondView.ProjectId = self.ProjectOfResult[0].ProjectId!
+            secondView.projectTitleView = "(\(self.ProjectOfResult[0].ProjectTitle!)"+" - "+"\(self.ProjectOfResult[0].ProjectTypeName!))"
+            secondView.type = "1"
+            secondView.ProjectFilesTitle = "وثائق الأرض"
+            secondView.ComapnyName = self.ProjectOfResult[0].ComapnyName!
+            secondView.Logo = self.ProjectOfResult[0].Logo!
+            if Reachability.isConnectedToNetwork(){
+                print("Internet Connection Available!")
+                secondView.EmpMobile = self.ProjectOfResult[0].EmpMobile!
+            }else{
+                secondView.EmpMobile = self.EmpMobile
+            }
+            secondView.EmpName = self.ProjectOfResult[0].EmpName!
+            secondView.LatBranch = LatBranch
+            secondView.LngBranch = LngBranch
+            self.navigationController?.pushViewController(secondView, animated: true)
         }
-        secondView.EmpName = self.ProjectOfResult[0].EmpName!
-        secondView.LatBranch = LatBranch
-        secondView.LngBranch = LngBranch
-        self.navigationController?.pushViewController(secondView, animated: true)
     }
     
     @IBAction func ProjectFilesBtn(_ sender: UIButton) {
-        let storyBoard : UIStoryboard = UIStoryboard(name: "MyFilesAndMoney", bundle:nil)
-        let secondView = storyBoard.instantiateViewController(withIdentifier: "ProjectFilesViewController") as! ProjectFilesViewController
-        secondView.ProjectId = self.ProjectOfResult[0].ProjectId!
-        secondView.projectTitleView = "(\(self.ProjectOfResult[0].ProjectTitle!)"+" - "+"\(self.ProjectOfResult[0].ProjectTypeName!))"
-        secondView.type = "2"
-        secondView.ProjectFilesTitle = "ملفات المشروع"
-        secondView.ComapnyName = self.ProjectOfResult[0].ComapnyName!
-        secondView.Logo = self.ProjectOfResult[0].Logo!
-        if Reachability.isConnectedToNetwork(){
-            print("Internet Connection Available!")
-            secondView.EmpMobile = self.ProjectOfResult[0].EmpMobile!
-        }else{
-            secondView.EmpMobile = self.EmpMobile
+        if ProjectFileCount == "0" {
+            Toast.long(message: "لايوجد ملفات للمشروع")
+        }else {
+            let storyBoard : UIStoryboard = UIStoryboard(name: "MyFilesAndMoney", bundle:nil)
+            let secondView = storyBoard.instantiateViewController(withIdentifier: "ProjectFilesViewController") as! ProjectFilesViewController
+            secondView.ProjectId = self.ProjectOfResult[0].ProjectId!
+            secondView.projectTitleView = "(\(self.ProjectOfResult[0].ProjectTitle!)"+" - "+"\(self.ProjectOfResult[0].ProjectTypeName!))"
+            secondView.type = "2"
+            secondView.ProjectFilesTitle = "ملفات المشروع"
+            secondView.ComapnyName = self.ProjectOfResult[0].ComapnyName!
+            secondView.Logo = self.ProjectOfResult[0].Logo!
+            if Reachability.isConnectedToNetwork(){
+                print("Internet Connection Available!")
+                secondView.EmpMobile = self.ProjectOfResult[0].EmpMobile!
+            }else{
+                secondView.EmpMobile = self.EmpMobile
+            }
+            secondView.EmpName = self.ProjectOfResult[0].EmpName!
+            secondView.LatBranch = LatBranch
+            secondView.LngBranch = LngBranch
+            self.navigationController?.pushViewController(secondView, animated: true)
         }
-        secondView.EmpName = self.ProjectOfResult[0].EmpName!
-        secondView.LatBranch = LatBranch
-        secondView.LngBranch = LngBranch
-        self.navigationController?.pushViewController(secondView, animated: true)
+        
+    }
+    
+    @IBAction func openChatBtn(_ sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Chat", bundle: nil)
+        let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
+        FirstViewController.ProjectId = self.ProjectId
+        let topController = UIApplication.topViewController()
+        topController?.present(FirstViewController, animated: false, completion: nil)
     }
 }

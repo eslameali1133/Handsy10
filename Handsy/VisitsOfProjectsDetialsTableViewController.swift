@@ -49,6 +49,7 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
     var arrayOfResulr = [GetOfficesArray]()
     var indexi:Int = 0
     var isCompany = ""
+    var ProjectId = ""
     
     @IBOutlet weak var DataStart: UILabel!
     @IBOutlet weak var statusImage: UIImageView!
@@ -114,7 +115,7 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
             if visitsDetialsModel.returnProjectDetials(at: MeetingID) != nil {
                 let visitsDetials = visitsDetialsModel.returnProjectDetials(at: MeetingID)
                 self.visitsDetialsArray = [visitsDetials!]
-                self.ComapnyNameFunc(EmpName: visitsDetialsArray[0].EmpName!, companyName: visitsDetialsArray[0].ComapnyName!, companyLogo: visitsDetialsArray[0].Logo!, JobName: visitsDetialsArray[0].JobName!)
+                self.ComapnyNameFunc(EmpName: visitsDetialsArray[0].Mobile!, companyName: visitsDetialsArray[0].ComapnyName!, companyLogo: visitsDetialsArray[0].Logo!, JobName: visitsDetialsArray[0].EmpName!)
                 self.setDetiales(condition: "offline")
             }
         }
@@ -155,7 +156,7 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
             for i in self.visitsDetialsArray {
                 self.visitsDetialsModel.append(i)
             }
-            self.ComapnyNameFunc(EmpName: self.EmpName, companyName: self.ComapnyName, companyLogo: self.Logo, JobName: self.JobName)
+            self.ComapnyNameFunc(EmpName: self.Mobile, companyName: self.ComapnyName, companyLogo: self.Logo, JobName: self.EmpName)
             self.setDetiales(condition: "online")
 
         }
@@ -446,6 +447,14 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
         secondView.LatBranch = LatBranch
         secondView.LngBranch = LngBranch
         self.navigationController?.pushViewController(secondView, animated: true)
+    }
+    
+    @IBAction func openChatBtn(_ sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Chat", bundle: nil)
+        let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
+        FirstViewController.ProjectId = ProjectId
+        let topController = UIApplication.topViewController()
+        topController?.present(FirstViewController, animated: false, completion: nil)
     }
     
     @IBAction func CallMe(_ sender: UIButton) {

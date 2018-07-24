@@ -35,7 +35,13 @@ class VisitsOfProjectsTableViewCell: UITableViewCell {
 
     @IBOutlet weak var titleVisit: UILabel!
     @IBOutlet weak var dateOfVisit: UILabel!
-    @IBOutlet weak var statusImage: UIImageView!
+    @IBOutlet weak var Status: UIView!{
+        didSet {
+            DispatchQueue.main.async {
+                self.Status.roundCorners(.bottomRight, radius: 10.0)
+            }
+        }
+    }
     @IBOutlet weak var statusNameLabel: UILabel!
     
     @IBOutlet weak var startTime: UILabel!
@@ -45,6 +51,9 @@ class VisitsOfProjectsTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        DispatchQueue.main.async {
+            self.roundCorners([.bottomLeft,.bottomRight,.topRight], radius: 10)
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

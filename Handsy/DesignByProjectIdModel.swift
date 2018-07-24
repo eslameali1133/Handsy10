@@ -23,14 +23,23 @@ class DesignByProjectIdModel: NSObject {
     
     var delegate: DesignByProjectIdModelDelegate?
     
-    func GetDesignsByProjectID(view: UIView, projectId: String){
+    func GetDesignsByProjectID(view: UIView, projectId: String, type: String, StatusId: String){
         let sv = UIViewController.displaySpinner(onView: view)
+        var parameters: Parameters = [:]
+        if type == "1" {
+            parameters = [
+            "projectId": projectId,
+            "Type": type
+            ]
+        }else {
+            parameters = [
+            "projectId": projectId,
+            "Type": type,
+            "StatusId": StatusId
+            ]
+        }
         
-        let Parameters: Parameters = [
-            "projectId": projectId
-        ]
-        
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetDesignsByProjectID", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetDesignsByProjectID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             var arrayOfResulr = [DesignByProjectIdArray]()

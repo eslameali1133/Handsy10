@@ -81,6 +81,7 @@ class DesignDetailsTableViewController: UITableViewController {
     var DesignStagesID: String = ""
     var Details: String = ""
     var EmpName: String = ""
+    var EmpMobile: String = ""
     var mobileStr: String = ""
     var ProjectBildTypeName: String = ""
     var ProjectStatusID: String = ""
@@ -99,6 +100,7 @@ class DesignDetailsTableViewController: UITableViewController {
     var arrayOfResulr = [GetOfficesArray]()
     var indexi:Int = 0
     var isCompany = ""
+    var ProjectId = ""
     
     var designsDetialsOfResult = [DesignsDetialsArray]()
     var designsDetialsModel: DesignsDetialsModel = DesignsDetialsModel()
@@ -258,20 +260,16 @@ class DesignDetailsTableViewController: UITableViewController {
             adjustUITextViewHeight(arg: DetailsDes)
             
             if designsDetialsOfResult[0].ClientReply == "" {
-               
                 MyDetials.isHidden = true
                 NotesCus.isHidden = true
             } else {
-                
                 MyDetials.isHidden = false
                 NotesCus.isHidden = false
             }
             if designsDetialsOfResult[0].EmpReply == "" {
-                
                 DetailsEngView.isHidden = true
                 NotesEng.isHidden = true
             } else {
-                
                 DetailsEngView.isHidden = false
                 NotesEng.isHidden = false
             }
@@ -322,9 +320,9 @@ class DesignDetailsTableViewController: UITableViewController {
     }
     
     func ComapnyNameFunc(companyName: String, companyLogo: String, JobName: String){
-        EngNameLabel.setTitle(self.EmpName, for: .normal)
+        EngNameLabel.setTitle(self.mobileStr, for: .normal)
         companyNameLabel.text = companyName
-        JopNameLabel.text = JobName
+        JopNameLabel.text = EmpName
         if let url = URL.init(string: companyLogo) {
             companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
@@ -419,8 +417,6 @@ class DesignDetailsTableViewController: UITableViewController {
         self.present(secondView, animated: true)
     }
     
-    
-    
     @IBAction func directionBtn(_ sender: UIButton) {
         let location = CLLocation(latitude: LatBranch, longitude: LngBranch)
         print(location.coordinate)
@@ -492,6 +488,13 @@ class DesignDetailsTableViewController: UITableViewController {
         self.navigationController?.pushViewController(secondView, animated: true)
     }
     
+    @IBAction func openChatBtn(_ sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Chat", bundle: nil)
+        let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
+        FirstViewController.ProjectId = ProjectId
+        let topController = UIApplication.topViewController()
+        topController?.present(FirstViewController, animated: false, completion: nil)
+    }
     
     @IBAction func CallMe(_ sender: UIButton) {
         var mobile: String = mobileStr

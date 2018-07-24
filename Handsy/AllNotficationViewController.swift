@@ -17,15 +17,51 @@ class AllNotficationViewController: UIViewController, UITableViewDelegate, UITab
     let allNotificationsModel: AllNotificationsModel = AllNotificationsModel()
     var count = 0
     let applicationl = UIApplication.shared
+    var NotiProjectCount = 0
+    var NotiMessageCount = 0
+    var NotiTotalCount = 0
+    var allHomeMessageModel = AllHomeMessageModel()
+    var messageCount = 0
 
     @IBOutlet weak var NothingLabel: UILabel!
     @IBOutlet weak var AlertImage: UIImageView!
+    @IBOutlet var navViewOut: UIView!
+    @IBOutlet weak var titleVCLabel: UILabel!
+    @IBOutlet weak var callBtn: UIButton!{
+        didSet {
+            callBtn.layer.borderWidth = 1.0
+            callBtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            callBtn.layer.cornerRadius = 4.0
+        }
+    }
+    @IBOutlet weak var messageBtn: UIButton!{
+        didSet {
+            messageBtn.layer.borderWidth = 1.0
+            messageBtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            messageBtn.layer.cornerRadius = 4.0
+        }
+    }
+    
+    @IBOutlet weak var messageNotfiCount: UILabel!{
+        didSet {
+            DispatchQueue.main.async {
+                self.messageNotfiCount.layer.cornerRadius = self.messageNotfiCount.frame.width/2
+                self.messageNotfiCount.layer.masksToBounds = true
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        messageNotfiCount.isHidden = true
         DispatchQueue.main.async {
             self.NothingLabel.isHidden = true
             self.AlertImage.isHidden = true
+        }
+        DispatchQueue.main.async {
+            self.navViewOut.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 32)
+            self.navViewOut.widthAnchor.constraint(equalToConstant: self.view.frame.width-20).isActive = true
+            self.navigationItem.titleView = self.navViewOut
         }
         allNotficationTableView.delegate = self
         allNotficationTableView.dataSource = self
@@ -37,6 +73,7 @@ class AllNotficationViewController: UIViewController, UITableViewDelegate, UITab
         if CustmoerId != "" {
             allNotificationsModel.GetAllNotificationByCustId(view: self.view, custmoerId: CustmoerId, VC: self)
         }
+        CountCustomerNotification()
     }
     
     func dataReady() {
@@ -55,11 +92,7 @@ class AllNotficationViewController: UIViewController, UITableViewDelegate, UITab
         setBadge()
         self.allNotficationTableView.reloadData()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+    
 
     // MARK: - Table view data source
 
@@ -112,9 +145,7 @@ class AllNotficationViewController: UIViewController, UITableViewDelegate, UITab
             let second = tabBarController?.tabBar
             second?.items![1].badgeValue = "\(AllNot)"
             second?.items![1].badgeColor = #colorLiteral(red: 0.3058823529, green: 0.5058823529, blue: 0.5333333333, alpha: 1)
-            self.applicationl.applicationIconBadgeNumber = AllNot
         } else {
-            self.applicationl.applicationIconBadgeNumber = 0
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -182,5 +213,55 @@ class AllNotficationViewController: UIViewController, UITableViewDelegate, UITab
             debugPrint(response)
             
         }
+    }
+    
+    @IBAction func callBtnAction(_ sender: UIButton) {
+        callButtonPressed()
+    }
+    
+    @IBAction func homeChatAction(_ sender: UIButton) {
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Chat", bundle: nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "HomeChatOfProjectsViewController") as! HomeChatOfProjectsViewController
+        self.navigationController?.pushViewController(secondView, animated: true)
+    }
+    @objc func callButtonPressed() {
+        let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle: nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "ContactUSViewController") as! ContactUSViewController
+        self.navigationController?.pushViewController(secondView, animated: true)
+    }
+    
+    func CountCustomerNotification() {
+        let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")!
+        let parameters: Parameters = [
+            "CustmoerId":CustmoerId
+        ]
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+            switch response.result {
+            case .success:
+                let json = JSON(response.result.value!)
+                print(json)
+                self.NotiProjectCount = json["NotiProjectCount"].intValue
+                self.NotiMessageCount = json["NotiMessageCount"].intValue
+                self.NotiTotalCount = json["NotiTotalCount"].intValue
+                self.setAppBadge()
+            case .failure(let error):
+                print(error)
+                let alertAction = UIAlertController(title: "خطاء في الاتصال", message: "اعادة المحاولة", preferredStyle: .alert)
+                
+                alertAction.addAction(UIAlertAction(title: "نعم", style: .default, handler: { action in
+                    self.CountCustomerNotification()
+                }))
+                
+                alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+                }))
+                
+                self.present(alertAction, animated: true, completion: nil)
+                
+            }
+        }
+    }
+    func setAppBadge() {
+        let count = NotiTotalCount
+        applicationl.applicationIconBadgeNumber = count
     }
 }

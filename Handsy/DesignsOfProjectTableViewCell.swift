@@ -9,11 +9,17 @@
 import UIKit
 
 class DesignsOfProjectTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var StagesDetailsName: UILabel!
     @IBOutlet weak var CreateDate: UILabel!
     @IBOutlet weak var Details: UILabel!
-    @IBOutlet weak var Status: UIImageView!
+    @IBOutlet weak var Status: UIView!{
+        didSet {
+            DispatchQueue.main.async {
+                self.Status.roundCorners(.bottomRight, radius: 10.0)
+            }
+        }
+    }
     @IBOutlet weak var nameOfStatus: UILabel!
     @IBOutlet weak var EmpMobile: UIButton!
     
@@ -30,16 +36,27 @@ class DesignsOfProjectTableViewCell: UITableViewCell {
             messageChat.layer.cornerRadius = 4.0
         }
     }
+    @IBOutlet weak var designDetialsBtn: UIButton! {
+        didSet {
+            designDetialsBtn.layer.borderWidth = 1.0
+            designDetialsBtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            designDetialsBtn.layer.cornerRadius = 4.0
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        DispatchQueue.main.async {
+            self.roundCorners([.bottomLeft,.bottomRight,.topRight], radius: 10)
+        }
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
-
+    
+    
 }
