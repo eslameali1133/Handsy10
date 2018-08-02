@@ -42,7 +42,6 @@ class AlertDoneViewController: UIViewController {
         let sub = storyBoard.instantiateViewController(withIdentifier: "NewMain")
         let topController = UIApplication.topViewController()
         topController?.show(sub, sender: true)
-        
     }
     
     /*

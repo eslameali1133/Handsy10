@@ -43,6 +43,8 @@ class OfficeInfoTableViewController: UITableViewController, UITextFieldDelegate,
     
     @IBOutlet weak var nextBtn: LoadingButton!
     
+    @IBOutlet weak var checkBtn: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         GetCompanyType()
@@ -88,7 +90,9 @@ class OfficeInfoTableViewController: UITableViewController, UITextFieldDelegate,
     
     @IBAction func TFAction(_ sender: UITextField) {
         if validatePassword(text: nameOFOfficeTF.text!) && validatePassword(text: nameOfCountryTF.text!) && validatePassword(text: nameNeighborhoodTF.text!) && validatePassword(text: companyTypeTF.text!) && validatePassword(text: branchCountTF.text!){
-            nextBtn.isEnabled = true
+            if checkBtn.currentImage == #imageLiteral(resourceName: "acceptCheck") {
+                nextBtn.isEnabled = true
+            }
         }else {
             nextBtn.isEnabled = false
         }
@@ -262,6 +266,19 @@ class OfficeInfoTableViewController: UITableViewController, UITextFieldDelegate,
             }
         }
         
+    }
+    @IBAction func checkAction(_ sender: UIButton) {
+        if checkBtn.currentImage == #imageLiteral(resourceName: "unCheck") {
+            checkBtn.setImage(#imageLiteral(resourceName: "acceptCheck"), for: .normal)
+            if validatePassword(text: nameOFOfficeTF.text!) && validatePassword(text: nameOfCountryTF.text!) && validatePassword(text: nameNeighborhoodTF.text!) && validatePassword(text: companyTypeTF.text!) && validatePassword(text: branchCountTF.text!){
+                nextBtn.isEnabled = true
+            }else {
+                nextBtn.isEnabled = false
+            }
+        }else {
+            checkBtn.setImage(#imageLiteral(resourceName: "unCheck"), for: .normal)
+            nextBtn.isEnabled = false
+        }
     }
     
     @IBAction func NextStepAction(_ sender: LoadingButton) {

@@ -38,7 +38,7 @@ class FilterCompanyTypeTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return arrayofCompanyType.count
+        return arrayofCompanyType.count+1
     }
     
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {

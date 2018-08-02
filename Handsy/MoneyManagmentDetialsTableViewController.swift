@@ -112,9 +112,9 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
     var IsDeleted: String = ""
     var JobName: String = ""
     var LatBranch: Double = 0.0
+    var LngBranch: Double = 0.0
     var LatPrj: String = ""
     var LicenceNum: String = ""
-    var LngBranch: Double = 0.0
     var LngPrj: String = ""
     var Notes: String = ""
     var PlanId: String = ""
@@ -138,9 +138,42 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
     var ZoomBranch: String = ""
     var ZoomPrj: String = ""
     var projectOrderContractPhotoPath: String = ""
+    var ProvincesName = ""
+    var SectoinName = ""
+    var ProjectsOrdersCellarErea = ""
+    var ProjectsOrdersReFloorErea = ""
+    var ProjectsOrdersSupplementErea = ""
+    var ProjectsOrdersSupplementExternalErea = ""
+    var ProjectsOrdersFloorErea = ""
+    var ProjectsOrdersLandErea = ""
+    var ProjectsOrdersFloorNummber = ""
+    var ProjectsOrdersTotalBildErea = ""
+    var ProjectsPaymentsWork = ""
+    var ProjectsPaymentsDiscount = ""
+    var CompanyInfoID = ""
     var ComapnyName = ""
     var CompanyAddress = ""
     var Logo = ""
+    var MeetingDate = ""
+    var MeetingTime = ""
+    var DesignCount = ""
+    var DesignNewCount = ""
+    var norma = ""
+    var ProjectLastComment: String = ""
+    var ProjectLastTpye: String = ""
+    var ProjectCommentOther: String = ""
+    var LastDesignStagesID: String = ""
+    var LastMeetingID: String = ""
+    var MeetingNotifiCount: String = ""
+    var MeetingCount = ""
+    var DesignNotifiCount: String = ""
+    var NotifiCount: Int?
+    var ProjectFileCount: String = ""
+    var FileCount: String = ""
+    var indexi:Int = 0
+    var isCompany = ""
+    var nou = ""
+    var nour = ""
     let applicationl = UIApplication.shared
     var NotiProjectCount = 0
     var NotiMessageCount = 0
@@ -165,7 +198,7 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
     
     override func viewWillAppear(_ animated: Bool) {
         if pushCond == "" {
-            
+
         }else {
             GetProjectByProjectId()
         }
@@ -221,53 +254,106 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
     }
     
     func setHeaderDetials(){
-        lastStatusLabel.text = ProjectOfResult[0].ProjectLastComment!
-        let NotLabel = ProjectOfResult[0].NotifiCount!
-        
-        if NotLabel != 0 {
-            notficationAlertBtnOut.isHidden = false
-            notficationCountLabel.isHidden = false
-            notficationCountLabel.text = "\(NotLabel)"
+        if ProjectOfResult.count != 0 {
+            lastStatusLabel.text = ProjectOfResult[0].ProjectLastComment!
+            let NotLabel = ProjectOfResult[0].NotifiCount!
+            
+            if NotLabel != 0 {
+                notficationAlertBtnOut.isHidden = false
+                notficationCountLabel.isHidden = false
+                notficationCountLabel.text = "\(NotLabel)"
+            } else {
+                notficationAlertBtnOut.isHidden = false
+                notficationCountLabel.isHidden = true
+            }
+            let status = ProjectOfResult[0].ProjectStatusID!
+            let statusName = ProjectOfResult[0].ProjectStatusName!
+            if status == "5"{
+                statusNameLabel.text = statusName
+                statusImgView.backgroundColor = #colorLiteral(red: 0.9921568627, green: 0.4274509804, blue: 0.337254902, alpha: 1)
+            }else if status == "4"{
+                statusNameLabel.text = statusName
+                statusImgView.backgroundColor = #colorLiteral(red: 0.1176470588, green: 0.368627451, blue: 0.4666666667, alpha: 1)
+            }else if status == "3"{
+                statusNameLabel.text = statusName
+                statusImgView.backgroundColor = #colorLiteral(red: 0.1764705882, green: 0.4745098039, blue: 0.8862745098, alpha: 1)
+            }else if status == "1"{
+                statusNameLabel.text = statusName
+                statusImgView.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            }else if status == "2"{
+                statusNameLabel.text = statusName
+                statusImgView.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
+            }else if status == "6"{
+                statusNameLabel.text = statusName
+                statusImgView.backgroundColor = #colorLiteral(red: 0.2588235294, green: 0.8666666667, blue: 0.1764705882, alpha: 1)
+            }else if status == "7"{
+                statusNameLabel.text = statusName
+                statusImgView.backgroundColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            }else {
+                print("error status \(status)")
+            }
+            //        companyNameLabel.text = ProjectOfResult[0].ComapnyName!
+            projectTitleLabel.text = "\(ProjectOfResult[0].ProjectTitle!)"
+            EngNameLabel.text = ProjectOfResult[0].EmpName
+            engJobName.text = ProjectOfResult[0].JobName
+            let img = ProjectOfResult[0].EmpImage!
+            let trimmedString = img.trimmingCharacters(in: .whitespaces)
+            if let url = URL.init(string: trimmedString) {
+                companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
+            } else{
+                print("nil")
+                companyImageOut.image = #imageLiteral(resourceName: "officePlaceholder")
+            }
         } else {
-            notficationAlertBtnOut.isHidden = false
-            notficationCountLabel.isHidden = true
-        }
-        let status = ProjectOfResult[0].ProjectStatusID!
-        let statusName = ProjectOfResult[0].ProjectStatusName!
-        if status == "5"{
-            statusNameLabel.text = statusName
-            statusImgView.backgroundColor = #colorLiteral(red: 0.9921568627, green: 0.4274509804, blue: 0.337254902, alpha: 1)
-        }else if status == "4"{
-            statusNameLabel.text = statusName
-            statusImgView.backgroundColor = #colorLiteral(red: 0.1176470588, green: 0.368627451, blue: 0.4666666667, alpha: 1)
-        }else if status == "3"{
-            statusNameLabel.text = statusName
-            statusImgView.backgroundColor = #colorLiteral(red: 0.1764705882, green: 0.4745098039, blue: 0.8862745098, alpha: 1)
-        }else if status == "1"{
-            statusNameLabel.text = statusName
-            statusImgView.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
-        }else if status == "2"{
-            statusNameLabel.text = statusName
-            statusImgView.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
-        }else if status == "6"{
-            statusNameLabel.text = statusName
-            statusImgView.backgroundColor = #colorLiteral(red: 0.2588235294, green: 0.8666666667, blue: 0.1764705882, alpha: 1)
-        }else if status == "7"{
-            statusNameLabel.text = statusName
-            statusImgView.backgroundColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
-        }else {
-            print("error status \(status)")
-        }
-        //        companyNameLabel.text = ProjectOfResult[0].ComapnyName!
-        projectTitleLabel.text = "\(ProjectOfResult[0].ProjectTitle!)"
-        EngNameLabel.text = ProjectOfResult[0].EmpName
-        engJobName.text = ProjectOfResult[0].JobName
-        let img = ProjectOfResult[0].EmpImage
-        if let url = URL.init(string: img!) {
-            companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
-        } else{
-            print("nil")
-            companyImageOut.image = #imageLiteral(resourceName: "officePlaceholder")
+            lastStatusLabel.text = ProjectLastComment
+            let NotLabel = NotifiCount
+            
+            if NotLabel != 0 {
+                notficationAlertBtnOut.isHidden = false
+                notficationCountLabel.isHidden = false
+                notficationCountLabel.text = "\(NotLabel)"
+            } else {
+                notficationAlertBtnOut.isHidden = false
+                notficationCountLabel.isHidden = true
+            }
+            let status = ProjectStatusID
+            let statusName = ProjectStatusName
+            if status == "5"{
+                statusNameLabel.text = statusName
+                statusImgView.backgroundColor = #colorLiteral(red: 0.9921568627, green: 0.4274509804, blue: 0.337254902, alpha: 1)
+            }else if status == "4"{
+                statusNameLabel.text = statusName
+                statusImgView.backgroundColor = #colorLiteral(red: 0.1176470588, green: 0.368627451, blue: 0.4666666667, alpha: 1)
+            }else if status == "3"{
+                statusNameLabel.text = statusName
+                statusImgView.backgroundColor = #colorLiteral(red: 0.1764705882, green: 0.4745098039, blue: 0.8862745098, alpha: 1)
+            }else if status == "1"{
+                statusNameLabel.text = statusName
+                statusImgView.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            }else if status == "2"{
+                statusNameLabel.text = statusName
+                statusImgView.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
+            }else if status == "6"{
+                statusNameLabel.text = statusName
+                statusImgView.backgroundColor = #colorLiteral(red: 0.2588235294, green: 0.8666666667, blue: 0.1764705882, alpha: 1)
+            }else if status == "7"{
+                statusNameLabel.text = statusName
+                statusImgView.backgroundColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            }else {
+                print("error status \(status)")
+            }
+            //        companyNameLabel.text = ProjectOfResult[0].ComapnyName!
+            projectTitleLabel.text = ProjectTitle
+            EngNameLabel.text = EmpName
+            engJobName.text = JobName
+            let img = EmpImage
+            let trimmedString = img.trimmingCharacters(in: .whitespaces)
+            if let url = URL.init(string: trimmedString) {
+                companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
+            } else{
+                print("nil")
+                companyImageOut.image = #imageLiteral(resourceName: "officePlaceholder")
+            }
         }
     }
     
@@ -281,6 +367,12 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
             debugPrint(response)
             
             let json = JSON(response.result.value!)
+            let requestProjectObj = ProjectDetialsArray(ProjectId: json["ProjectId"].stringValue, ProjectsPaymentsCost: json["ProjectsPaymentsCost"].stringValue, CountNotPaid: json["CountNotPaid"].stringValue, CountPaid: json["CountPaid"].stringValue, EmpImage: json["EmpImage"].stringValue, BranchID: json["BranchID"].stringValue, BranchName: json["BranchName"].stringValue, CustmoerName: json["CustmoerName"].stringValue, CustomerEmail: json["CustomerEmail"].stringValue, CustomerMobile: json["CustomerMobile"].stringValue, CustomerNationalId: json["CustomerNationalId"].stringValue, DataSake: json["DataSake"].stringValue, DateLicence: json["DateLicence"].stringValue, EmpMobile: json["EmpMobile"].stringValue, EmpName: json["EmpName"].stringValue, GroundId: json["GroundId"].stringValue, IsDeleted: json["IsDeleted"].stringValue, JobName: json["JobName"].stringValue, LatBranch: json["LatBranch"].doubleValue, LatPrj: json["LatPrj"].stringValue, LicenceNum: json["LicenceNum"].stringValue, LngBranch: json["LngBranch"].doubleValue, LngPrj: json["LngPrj"].stringValue, Notes: json["Notes"].stringValue, PlanId: json["PlanId"].stringValue, ProjectInvoice: json["ProjectInvoice"].stringValue, ProjectContract: json["ProjectContract"].stringValue, ProjectStatusNum: json["ProjectStatusNum"].stringValue, ProjectBildTypeId: json["ProjectBildTypeId"].stringValue, ProjectEngComment: json["ProjectEngComment"].stringValue, ProjectStatusColor: json["ProjectStatusColor"].stringValue, ProjectStatusID: json["ProjectStatusID"].stringValue, ProjectStatusName: json["ProjectStatusName"].stringValue, ProjectTitle: json["ProjectTitle"].stringValue, ProjectTypeId: json["ProjectTypeId"].stringValue, ProjectTypeName: json["ProjectTypeName"].stringValue, SakNum: json["SakNum"].stringValue, Space: json["Space"].stringValue, Status: json["Status"].stringValue, TotalNotPaid: json["TotalNotPaid"].stringValue, TotalPaid: json["TotalPaid"].stringValue, ZoomBranch: json["ZoomBranch"].stringValue, ZoomPrj: json["ZoomPrj"].stringValue, projectOrderContractPhotoPath: json["projectOrderContractPhotoPath"].stringValue, ProvincesName: json["ProvincesName"].stringValue, SectoinName: json["SectoinName"].stringValue, ProjectsOrdersCellarErea: json["ProjectsOrdersCellarErea"].stringValue, ProjectsOrdersReFloorErea: json["ProjectsOrdersReFloorErea"].stringValue, ProjectsOrdersSupplementErea: json["ProjectsOrdersSupplementErea"].stringValue, ProjectsOrdersSupplementExternalErea: json["ProjectsOrdersSupplementExternalErea"].stringValue, ProjectsOrdersFloorErea: json["ProjectsOrdersFloorErea"].stringValue, ProjectsOrdersLandErea: json["ProjectsOrdersLandErea"].stringValue, ProjectsOrdersFloorNummber: json["ProjectsOrdersFloorNummber"].stringValue, ProjectsOrdersTotalBildErea: json["ProjectsOrdersTotalBildErea"].stringValue, ProjectsPaymentsWork: json["ProjectsPaymentsWork"].stringValue, ProjectsPaymentsDiscount: json["ProjectsPaymentsDiscount"].stringValue, CompanyInfoID: json["CompanyInfoID"].stringValue, ComapnyName: json["ComapnyName"].stringValue, CompanyAddress: json["Address"].stringValue, Logo: json["Logo"].stringValue, isCompany: json["IsCompany"].stringValue, DesignNewCount: json["DesignNewCount"].stringValue, DesignCount: json["DesignCount"].stringValue, Meetingcount: json["Meetingcount"].stringValue, MeetingDate: json["MeetingDate"].stringValue, MeetingTime: json["MeetingTime"].stringValue, ProjectLastComment: json["ProjectLastComment"].stringValue, ProjectLastTpye: json["ProjectLastTpye"].stringValue, ProjectCommentOther: json["ProjectCommentOther"].stringValue, LastDesignStagesID: json["LastDesignStagesID"].stringValue, LastMeetingID: json["LastMeetingID"].stringValue, MeetingNotifiCount: json["MeetingNotifiCount"].stringValue, DesignNotifiCount: json["DesignNotifiCount"].stringValue, NotifiCount: json["NotifiCount"].intValue, FileCount: json["FileCount"].stringValue, ProjectFileCount: json["ProjectFileCount"].stringValue)
+            UserDefaults.standard.set(json["CompanyInfoID"].stringValue, forKey: "companyInfoID")
+            self.ProjectOfResult.removeAll()
+            self.ProjectOfResult.append(requestProjectObj)
+            self.FileCount = json["FileCount"].stringValue
+            self.ProjectFileCount = json["ProjectFileCount"].stringValue
             self.ProjectId = json["ProjectId"].stringValue
             self.ProjectsPaymentsCost = json["ProjectsPaymentsCost"].stringValue
             self.CountNotPaid = json["CountNotPaid"].stringValue
@@ -325,9 +417,37 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
             self.ZoomBranch = json["ZoomBranch"].stringValue
             self.ZoomPrj = json["ZoomPrj"].stringValue
             self.projectOrderContractPhotoPath = json["projectOrderContractPhotoPath"].stringValue
+            self.ProvincesName = json["ProvincesName"].stringValue
+            self.SectoinName = json["SectoinName"].stringValue
+            self.ProjectsOrdersCellarErea = json["ProjectsOrdersCellarErea"].stringValue
+            self.ProjectsOrdersReFloorErea = json["ProjectsOrdersReFloorErea"].stringValue
+            self.ProjectsOrdersSupplementErea = json["ProjectsOrdersSupplementErea"].stringValue
+            self.ProjectsOrdersSupplementExternalErea = json["ProjectsOrdersSupplementExternalErea"].stringValue
+            self.ProjectsOrdersFloorErea = json["ProjectsOrdersFloorErea"].stringValue
+            self.ProjectsOrdersLandErea = json["ProjectsOrdersLandErea"].stringValue
+            self.ProjectsOrdersFloorNummber = json["ProjectsOrdersFloorNummber"].stringValue
+            self.ProjectsOrdersTotalBildErea = json["ProjectsOrdersTotalBildErea"].stringValue
+            self.ProjectsPaymentsWork = json["ProjectsPaymentsWork"].stringValue
+            self.ProjectsPaymentsDiscount = json["ProjectsPaymentsDiscount"].stringValue
+            self.CompanyInfoID = json["CompanyInfoID"].stringValue
             self.ComapnyName = json["ComapnyName"].stringValue
             self.CompanyAddress = json["Address"].stringValue
             self.Logo = json["Logo"].stringValue
+            self.isCompany = json["IsCompany"].stringValue
+            self.DesignNewCount = json["DesignNewCount"].stringValue
+            self.DesignCount = json["DesignCount"].stringValue
+            self.MeetingCount = json["Meetingcount"].stringValue
+            self.MeetingDate = json["MeetingDate"].stringValue
+            self.MeetingTime = json["MeetingTime"].stringValue
+            self.ProjectLastComment = json["ProjectLastComment"].stringValue
+            self.ProjectLastTpye = json["ProjectLastTpye"].stringValue
+            self.ProjectCommentOther = json["ProjectCommentOther"].stringValue
+            self.LastDesignStagesID = json["LastDesignStagesID"].stringValue
+            self.LastMeetingID = json["LastMeetingID"].stringValue
+            self.MeetingNotifiCount = json["MeetingNotifiCount"].stringValue
+            self.DesignNotifiCount = json["DesignNotifiCount"].stringValue
+            self.NotifiCount = json["NotifiCount"].intValue
+            self.ProjectOfResult.append(requestProjectObj)
             self.test()
             self.setViewContent()
             self.setHeaderDetials()

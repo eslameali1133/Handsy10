@@ -134,8 +134,9 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
         }else {
             print("error status \(status)")
         }
-        let img = ProjectOfResult[0].Logo
-        if let url = URL.init(string: img!) {
+        let img = ProjectOfResult[0].Logo!
+        let trimmedString = img.trimmingCharacters(in: .whitespaces)
+        if let url = URL.init(string: trimmedString) {
             companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
             print("nil")
@@ -224,7 +225,7 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
             }
         }else if status == "3"{
             cell.Status.backgroundColor = #colorLiteral(red: 0.7531306148, green: 0.2227272987, blue: 0.1705473661, alpha: 1)
-            cell.nameOfStatus.text = "مرفوض"
+            cell.nameOfStatus.text = "طلب التعديل"
             cell.BtnOutlet.isHidden = false
             if searchResu[indexPath.section].DesignFile == "" {
                 cell.BtnOutlet.isHidden = true
@@ -352,8 +353,7 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
         let storyboard = UIStoryboard(name: "Chat", bundle: nil)
         let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
         FirstViewController.ProjectId = ProjectId
-        let topController = UIApplication.topViewController()
-        topController?.present(FirstViewController, animated: false, completion: nil)
+        self.navigationController?.pushViewController(FirstViewController, animated: true)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDeti" {

@@ -21,8 +21,8 @@ class ProfileImageViewController: UIViewController, UIScrollViewDelegate {
     }
 
     func configureCell(_ image: String){
-        
-        if let url = URL.init(string: image) {
+        let trimmedString = image.trimmingCharacters(in: .whitespaces)
+        if let url = URL.init(string: trimmedString) {
             print(url)
             ProfileImgOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "custlogo"))
         } else{

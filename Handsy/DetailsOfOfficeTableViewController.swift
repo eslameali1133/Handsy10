@@ -99,6 +99,7 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         addBackBarButtonItem()
         myView.layer.cornerRadius = 10.0
         mapView.delegate = self
@@ -434,6 +435,8 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
         }
         
         Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetOfficeByCompanyInfoID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+            switch response.result {
+            case .success:
             let json = JSON(response.result.value!)
             print(json)
             let appendDetialsOfOfficeArray = DetialsOfOfficeArray(Address: json["Address"].stringValue, BranchFB: json["BranchFB"].stringValue, BranchID: json["BranchID"].stringValue, BranchName: json["BranchName"].stringValue, ComapnyName: json["ComapnyName"].stringValue, CommercialNumber: json["CommercialNumber"].stringValue, CompanyEmail: json["CompanyEmail"].stringValue, CompanyInfoID: json["CompanyInfoID"].stringValue, CompanyMobile: json["CompanyMobile"].stringValue, Fax: json["Fax"].stringValue, Lat: json["Lat"].doubleValue, Long: json["Long"].doubleValue, LicenceNumber: json["LicenceNumber"].stringValue, Logo: json["Logo"].stringValue, OfficeWebsite: json["OfficeWebsite"].stringValue, Phone: json["Phone"].stringValue, PostNumber: json["PostNumber"].stringValue, PostNumberWasl: json["PostNumberWasl"].stringValue, PostSymbol: json["PostSymbol"].stringValue, Specialty: json["Specialty"].stringValue, Zoom: json["Zoom"].doubleValue)
@@ -481,6 +484,22 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
                 self.chooseOut.setTitle("اختار المهندس", for: .normal)
             }
             self.get()
+            case .failure(let error):
+                print(error)
+                UIViewController.removeSpinner(spinner: sv)
+                let alertAction = UIAlertController(title: "خطاء في الاتصال", message: "اعادة المحاولة", preferredStyle: .alert)
+                
+                alertAction.addAction(UIAlertAction(title: "نعم", style: .default, handler: { action in
+                    self.setContact()
+                }))
+                
+                alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+                    self.navigationController!.popViewController(animated: true)
+                }))
+                
+                self.present(alertAction, animated: true, completion: nil)
+                
+            }
         }
     }
     
@@ -603,8 +622,9 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == OurProjectsSlider {
             let cell = OurProjectsSlider.dequeueReusableCell(withReuseIdentifier: "OurProjectsImagesCollectionViewCell", for: indexPath) as! OurProjectsImagesCollectionViewCell
-            let img = projectImagesArr[indexPath.row].ProjectGalleryPath
-            if let url = URL.init(string: img!) {
+            let img = projectImagesArr[indexPath.row].ProjectGalleryPath!
+            let trimmedString = img.trimmingCharacters(in: .whitespaces)
+            if let url = URL.init(string: trimmedString) {
                 cell.ImageView.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
             } else{
                 print("nil")
@@ -613,8 +633,9 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
             return cell
         }else {
             let cell = TeamWorkSlider.dequeueReusableCell(withReuseIdentifier: "TeamWorkImagesCollectionViewCell", for: indexPath) as! TeamWorkImagesCollectionViewCell
-            let img = getTeamImagesArr[indexPath.row].CompanyGalleryPath
-            if let url = URL.init(string: img!) {
+            let img = getTeamImagesArr[indexPath.row].CompanyGalleryPath!
+            let trimmedString = img.trimmingCharacters(in: .whitespaces)
+            if let url = URL.init(string: trimmedString) {
                 cell.ImageView.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
             } else{
                 print("nil")

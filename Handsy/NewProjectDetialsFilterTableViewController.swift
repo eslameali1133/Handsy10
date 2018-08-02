@@ -219,6 +219,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         newVisitsCountLabel.isHidden = true
 //        newVisitsCountImage.isHidden = true
         cancelProView.isHidden = true
@@ -379,8 +380,9 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         projectTitleLabel.text = ProjectOfResult[0].ProjectTitle
         EngNameLabel.text = ProjectOfResult[0].EmpName
         engJobName.text = ProjectOfResult[0].JobName
-        let img = ProjectOfResult[0].EmpImage
-        if let url = URL.init(string: img!) {
+        let img = ProjectOfResult[0].EmpImage!
+        let trimmedString = img.trimmingCharacters(in: .whitespaces)
+        if let url = URL.init(string: trimmedString) {
             companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
             print("nil")
@@ -594,25 +596,25 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             }
         }
     }
-    @IBOutlet weak var viewOneConst: UIView!
-    @IBOutlet weak var ViewOneCons: NSLayoutConstraint!
+//    @IBOutlet weak var viewOneConst: UIView!
+//    @IBOutlet weak var ViewOneCons: NSLayoutConstraint!
     
-    @IBOutlet weak var viewTwoConst: UIView!
-    @IBOutlet weak var viewTwoCons: NSLayoutConstraint!
-    @IBOutlet weak var stackBtn: UIStackView!
+//    @IBOutlet weak var viewTwoConst: UIView!
+//    @IBOutlet weak var viewTwoCons: NSLayoutConstraint!
+//    @IBOutlet weak var stackBtn: UIStackView!
     
     @IBAction func end(_ sender: UIButton) {
         endPopUp.isHidden = true
         GetProjectByProjectId()
-        DispatchQueue.main.async {
-            self.ViewOneCons.constant = 52
-            self.viewTwoCons.constant = 52
-            self.EditViewOut.isHidden = true
-        }
+//        DispatchQueue.main.async {
+//            self.ViewOneCons.constant = 52
+//            self.viewTwoCons.constant = 52
+//            self.EditViewOut.isHidden = true
+//        }
         tableView.reloadData()
     }
     
-    @IBOutlet weak var EditViewOut: AMUIView!
+//    @IBOutlet weak var EditViewOut: AMUIView!
     
     @IBAction func EditBtnAction(_ sender: UIButton) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
@@ -789,6 +791,8 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             let json = JSON(response.result.value!)
             let requestProjectObj = ProjectDetialsArray(ProjectId: json["ProjectId"].stringValue, ProjectsPaymentsCost: json["ProjectsPaymentsCost"].stringValue, CountNotPaid: json["CountNotPaid"].stringValue, CountPaid: json["CountPaid"].stringValue, EmpImage: json["EmpImage"].stringValue, BranchID: json["BranchID"].stringValue, BranchName: json["BranchName"].stringValue, CustmoerName: json["CustmoerName"].stringValue, CustomerEmail: json["CustomerEmail"].stringValue, CustomerMobile: json["CustomerMobile"].stringValue, CustomerNationalId: json["CustomerNationalId"].stringValue, DataSake: json["DataSake"].stringValue, DateLicence: json["DateLicence"].stringValue, EmpMobile: json["EmpMobile"].stringValue, EmpName: json["EmpName"].stringValue, GroundId: json["GroundId"].stringValue, IsDeleted: json["IsDeleted"].stringValue, JobName: json["JobName"].stringValue, LatBranch: json["LatBranch"].doubleValue, LatPrj: json["LatPrj"].stringValue, LicenceNum: json["LicenceNum"].stringValue, LngBranch: json["LngBranch"].doubleValue, LngPrj: json["LngPrj"].stringValue, Notes: json["Notes"].stringValue, PlanId: json["PlanId"].stringValue, ProjectInvoice: json["ProjectInvoice"].stringValue, ProjectContract: json["ProjectContract"].stringValue, ProjectStatusNum: json["ProjectStatusNum"].stringValue, ProjectBildTypeId: json["ProjectBildTypeId"].stringValue, ProjectEngComment: json["ProjectEngComment"].stringValue, ProjectStatusColor: json["ProjectStatusColor"].stringValue, ProjectStatusID: json["ProjectStatusID"].stringValue, ProjectStatusName: json["ProjectStatusName"].stringValue, ProjectTitle: json["ProjectTitle"].stringValue, ProjectTypeId: json["ProjectTypeId"].stringValue, ProjectTypeName: json["ProjectTypeName"].stringValue, SakNum: json["SakNum"].stringValue, Space: json["Space"].stringValue, Status: json["Status"].stringValue, TotalNotPaid: json["TotalNotPaid"].stringValue, TotalPaid: json["TotalPaid"].stringValue, ZoomBranch: json["ZoomBranch"].stringValue, ZoomPrj: json["ZoomPrj"].stringValue, projectOrderContractPhotoPath: json["projectOrderContractPhotoPath"].stringValue, ProvincesName: json["ProvincesName"].stringValue, SectoinName: json["SectoinName"].stringValue, ProjectsOrdersCellarErea: json["ProjectsOrdersCellarErea"].stringValue, ProjectsOrdersReFloorErea: json["ProjectsOrdersReFloorErea"].stringValue, ProjectsOrdersSupplementErea: json["ProjectsOrdersSupplementErea"].stringValue, ProjectsOrdersSupplementExternalErea: json["ProjectsOrdersSupplementExternalErea"].stringValue, ProjectsOrdersFloorErea: json["ProjectsOrdersFloorErea"].stringValue, ProjectsOrdersLandErea: json["ProjectsOrdersLandErea"].stringValue, ProjectsOrdersFloorNummber: json["ProjectsOrdersFloorNummber"].stringValue, ProjectsOrdersTotalBildErea: json["ProjectsOrdersTotalBildErea"].stringValue, ProjectsPaymentsWork: json["ProjectsPaymentsWork"].stringValue, ProjectsPaymentsDiscount: json["ProjectsPaymentsDiscount"].stringValue, CompanyInfoID: json["CompanyInfoID"].stringValue, ComapnyName: json["ComapnyName"].stringValue, CompanyAddress: json["Address"].stringValue, Logo: json["Logo"].stringValue, isCompany: json["IsCompany"].stringValue, DesignNewCount: json["DesignNewCount"].stringValue, DesignCount: json["DesignCount"].stringValue, Meetingcount: json["Meetingcount"].stringValue, MeetingDate: json["MeetingDate"].stringValue, MeetingTime: json["MeetingTime"].stringValue, ProjectLastComment: json["ProjectLastComment"].stringValue, ProjectLastTpye: json["ProjectLastTpye"].stringValue, ProjectCommentOther: json["ProjectCommentOther"].stringValue, LastDesignStagesID: json["LastDesignStagesID"].stringValue, LastMeetingID: json["LastMeetingID"].stringValue, MeetingNotifiCount: json["MeetingNotifiCount"].stringValue, DesignNotifiCount: json["DesignNotifiCount"].stringValue, NotifiCount: json["NotifiCount"].intValue, FileCount: json["FileCount"].stringValue, ProjectFileCount: json["ProjectFileCount"].stringValue)
                 UserDefaults.standard.set(json["CompanyInfoID"].stringValue, forKey: "companyInfoID")
+            self.ProjectOfResult.removeAll()
+            self.ProjectOfResult.append(requestProjectObj)
             self.FileCount = json["FileCount"].stringValue
             self.ProjectFileCount = json["ProjectFileCount"].stringValue
             self.ProjectId = json["ProjectId"].stringValue
@@ -1037,7 +1041,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     
     
     @IBAction func MyFilesBtn(_ sender: UIButton) {
-        if FileCount == "0" {
+        if self.ProjectOfResult[0].FileCount == "0" {
             Toast.long(message: "لايوجد وثائق للارض")
         }else {
             let storyBoard : UIStoryboard = UIStoryboard(name: "MyFilesAndMoney", bundle:nil)
@@ -1062,7 +1066,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     }
     
     @IBAction func ProjectFilesBtn(_ sender: UIButton) {
-        if ProjectFileCount == "0" {
+        if self.ProjectOfResult[0].ProjectFileCount == "0" {
             Toast.long(message: "لايوجد ملفات للمشروع")
         }else {
             let storyBoard : UIStoryboard = UIStoryboard(name: "MyFilesAndMoney", bundle:nil)
@@ -1091,7 +1095,6 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         let storyboard = UIStoryboard(name: "Chat", bundle: nil)
         let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
         FirstViewController.ProjectId = self.ProjectId
-        let topController = UIApplication.topViewController()
-        topController?.present(FirstViewController, animated: false, completion: nil)
+        self.navigationController?.pushViewController(FirstViewController, animated: true)
     }
 }

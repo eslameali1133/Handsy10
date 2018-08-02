@@ -101,11 +101,11 @@ class SearchByOfficeNameViewController: UIViewController, UITableViewDelegate, U
             if isCompany == "0" {
                 //                navigationItem.title = "\(0) مهندس"
                 //                title = "\(0) مهندس"
-                OfficeListEmptyLabel.text = "لا يوجد مهندس بهذا الاسم"
+                OfficeListEmptyLabel.text = "لا يوجد مهندسين"
             } else {
                 //                navigationItem.title = "\(0) مكتب هندسي"
                 //                title = "\(0) مكتب هندسي"
-                OfficeListEmptyLabel.text = "لايوجد مكتب بهذا الاسم"
+                OfficeListEmptyLabel.text = "لايوجد مكاتب"
             }
             OfficeListEmptyLabel.isHidden = false
             AlertImage.isHidden = false
@@ -114,11 +114,11 @@ class SearchByOfficeNameViewController: UIViewController, UITableViewDelegate, U
             if isCompany == "0" {
                 //                navigationItem.title = "\(arrayOfResulr.count) مهندس"
                 //                title = "\(arrayOfResulr.count) مهندس"
-                OfficeListEmptyLabel.text = "لا يوجد مهندس بهذا الاسم"
+                OfficeListEmptyLabel.text = "لا يوجد مهندسين"
             } else {
                 //                navigationItem.title = "\(arrayOfResulr.count) مكتب هندسي"
                 //                title = "\(arrayOfResulr.count) مكتب هندسي"
-                OfficeListEmptyLabel.text = "لايوجد مكتب بهذا الاسم"
+                OfficeListEmptyLabel.text = "لايوجد مكاتب"
             }
             OfficeListEmptyLabel.isHidden = true
             AlertImage.isHidden = true
@@ -149,7 +149,8 @@ class SearchByOfficeNameViewController: UIViewController, UITableViewDelegate, U
             offices = arrayOfResulr[indexPath.section]
         }
         let img = offices.Logo
-        if let url = URL.init(string: img) {
+        let trimmedString = img.trimmingCharacters(in: .whitespaces)
+        if let url = URL.init(string: trimmedString) {
             cell.CompanyLogoImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
             print("nil")

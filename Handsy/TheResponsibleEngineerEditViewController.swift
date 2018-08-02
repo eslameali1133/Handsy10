@@ -102,8 +102,8 @@ class TheResponsibleEngineerEditViewController: UIViewController, GMSMapViewDele
         marker.map = mapView
         
         let img = EmpImage
-        
-        if let url = URL.init(string: img) {
+        let trimmedString = img.trimmingCharacters(in: .whitespaces)
+        if let url = URL.init(string: trimmedString) {
             EmpImagePro.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "custlogo"))
         } else{
             print("nil")

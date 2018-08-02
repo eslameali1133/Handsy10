@@ -95,7 +95,8 @@ class NewProjectATableViewController: UITableViewController, UITextFieldDelegate
         companyNameLabel.text = CompanyName
         companyAddressLabel.text = CompanyAddress
         let img = CompanyImage
-        if let url = URL.init(string: img) {
+        let trimmedString = img.trimmingCharacters(in: .whitespaces)
+        if let url = URL.init(string: trimmedString) {
             officeLogoImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
             print("nil")

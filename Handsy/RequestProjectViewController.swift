@@ -218,7 +218,8 @@ class RequestProjectViewController: UIViewController, UITableViewDelegate, UITab
         }
         
         let emplImage = searchResu[indexPath.section].EmpImage
-        if let url = URL.init(string: emplImage) {
+        let trimmedString = emplImage.trimmingCharacters(in: .whitespaces)
+        if let url = URL.init(string: trimmedString) {
             print(url)
             cell.EmpImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "custlogo"))
         } else{

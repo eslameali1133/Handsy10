@@ -13,8 +13,15 @@ import SwiftyJSON
 var MeetingID = ""
 
 class AlertVisitPauseViewController: UIViewController {
-    
-    
+    @IBOutlet weak var alertDone: AMUIView!
+    @IBOutlet weak var doneBtnOut: UIButton!{
+        didSet {
+            DispatchQueue.main.async {
+                self.doneBtnOut.circleView(UIColor.clear, borderWidth: 1.0)
+            }
+        }
+    }
+    var reloadApi: reloadApi?
     @IBOutlet weak var Comments: KMPlaceholderTextView!
     @IBOutlet weak var alertComments: UILabel!
     @IBOutlet weak var alertViewLine: UIView!
@@ -31,6 +38,7 @@ class AlertVisitPauseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        alertDone.isHidden = true
         alertComments.isHidden = true
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.default
@@ -54,6 +62,7 @@ class AlertVisitPauseViewController: UIViewController {
     @IBAction func dismissBtn(_ sender: UIButton) {
         //        let sub = self.storyboard?.instantiateViewController(withIdentifier: "main") as! MyTabBarController
         //        self.present(sub, animated: true ,completion: nil)
+        self.reloadApi?.reload()
         self.dismiss(animated: true, completion: nil)
         
     }
@@ -79,10 +88,11 @@ class AlertVisitPauseViewController: UIViewController {
             
             let json = JSON(response.result.value!)
             if json["result"].stringValue == "Done" {
-                let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
-                let secondView = storyBoard.instantiateViewController(withIdentifier: "AlertDoneViewController") as! AlertDoneViewController
-                secondView.modalPresentationStyle = .custom
-                self.present(secondView, animated: true)
+                self.alertDone.isHidden = false
+//                let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
+//                let secondView = storyBoard.instantiateViewController(withIdentifier: "AlertDoneViewController") as! AlertDoneViewController
+//                secondView.modalPresentationStyle = .custom
+//                self.present(secondView, animated: true)
             }
             
         }

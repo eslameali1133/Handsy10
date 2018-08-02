@@ -13,6 +13,9 @@
         <array key="AJannatLT.otf">
             <string>AJannatLT</string>
         </array>
+        <array key="AJannatLTBold.ttf">
+            <string>AJannatLT-Bold</string>
+        </array>
     </customFonts>
     <scenes>
         <!--New Welcome Screen View Controller-->
@@ -45,7 +48,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="هندسي" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="84r-yL-BcS">
-                                <rect key="frame" x="157.66666666666666" y="300" width="99.999999999999972" height="32"/>
+                                <rect key="frame" x="157" y="300" width="100" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="2O3-zp-DGa"/>
                                     <constraint firstAttribute="width" constant="100" id="kUX-gF-R0f"/>
@@ -55,7 +58,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="تصاميم مشروعك مع المكاتب الهندسيه" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ick-AI-q7K">
-                                <rect key="frame" x="74" y="343" width="267" height="32"/>
+                                <rect key="frame" x="73.666666666666686" y="343" width="267" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="267" id="Iqn-5y-AKH"/>
                                     <constraint firstAttribute="height" constant="32" id="arT-hm-5pr"/>
@@ -72,7 +75,7 @@
                                     <constraint firstAttribute="width" constant="160" id="qWd-XM-4eR"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                <state key="normal" title="دخول">
+                                <state key="normal" title="ابدأ العمل">
                                     <color key="titleColor" red="0.18431372549019609" green="0.1803921568627451" blue="0.17254901960784313" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -87,15 +90,15 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ocZ-9a-Z4E">
-                                <rect key="frame" x="20" y="676" width="230" height="40"/>
+                                <rect key="frame" x="10" y="676" width="230" height="40"/>
                                 <color key="backgroundColor" red="0.086274509799999996" green="0.086274509799999996" blue="0.086274509799999996" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="5NH-Ln-0ti"/>
                                     <constraint firstAttribute="width" constant="230" id="no7-c3-Vvd"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="30" maxY="0.0"/>
-                                <inset key="imageEdgeInsets" minX="200" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <inset key="imageEdgeInsets" minX="190" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" title="إشتراك مكتب / مهندس حُر" image="building">
                                     <color key="titleColor" red="0.83137254901960778" green="0.68627450980392157" blue="0.21176470588235294" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -103,14 +106,21 @@
                                     <segue destination="HyY-eF-fgi" kind="show" id="qjA-Dz-9oD"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wfW-1D-xJe">
-                                <rect key="frame" x="10" y="79" width="160" height="35"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qI1-6A-QJ8">
+                                <rect key="frame" x="314" y="676" width="90" height="40"/>
                                 <color key="backgroundColor" red="0.086274509799999996" green="0.086274509799999996" blue="0.086274509799999996" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="160" id="swM-D6-M1C"/>
-                                    <constraint firstAttribute="height" constant="35" id="ufo-ep-VFx"/>
+                                    <constraint firstAttribute="width" constant="90" id="ORg-cM-VcC"/>
+                                    <constraint firstAttribute="height" constant="40" id="ea7-2k-6IT"/>
                                 </constraints>
-                                <state key="normal" title="نبذة عن هندسي" image="Info"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
+                                <state key="normal" title="عن هندسي">
+                                    <color key="titleColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.21176470589999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="aboutUs:" destination="4U2-tL-KUb" eventType="touchUpInside" id="gDD-Bg-Li2"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -118,10 +128,11 @@
                         <constraints>
                             <constraint firstItem="78A-tg-bzM" firstAttribute="leading" secondItem="xJx-IH-94K" secondAttribute="trailing" constant="-11" id="4iF-vk-vCY"/>
                             <constraint firstItem="78A-tg-bzM" firstAttribute="centerX" secondItem="cmC-Yo-U9y" secondAttribute="centerX" id="4yR-XJ-qAE"/>
-                            <constraint firstItem="wfW-1D-xJe" firstAttribute="leading" secondItem="cmC-Yo-U9y" secondAttribute="leading" constant="10" id="BGW-Fi-4Hb"/>
                             <constraint firstItem="78A-tg-bzM" firstAttribute="top" secondItem="cmC-Yo-U9y" secondAttribute="top" constant="74" id="BHe-4x-760"/>
+                            <constraint firstItem="cmC-Yo-U9y" firstAttribute="trailing" secondItem="qI1-6A-QJ8" secondAttribute="trailing" constant="10" id="Dcc-43-0mZ"/>
                             <constraint firstItem="8z3-Ng-eHu" firstAttribute="top" secondItem="cmC-Yo-U9y" secondAttribute="top" constant="48.5" id="F1G-Wb-SbN"/>
                             <constraint firstItem="JyA-rv-T8H" firstAttribute="centerX" secondItem="cmC-Yo-U9y" secondAttribute="centerX" id="GHw-MF-R83"/>
+                            <constraint firstItem="cmC-Yo-U9y" firstAttribute="bottom" secondItem="qI1-6A-QJ8" secondAttribute="bottom" constant="20" id="HRX-wW-wnb"/>
                             <constraint firstItem="8z3-Ng-eHu" firstAttribute="leading" secondItem="78A-tg-bzM" secondAttribute="trailing" constant="-5" id="IxC-0n-hnu"/>
                             <constraint firstItem="mWn-nH-O1y" firstAttribute="top" secondItem="xJx-IH-94K" secondAttribute="bottom" constant="-52" id="Jnd-oG-RuT"/>
                             <constraint firstItem="JyA-rv-T8H" firstAttribute="top" secondItem="ick-AI-q7K" secondAttribute="bottom" constant="47" id="N3r-ZD-IW9"/>
@@ -130,9 +141,8 @@
                             <constraint firstItem="ick-AI-q7K" firstAttribute="centerX" secondItem="cmC-Yo-U9y" secondAttribute="centerX" id="SbB-aN-kp1"/>
                             <constraint firstItem="mWn-nH-O1y" firstAttribute="centerX" secondItem="cmC-Yo-U9y" secondAttribute="centerX" constant="5" id="Tfp-EC-8Rc"/>
                             <constraint firstItem="mWn-nH-O1y" firstAttribute="top" secondItem="8z3-Ng-eHu" secondAttribute="bottom" constant="-30" id="Tqs-QA-vwJ"/>
-                            <constraint firstItem="ocZ-9a-Z4E" firstAttribute="leading" secondItem="cmC-Yo-U9y" secondAttribute="leading" constant="20" id="bXB-l6-QbD"/>
+                            <constraint firstItem="ocZ-9a-Z4E" firstAttribute="leading" secondItem="cmC-Yo-U9y" secondAttribute="leading" constant="10" id="bXB-l6-QbD"/>
                             <constraint firstItem="ick-AI-q7K" firstAttribute="top" secondItem="84r-yL-BcS" secondAttribute="bottom" constant="11" id="iPo-sE-XZg"/>
-                            <constraint firstItem="wfW-1D-xJe" firstAttribute="top" secondItem="cmC-Yo-U9y" secondAttribute="top" constant="15" id="ls8-o6-IDC"/>
                             <constraint firstItem="84r-yL-BcS" firstAttribute="top" secondItem="mWn-nH-O1y" secondAttribute="bottom" constant="8" id="n6s-56-wct"/>
                             <constraint firstItem="84r-yL-BcS" firstAttribute="centerX" secondItem="cmC-Yo-U9y" secondAttribute="centerX" id="zx0-jl-2ww"/>
                         </constraints>
@@ -147,7 +157,7 @@
                         <outlet property="LayerFour" destination="mWn-nH-O1y" id="mwv-u3-hVd"/>
                         <outlet property="Layerthree" destination="8z3-Ng-eHu" id="axq-vv-25F"/>
                         <outlet property="StartBtnOut" destination="JyA-rv-T8H" id="X5F-9R-Fmf"/>
-                        <outlet property="aboutUsBtn" destination="wfW-1D-xJe" id="cfM-73-aj5"/>
+                        <outlet property="aboutUsBtn" destination="qI1-6A-QJ8" id="bYa-JP-1E0"/>
                         <outlet property="layerOne" destination="xJx-IH-94K" id="mve-jo-pBj"/>
                         <outlet property="layerTwo" destination="78A-tg-bzM" id="Ao5-fc-QN3"/>
                         <outlet property="subscribeBtn" destination="ocZ-9a-Z4E" id="jb8-bp-xAi"/>
@@ -187,13 +197,72 @@
             </objects>
             <point key="canvasLocation" x="-145" y="84"/>
         </scene>
+        <!--About Handsy View Controller-->
+        <scene sceneID="5pz-dZ-QiQ">
+            <objects>
+                <viewController storyboardIdentifier="AboutHandsyViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="cse-RK-dMp" customClass="AboutHandsyViewController" customModule="Handsy" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bgM-FB-F3R">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DjX-6o-jHA">
+                                <rect key="frame" x="20" y="60" width="374" height="636"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="right" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bRP-1c-Gke">
+                                        <rect key="frame" x="5" y="50" width="364" height="581"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                        <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="unV-kq-B5y">
+                                        <rect key="frame" x="334" y="10" width="30" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="30" id="2RH-co-sja"/>
+                                            <constraint firstAttribute="height" constant="30" id="q3T-TF-zdK"/>
+                                        </constraints>
+                                        <state key="normal" image="XGrayBtn"/>
+                                        <connections>
+                                            <action selector="backBtn:" destination="cse-RK-dMp" eventType="touchUpInside" id="VjP-NP-Q6n"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="unV-kq-B5y" firstAttribute="top" secondItem="DjX-6o-jHA" secondAttribute="top" constant="10" id="7Se-4b-ZUA"/>
+                                    <constraint firstAttribute="trailing" secondItem="bRP-1c-Gke" secondAttribute="trailing" constant="5" id="EPc-TU-9GG"/>
+                                    <constraint firstItem="bRP-1c-Gke" firstAttribute="top" secondItem="unV-kq-B5y" secondAttribute="bottom" constant="10" id="sCa-sA-puT"/>
+                                    <constraint firstItem="bRP-1c-Gke" firstAttribute="leading" secondItem="DjX-6o-jHA" secondAttribute="leading" constant="5" id="sQO-RM-epK"/>
+                                    <constraint firstAttribute="trailing" secondItem="unV-kq-B5y" secondAttribute="trailing" constant="10" id="tTX-aM-x9a"/>
+                                    <constraint firstAttribute="bottom" secondItem="bRP-1c-Gke" secondAttribute="bottom" constant="5" id="xld-4m-apX"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Pi2-6v-1H0" firstAttribute="bottom" secondItem="DjX-6o-jHA" secondAttribute="bottom" constant="40" id="A85-yX-Tyz"/>
+                            <constraint firstItem="DjX-6o-jHA" firstAttribute="leading" secondItem="Pi2-6v-1H0" secondAttribute="leading" constant="20" id="h2E-UQ-0Kg"/>
+                            <constraint firstItem="Pi2-6v-1H0" firstAttribute="trailing" secondItem="DjX-6o-jHA" secondAttribute="trailing" constant="20" id="rF1-bC-b73"/>
+                            <constraint firstItem="DjX-6o-jHA" firstAttribute="top" secondItem="Pi2-6v-1H0" secondAttribute="top" constant="40" id="yOr-jl-UsD"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Pi2-6v-1H0"/>
+                    </view>
+                    <connections>
+                        <outlet property="aboutTextView" destination="bRP-1c-Gke" id="V9o-gX-WNn"/>
+                        <outlet property="textViewOut" destination="DjX-6o-jHA" id="Kks-Tt-atp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wXf-Ly-ugc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1169.5652173913045" y="83.967391304347828"/>
+        </scene>
     </scenes>
     <resources>
-        <image name="Info" width="32" height="32"/>
         <image name="Layer 1" width="64" height="164"/>
         <image name="Layer 2" width="80" height="189"/>
         <image name="Layer 3" width="94" height="227"/>
         <image name="Layer 4" width="264" height="143"/>
+        <image name="XGrayBtn" width="20" height="20"/>
         <image name="building" width="24" height="24"/>
     </resources>
 </document>

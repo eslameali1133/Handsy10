@@ -51,6 +51,7 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         let vcIndex = tabBarController.viewControllers!.index(of: viewController)!
         if  vcIndex == 4 {
+            GetProjectDataCountByCustID()
             CountCustomerNotification()
             let currentView = tabBarController.selectedViewController!.view!
             DispatchQueue.main.async {
@@ -87,21 +88,29 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     @IBAction func goVisitsArchive(_ sender: UIButton) {
-        buttonsView.removeFromSuperview()
-        let storyBoard : UIStoryboard = UIStoryboard(name: "VisitsAndDetails", bundle: nil)
-        let secondView = storyBoard.instantiateViewController(withIdentifier: "FilterVisitsViewController") as! FilterVisitsViewController
-        secondView.condition = "Filter"
-        let topController = UIApplication.topViewController()
-        topController?.show(secondView, sender: true)
+        if MeetingCount != 0 {
+            Toast.long(message: "لا يوجد زيارات")
+        }else {
+            buttonsView.removeFromSuperview()
+            let storyBoard : UIStoryboard = UIStoryboard(name: "VisitsAndDetails", bundle: nil)
+            let secondView = storyBoard.instantiateViewController(withIdentifier: "FilterVisitsViewController") as! FilterVisitsViewController
+            secondView.condition = "Filter"
+            let topController = UIApplication.topViewController()
+            topController?.show(secondView, sender: true)
+        }
     }
     
     @IBAction func goDesignsArchive(_ sender: UIButton) {
-        buttonsView.removeFromSuperview()
-        let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
-        let secondView = storyBoard.instantiateViewController(withIdentifier: "FilterDesignsViewController") as! FilterDesignsViewController
-        secondView.condition = "Filter"
-        let topController = UIApplication.topViewController()
-        topController?.show(secondView, sender: true)
+        if DesignsCount != 0 {
+            Toast.long(message: "لايوجد تصاميم")
+        }else {
+            buttonsView.removeFromSuperview()
+            let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
+            let secondView = storyBoard.instantiateViewController(withIdentifier: "FilterDesignsViewController") as! FilterDesignsViewController
+            secondView.condition = "Filter"
+            let topController = UIApplication.topViewController()
+            topController?.show(secondView, sender: true)
+        }
     }
     @IBAction func goFilesArchive(_ sender: UIButton) {
         buttonsView.removeFromSuperview()
@@ -112,6 +121,7 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     @IBAction func openChats(_ sender: UIButton) {
+        buttonsView.removeFromSuperview()
         let storyBoard : UIStoryboard = UIStoryboard(name: "Chat", bundle: nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "HomeChatOfProjectsViewController") as! HomeChatOfProjectsViewController
         let topController = UIApplication.topViewController()
@@ -167,7 +177,7 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
             
         }
     }
-    
+    // set CountCustomerNotification
     let applicationl = UIApplication.shared
     var NotiProjectCount = 0
     var NotiMessageCount = 0
@@ -206,4 +216,38 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
         let count = NotiTotalCount
         applicationl.applicationIconBadgeNumber = count
     }
+    
+    
+    var DesignsCount = 0
+    var MeetingCount = 0
+    // func get designs and visits count
+    func GetProjectDataCountByCustID() {
+        let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")!
+        let parameters: Parameters = [
+            "custId":CustmoerId
+        ]
+        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetProjectDataCountByCustID?custId=\(CustmoerId)", method: .get, encoding: URLEncoding.default).responseJSON { response in
+            switch response.result {
+            case .success:
+                let json = JSON(response.result.value!)
+                print(json)
+                self.DesignsCount = json["DesignsCount"].intValue
+                self.MeetingCount = json["MeetingCount"].intValue
+            case .failure(let error):
+                print(error)
+                let alertAction = UIAlertController(title: "خطاء في الاتصال", message: "اعادة المحاولة", preferredStyle: .alert)
+                
+                alertAction.addAction(UIAlertAction(title: "نعم", style: .default, handler: { action in
+                    self.GetProjectDataCountByCustID()
+                }))
+                
+                alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+                }))
+                
+                self.present(alertAction, animated: true, completion: nil)
+                
+            }
+        }
+    }
+    
 }

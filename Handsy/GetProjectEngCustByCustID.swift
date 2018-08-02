@@ -60,9 +60,10 @@ class GetProjectEngCustByCustID: NSObject, NSCoding {
     var ProjectCommentOther: String?
     var LastDesignStagesID: String?
     var LastMeetingID: String?
+    var FileCount: String?
+    var ProjectFileCount: String?
     
-    
-    init(BranchID: String, BranchName: String, CustmoerName: String, CustomerEmail: String, CustomerMobile: String, CustomerNationalId: String, DataSake: String, DateLicence: String, EmpImage: String, EmpMobile: String, EmpName: String, GroundId: String, IsDeleted: String, JobName: String, LatBranch: Double, LatPrj: String, LicenceNum: String, LngBranch: Double, LngPrj: String, Notes: String, PlanId: String, ProjectBildTypeId: String, ProjectEngComment: String, ProjectId: String, ProjectStatusColor: String, ProjectStatusID: String, ProjectStatusName: String, ProjectTitle: String, ProjectTypeId: String, ProjectTypeName: String, SakNum: String, Space: String, Status: String, ZoomBranch: String, ZoomPrj: String, ComapnyName: String, Address: String, Logo: String, ProjectBildTypeNum: String, DateRegister: String, CompanyInfoID: String, IsCompany: String, NotifiCount: Int, ProjectLastComment: String, ProjectLastTpye: String, ProjectCommentOther: String, LastDesignStagesID: String, LastMeetingID: String) {
+    init(BranchID: String, BranchName: String, CustmoerName: String, CustomerEmail: String, CustomerMobile: String, CustomerNationalId: String, DataSake: String, DateLicence: String, EmpImage: String, EmpMobile: String, EmpName: String, GroundId: String, IsDeleted: String, JobName: String, LatBranch: Double, LatPrj: String, LicenceNum: String, LngBranch: Double, LngPrj: String, Notes: String, PlanId: String, ProjectBildTypeId: String, ProjectEngComment: String, ProjectId: String, ProjectStatusColor: String, ProjectStatusID: String, ProjectStatusName: String, ProjectTitle: String, ProjectTypeId: String, ProjectTypeName: String, SakNum: String, Space: String, Status: String, ZoomBranch: String, ZoomPrj: String, ComapnyName: String, Address: String, Logo: String, ProjectBildTypeNum: String, DateRegister: String, CompanyInfoID: String, IsCompany: String, NotifiCount: Int, ProjectLastComment: String, ProjectLastTpye: String, ProjectCommentOther: String, LastDesignStagesID: String, LastMeetingID: String, FileCount: String, ProjectFileCount: String) {
         self.BranchID = BranchID
         self.BranchName = BranchName
         self.CustmoerName = CustmoerName
@@ -111,6 +112,8 @@ class GetProjectEngCustByCustID: NSObject, NSCoding {
         self.ProjectCommentOther = ProjectCommentOther
         self.LastDesignStagesID = LastDesignStagesID
         self.LastMeetingID = LastMeetingID
+        self.FileCount = FileCount
+        self.ProjectFileCount = ProjectFileCount
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -162,6 +165,8 @@ class GetProjectEngCustByCustID: NSObject, NSCoding {
         self.ProjectCommentOther = aDecoder.decodeObject(forKey: "ProjectCommentOther") as? String
         self.LastDesignStagesID = aDecoder.decodeObject(forKey: "LastDesignStagesID") as? String
         self.LastMeetingID = aDecoder.decodeObject(forKey: "LastMeetingID") as? String
+        self.FileCount = aDecoder.decodeObject(forKey: "FileCount") as? String
+        self.ProjectFileCount = aDecoder.decodeObject(forKey: "ProjectFileCount") as? String
     }
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(self.BranchID, forKey: "BranchID")
@@ -212,6 +217,8 @@ class GetProjectEngCustByCustID: NSObject, NSCoding {
         aCoder.encode(self.ProjectCommentOther, forKey: "ProjectCommentOther")
         aCoder.encode(self.LastDesignStagesID, forKey: "LastDesignStagesID")
         aCoder.encode(self.LastMeetingID, forKey: "LastMeetingID")
+        aCoder.encode(self.FileCount, forKey: "FileCount")
+        aCoder.encode(self.ProjectFileCount, forKey: "ProjectFileCount")
     }
     
 }

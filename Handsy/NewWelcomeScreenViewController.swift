@@ -90,19 +90,19 @@ class NewWelcomeScreenViewController: UIViewController {
             }else{
                 self.StartBtnOut.isHidden = false
                 self.subscribeBtn.isHidden = false
-                self.aboutUsBtn.isHidden = true
+                self.aboutUsBtn.isHidden = false
             }
         }else {
             self.StartBtnOut.isHidden = false
             self.subscribeBtn.isHidden = false
-            self.aboutUsBtn.isHidden = true
+            self.aboutUsBtn.isHidden = false
         }
     }
     
     @objc func checkLogOut() {
         self.StartBtnOut.isHidden = false
         self.subscribeBtn.isHidden = false
-        self.aboutUsBtn.isHidden = true
+        self.aboutUsBtn.isHidden = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -169,6 +169,12 @@ class NewWelcomeScreenViewController: UIViewController {
         self.navigationController?.pushViewController(sub, animated: true)
     }
     
+    @IBAction func aboutUs(_ sender: UIButton) {
+        let storyBoard : UIStoryboard = UIStoryboard(name: "WelcomeScreen", bundle: nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "AboutHandsyViewController") as! AboutHandsyViewController
+        secondView.modalPresentationStyle = .custom
+        self.present(secondView, animated: true)
+    }
     
     
     func assignbackground(){

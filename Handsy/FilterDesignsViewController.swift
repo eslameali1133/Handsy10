@@ -89,8 +89,8 @@ class FilterDesignsViewController: UIViewController {
         Alamofire.request("http://smusers.promit2030.com/Service1.svc/DesignsCountByCustmoerId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             let json = JSON(response.result.value!)
-            self.FinishDesignsCount = json["FinishMeetingCount"].stringValue
-            self.NewDesignsCount = json["NewMeetingCount"].stringValue
+            self.FinishDesignsCount = json["FinishDesignsCount"].stringValue
+            self.NewDesignsCount = json["NewDesignsCount"].stringValue
         }
     }
     

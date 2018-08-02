@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="81M-27-41I">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="81M-27-41I">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -111,7 +111,7 @@
                                     <constraint firstAttribute="height" constant="186" id="Qt1-k5-tdi"/>
                                 </constraints>
                             </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="هل تريد مكتب أم مهندس ؟!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gO9-2l-UGX">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="الإشتراك كمكتب أم مهندس حُر ؟" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gO9-2l-UGX">
                                 <rect key="frame" x="10" y="199" width="355" height="21.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -624,7 +624,7 @@
                                                                 <constraint firstAttribute="height" constant="10" id="vJ6-Vt-i4B"/>
                                                             </constraints>
                                                         </view>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="المدينة" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c2r-Zd-Cxx">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="مدن" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c2r-Zd-Cxx">
                                                             <rect key="frame" x="0.0" y="15" width="335" height="25"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="25" id="6Rq-p5-ju7"/>
@@ -712,7 +712,7 @@
                                                                 <constraint firstAttribute="height" constant="10" id="rV5-RW-O4w"/>
                                                             </constraints>
                                                         </view>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="الحي" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0uz-mP-5pk">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="احياء" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0uz-mP-5pk">
                                                             <rect key="frame" x="0.0" y="15" width="335" height="25"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="25" id="JKm-MK-frB"/>
@@ -800,7 +800,7 @@
                                                                 <constraint firstAttribute="height" constant="10" id="b6w-3T-mcf"/>
                                                             </constraints>
                                                         </view>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="التخصص" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q0K-tE-AEU">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="وتخصصات" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q0K-tE-AEU">
                                                             <rect key="frame" x="0.0" y="15" width="335" height="25"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="25" id="0Vc-wU-1fe"/>
@@ -959,8 +959,54 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="35" id="Y7y-pz-Cv6">
+                                        <rect key="frame" x="0.0" y="425" width="375" height="35"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Y7y-pz-Cv6" id="Es9-fv-Il6">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="35"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="qam-i4-kev">
+                                                    <rect key="frame" x="20" y="5" width="335" height="25"/>
+                                                    <subviews>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U4a-PB-3Nz">
+                                                            <rect key="frame" x="0.0" y="0.0" width="300" height="25"/>
+                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                            <state key="normal" title="معتمدين الهيئة السعوديه للمهندسين ">
+                                                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="checkAction:" destination="bcP-bM-eTN" eventType="touchUpInside" id="LdV-2x-yOg"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WPF-Fo-Sxo">
+                                                            <rect key="frame" x="310" y="0.0" width="25" height="25"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="25" id="P9I-UV-5iL"/>
+                                                            </constraints>
+                                                            <color key="tintColor" red="0.83142238859999995" green="0.68671125170000002" blue="0.20569747690000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <state key="normal" image="unCheck"/>
+                                                            <connections>
+                                                                <action selector="checkAction:" destination="bcP-bM-eTN" eventType="touchUpInside" id="3ZV-qe-7Vm"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="25" id="FQy-8O-Ecv"/>
+                                                    </constraints>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="qam-i4-kev" firstAttribute="top" secondItem="Es9-fv-Il6" secondAttribute="top" constant="5" id="8GM-Jh-3GO"/>
+                                                <constraint firstAttribute="bottom" secondItem="qam-i4-kev" secondAttribute="bottom" constant="5" id="Mxw-7o-DoQ"/>
+                                                <constraint firstAttribute="trailing" secondItem="qam-i4-kev" secondAttribute="trailing" constant="20" id="gJI-N2-x5g"/>
+                                                <constraint firstItem="qam-i4-kev" firstAttribute="leading" secondItem="Es9-fv-Il6" secondAttribute="leading" constant="20" id="sF9-DQ-tBE"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="98" id="YYl-qf-7XQ">
-                                        <rect key="frame" x="0.0" y="425" width="375" height="98"/>
+                                        <rect key="frame" x="0.0" y="460" width="375" height="98"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="YYl-qf-7XQ" id="pWg-12-MXz">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="98"/>
@@ -996,6 +1042,7 @@
                     </tableView>
                     <connections>
                         <outlet property="branchCountTF" destination="CE2-Rb-Pxr" id="M2p-qR-toP"/>
+                        <outlet property="checkBtn" destination="WPF-Fo-Sxo" id="9ei-Gw-dtw"/>
                         <outlet property="companyTypeTF" destination="LCj-hQ-GPS" id="OJy-Dz-98j"/>
                         <outlet property="nameNeighborhoodTF" destination="5lN-6X-a8n" id="Ys8-iT-jx7"/>
                         <outlet property="nameOFOffice" destination="9eM-b4-yS6" id="AT4-aW-wut"/>
@@ -1006,7 +1053,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fN9-dd-faV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-65796" y="-4134.7826086956529"/>
+            <point key="canvasLocation" x="-65796" y="-4135.6821589205401"/>
         </scene>
         <!--موقع المكتب-->
         <scene sceneID="iqk-aC-Xz5">
@@ -1275,5 +1322,6 @@
         <image name="path" width="27" height="42"/>
         <image name="path-1" width="42" height="32"/>
         <image name="saudi-arabia-flag" width="300" height="212"/>
+        <image name="unCheck" width="24" height="24"/>
     </resources>
 </document>

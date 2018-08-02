@@ -130,7 +130,8 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
         cell.projectTitle.text = searchResu[indexPath.section].ProjectBildTypeName
         cell.companyMobile.setTitle(searchResu[indexPath.section].Mobile, for: .normal)
         let img = searchResu[indexPath.section].Logo
-        if let url = URL.init(string: img) {
+        let trimmedString = img.trimmingCharacters(in: .whitespaces)
+        if let url = URL.init(string: trimmedString) {
             cell.CompanyLogoImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
             print("nil")
@@ -149,7 +150,7 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
             cell.PDF.isHidden = false
         }else if status == "3"{
             cell.Status.backgroundColor = #colorLiteral(red: 0.7531306148, green: 0.2227272987, blue: 0.1705473661, alpha: 1)
-            cell.nameOfStatus.text = "مرفوض"
+            cell.nameOfStatus.text = "طلب التعديل"
             cell.PDF.isHidden = false
         }else if status == "5"{
             cell.Status.backgroundColor = #colorLiteral(red: 0.9019555449, green: 0.4952987432, blue: 0.1308369637, alpha: 1)

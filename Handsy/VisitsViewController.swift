@@ -150,8 +150,10 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         cell.projectTitle.text = searchResu[indexPath.section].ProjectBildTypeName
         cell.companyMobile.setTitle(searchResu[indexPath.section].Mobile, for: .normal)
         cell.companyAddress.text = searchResu[indexPath.section].Address
+        
         let img = searchResu[indexPath.section].Logo
-        if let url = URL.init(string: img) {
+        let trimmedString = img.trimmingCharacters(in: .whitespaces)
+        if let url = URL.init(string: trimmedString) {
             cell.companyLogoImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
             print("nil")

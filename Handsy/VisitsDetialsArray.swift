@@ -30,7 +30,8 @@ class VisitsDetialsArray: NSObject, NSCoding {
     var JobName: String?
     var ClientReply: String?
     var MeetingID: String?
-    init(Address: String, ComapnyName: String, Logo: String, visitTitle: String, MeetingStatus: String, Description: String, Notes: String, Start: String, TimeStartMeeting: String, StartTime: String, ProjectBildTypeName: String, Mobile: String, EmpName: String, Replay: String, DateReply: String, EndTime: String, LatBranch: Double, LngBranch: Double, JobName: String, ClientReply: String, MeetingID: String) {
+    var ProjectId: String?
+    init(Address: String, ComapnyName: String, Logo: String, visitTitle: String, MeetingStatus: String, Description: String, Notes: String, Start: String, TimeStartMeeting: String, StartTime: String, ProjectBildTypeName: String, Mobile: String, EmpName: String, Replay: String, DateReply: String, EndTime: String, LatBranch: Double, LngBranch: Double, JobName: String, ClientReply: String, MeetingID: String, ProjectId: String) {
         self.Address = Address
         self.ComapnyName = ComapnyName
         self.Logo = Logo
@@ -52,6 +53,7 @@ class VisitsDetialsArray: NSObject, NSCoding {
         self.JobName = JobName
         self.ClientReply = ClientReply
         self.MeetingID = MeetingID
+        self.ProjectId = ProjectId
     }
     public required init?(coder aDecoder: NSCoder) {
         self.Address = aDecoder.decodeObject(forKey: "Address") as? String
@@ -75,6 +77,7 @@ class VisitsDetialsArray: NSObject, NSCoding {
         self.JobName = aDecoder.decodeObject(forKey: "JobName") as? String
         self.ClientReply = aDecoder.decodeObject(forKey: "ClientReply") as? String
         self.MeetingID = aDecoder.decodeObject(forKey: "MeetingID") as? String
+        self.ProjectId = aDecoder.decodeObject(forKey: "ProjectId") as? String
     }
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(self.Address, forKey: "Address")
@@ -98,6 +101,7 @@ class VisitsDetialsArray: NSObject, NSCoding {
         aCoder.encode(self.JobName, forKey: "JobName")
         aCoder.encode(self.ClientReply, forKey: "ClientReply")
         aCoder.encode(self.MeetingID, forKey: "MeetingID")
+        aCoder.encode(self.ProjectId, forKey: "ProjectId")
     }
 }
 

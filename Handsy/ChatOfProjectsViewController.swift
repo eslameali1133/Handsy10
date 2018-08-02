@@ -67,6 +67,10 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
     var engImage = ""
     var ProjectTitle = ""
     var CompanyLogo = ""
+    var isCompany: String = ""
+    var CompanyInfoID: String = ""
+    var LatBranch: Double = 0.0
+    var LngBranch: Double = 0.0
     var AddItemPhotos: [UIImage] = []
     var resultArray: [String] = []
     var NotiProjectCount = 0
@@ -76,6 +80,7 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
         CountCustomerNotification()
         attachesBtns.isHidden = true
         DispatchQueue.main.async {
@@ -101,10 +106,16 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
         view.addGestureRecognizer(tapGesture)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
     func setNav() {
         navProjectLabel.text = ProjectTitle
+        navigationItem.title = ProjectTitle
         navCustLabel.text = engName
-        if let url = URL.init(string: CompanyLogo) {
+        let trimmedString = CompanyLogo.trimmingCharacters(in: .whitespaces)
+        if let url = URL.init(string: trimmedString) {
             print(url)
             navImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
@@ -193,8 +204,9 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
         if message.SenderType == "1" {
             if message.MessageType == "2" {
                 let cell = chatTableView.dequeueReusableCell(withIdentifier: "SendimageChatTableViewCell", for: indexPath) as! SendimageChatTableViewCell
-                let messagePic = message.ImagePath
-                if let url = URL.init(string: messagePic!) {
+                let messagePic = message.ImagePath!
+                let trimmedString = messagePic.trimmingCharacters(in: .whitespaces)
+                if let url = URL.init(string: trimmedString) {
                     cell.recevierMessageImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
                 } else{
                     print("nil")
@@ -272,8 +284,9 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
         }else {
             if message.MessageType == "2" {
                 let cell = chatTableView.dequeueReusableCell(withIdentifier: "ReceiveImageChatTableViewCell", for: indexPath) as! ReceiveImageChatTableViewCell
-                let messagePic = message.ImagePath
-                if let url = URL.init(string: messagePic!) {
+                let messagePic = message.ImagePath!
+                let trimmedString = messagePic.trimmingCharacters(in: .whitespaces)
+                if let url = URL.init(string: trimmedString) {
                     cell.senderMessageImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
                 } else{
                     print("nil")
@@ -425,6 +438,10 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
         self.engName = self.messagesModel.CompanyName
         self.CompanyLogo = self.messagesModel.CompanyLogo
         self.ProjectTitle = self.messagesModel.ProjectTitle
+        self.isCompany = self.messagesModel.isCompany
+        self.CompanyInfoID = self.messagesModel.CompanyInfoID
+        self.LatBranch = self.messagesModel.LatBranch
+        self.LngBranch = self.messagesModel.LngBranch
         if self.messagesModel.messageByProjectId.count > 0 {
             scrollToBottom()
         }
@@ -717,9 +734,32 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
         applicationl.applicationIconBadgeNumber = count
     }
     
+    @IBAction func DetialsBtnAction(_ sender: UIButton) {
+        let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "DetailsOfOfficeTableViewController") as! DetailsOfOfficeTableViewController
+        if isCompany == "true" {
+            secondView.isCompany = "1"
+        } else {
+            secondView.isCompany = "0"
+        }
+        secondView.CompanyInfoID = CompanyInfoID
+        secondView.conditionService = "condition"
+        secondView.LatBranch = LatBranch
+        secondView.LngBranch = LngBranch
+        self.navigationController?.pushViewController(secondView, animated: true)
+    }
+    
+    @IBAction func DetialsProjectBtnAction(_ sender: UIButton) {
+        let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle: nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectDetialsFilterTableViewController") as! NewProjectDetialsFilterTableViewController
+        secondView.ProjectId = ProjectId
+        secondView.norma = "LOl"
+        self.navigationController?.pushViewController(secondView, animated: true)
+    }
+    
     @IBAction func backBtn(_ sender: UIButton) {
-        //        self.navigationController!.popViewController(animated: true)
-        self.dismiss(animated: false, completion: nil)
+        self.navigationController!.popViewController(animated: true)
+//        self.dismiss(animated: false, completion: nil)
     }
 }
 

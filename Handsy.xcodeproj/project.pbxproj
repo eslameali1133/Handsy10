@@ -50,6 +50,7 @@
 		C1258D0B1F389BF90006C1BC /* ImagesEditCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1258D0A1F389BF90006C1BC /* ImagesEditCollectionViewCell.swift */; };
 		C1258D0D1F38BCD80006C1BC /* EditeAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1258D0C1F38BCD80006C1BC /* EditeAlertViewController.swift */; };
 		C1258D0F1F38CABA0006C1BC /* AlertDeleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1258D0E1F38CABA0006C1BC /* AlertDeleteViewController.swift */; };
+		C127E75621125798005086F1 /* AboutHandsyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C127E75521125798005086F1 /* AboutHandsyViewController.swift */; };
 		C12A7556206BD6260008F1DD /* AllNotficationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12A7555206BD6260008F1DD /* AllNotficationViewController.swift */; };
 		C12A7558206BD71B0008F1DD /* AllNotficationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12A7557206BD71B0008F1DD /* AllNotficationTableViewCell.swift */; };
 		C12C6551206CF1FB00793E9D /* MyProjectNotficationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12C6550206CF1FB00793E9D /* MyProjectNotficationTableViewCell.swift */; };
@@ -58,6 +59,7 @@
 		C12C6558206D012100793E9D /* MyProjectNotficationsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12C6557206D012100793E9D /* MyProjectNotficationsModel.swift */; };
 		C12C655A206D1C5800793E9D /* AllNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12C6559206D1C5800793E9D /* AllNotifications.swift */; };
 		C12C655C206D1C8600793E9D /* AllNotificationsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12C655B206D1C8600793E9D /* AllNotificationsModel.swift */; };
+		C12C9F73210FBF1500A0976B /* EditContractViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12C9F72210FBF1500A0976B /* EditContractViewController.swift */; };
 		C12E9F1D210638480097EAEE /* ChooseLocationToShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12E9F1C210638480097EAEE /* ChooseLocationToShareViewController.swift */; };
 		C12E9F1F2106749C0097EAEE /* ReceiveMapChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12E9F1E2106749C0097EAEE /* ReceiveMapChatTableViewCell.swift */; };
 		C12E9F21210674D20097EAEE /* SendMapChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12E9F20210674D20097EAEE /* SendMapChatTableViewCell.swift */; };
@@ -333,6 +335,7 @@
 		C1258D0A1F389BF90006C1BC /* ImagesEditCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesEditCollectionViewCell.swift; sourceTree = "<group>"; };
 		C1258D0C1F38BCD80006C1BC /* EditeAlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditeAlertViewController.swift; sourceTree = "<group>"; };
 		C1258D0E1F38CABA0006C1BC /* AlertDeleteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertDeleteViewController.swift; sourceTree = "<group>"; };
+		C127E75521125798005086F1 /* AboutHandsyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutHandsyViewController.swift; sourceTree = "<group>"; };
 		C12A7555206BD6260008F1DD /* AllNotficationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllNotficationViewController.swift; sourceTree = "<group>"; };
 		C12A7557206BD71B0008F1DD /* AllNotficationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllNotficationTableViewCell.swift; sourceTree = "<group>"; };
 		C12C6550206CF1FB00793E9D /* MyProjectNotficationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProjectNotficationTableViewCell.swift; sourceTree = "<group>"; };
@@ -341,6 +344,7 @@
 		C12C6557206D012100793E9D /* MyProjectNotficationsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProjectNotficationsModel.swift; sourceTree = "<group>"; };
 		C12C6559206D1C5800793E9D /* AllNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllNotifications.swift; sourceTree = "<group>"; };
 		C12C655B206D1C8600793E9D /* AllNotificationsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllNotificationsModel.swift; sourceTree = "<group>"; };
+		C12C9F72210FBF1500A0976B /* EditContractViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditContractViewController.swift; sourceTree = "<group>"; };
 		C12E9F1C210638480097EAEE /* ChooseLocationToShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLocationToShareViewController.swift; sourceTree = "<group>"; };
 		C12E9F1E2106749C0097EAEE /* ReceiveMapChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiveMapChatTableViewCell.swift; sourceTree = "<group>"; };
 		C12E9F20210674D20097EAEE /* SendMapChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendMapChatTableViewCell.swift; sourceTree = "<group>"; };
@@ -596,6 +600,7 @@
 		C124E5281F31DEC50027640C /* newProject */ = {
 			isa = PBXGroup;
 			children = (
+				C1FC1B371FEE66E500D3939E /* NewProject.storyboard */,
 				C110016C1F308F5500008ADB /* TheٍٍResponsibleEngineerViewController.swift */,
 				C152DA931F28B9D20032C03F /* GalaryViewController.swift */,
 				C152DA911F28AC820032C03F /* GalaryCollectionViewCell.swift */,
@@ -672,8 +677,21 @@
 				C19A1A0020E8FD3A0091C33D /* MeetingStatusFilterTableViewController.swift */,
 				C19A1A0220E9028C0091C33D /* MeetingStatus.swift */,
 				C19A1A0420E902D10091C33D /* MeetingStatusModel.swift */,
+				C1FC1B381FEE66E500D3939E /* VisitsAndDetails.storyboard */,
+				C14F3E0020E7A38000EC935D /* FilterVisitsViewController.swift */,
 			);
 			name = Visits;
+			sourceTree = "<group>";
+		};
+		C127E754211252AD005086F1 /* login and signup */ = {
+			isa = PBXGroup;
+			children = (
+				C1FC1B2B1FEE663E00D3939E /* NewLogin.storyboard */,
+				C1FC1B2A1FEE663E00D3939E /* NewLoginViewController.swift */,
+				C1FC1B2D1FEE663E00D3939E /* NewCheckCodeViewController.swift */,
+				C1FC1B291FEE663E00D3939E /* SignUpNameViewController.swift */,
+			);
+			name = "login and signup";
 			sourceTree = "<group>";
 		};
 		C12C654F206CF1C700793E9D /* AllNotfication */ = {
@@ -696,6 +714,15 @@
 				C12C6557206D012100793E9D /* MyProjectNotficationsModel.swift */,
 			);
 			name = MyProjectNotfication;
+			sourceTree = "<group>";
+		};
+		C12C9F71210FBE8700A0976B /* contract */ = {
+			isa = PBXGroup;
+			children = (
+				C157D273203C2DD2007ED59D /* ShowContractViewController.swift */,
+				C12C9F72210FBF1500A0976B /* EditContractViewController.swift */,
+			);
+			name = contract;
 			sourceTree = "<group>";
 		};
 		C189D16E1F3C75EB00F4FFB1 /* ContactUS */ = {
@@ -789,32 +816,20 @@
 		C1C634E81FBA0B1F0028A27F /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
-				C1FC1B2B1FEE663E00D3939E /* NewLogin.storyboard */,
-				C117F273202F482E009410E6 /* SignUpOffice.storyboard */,
 				C1FC1B361FEE66E500D3939E /* Home.storyboard */,
 				C1E72B161FF392B000F6E888 /* NewHome.storyboard */,
-				C194D65920EE32CF00174332 /* Chat */,
 				C1A681D1206FAB1B006E14AC /* UpdateAlertViewViewController.swift */,
-				C1E72B181FF3A06900F6E888 /* NewMyProjectsViewController.swift */,
-				C1714CE0201384020070A9EE /* NewProjectAlertViewController.swift */,
-				C1E72B1A1FF3A07900F6E888 /* NewMyProjectsTableViewCell.swift */,
-				C121CB9220AC5EDC0019F8B4 /* SectionMyProjectTableViewCell.swift */,
-				C1C3CA101FF3B43500D5272F /* NewTabBarViewController.swift */,
-				C1C3CA141FF3F2FB00D5272F /* NewProjectDetialsFilterTableViewController.swift */,
 				C12C6554206CF21A00793E9D /* MyProjectNotfication */,
-				C12C654F206CF1C700793E9D /* AllNotfication */,
 				C1357A4E204418C20006E6F6 /* ProjectDetialsArray.swift */,
 				C1FD41961FFB9E49006DF68B /* FilterViewController.swift */,
 				C1EAA5D51FFA5C98008C2249 /* DesignsByProjectId */,
 				C1EAA5DA1FFA5FB2008C2249 /* VisitsByProjectId */,
 				C190A0EC20595378007A184B /* NewFilter */,
-				C1FC1B371FEE66E500D3939E /* NewProject.storyboard */,
 				C1FC1B391FEE66E500D3939E /* ProjectsAndEdit.storyboard */,
-				C1FC1B351FEE66E500D3939E /* DesignsAndDetails.storyboard */,
-				C1FC1B381FEE66E500D3939E /* VisitsAndDetails.storyboard */,
 				C1FC1B3A1FEE66E600D3939E /* MyFilesAndMoney.storyboard */,
 				C136467F1FF253F900C72AE7 /* WelcomeScreen.storyboard */,
 				C13646811FF2541900C72AE7 /* NewWelcomeScreenViewController.swift */,
+				C127E75521125798005086F1 /* AboutHandsyViewController.swift */,
 				C1EE01B12074E84C00B83E76 /* ContactUSViewController.swift */,
 			);
 			name = Storyboard;
@@ -834,6 +849,7 @@
 		C1C712CC1F488B23004F42E5 /* Designs */ = {
 			isa = PBXGroup;
 			children = (
+				C1F5332F20E53F7A00B06E5A /* FilterDesignsViewController.swift */,
 				C1AD08B11F41D101007FD648 /* ProjectsContinueViewController.swift */,
 				C16CA9341F434EBD0084F9AC /* openPdfViewController.swift */,
 				C16CA9321F431BC90084F9AC /* AlertDesignOkViewController.swift */,
@@ -849,6 +865,7 @@
 				C19A19FA20E8EA350091C33D /* DesignStatusFilterTableViewController.swift */,
 				C19A19FC20E8EB7A0091C33D /* DesignStatus.swift */,
 				C19A19FE20E8EBB60091C33D /* DesignStatusModel.swift */,
+				C1FC1B351FEE66E500D3939E /* DesignsAndDetails.storyboard */,
 			);
 			name = Designs;
 			sourceTree = "<group>";
@@ -882,15 +899,18 @@
 				C159732A2054309800BD5A12 /* FilterCompanyTypeTableViewCell.swift */,
 				C15A29AA1F5D540800832E62 /* Handsy.entitlements */,
 				C1DB274D1F20D8230038BFA7 /* AppDelegate.swift */,
+				C1C712CC1F488B23004F42E5 /* Designs */,
 				C1254F4A1F7FF98800A7BC2A /* Visits */,
 				C1FC1B4B1FEE723300D3939E /* NewStart */,
+				CE28F59B210C955B00A95F52 /* Home */,
+				C194D65920EE32CF00174332 /* Chat */,
+				C12C654F206CF1C700793E9D /* AllNotfication */,
 				C1C634E81FBA0B1F0028A27F /* Storyboard */,
 				C1254F461F7FF91600A7BC2A /* MyFiles */,
 				C124E5281F31DEC50027640C /* newProject */,
 				C167DEC51F79692A00E338AE /* NoSignUpViewController.swift */,
-				C157D273203C2DD2007ED59D /* ShowContractViewController.swift */,
+				C12C9F71210FBE8700A0976B /* contract */,
 				C1254F491F7FF95E00A7BC2A /* Money */,
-				C1C712CC1F488B23004F42E5 /* Designs */,
 				C1A84BAB1FD56BAF00385663 /* About Company */,
 				C1C712CB1F488B10004F42E5 /* Profile */,
 				C189D16E1F3C75EB00F4FFB1 /* ContactUS */,
@@ -956,7 +976,6 @@
 				C1EAA5D11FFA593B008C2249 /* DesignByProjectIdModel.swift */,
 				C1EAA5D31FFA5A44008C2249 /* DesignByProjectIdArray.swift */,
 				C1D06EFD1FF932300062CEA0 /* DesignDetailsTableViewController.swift */,
-				C1F5332F20E53F7A00B06E5A /* FilterDesignsViewController.swift */,
 			);
 			name = DesignsByProjectId;
 			sourceTree = "<group>";
@@ -971,7 +990,6 @@
 				C1F32AB9200CEE9200C69893 /* VisitsOfProjectsDetialsTableViewController.swift */,
 				C1EAA5D61FFA5D2E008C2249 /* VisitsByProjectIdModel.swift */,
 				C1EAA5D81FFA5D8B008C2249 /* VisitsByProjectIdArray.swift */,
-				C14F3E0020E7A38000EC935D /* FilterVisitsViewController.swift */,
 			);
 			name = VisitsByProjectId;
 			sourceTree = "<group>";
@@ -1093,9 +1111,8 @@
 		C1FC1B4B1FEE723300D3939E /* NewStart */ = {
 			isa = PBXGroup;
 			children = (
-				C1FC1B2A1FEE663E00D3939E /* NewLoginViewController.swift */,
-				C1FC1B2D1FEE663E00D3939E /* NewCheckCodeViewController.swift */,
-				C1FC1B291FEE663E00D3939E /* SignUpNameViewController.swift */,
+				C127E754211252AD005086F1 /* login and signup */,
+				C117F273202F482E009410E6 /* SignUpOffice.storyboard */,
 				C1969C51203EE02A001D87BA /* NewOfficeFillterViewController.swift */,
 				C1969C55203EE5C4001D87BA /* OfficeLoginNumTableViewController.swift */,
 				C1969C57203EE800001D87BA /* OfficeCheckCodeTableViewController.swift */,
@@ -1108,6 +1125,19 @@
 				C1969C5D203F0BA2001D87BA /* PopUPRegisterViewController.swift */,
 			);
 			name = NewStart;
+			sourceTree = "<group>";
+		};
+		CE28F59B210C955B00A95F52 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				C1E72B181FF3A06900F6E888 /* NewMyProjectsViewController.swift */,
+				C1714CE0201384020070A9EE /* NewProjectAlertViewController.swift */,
+				C1E72B1A1FF3A07900F6E888 /* NewMyProjectsTableViewCell.swift */,
+				C121CB9220AC5EDC0019F8B4 /* SectionMyProjectTableViewCell.swift */,
+				C1C3CA101FF3B43500D5272F /* NewTabBarViewController.swift */,
+				C1C3CA141FF3F2FB00D5272F /* NewProjectDetialsFilterTableViewController.swift */,
+			);
+			name = Home;
 			sourceTree = "<group>";
 		};
 		E72040057C9313A057BFD067 /* Pods */ = {
@@ -1430,6 +1460,7 @@
 				C1326D2B2047FF6F00EDDE1A /* DetialsOfOfficeArray.swift in Sources */,
 				C1F32ABA200CEE9200C69893 /* VisitsOfProjectsDetialsTableViewController.swift in Sources */,
 				C1C8FA941F236A8A00C89AE2 /* textF.swift in Sources */,
+				C12C9F73210FBF1500A0976B /* EditContractViewController.swift in Sources */,
 				C115D84C1FE2B6CC00A5FCE4 /* NeerOfficesViewController.swift in Sources */,
 				C1A681D2206FAB1B006E14AC /* UpdateAlertViewViewController.swift in Sources */,
 				C1FC1B331FEE663E00D3939E /* NewCheckCodeViewController.swift in Sources */,
@@ -1552,6 +1583,7 @@
 				C114F2D01F6D69E30015C761 /* NotCollectedTableViewController.swift in Sources */,
 				C1E2E0EB1FCEC7D0001AFDB8 /* BranchesViewController.swift in Sources */,
 				C194D66320EE389300174332 /* SendimageChatTableViewCell.swift in Sources */,
+				C127E75621125798005086F1 /* AboutHandsyViewController.swift in Sources */,
 				C1969C5E203F0BA2001D87BA /* PopUPRegisterViewController.swift in Sources */,
 				C117F5741F373A6F00CEBECF /* AWTabBar.swift in Sources */,
 				C1BEE7831F3A20BC009DCE08 /* TeamWorkCollectionViewCell.swift in Sources */,

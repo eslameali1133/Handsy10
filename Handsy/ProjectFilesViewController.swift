@@ -73,7 +73,8 @@ class ProjectFilesViewController: UIViewController, UITableViewDelegate, UITable
         companyNameLabel.text = ComapnyName
         projectTitle.text = projectTitleView
         EmpNameLabel.setTitle(EmpName, for: .normal)
-        if let url = URL.init(string: Logo) {
+        let trimmedString = Logo.trimmingCharacters(in: .whitespaces)
+        if let url = URL.init(string: trimmedString) {
             companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
             print("nil")

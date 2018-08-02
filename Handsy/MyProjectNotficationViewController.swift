@@ -14,15 +14,22 @@ class MyProjectNotficationViewController: UIViewController, UITableViewDelegate,
     @IBOutlet weak var myProjectTableView: UITableView!
     
     var projectId = ""
+    var companyName = ""
+    var companyPhone = ""
+    var projectTitle = ""
     var myProjectNotfications: [MyProjectNotfications] = [MyProjectNotfications]()
     
     let myProjectNotficationsModel: MyProjectNotficationsModel = MyProjectNotficationsModel()
     
     @IBOutlet weak var NothingLabel: UILabel!
     @IBOutlet weak var AlertImage: UIImageView!
+    @IBOutlet weak var projectNameLabel: UILabel!
+    @IBOutlet weak var companyNameLabel: UILabel!
+    @IBOutlet weak var companyMobile: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setHeader()
         DispatchQueue.main.async {
             self.NothingLabel.isHidden = true
             self.AlertImage.isHidden = true
@@ -33,9 +40,10 @@ class MyProjectNotficationViewController: UIViewController, UITableViewDelegate,
         myProjectNotficationsModel.GetAllNotificationByProjectId(view: self.view, projectId: projectId, VC: self)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func setHeader() {
+        projectNameLabel.text = projectTitle
+        companyNameLabel.text = companyName
+        companyMobile.setTitle(companyPhone, for: .normal)
     }
 
     func dataReady() {
@@ -69,8 +77,9 @@ class MyProjectNotficationViewController: UIViewController, UITableViewDelegate,
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyProjectNotficationTableViewCell", for: indexPath) as! MyProjectNotficationTableViewCell
         // Configure the cell...
-        let companyLogo = myProjectNotfications[indexPath.row].CompanyLogo
-        if let url = URL.init(string: companyLogo!) {
+        let companyLogo = myProjectNotfications[indexPath.row].CompanyLogo!
+        let trimmedString = companyLogo.trimmingCharacters(in: .whitespaces)
+        if let url = URL.init(string: trimmedString) {
             print(url)
             cell.companyLogoImg.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
@@ -87,9 +96,9 @@ class MyProjectNotficationViewController: UIViewController, UITableViewDelegate,
             cell.notficationLightView.isHidden = false
             cell.newNotficationBtn.isHidden = false
         }
-        cell.companyNameLabel.text = myProjectNotfications[indexPath.row].ComapnyName
+//        cell.companyNameLabel.text = myProjectNotfications[indexPath.row].ComapnyName
         cell.notficationTitleLabel.text = myProjectNotfications[indexPath.row].Desc
-        cell.projectNameLabel.text = myProjectNotfications[indexPath.row].ProjectTitle
+//        cell.projectNameLabel.text = myProjectNotfications[indexPath.row].ProjectTitle
         cell.notficationTimeLabel.text = myProjectNotfications[indexPath.row].TimeAgo
         cell.notficationDateLabel.text = myProjectNotfications[indexPath.row].DateCreate
         return cell
@@ -157,6 +166,37 @@ class MyProjectNotficationViewController: UIViewController, UITableViewDelegate,
         Alamofire.request("http://smusers.promit2030.com/Service1.svc/MarkNotifyReadByNotifyID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
+        }
+    }
+    
+    @IBAction func CallMe(_ sender: UIButton) {
+        var mobile: String = (companyPhone)
+        if mobile.count == 10 {
+            if mobile.first! == "0" {
+                if mobile[mobile.index(mobile.startIndex, offsetBy: 1)] == "5" {
+                    mobile.remove(at: mobile.startIndex)
+                    mobile.insert("6", at: mobile.startIndex)
+                    mobile.insert("6", at: mobile.startIndex)
+                    mobile.insert("9", at: mobile.startIndex)
+                    callNumber(phoneNumber: mobile)
+                } else {
+                    callNumber(phoneNumber: mobile)
+                }
+            } else {
+                callNumber(phoneNumber: mobile)
+            }
+        } else {
+            callNumber(phoneNumber: mobile)
+        }
+    }
+    private func callNumber(phoneNumber:String) {
+        
+        if let phoneCallURL = URL(string: "tel://\(phoneNumber)") {
+            
+            let application:UIApplication = UIApplication.shared
+            if (application.canOpenURL(phoneCallURL)) {
+                application.open(phoneCallURL, options: [:], completionHandler: nil)
+            }
         }
     }
 }

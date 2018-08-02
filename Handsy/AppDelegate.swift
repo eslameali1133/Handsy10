@@ -233,9 +233,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }else if type == "8" {
                 MarkNotifyReadByNotifyID(NotificationID: notificationID!)
                 let File = userInfo["File"] as? String
+                let ProjectId = userInfo["ProjectId"] as? String
                 let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
                 let secondView = storyBoard.instantiateViewController(withIdentifier: "ShowContractViewController") as! ShowContractViewController
                 secondView.url = File!
+                secondView.ProjectId = ProjectId!
                 let topController = UIApplication.topViewController()
                 topController?.show(secondView, sender: true)
                 self.applicationl.applicationIconBadgeNumber = badgeCount - 1
@@ -372,9 +374,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }else if type == "8" {
                 MarkNotifyReadByNotifyID(NotificationID: notificationID!)
                 let File = userInfo["File"] as? String
+                let ProjectId = userInfo["ProjectId"] as? String
                 let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
                 let secondView = storyBoard.instantiateViewController(withIdentifier: "ShowContractViewController") as! ShowContractViewController
                 secondView.url = File!
+                secondView.ProjectId = ProjectId!
                 let topController = UIApplication.topViewController()
                 topController?.show(secondView, sender: true)
                 self.applicationl.applicationIconBadgeNumber = badgeCount - 1
@@ -534,9 +538,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }else if type == "8" {
                 MarkNotifyReadByNotifyID(NotificationID: notificationID!)
                 let File = userInfo["File"] as? String
+                let ProjectId = userInfo["ProjectId"] as? String
                 let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
                 let secondView = storyBoard.instantiateViewController(withIdentifier: "ShowContractViewController") as! ShowContractViewController
                 secondView.url = File!
+                secondView.ProjectId = ProjectId!
                 let topController = UIApplication.topViewController()
                 topController?.show(secondView, sender: true)
                 self.applicationl.applicationIconBadgeNumber = badgeCount - 1

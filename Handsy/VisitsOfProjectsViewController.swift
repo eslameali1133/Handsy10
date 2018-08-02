@@ -155,8 +155,9 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
         }else {
             print("error status \(status)")
         }
-        let img = ProjectOfResult[0].Logo
-        if let url = URL.init(string: img!) {
+        let img = ProjectOfResult[0].Logo!
+        let trimmedString = img.trimmingCharacters(in: .whitespaces)
+        if let url = URL.init(string: trimmedString) {
             companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
             print("nil")
@@ -410,8 +411,7 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
         let storyboard = UIStoryboard(name: "Chat", bundle: nil)
         let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
         FirstViewController.ProjectId = ProjectId
-        let topController = UIApplication.topViewController()
-        topController?.present(FirstViewController, animated: false, completion: nil)
+        self.navigationController?.pushViewController(FirstViewController, animated: true)
     }
     
     @IBAction func CallMe(_ sender: UIButton) {

@@ -82,7 +82,7 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
     @IBOutlet weak var ClientReplayView: UIView!
     @IBOutlet weak var ClientReplayTF: UITextView!
     @IBOutlet weak var InformationVisit: UIView!
-    @IBOutlet weak var EngNameLabel: UIButton!
+    @IBOutlet weak var EngNameLabel: UILabel!
     @IBOutlet weak var JopNameLabel: UILabel!
     @IBOutlet weak var companyNameLabel: UILabel!
     
@@ -105,6 +105,7 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        buttonsView.isHidden = true
         //        assignbackground()
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
@@ -115,7 +116,7 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
             if visitsDetialsModel.returnProjectDetials(at: MeetingID) != nil {
                 let visitsDetials = visitsDetialsModel.returnProjectDetials(at: MeetingID)
                 self.visitsDetialsArray = [visitsDetials!]
-                self.ComapnyNameFunc(EmpName: visitsDetialsArray[0].Mobile!, companyName: visitsDetialsArray[0].ComapnyName!, companyLogo: visitsDetialsArray[0].Logo!, JobName: visitsDetialsArray[0].EmpName!)
+                self.ComapnyNameFunc(EmpName: visitsDetialsArray[0].EmpName!, companyName: visitsDetialsArray[0].ComapnyName!, companyLogo: visitsDetialsArray[0].Logo!, JobName: visitsDetialsArray[0].JobName!)
                 self.setDetiales(condition: "offline")
             }
         }
@@ -130,7 +131,7 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
             debugPrint(response)
             
             let json = JSON(response.result.value!)
-            let requestProjectObj = VisitsDetialsArray(Address: json["Address"].stringValue, ComapnyName: json["ComapnyName"].stringValue, Logo: json["Logo"].stringValue, visitTitle: json["Title"].stringValue, MeetingStatus: json["MeetingStatus"].stringValue, Description: json["Description"].stringValue, Notes: json["Notes"].stringValue, Start: json["Start"].stringValue, TimeStartMeeting: json["TimeStartMeeting"].stringValue, StartTime: json["StartTime"].stringValue, ProjectBildTypeName: json["ProjectBildTypeName"].stringValue, Mobile: json["Mobile"].stringValue, EmpName: json["EmpName"].stringValue, Replay: json["Replay"].stringValue, DateReply: json["DateReply"].stringValue, EndTime: json["EndTime"].stringValue, LatBranch: json["LatBranch"].doubleValue, LngBranch: json["LngBranch"].doubleValue, JobName: json["JobName"].stringValue, ClientReply: json["ClientReply"].stringValue, MeetingID: json["MeetingID"].stringValue)
+            let requestProjectObj = VisitsDetialsArray(Address: json["Address"].stringValue, ComapnyName: json["ComapnyName"].stringValue, Logo: json["Logo"].stringValue, visitTitle: json["Title"].stringValue, MeetingStatus: json["MeetingStatus"].stringValue, Description: json["Description"].stringValue, Notes: json["Notes"].stringValue, Start: json["Start"].stringValue, TimeStartMeeting: json["TimeStartMeeting"].stringValue, StartTime: json["StartTime"].stringValue, ProjectBildTypeName: json["ProjectBildTypeName"].stringValue, Mobile: json["Mobile"].stringValue, EmpName: json["EmpName"].stringValue, Replay: json["Replay"].stringValue, DateReply: json["DateReply"].stringValue, EndTime: json["EndTime"].stringValue, LatBranch: json["LatBranch"].doubleValue, LngBranch: json["LngBranch"].doubleValue, JobName: json["JobName"].stringValue, ClientReply: json["ClientReply"].stringValue, MeetingID: json["MeetingID"].stringValue, ProjectId: json["ProjectId"].stringValue)
             self.Address = json["Address"].stringValue
             self.ComapnyName = json["ComapnyName"].stringValue
             self.Logo = json["Logo"].stringValue
@@ -152,11 +153,12 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
             self.LngBranch = json["LngBranch"].doubleValue
             self.JobName = json["JobName"].stringValue
             self.ClientReply = json["ClientReply"].stringValue
+            self.ProjectId = json["ProjectId"].stringValue
             self.visitsDetialsArray.append(requestProjectObj)
             for i in self.visitsDetialsArray {
                 self.visitsDetialsModel.append(i)
             }
-            self.ComapnyNameFunc(EmpName: self.Mobile, companyName: self.ComapnyName, companyLogo: self.Logo, JobName: self.EmpName)
+            self.ComapnyNameFunc(EmpName: self.EmpName, companyName: self.ComapnyName, companyLogo: self.Logo, JobName: self.JobName)
             self.setDetiales(condition: "online")
 
         }
@@ -164,10 +166,11 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
     }
     
     func ComapnyNameFunc(EmpName: String, companyName: String, companyLogo: String, JobName: String){
-        EngNameLabel.setTitle(EmpName, for: .normal)
+        EngNameLabel.text = EmpName
         companyNameLabel.text = companyName
         JopNameLabel.text = JobName
-        if let url = URL.init(string: companyLogo) {
+        let trimmedString = companyLogo.trimmingCharacters(in: .whitespaces)
+        if let url = URL.init(string: trimmedString) {
             companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
             print("nil")
@@ -366,6 +369,7 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
     @IBAction func pauseVisit(_ sender: UIButton) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "VisitsAndDetails", bundle: nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "AlertVisitPauseViewController") as! AlertVisitPauseViewController
+        secondView.reloadApi = self
         secondView.modalPresentationStyle = .custom
         self.present(secondView, animated: true)
     }
@@ -374,6 +378,7 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
     @IBAction func visitOk(_ sender: UIButton) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "VisitsAndDetails", bundle: nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "AlertVisitOkViewController") as! AlertVisitOkViewController
+        secondView.reloadApi = self
         secondView.modalPresentationStyle = .custom
         self.present(secondView, animated: true)
     }
@@ -453,8 +458,7 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
         let storyboard = UIStoryboard(name: "Chat", bundle: nil)
         let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
         FirstViewController.ProjectId = ProjectId
-        let topController = UIApplication.topViewController()
-        topController?.present(FirstViewController, animated: false, completion: nil)
+        self.navigationController?.pushViewController(FirstViewController, animated: true)
     }
     
     @IBAction func CallMe(_ sender: UIButton) {
@@ -486,5 +490,10 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
                 application.open(phoneCallURL, options: [:], completionHandler: nil)
             }
         }
+    }
+}
+extension VisitsOfProjectsDetialsTableViewController: reloadApi {
+    func reload() {
+        viewDidLoad()
     }
 }

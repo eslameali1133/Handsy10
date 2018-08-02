@@ -64,9 +64,9 @@ class OurProjectsCollectionViewController: UICollectionViewController, OurProjec
         
         // Configure the cell
         
-        let firstElem = projectImagesArr[indexPath.row].ProjectGalleryPath
-        
-        if let url = URL.init(string: firstElem!) {
+        let firstElem = projectImagesArr[indexPath.row].ProjectGalleryPath!
+        let trimmedString = firstElem.trimmingCharacters(in: .whitespaces)
+        if let url = URL.init(string: trimmedString) {
             print(url)
             cell.imageView.hnk_setImageFromURL(url)
         } else{

@@ -59,9 +59,9 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
         
 //        NationalId.text = UserDefaults.standard.string(forKey: "NationalId")
         
-        let firstElem = UserDefaults.standard.string(forKey: "CustomerPhoto")
-        
-        if let url = URL.init(string: firstElem!) {
+        let firstElem = UserDefaults.standard.string(forKey: "CustomerPhoto")!
+        let trimmedString = firstElem.trimmingCharacters(in: .whitespaces)
+        if let url = URL.init(string: trimmedString) {
             print(url)
             imageProfile.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "custlogo"))
         } else{

@@ -331,6 +331,7 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
             if let address = response?.firstResult() {
                 self.searchController?.searchBar.text = address.locality ?? self.resultsText1
                 self.resultsText1 = address.locality ?? self.resultsText1
+//                self.resultsText1 = ""
                 self.resaultsLabel.text = self.resultsText + self.resultsText1 + ", " + self.resultsText2
                 // 3
                 let lines = address.lines!
@@ -339,6 +340,11 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
                 UIView.animate(withDuration: 0.25) {
                     self.view.layoutIfNeeded()
                 }
+            }else {
+                self.searchController?.searchBar.text = ""
+                //                self.resultsText1 = address.locality ?? self.resultsText1
+                self.resultsText1 = ""
+                self.resaultsLabel.text = self.resultsText + self.resultsText1 + ", " + self.resultsText2
             }
         }
         
@@ -362,7 +368,8 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
         var markersArray = [GMSMarker]()
         Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetOffices", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
-            
+            switch response.result {
+            case .success:
             var i = 0
             for json in JSON(response.result.value!).arrayValue {
                 let requestProjectObj = GetOfficesArray()
@@ -442,12 +449,29 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
                 {
                     bounds = bounds.includingCoordinate(marker.position)
                 }
+                // dynamic zoom
                 let update = GMSCameraUpdate.fit(bounds, withPadding: 60)
                 self.mapView.animate(with: update)
                 self.cam = Double(self.mapView.camera.zoom)
                 print("zoom: \(Double(self.mapView.camera.zoom))")
             }
             UIViewController.removeSpinner(spinner: sv)
+            case .failure(let error):
+                print(error)
+                UIViewController.removeSpinner(spinner: sv)
+                let alertAction = UIAlertController(title: "خطاء في الاتصال", message: "اعادة المحاولة", preferredStyle: .alert)
+                
+                alertAction.addAction(UIAlertAction(title: "نعم", style: .default, handler: { action in
+                    self.GetOfficesByProvincesID(SortBy: SortBy, SortExp: SortExp)
+                }))
+                
+                alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+                    self.navigationController!.popViewController(animated: true)
+                }))
+                
+                self.present(alertAction, animated: true, completion: nil)
+                
+            }
         }
         
     }
@@ -567,7 +591,7 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
         secondView.isCompany = self.isCompany
         self.present(NavController, animated: true, completion: nil)
     }
-    
+    // التخصصات
     @IBAction func ExpBtnAction(_ sender: UIButton) {
         let dvc = self.storyboard!.instantiateViewController(withIdentifier: "FilterCompanyTypeTableViewController") as! FilterCompanyTypeTableViewController
         
@@ -619,7 +643,7 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
         PopUpView.isHidden = true
         guard let lat = self.mapView.myLocation?.coordinate.latitude,
             let lng = self.mapView.myLocation?.coordinate.longitude else { return }
-        resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2
+        resaultsLabel.text = resultsText + "" + ", " + resultsText2
         let camera = GMSCameraPosition.camera(withLatitude: lat ,longitude: lng , zoom: 12.0)
         self.mapView.animate(to: camera)
     }
@@ -726,7 +750,8 @@ extension OfficesMapViewController: GMSAutocompleteResultsViewControllerDelegate
                 CompanyNameLabel.text = arrayOfResulr[index].ComapnyName
                 companyMobileLabel = arrayOfResulr[index].CompanyMobile
                 let img = arrayOfResulr[index].Logo
-                if let url = URL.init(string: img) {
+                let trimmedString = img.trimmingCharacters(in: .whitespaces)
+                if let url = URL.init(string: trimmedString) {
                     CompanyLogoImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
                 } else{
                     print("nil")
@@ -737,7 +762,8 @@ extension OfficesMapViewController: GMSAutocompleteResultsViewControllerDelegate
                 CompanyNameLabel.text = arrayOfResulr[index-ind].ComapnyName
                 companyMobileLabel = arrayOfResulr[index-ind].CompanyMobile
                 let img = arrayOfResulr[index-ind].Logo
-                if let url = URL.init(string: img) {
+                let trimmedString = img.trimmingCharacters(in: .whitespaces)
+                if let url = URL.init(string: trimmedString) {
                     CompanyLogoImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
                 } else{
                     print("nil")
@@ -799,13 +825,18 @@ extension OfficesMapViewController: GMSAutocompleteResultsViewControllerDelegate
     }
     
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
-        reverseGeocodeCoordinate(position.target)
+//        reverseGeocodeCoordinate(position.target)
+//        self.searchController?.searchBar.text = ""
+//        //                self.resultsText1 = address.locality ?? self.resultsText1
+//        self.resultsText1 = ""
+//        self.resaultsLabel.text = self.resultsText + self.resultsText1 + ", " + self.resultsText2
         resultMyLocation2 = CLLocation(latitude: position.target.latitude, longitude: position.target.longitude)
     }
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController, didAutocompleteWith place: GMSPlace) {
         searchController?.isActive = false
         // Do something with the selected place.
         print("Place name: \(place.name)")
+//        self.searchController?.searchBar.text = place.name
 //        print("Place address: \(place.formattedAddress ?? "default")")
         address = place.formattedAddress!
 //        print("Place attributions: \(place.attributions)")
@@ -818,10 +849,10 @@ extension OfficesMapViewController: GMSAutocompleteResultsViewControllerDelegate
         let f = place.viewport?.southWest
         let tarf = CLLocation(latitude: (f?.latitude)!, longitude: (f?.longitude)!)
         radius = targ.distance(from: tarf)
-//        let distance : GMSCoordinateBounds = GMSCoordinateBounds(coordinate: g!, coordinate: f!)
-//        let camera = mapView.camera(for: distance, insets: UIEdgeInsets())!
-//        cam = Double(camera.zoom)
-//        mapView.camera = camera
+        let distance : GMSCoordinateBounds = GMSCoordinateBounds(coordinate: g!, coordinate: f!)
+        let camera = mapView.camera(for: distance, insets: UIEdgeInsets())!
+        cam = Double(camera.zoom)
+        mapView.camera = camera
 //        map(l: place.coordinate.latitude, lng: place.coordinate.longitude, Z: 17.0, title: place.formattedAddress!)
         resultMyLocation2 = CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
         if arrayOfResulr.count > 0 {
@@ -834,7 +865,7 @@ extension OfficesMapViewController: GMSAutocompleteResultsViewControllerDelegate
         }
         PopUpView.isHidden = true
         address = place.formattedAddress!
-        searchController?.searchBar.text = place.formattedAddress
+        searchController?.searchBar.text = place.name
         resultsText1 = place.name
         resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2
     }
@@ -884,7 +915,7 @@ extension OfficesMapViewController: GMSAutocompleteResultsViewControllerDelegate
             // GMSMapView has two features concerning the user’s location: myLocationEnabled draws a light blue dot where the user is located, while myLocationButton, when set to true, adds a button to the map that, when tapped, centers the map on the user’s location.
             
             mapView.isMyLocationEnabled = true
-            mapView.settings.myLocationButton = true
+            mapView.settings.myLocationButton = false
             mapView.settings.zoomGestures = true
         }
     }

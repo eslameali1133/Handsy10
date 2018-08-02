@@ -21,6 +21,14 @@ class ShowContractViewController: UIViewController, UIWebViewDelegate {
             }
         }
     }
+    @IBOutlet weak var editBtnOut: UIButton!{
+        didSet {
+            DispatchQueue.main.async {
+                self.editBtnOut.layer.cornerRadius = 7.0
+                self.editBtnOut.layer.masksToBounds = true
+            }
+        }
+    }
     
     var url: String = ""
     var Webtitle: String = "العقد المقترح"
@@ -39,9 +47,15 @@ class ShowContractViewController: UIViewController, UIWebViewDelegate {
         // Do any additional setup after loading the view.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBAction func goEditContactAction(_ sender: UIButton) {
+        print("ProjectId: \(ProjectId)")
+        let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle: nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "EditContractViewController") as! EditContractViewController
+        secondView.reloadApi = self
+        secondView.ProjectId = ProjectId
+        secondView.ContractHistoryPath = url
+        secondView.modalPresentationStyle = .custom
+        self.present(secondView, animated: true)
     }
     
     @IBAction func AcceptContactAction(_ sender: UIButton) {
@@ -83,15 +97,10 @@ class ShowContractViewController: UIViewController, UIWebViewDelegate {
         }
         UIViewController.removeSpinner(spinner: sv)
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+}
+extension ShowContractViewController: reloadApi {
+    func reload() {
+        self.AcceptViewOut.isHidden = true
+        self.navigationController!.popViewController(animated: false)
     }
-    */
-
 }

@@ -50,7 +50,7 @@ class DetailsDesignTableViewController: UITableViewController {
     @IBOutlet weak var StatusLa: UILabel!
     @IBOutlet weak var TitleDesign: UILabel!
     @IBOutlet weak var StagesDe: UILabel!
-    @IBOutlet weak var stackDetialsDes: UIStackView!
+//    @IBOutlet weak var stackDetialsDes: UIStackView!
     
     @IBOutlet weak var DetailsDes: UITextView!
     @IBOutlet weak var InformationDetiView: UIView!
@@ -60,7 +60,7 @@ class DetailsDesignTableViewController: UITableViewController {
     @IBOutlet weak var MyDetials: UIView!
     @IBOutlet weak var DetailsEngView: UIView!
     
-    @IBOutlet weak var EngNameLabel: UIButton!
+    @IBOutlet weak var EngNameLabel: UILabel!
     @IBOutlet weak var JopNameLabel: UILabel!
     @IBOutlet weak var companyNameLabel: UILabel!
     
@@ -95,9 +95,11 @@ class DetailsDesignTableViewController: UITableViewController {
     var designsDetialsOfResult = [DesignsDetialsArray]()
     var designsDetialsModel: DesignsDetialsModel = DesignsDetialsModel()
     var isScroll = false
+    var ProjectId = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        BtnOutLet.isHidden = true
         if isScroll == false {
             
         }else {
@@ -136,7 +138,7 @@ class DetailsDesignTableViewController: UITableViewController {
         Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetDesignsByDesignStagesID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             let json = JSON(response.result.value!)
-            let requestProjectObj = DesignsDetialsArray(CreateDate: json["CreateDate"].stringValue, DesignFile: json["DesignFile"].stringValue, DesignStagesID: json["DesignStagesID"].stringValue, Details: json["Details"].stringValue, EmpName: json["EmpName"].stringValue, mobileStr: json["Mobile"].stringValue, ProjectBildTypeName: json["ProjectBildTypeName"].stringValue, ProjectStatusID: json["ProjectStatusID"].stringValue, SakNum: json["SakNum"].stringValue, StagesDetailsName: json["StagesDetailsName"].stringValue, Status: json["Status"].stringValue, ClientReply: json["ClientReply"].stringValue, EmpReply: json["EmpReply"].stringValue, ComapnyName: json["ComapnyName"].stringValue, LatBranch: json["LatBranch"].doubleValue, LngBranch: json["LngBranch"].doubleValue, JobName: json["JobName"].stringValue, Address: json["Address"].stringValue, Logo: json["Logo"].stringValue)
+            let requestProjectObj = DesignsDetialsArray(CreateDate: json["CreateDate"].stringValue, DesignFile: json["DesignFile"].stringValue, DesignStagesID: json["DesignStagesID"].stringValue, Details: json["Details"].stringValue, EmpName: json["EmpName"].stringValue, mobileStr: json["Mobile"].stringValue, ProjectBildTypeName: json["ProjectBildTypeName"].stringValue, ProjectStatusID: json["ProjectStatusID"].stringValue, SakNum: json["SakNum"].stringValue, StagesDetailsName: json["StagesDetailsName"].stringValue, Status: json["Status"].stringValue, ClientReply: json["ClientReply"].stringValue, EmpReply: json["EmpReply"].stringValue, ComapnyName: json["ComapnyName"].stringValue, LatBranch: json["LatBranch"].doubleValue, LngBranch: json["LngBranch"].doubleValue, JobName: json["JobName"].stringValue, Address: json["Address"].stringValue, Logo: json["Logo"].stringValue, ProjectId: json["ProjectId"].stringValue)
             
             self.CreateDate = json["CreateDate"].stringValue
             self.Address = json["Address"].stringValue
@@ -157,6 +159,7 @@ class DetailsDesignTableViewController: UITableViewController {
             self.LatBranch = json["LatBranch"].doubleValue
             self.LngBranch = json["LngBranch"].doubleValue
             self.JobName = json["JobName"].stringValue
+            self.ProjectId = json["ProjectId"].stringValue
             
             self.designsDetialsOfResult.append(requestProjectObj)
             for i in self.designsDetialsOfResult {
@@ -171,10 +174,11 @@ class DetailsDesignTableViewController: UITableViewController {
     }
     
     func ComapnyNameFunc(companyName: String, companyLogo: String, JobName: String){
-        EngNameLabel.setTitle(self.mobileStr, for: .normal)
+        EngNameLabel.text = EmpName
         companyNameLabel.text = companyName
-        JopNameLabel.text = EmpName
-        if let url = URL.init(string: companyLogo) {
+        JopNameLabel.text = JobName
+        let trimmedString = companyLogo.trimmingCharacters(in: .whitespaces)
+        if let url = URL.init(string: trimmedString) {
             companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
             print("nil")
@@ -214,11 +218,11 @@ class DetailsDesignTableViewController: UITableViewController {
             TitleDesign.text = ProjectBildTypeName
             StagesDe.text = StagesDetailsName
             //        Mobile.setTitle(mobileStr, for: .normal)
-            if Details == "" {
-                stackDetialsDes.isHidden = true
-            }else {
-                stackDetialsDes.isHidden = false
-            }
+//           if Details == "" {
+//                stackDetialsDes.isHidden = true
+//            }el se {
+//                stackDetialsDes.isHidden = false
+//            }
             DetailsDes.text = Details
             NotesCus.text = ClientReply
             NotesEng.text = EmpReply
@@ -227,21 +231,25 @@ class DetailsDesignTableViewController: UITableViewController {
             if Status == "1"{
                 StatusIm.image = #imageLiteral(resourceName: "جاري العمل-1")
                 StatusLa.text = "انتظار الموافقة"
+                StatusLa.textColor = #colorLiteral(red: 0.8196078431, green: 0.3294117647, blue: 0.09803921569, alpha: 1)
                 BtnOutLet.isHidden = false
                 OK.isHidden = false
                 Cancel.isHidden = false
             }else if Status == "2" {
                 StatusIm.image = #imageLiteral(resourceName: "تم الانجاز-1")
+                StatusLa.textColor = #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
                 StatusLa.text = "موافقة"
                 BtnOutLet.isHidden = true
             }else if Status == "3" {
                 StatusIm.image = #imageLiteral(resourceName: "مرفوض-1")
-                StatusLa.text = "مرفوض"
+                StatusLa.textColor = #colorLiteral(red: 0.8459660948, green: 0.2274509804, blue: 0.1921568627, alpha: 1)
+                StatusLa.text = "طلب التعديل"
                 BtnOutLet.isHidden = false
                 OK.isHidden = true
                 Cancel.isHidden = false
             }else if Status == "5" {
                 StatusIm.image = #imageLiteral(resourceName: "مرفوض-1")
+                StatusLa.textColor = #colorLiteral(red: 0.7450980392, green: 0.2274509804, blue: 0.1921568627, alpha: 1)
                 StatusLa.text = "جاري العمل"
                 BtnOutLet.isHidden = true
             }else {
@@ -284,11 +292,11 @@ class DetailsDesignTableViewController: UITableViewController {
             TitleDesign.text = designsDetialsOfResult[0].ProjectBildTypeName
             StagesDe.text = designsDetialsOfResult[0].StagesDetailsName
             //        Mobile.setTitle(mobileStr, for: .normal)
-            if designsDetialsOfResult[0].Details == "" {
-                stackDetialsDes.isHidden = true
-            }else {
-                stackDetialsDes.isHidden = false
-            }
+//            if designsDetialsOfResult[0].Details == "" {
+//                stackDetialsDes.isHidden = true
+//            }else {
+//                stackDetialsDes.isHidden = false
+//            }
             DetailsDes.text = designsDetialsOfResult[0].Details
             NotesCus.text = designsDetialsOfResult[0].ClientReply
             NotesEng.text = designsDetialsOfResult[0].EmpReply
@@ -308,8 +316,8 @@ class DetailsDesignTableViewController: UITableViewController {
                 BtnOutLet.isHidden = true
             }else if designsDetialsOfResult[0].Status == "3" {
                 StatusIm.image = #imageLiteral(resourceName: "مرفوض-1")
-                StatusLa.text = "مرفوض"
-                StatusLa.textColor = #colorLiteral(red: 0.7450980392, green: 0.2274509804, blue: 0.1921568627, alpha: 1)
+                StatusLa.text = "طلب التعديل"
+                StatusLa.textColor = #colorLiteral(red: 0.8459660948, green: 0.2274509804, blue: 0.1921568627, alpha: 1)
                 BtnOutLet.isHidden = false
                 OK.isHidden = true
                 Cancel.isHidden = false
@@ -405,6 +413,7 @@ class DetailsDesignTableViewController: UITableViewController {
     @IBAction func designCancel(_ sender: UIButton) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "AlertDetialsDesignCancelViewController") as! AlertDetialsDesignCancelViewController
+        secondView.reloadApi = self
         secondView.modalPresentationStyle = .custom
         self.present(secondView, animated: true)
     }
@@ -412,11 +421,17 @@ class DetailsDesignTableViewController: UITableViewController {
     @IBAction func designOk(_ sender: UIButton) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "AlertDetialsDesignOKViewController") as! AlertDetialsDesignOKViewController
+        secondView.reloadApi = self
         secondView.modalPresentationStyle = .custom
         self.present(secondView, animated: true)
     }
     
-    
+    @IBAction func openChat(_ sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Chat", bundle: nil)
+        let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
+        FirstViewController.ProjectId = ProjectId
+        self.navigationController?.pushViewController(FirstViewController, animated: true)
+    }
     
     @IBAction func directionBtn(_ sender: UIButton) {
         let location = CLLocation(latitude: LatBranch, longitude: LngBranch)
@@ -477,5 +492,10 @@ class DetailsDesignTableViewController: UITableViewController {
                 application.open(phoneCallURL, options: [:], completionHandler: nil)
             }
         }
+    }
+}
+extension DetailsDesignTableViewController: reloadApi {
+    func reload() {
+        viewDidLoad()
     }
 }

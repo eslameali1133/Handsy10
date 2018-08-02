@@ -20,6 +20,10 @@ class MessageByProjectIdModel: NSObject {
     var CompanyLogo: String = ""
     var ProjectTitle: String = ""
     var CompanyName: String = ""
+    var isCompany: String = ""
+    var CompanyInfoID: String = ""
+    var LatBranch: Double = 0.0
+    var LngBranch: Double = 0.0
     
     func messageByProjectId(view: UIView, VC: UIViewController, projectId: String) {
         let sv = UIViewController.displaySpinner(onView: view)
@@ -38,6 +42,10 @@ class MessageByProjectIdModel: NSObject {
                 self.CompanyLogo = MasterData["CompanyLogo"].stringValue
                 self.ProjectTitle = MasterData["ProjectTitle"].stringValue
                 self.CompanyName = MasterData["CompanyName"].stringValue
+                self.isCompany = MasterData["isCompany"].stringValue
+                self.CompanyInfoID = MasterData["CompanyInfoID"].stringValue
+                self.LatBranch = MasterData["LatBranch"].doubleValue
+                self.LngBranch = MasterData["LngBranch"].doubleValue
                 for MessagesList in json["MessagesList"].arrayValue {
                     let messageByProjectIdObj = MessageByProjectId()
                     messageByProjectIdObj.ImageName = MessagesList["ImageName"].stringValue

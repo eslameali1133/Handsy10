@@ -109,8 +109,9 @@ class AllNotficationViewController: UIViewController, UITableViewDelegate, UITab
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AllNotficationTableViewCell", for: indexPath) as! AllNotficationTableViewCell
         // Configure the cell...
-        let companyLogo = allNotifications[indexPath.row].CompanyLogo
-        if let url = URL.init(string: companyLogo!) {
+        let companyLogo = allNotifications[indexPath.row].CompanyLogo!
+        let trimmedString = companyLogo.trimmingCharacters(in: .whitespaces)
+        if let url = URL.init(string: trimmedString) {
             print(url)
             cell.companyLogoImg.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
@@ -199,6 +200,7 @@ class AllNotficationViewController: UIViewController, UITableViewDelegate, UITab
             let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
             let secondView = storyBoard.instantiateViewController(withIdentifier: "ShowContractViewController") as! ShowContractViewController
             secondView.url = File!
+            secondView.ProjectId = allNotifications[indexPath.row].ProjectId!
             self.navigationController?.pushViewController(secondView, animated: true)
         }else {
             print("type: \(type)")

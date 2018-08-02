@@ -12,6 +12,15 @@ import SwiftyJSON
 
 class AlertDetialsDesignCancelViewController: UIViewController {
 
+    var reloadApi: reloadApi?
+    @IBOutlet weak var alertDone: AMUIView!
+    @IBOutlet weak var doneBtnOut: UIButton!{
+        didSet {
+            DispatchQueue.main.async {
+                self.doneBtnOut.circleView(UIColor.clear, borderWidth: 1.0)
+            }
+        }
+    }
     
     @IBOutlet weak var Comments: KMPlaceholderTextView!
     @IBOutlet weak var alertComments: UILabel!
@@ -28,6 +37,7 @@ class AlertDetialsDesignCancelViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        alertDone.isHidden = true
         print("des: \(designStagesID)")
         // Do any additional setup after loading the view.
         alertComments.isHidden = true
@@ -55,6 +65,7 @@ class AlertDetialsDesignCancelViewController: UIViewController {
     @IBAction func dismissBtn(_ sender: UIButton) {
         //        let sub = self.storyboard?.instantiateViewController(withIdentifier: "main") as! MyTabBarController
         //        self.present(sub, animated: true ,completion: nil)
+        self.reloadApi?.reload()
         self.dismiss(animated: true, completion: nil)
         
     }
@@ -79,12 +90,12 @@ class AlertDetialsDesignCancelViewController: UIViewController {
             debugPrint(response)
             
             let json = JSON(response.result.value!)
-            
-            if json == "Done" {
-                let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
-                let sub = storyBoard.instantiateViewController(withIdentifier: "NewMain")
-                let topController = UIApplication.topViewController()
-                topController?.show(sub, sender: true)
+            if json["result"].stringValue == "Done" {
+                self.alertDone.isHidden = false
+//                let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
+//                let sub = storyBoard.instantiateViewController(withIdentifier: "NewMain")
+//                let topController = UIApplication.topViewController()
+//                topController?.show(sub, sender: true)
             }
             
         }

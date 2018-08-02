@@ -183,7 +183,7 @@ class NewProjectDViewController: UIViewController, ImagePickerDelegate, UICollec
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-           self.setupPicker()
+            self.setupPicker()
         } else {
             let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
             let secondView = storyBoard.instantiateViewController(withIdentifier: "GalaryViewController") as! GalaryViewController
@@ -254,32 +254,47 @@ class NewProjectDViewController: UIViewController, ImagePickerDelegate, UICollec
         
         Alamofire.request("http://smusers.promit2030.com/Service1.svc/ProjectsDataSave", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
-            
-            let json = JSON(response.result.value!)
-            print(json)
-            
-            self.ProjectId = json["ProjectId"].stringValue
-            self.BranchLat = json["BranchLat"].stringValue
-            self.BranchLng = json["BranchLng"].stringValue
-            self.EmpName = json["EmpName"].stringValue
-            self.Mobile = json["Mobile"].stringValue
-            self.EmpImage = json["EmpImage"].stringValue
-            self.JobName = json["JobName"].stringValue
-            self.BranchName = json["BranchName"].stringValue
-            self.zoomOffice = json["Zoom"].stringValue
-            
-            let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
-            let secondView = storyBoard.instantiateViewController(withIdentifier: "TheResponsibleEngineerViewController") as! TheResponsibleEngineerViewController
-            secondView.BranchLat = self.BranchLat
-            secondView.BranchLng = self.BranchLng
-            secondView.zoomOffice = self.zoomOffice
-            secondView.BranchName = self.BranchName
-            secondView.EmpName = self.EmpName
-            secondView.JobName = self.JobName
-            secondView.Mobile = self.Mobile
-            secondView.EmpImage = self.EmpImage
-            secondView.ProjectId = self.ProjectId
-            self.navigationController?.pushViewController(secondView, animated: true)
+            switch response.result {
+            case .success:
+                let json = JSON(response.result.value!)
+                print(json)
+                
+                self.ProjectId = json["ProjectId"].stringValue
+                self.BranchLat = json["BranchLat"].stringValue
+                self.BranchLng = json["BranchLng"].stringValue
+                self.EmpName = json["EmpName"].stringValue
+                self.Mobile = json["Mobile"].stringValue
+                self.EmpImage = json["EmpImage"].stringValue
+                self.JobName = json["JobName"].stringValue
+                self.BranchName = json["BranchName"].stringValue
+                self.zoomOffice = json["Zoom"].stringValue
+                
+                let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
+                let secondView = storyBoard.instantiateViewController(withIdentifier: "TheResponsibleEngineerViewController") as! TheResponsibleEngineerViewController
+                secondView.BranchLat = self.BranchLat
+                secondView.BranchLng = self.BranchLng
+                secondView.zoomOffice = self.zoomOffice
+                secondView.BranchName = self.BranchName
+                secondView.EmpName = self.EmpName
+                secondView.JobName = self.JobName
+                secondView.Mobile = self.Mobile
+                secondView.EmpImage = self.EmpImage
+                secondView.ProjectId = self.ProjectId
+                self.navigationController?.pushViewController(secondView, animated: true)
+            case .failure(let error):
+                print(error)
+                let alertAction = UIAlertController(title: "خطاء في الاتصال", message: "اعادة المحاولة", preferredStyle: .alert)
+                
+                alertAction.addAction(UIAlertAction(title: "نعم", style: .default, handler: { action in
+                    self.ProjectsDataSave(arrayOfImagesPaths: arrayOfImagesPaths)
+                }))
+                
+                alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+                }))
+                
+                self.present(alertAction, animated: true, completion: nil)
+                
+            }
         }
         
     }

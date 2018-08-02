@@ -139,6 +139,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
             model.GetProjectByCustID(view: self.view, VC: self)
@@ -256,8 +257,10 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         cell.DateRegisterLabel.text = myProjects[indexPath.row].DateRegister
         cell.companyNameLabel.text = myProjects[indexPath.row].ComapnyName
         cell.EngNameLabel.text = myProjects[indexPath.row].EmpName
-        let emplImage = myProjects[indexPath.row].EmpImage
-        if let url = URL.init(string: emplImage) {
+        let emplImage = myProjects[indexPath.row].Logo
+        let trimmedString = emplImage.trimmingCharacters(in: .whitespaces)
+        print("url: \(trimmedString)")
+        if let url = URL.init(string: trimmedString) {
             print(url)
             cell.EmpImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "custlogo"))
         } else{
@@ -377,6 +380,9 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "MyProjectNotficationViewController") as! MyProjectNotficationViewController
         secondView.projectId = myProjects[index!].ProjectId
+        secondView.projectTitle = myProjects[index!].ProjectTitle
+        secondView.companyName = myProjects[index!].ComapnyName
+        secondView.companyPhone = myProjects[index!].EmpMobile
         self.navigationController?.pushViewController(secondView, animated: true)
     }
     
@@ -387,8 +393,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         let storyboard = UIStoryboard(name: "Chat", bundle: nil)
         let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
         FirstViewController.ProjectId = message.ProjectId
-        let topController = UIApplication.topViewController()
-        topController?.present(FirstViewController, animated: false, completion: nil)
+        self.navigationController?.pushViewController(FirstViewController, animated: true)
     }
     
     @IBAction func DetialsBtnAction(_ sender: UIButton) {

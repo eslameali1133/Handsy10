@@ -393,7 +393,8 @@ class EditATableViewController: UITableViewController, UITextFieldDelegate, UIPi
     func ComapnyNameFunc(ComapnyNameL: String, companyAddres: String, companyLogo: String){
         companyNameLabel.text = ComapnyNameL
         companyAddressLabel.text = companyAddress
-        if let url = URL.init(string: companyLogo) {
+        let trimmedString = companyLogo.trimmingCharacters(in: .whitespaces)
+        if let url = URL.init(string: trimmedString) {
             companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
             print("nil")

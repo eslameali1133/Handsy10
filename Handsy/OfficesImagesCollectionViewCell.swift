@@ -13,7 +13,8 @@ class OfficesImagesCollectionViewCell: UICollectionViewCell, UIScrollViewDelegat
     @IBOutlet weak var scrollView: UIScrollView!
     
     func configureCell(image: String){
-        let url = URL.init(string: image)
+        let trimmedString = image.trimmingCharacters(in: .whitespaces)
+        let url = URL.init(string: trimmedString)
         imageView.hnk_setImageFromURL(url!, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         self.scrollView.delegate = self
     }

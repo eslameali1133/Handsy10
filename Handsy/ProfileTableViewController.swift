@@ -73,9 +73,10 @@ class ProfileTableViewController: UITableViewController {
         CustName.text = UserDefaults.standard.string(forKey: "CustmoerName")
         CustMobile.text = UserDefaults.standard.string(forKey: "mobile")
         
-        let firstElem = UserDefaults.standard.string(forKey: "CustomerPhoto")
-        imagePath = firstElem!
-        if let url = URL.init(string: firstElem!) {
+        let firstElem = UserDefaults.standard.string(forKey: "CustomerPhoto")!
+        imagePath = firstElem
+        let trimmedString = firstElem.trimmingCharacters(in: .whitespaces)
+        if let url = URL.init(string: trimmedString) {
             print(url)
             profileImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "custlogo"))
         } else{

@@ -27,7 +27,7 @@ class MyFilesViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.NothingLabel.isHidden = true
             self.AlertImage.isHidden = true
         }
-//        assignbackground()
+        //        assignbackground()
         myFilesTableView.delegate = self
         myFilesTableView.dataSource = self
         
@@ -47,7 +47,7 @@ class MyFilesViewController: UIViewController, UITableViewDelegate, UITableViewD
             myFilesTableView.reloadData()
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -85,14 +85,14 @@ class MyFilesViewController: UIViewController, UITableViewDelegate, UITableViewD
         return 60
     }
     
-//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-//        return 20
-//    }
-//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-//        let view = UIView()
-//        view.backgroundColor = UIColor.clear
-//        return view
-//    }
+    //    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    //        return 20
+    //    }
+    //    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    //        let view = UIView()
+    //        view.backgroundColor = UIColor.clear
+    //        return view
+    //    }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyFilesSectionTableViewCell") as! MyFilesSectionTableViewCell
@@ -121,7 +121,7 @@ class MyFilesViewController: UIViewController, UITableViewDelegate, UITableViewD
         cell.layer.masksToBounds = true
         return cell
     }
-
+    
     func assignbackground(){
         DispatchQueue.main.async {
             let imageView = UIImageView(image: #imageLiteral(resourceName: "splash"))
@@ -146,49 +146,45 @@ class MyFilesViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBAction func MyFilesBtn(_ sender: UIButton) {
         let point = sender.convert(CGPoint.zero, to: myFilesTableView)
         let index = myFilesTableView.indexPathForRow(at: point)?.section
-        let storyBoard : UIStoryboard = UIStoryboard(name: "MyFilesAndMoney", bundle:nil)
-        let secondView = storyBoard.instantiateViewController(withIdentifier: "ProjectFilesViewController") as! ProjectFilesViewController
-        secondView.ProjectId = searchResu[index!].ProjectId
-        secondView.projectTitleView = searchResu[index!].ProjectTitle
-        secondView.type = "1"
-        secondView.ProjectFilesTitle = "وثائق الأرض"
-        secondView.ComapnyName = searchResu[index!].ComapnyName
-        secondView.Address = searchResu[index!].Address
-        secondView.EmpName = searchResu[index!].EmpName
-        secondView.EmpMobile = searchResu[index!].EmpMobile
-        secondView.Logo = searchResu[index!].Logo
-        myFilesTableView.reloadData()
-        self.navigationController?.pushViewController(secondView, animated: true)
+        if searchResu[index!].FileCount == "0" {
+            Toast.long(message: "لايوجد وثائق للارض")
+        }else {
+            let storyBoard : UIStoryboard = UIStoryboard(name: "MyFilesAndMoney", bundle:nil)
+            let secondView = storyBoard.instantiateViewController(withIdentifier: "ProjectFilesViewController") as! ProjectFilesViewController
+            secondView.ProjectId = searchResu[index!].ProjectId
+            secondView.projectTitleView = searchResu[index!].ProjectTitle
+            secondView.type = "1"
+            secondView.ProjectFilesTitle = "وثائق الأرض"
+            secondView.ComapnyName = searchResu[index!].ComapnyName
+            secondView.Address = searchResu[index!].Address
+            secondView.EmpName = searchResu[index!].EmpName
+            secondView.EmpMobile = searchResu[index!].EmpMobile
+            secondView.Logo = searchResu[index!].Logo
+            myFilesTableView.reloadData()
+            self.navigationController?.pushViewController(secondView, animated: true)
+        }
     }
     
     @IBAction func ProjectFilesBtn(_ sender: UIButton) {
         let point = sender.convert(CGPoint.zero, to: myFilesTableView)
         let index = myFilesTableView.indexPathForRow(at: point)?.section
-        let storyBoard : UIStoryboard = UIStoryboard(name: "MyFilesAndMoney", bundle:nil)
-        let secondView = storyBoard.instantiateViewController(withIdentifier: "ProjectFilesViewController") as! ProjectFilesViewController
-        secondView.ProjectId = searchResu[index!].ProjectId
-        secondView.projectTitleView = searchResu[index!].ProjectTitle
-        secondView.type = "2"
-        secondView.ProjectFilesTitle = "ملفات المشروع"
-        secondView.ComapnyName = searchResu[index!].ComapnyName
-        secondView.Address = searchResu[index!].Address
-        secondView.EmpName = searchResu[index!].EmpName
-        secondView.EmpMobile = searchResu[index!].EmpMobile
-        secondView.Logo = searchResu[index!].Logo
-        myFilesTableView.reloadData()
-        self.navigationController?.pushViewController(secondView, animated: true)
+        if searchResu[index!].ProjectFileCount == "0" {
+            Toast.long(message: "لايوجد ملفات للمشروع")
+        }else {
+            let storyBoard : UIStoryboard = UIStoryboard(name: "MyFilesAndMoney", bundle:nil)
+            let secondView = storyBoard.instantiateViewController(withIdentifier: "ProjectFilesViewController") as! ProjectFilesViewController
+            secondView.ProjectId = searchResu[index!].ProjectId
+            secondView.projectTitleView = searchResu[index!].ProjectTitle
+            secondView.type = "2"
+            secondView.ProjectFilesTitle = "ملفات المشروع"
+            secondView.ComapnyName = searchResu[index!].ComapnyName
+            secondView.Address = searchResu[index!].Address
+            secondView.EmpName = searchResu[index!].EmpName
+            secondView.EmpMobile = searchResu[index!].EmpMobile
+            secondView.Logo = searchResu[index!].Logo
+            myFilesTableView.reloadData()
+            self.navigationController?.pushViewController(secondView, animated: true)
+        }
     }
-    
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+  
 }

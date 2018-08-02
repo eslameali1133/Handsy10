@@ -214,8 +214,8 @@ class EditProjectsDViewController: UIViewController, ImagePickerDelegate, UIColl
             if indexPath.row <= searchResu.count {
                 let row = indexPath.row-1
                 let img = searchResu[row].ProjectsImagePath
-                
-                if let url = URL.init(string: img) {
+                let trimmedString = img.trimmingCharacters(in: .whitespaces)
+                if let url = URL.init(string: trimmedString) {
                     cell.imageView.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "custlogo"))
                 } else{
                     print("nil")
