@@ -180,7 +180,6 @@ class InformationViewController: UIViewController, UITableViewDelegate, UITableV
         switch (indexPath.section) {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "RequestPanelTableViewCell", for: indexPath) as! RequestPanelTableViewCell
-            cell.nameOfProject.text = nameOfProject
             cell.projectType.text = projectType
             cell.numberALlmogh.text = numberALlmogh
             cell.numberLicence.text = numberLicence

@@ -64,7 +64,7 @@ class RequestProjectViewController: UIViewController, UITableViewDelegate, UITab
         requestProjectTableView.delegate = self
         requestProjectTableView.dataSource = self
         model.delegate = self
-        model.GetProjectByCustID(view: self.view, VC: self)
+//        model.GetProjectByCustID(view: self.view, VC: self)
         //        NewProjectBtn.setBackgroundImage(#imageLiteral(resourceName: "round1"), for: .normal, barMetrics: .default)
         //        NewProjectBtn.isEnabled = true
         //        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longPressHandler(gesture:)))

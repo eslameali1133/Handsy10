@@ -88,7 +88,7 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     @IBAction func goVisitsArchive(_ sender: UIButton) {
-        if MeetingCount != 0 {
+        if MeetingCount == 0 {
             Toast.long(message: "لا يوجد زيارات")
         }else {
             buttonsView.removeFromSuperview()
@@ -101,7 +101,7 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     @IBAction func goDesignsArchive(_ sender: UIButton) {
-        if DesignsCount != 0 {
+        if DesignsCount == 0 {
             Toast.long(message: "لايوجد تصاميم")
         }else {
             buttonsView.removeFromSuperview()

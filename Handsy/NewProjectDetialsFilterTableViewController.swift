@@ -220,6 +220,8 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.tabBarController?.tabBar.isHidden = false
+
         newVisitsCountLabel.isHidden = true
 //        newVisitsCountImage.isHidden = true
         cancelProView.isHidden = true
@@ -681,7 +683,8 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         
         Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetOfficeByCompanyInfoID", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
-            
+            switch response.result {
+            case .success:
             let json = JSON(response.result.value!)
             let requestProjectObj = GetOfficesArray()
             requestProjectObj.CompanyInfoID = json["CompanyInfoID"].stringValue
@@ -711,6 +714,22 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             self.arrayOfResulr.append(requestProjectObj)
             UIViewController.removeSpinner(spinner: sv)
             self.goH()
+            case .failure(let error):
+                print(error)
+                UIViewController.removeSpinner(spinner: sv)
+                let alertAction = UIAlertController(title: "خطاء في الاتصال", message: "اعادة المحاولة", preferredStyle: .alert)
+                
+                alertAction.addAction(UIAlertAction(title: "نعم", style: .default, handler: { action in
+                    self.GetOfficesByProvincesID()
+                }))
+                
+                alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+                    self.navigationController!.popViewController(animated: true)
+                }))
+                
+                self.present(alertAction, animated: true, completion: nil)
+                
+            }
         }
     }
     
@@ -885,6 +904,9 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "MyProjectNotficationViewController") as! MyProjectNotficationViewController
         secondView.projectId = self.ProjectOfResult[0].ProjectId!
+        secondView.projectTitle = self.ProjectOfResult[0].ProjectTitle!
+        secondView.companyName = self.ProjectOfResult[0].ComapnyName!
+        secondView.companyPhone = self.ProjectOfResult[0].EmpMobile!
         self.navigationController?.pushViewController(secondView, animated: true)
     }
     

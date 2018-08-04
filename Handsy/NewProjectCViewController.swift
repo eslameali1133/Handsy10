@@ -289,7 +289,7 @@ extension NewProjectCViewController: GMSAutocompleteResultsViewControllerDelegat
         // Do something with the selected place.
         print("Place name: \(place.name)")
         print("kldhskjdhksdhkjdhsjdk: \(place.coordinate)")
-        
+        searchController?.searchBar.text = place.name
         map(l: place.coordinate.latitude, lng: place.coordinate.longitude, Z: 17.0, title: place.formattedAddress!)
         
     }

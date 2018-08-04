@@ -4862,7 +4862,7 @@
                                 <rect key="frame" x="30" y="30" width="315" height="607"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="لا يوجد إشعارات!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5L4-yu-Kq7">
-                                <rect key="frame" x="130.5" y="313.5" width="115.5" height="40"/>
+                                <rect key="frame" x="130" y="313.5" width="115.5" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="VJc-8V-Moi"/>
                                 </constraints>

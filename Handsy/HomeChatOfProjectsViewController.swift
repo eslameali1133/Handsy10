@@ -171,6 +171,15 @@ class HomeChatOfProjectsViewController: UIViewController, UITableViewDelegate, U
         //        })
         allHomeMessageModel.AllMessageListForCust(view: self.view, VC: self, type: "search", projectTitle: searchText) { (Results) in
             self.filterdAllHomeMessage = Results
+            if self.filterdAllHomeMessage.count == 0 {
+                self.alertImage.isHidden = false
+                self.alertLabel.isHidden = false
+                self.chatOfProjectsTableView.isHidden = true
+            }else {
+                self.alertImage.isHidden = true
+                self.alertLabel.isHidden = true
+                self.chatOfProjectsTableView.isHidden = false
+            }
             self.chatOfProjectsTableView.reloadData()
         }
     }

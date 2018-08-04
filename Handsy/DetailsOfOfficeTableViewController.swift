@@ -17,7 +17,7 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
         
     @IBOutlet weak var OurProjectsSlider: UICollectionView!
     
-    @IBOutlet weak var mapView: GMSMapView!
+    @IBOutlet weak var mapViewImage: UIImageView!
     
     @IBOutlet weak var addressLabel: UILabel!
     
@@ -102,8 +102,6 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         addBackBarButtonItem()
         myView.layer.cornerRadius = 10.0
-        mapView.delegate = self
-        mapView.mapType = .terrain
         DispatchQueue.main.async {
             if #available(iOS 11, *) {
                 self.myTitleView.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 50)
@@ -405,6 +403,26 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
         }
     }
     
+    @IBAction func diractionBtn(_ sender: UIButton) {
+        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
+        
+        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
+            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(self.Lat),\(self.Long)&zoom=14&views=traffic&q=\(self.Lat),\(self.Long)")!, options: [:], completionHandler: nil)
+            } else {
+                print("Can't use comgooglemaps://")
+                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(self.Lat),\(self.Long)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+            }
+        }))
+        
+        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
+            self.openMapsForLocation()
+        }))
+        
+        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+        }))
+        self.present(alertAction, animated: true, completion: nil)
+    }
     
     
     func openMapsForLocation() {
@@ -506,19 +524,28 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
     func get() {
         
         //        let dZoom = Float(ZoomPrj) ?? 0.0
-        mapView.animate(toBearing: 90)
-        mapView.camera = GMSCameraPosition.camera(withLatitude: Lat, longitude: Long, zoom: 17)
+//        mapView.animate(toBearing: 90)
+//        mapView.camera = GMSCameraPosition.camera(withLatitude: Lat, longitude: Long, zoom: 17)
         //        GMSMapView.map(withFrame: CGRect.zero, camera: mapView.camera)
 //        mapView.isMyLocationEnabled = true
         
         // Creates a marker in the center of the map.
-        marker.position = CLLocationCoordinate2D(latitude: Lat, longitude: Long)
+//        marker.position = CLLocationCoordinate2D(latitude: Lat, longitude: Long)
+        let staticMapUrl: String = "http://maps.google.com/maps/api/staticmap?markers=color:red|\(Lat),\(Long)&\("zoom=17&size=\(2 * Int(mapViewImage.frame.size.width))x\(2 * Int(mapViewImage.frame.size.height))")&sensor=true"
         
-        marker.title = ComapnyName
-        marker.map = mapView
+        let urlI = URL(string: staticMapUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)
+        if let url = urlI {
+            print("map: \(urlI)")
+            mapViewImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
+        } else{
+            print("map: \(urlI)")
+            print("nil")
+        }
+//        marker.title = ComapnyName
+//        marker.map = mapView
         //        mapView.selectedMarker = marker
         
-        mapView.delegate = self
+//        mapView.delegate = self
         
 //        locationManager.delegate = self
 //        locationManager.requestWhenInUseAuthorization()
@@ -528,19 +555,27 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
     func getMapOffline() {
         
         //        let dZoom = Float(ZoomPrj) ?? 0.0
-        mapView.animate(toBearing: 90)
-        mapView.camera = GMSCameraPosition.camera(withLatitude: detialsOfOfficeArray[0].Lat!, longitude: detialsOfOfficeArray[0].Long!, zoom: 17)
+//        mapView.animate(toBearing: 90)
+//        mapView.camera = GMSCameraPosition.camera(withLatitude: detialsOfOfficeArray[0].Lat!, longitude: detialsOfOfficeArray[0].Long!, zoom: 17)
         //        GMSMapView.map(withFrame: CGRect.zero, camera: mapView.camera)
 //        mapView.isMyLocationEnabled = true
         
         // Creates a marker in the center of the map.
         marker.position = CLLocationCoordinate2D(latitude: detialsOfOfficeArray[0].Lat!, longitude: detialsOfOfficeArray[0].Long!)
-        
-        marker.title = ComapnyName
-        marker.map = mapView
+        let staticMapUrl: String = "http://maps.google.com/maps/api/staticmap?markers=color:red|\(detialsOfOfficeArray[0].Lat!),\(detialsOfOfficeArray[0].Long!)&\("zoom=17&size=\(2 * Int(mapViewImage.frame.size.width))x\(2 * Int(mapViewImage.frame.size.height))")&sensor=true"
+        let urlI = URL(string: staticMapUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)
+        if let url = urlI {
+            print("map: \(urlI)")
+            mapViewImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
+        } else{
+            print("map: \(urlI)")
+            print("nil")
+        }
+//        marker.title = ComapnyName
+//        marker.map = mapView
         //        mapView.selectedMarker = marker
         
-        mapView.delegate = self
+//        mapView.delegate = self
         
 //        locationManager.delegate = self
 //        locationManager.requestWhenInUseAuthorization()
@@ -739,29 +774,4 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
     }
     
 }
-extension DetailsOfOfficeTableViewController: GMSMapViewDelegate {
-    
-    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
-        
-        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
-            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
-                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(self.Lat),\(self.Long)&zoom=14&views=traffic&q=\(self.Lat),\(self.Long)")!, options: [:], completionHandler: nil)
-            } else {
-                print("Can't use comgooglemaps://")
-                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(self.Lat),\(self.Long)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
-            }
-        }))
-        
-        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
-            self.openMapsForLocation()
-        }))
-        
-        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
-        }))
-        self.present(alertAction, animated: true, completion: nil)
-        
-        return true
-    }
-    
-}
+

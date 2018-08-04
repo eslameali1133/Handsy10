@@ -72,6 +72,14 @@ class SetLocationOfOfficeViewController: UIViewController, CLLocationManagerDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if isCompany == "1" {
+            navigationItem.title = "موقع المكتب"
+            chooseLocationLabel.text = "اختر موقع المكتب"
+        }else {
+            navigationItem.title = "موقع المهندس"
+            chooseLocationLabel.text = "اختر موقع المهندس"
+        }
+        
         HideFunc()
         //        if UserDefaults.standard.string(forKey: "alert") == nil {
         //            AlertViewOut.isHidden = false
@@ -124,7 +132,12 @@ class SetLocationOfOfficeViewController: UIViewController, CLLocationManagerDele
         searchController?.searchBar.barStyle = .default
         searchController?.searchBar.tintColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2039215686, alpha: 1)
         searchController?.searchBar.barTintColor = #colorLiteral(red: 0.06274509804, green: 0.06274509804, blue: 0.06274509804, alpha: 1)
-        searchController?.searchBar.placeholder = "بحث عن موقع الأرض"
+        if isCompany == "1" {
+            searchController?.searchBar.placeholder = "بحث عن موقع المكتب"
+        }else {
+            searchController?.searchBar.placeholder = "بحث عن موقع المهندس"
+        }
+        
         
         //        navigationItem.titleView = searchController?.searchBar
         
@@ -269,7 +282,8 @@ class SetLocationOfOfficeViewController: UIViewController, CLLocationManagerDele
             "CompanyTypeID": self.companyTypeID,
             "BracnhCount": self.bracnhCount,
             "Lat": self.latu,
-            "Long": self.long
+            "Long": self.long,
+            "SectionID": SectionID
         ]
         Alamofire.request("http://smusers.promit2030.com/Service1.svc/RegCompany", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
@@ -318,7 +332,7 @@ extension SetLocationOfOfficeViewController : GMSAutocompleteResultsViewControll
         print("Place name: \(place.name)")
         print("kldhskjdhksdhkjdhsjdk: \(place.coordinate)")
         map(l: place.coordinate.latitude, lng: place.coordinate.longitude, Z: 17.0, title: place.formattedAddress!)
-        
+        searchController?.searchBar.text = place.name
         dismiss(animated: true, completion: nil)
         
     }

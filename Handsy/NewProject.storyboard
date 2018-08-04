@@ -696,13 +696,6 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="336"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PqC-bY-UVQ" customClass="GMSMapView">
-                                                    <rect key="frame" x="9" y="17" width="357" height="159"/>
-                                                    <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="159" id="cK3-fW-k7z"/>
-                                                    </constraints>
-                                                </view>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="BU2-6x-G1X">
                                                     <rect key="frame" x="16" y="186" width="349" height="140"/>
                                                     <subviews>
@@ -844,16 +837,38 @@
                                                         <constraint firstAttribute="height" relation="lessThanOrEqual" constant="140" id="FzL-9N-geN"/>
                                                     </constraints>
                                                 </stackView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lof-ec-aNk">
+                                                    <rect key="frame" x="9" y="17" width="357" height="159"/>
+                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="159" id="3MW-xs-5gy"/>
+                                                        <constraint firstAttribute="width" constant="357" id="FUC-yX-c7s"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XY4-fg-Acx">
+                                                    <rect key="frame" x="9" y="17" width="357" height="159"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="159" id="rjW-Yc-HZt"/>
+                                                        <constraint firstAttribute="width" constant="357" id="w7i-RT-r9s"/>
+                                                    </constraints>
+                                                    <connections>
+                                                        <action selector="diractionBtn:" destination="oPL-UN-sWW" eventType="touchUpInside" id="YS8-bf-Wat"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" red="0.1843137255" green="0.18039215689999999" blue="0.17254901959999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="PqC-bY-UVQ" secondAttribute="trailing" constant="9" id="1Kc-9n-5nW"/>
+                                                <constraint firstItem="BU2-6x-G1X" firstAttribute="top" secondItem="XY4-fg-Acx" secondAttribute="bottom" constant="10" id="4IL-m1-GJx"/>
                                                 <constraint firstItem="BU2-6x-G1X" firstAttribute="leading" secondItem="BAn-94-Ja0" secondAttribute="leading" constant="16" id="6Vs-8F-Otn"/>
-                                                <constraint firstItem="PqC-bY-UVQ" firstAttribute="top" secondItem="BAn-94-Ja0" secondAttribute="top" constant="17" id="7vs-Jl-kI3"/>
                                                 <constraint firstAttribute="trailing" secondItem="BU2-6x-G1X" secondAttribute="trailing" constant="10" id="8EI-dI-Cte"/>
                                                 <constraint firstAttribute="bottom" secondItem="BU2-6x-G1X" secondAttribute="bottom" constant="10" id="GNn-yb-aim"/>
-                                                <constraint firstItem="PqC-bY-UVQ" firstAttribute="leading" secondItem="BAn-94-Ja0" secondAttribute="leading" constant="9" id="KA1-dl-NgT"/>
-                                                <constraint firstItem="BU2-6x-G1X" firstAttribute="top" secondItem="PqC-bY-UVQ" secondAttribute="bottom" constant="10" id="sTP-IU-z2Q"/>
+                                                <constraint firstItem="XY4-fg-Acx" firstAttribute="top" secondItem="BAn-94-Ja0" secondAttribute="top" constant="17" id="QFC-0s-iMI"/>
+                                                <constraint firstItem="lof-ec-aNk" firstAttribute="top" secondItem="BAn-94-Ja0" secondAttribute="top" constant="17" id="ZUC-qa-6pD"/>
+                                                <constraint firstItem="XY4-fg-Acx" firstAttribute="leading" secondItem="BAn-94-Ja0" secondAttribute="leading" constant="9" id="aam-4o-SOl"/>
+                                                <constraint firstAttribute="trailing" secondItem="lof-ec-aNk" secondAttribute="trailing" constant="9" id="dfR-Ah-tR0"/>
+                                                <constraint firstItem="lof-ec-aNk" firstAttribute="leading" secondItem="BAn-94-Ja0" secondAttribute="leading" constant="9" id="kb9-SZ-FSb"/>
+                                                <constraint firstItem="BU2-6x-G1X" firstAttribute="top" secondItem="lof-ec-aNk" secondAttribute="bottom" constant="10" id="lCL-RI-m9U"/>
+                                                <constraint firstAttribute="trailing" secondItem="XY4-fg-Acx" secondAttribute="trailing" constant="9" id="qmt-6h-4xZ"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1011,7 +1026,7 @@
                         <outlet property="addressLabel" destination="P8I-cC-8Nn" id="TV0-zH-Lxm"/>
                         <outlet property="chooseOut" destination="Fvg-uZ-qPZ" id="MRW-SG-OqB"/>
                         <outlet property="experienceTitleLabel" destination="Rbp-Jr-chW" id="UGk-k5-1eQ"/>
-                        <outlet property="mapView" destination="PqC-bY-UVQ" id="FJh-UE-n2i"/>
+                        <outlet property="mapViewImage" destination="lof-ec-aNk" id="8OO-sg-0de"/>
                         <outlet property="myTitleView" destination="LHb-w0-Knu" id="0zj-gT-9iI"/>
                         <outlet property="myView" destination="PaV-Um-UgE" id="sIV-iJ-kaJ"/>
                     </connections>

@@ -104,7 +104,7 @@ class SignUpNameViewController: UITableViewController, UITextFieldDelegate {
     func RegCustomers() {
         let sv = UIViewController.displaySpinner(onView: view)
         tableView.isUserInteractionEnabled = false
-        let Name = FirstNameTF.text! + LastNameTF.text!
+        let Name = FirstNameTF.text! + " " + LastNameTF.text!
         let mobile = self.mobile
         let NatId = ""
         let parameters: Parameters = [

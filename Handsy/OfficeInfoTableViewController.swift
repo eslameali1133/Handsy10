@@ -60,11 +60,11 @@ class OfficeInfoTableViewController: UITableViewController, UITextFieldDelegate,
         branchCountTF.setBottomBorderGray()
         branchCountTF.delegate = self
         
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        if isCompany == "1"{
+            nameOFOffice.text = "اسم المكتب"
+        }else {
+            nameOFOffice.text = "اسم المهندس"
+        }
         
         pickercountryTF.delegate = self
         pickercountryTF.dataSource = self
@@ -83,19 +83,43 @@ class OfficeInfoTableViewController: UITableViewController, UITextFieldDelegate,
         sectionModel.delegate = self
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if isCompany == "1" {
+            if indexPath.row == 5 {
+                return 0.0
+            } else if indexPath.row == 6{
+                return 98
+            } else {
+                return 85
+            }
+        }else {
+            if indexPath.row == 5 {
+                return 35
+            } else if indexPath.row == 6{
+                return 98
+            } else {
+                return 85
+            }
+        }
     }
     
     @IBAction func TFAction(_ sender: UITextField) {
-        if validatePassword(text: nameOFOfficeTF.text!) && validatePassword(text: nameOfCountryTF.text!) && validatePassword(text: nameNeighborhoodTF.text!) && validatePassword(text: companyTypeTF.text!) && validatePassword(text: branchCountTF.text!){
-            if checkBtn.currentImage == #imageLiteral(resourceName: "acceptCheck") {
+        if isCompany == "1" {
+            if validatePassword(text: nameOFOfficeTF.text!) && validatePassword(text: nameOfCountryTF.text!) && validatePassword(text: nameNeighborhoodTF.text!) && validatePassword(text: companyTypeTF.text!) && validatePassword(text: branchCountTF.text!){
                 nextBtn.isEnabled = true
+            }else {
+                nextBtn.isEnabled = false
             }
         }else {
-            nextBtn.isEnabled = false
+            if validatePassword(text: nameOFOfficeTF.text!) && validatePassword(text: nameOfCountryTF.text!) && validatePassword(text: nameNeighborhoodTF.text!) && validatePassword(text: companyTypeTF.text!) && validatePassword(text: branchCountTF.text!){
+                if checkBtn.currentImage == #imageLiteral(resourceName: "acceptCheck") {
+                    nextBtn.isEnabled = true
+                }
+            }else {
+                nextBtn.isEnabled = false
+            }
         }
+
     }
     
     

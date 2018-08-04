@@ -62,7 +62,6 @@ class ProfileTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         timere = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(update), userInfo: nil, repeats: true)
         alertLineView.isHidden = true
         alertLabelTimer.isHidden = true
@@ -70,6 +69,25 @@ class ProfileTableViewController: UITableViewController {
         navigationItem.title = "حسابي"
         addBackBarButtonItem()
         
+        
+        
+//        assignbackground()
+        // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        GetEmptByMobileNum()
+
+    }
+    @IBAction func EditActionBtn(_ sender: UIButton) {
+        timere?.invalidate()
+        timere = nil
+        let storyboard = UIStoryboard(name: "Home", bundle: nil)
+        let secondView = storyboard.instantiateViewController(withIdentifier: "EditProfileTableViewController") as! EditProfileTableViewController
+        self.navigationController?.pushViewController(secondView, animated: true)
+    }
+    
+    func setData(){
         CustName.text = UserDefaults.standard.string(forKey: "CustmoerName")
         CustMobile.text = UserDefaults.standard.string(forKey: "mobile")
         
@@ -83,16 +101,48 @@ class ProfileTableViewController: UITableViewController {
             profileImage.image = #imageLiteral(resourceName: "custlogo")
             print("nil")
         }
-        
-//        assignbackground()
-        // Do any additional setup after loading the view.
     }
-    @IBAction func EditActionBtn(_ sender: UIButton) {
-        timere?.invalidate()
-        timere = nil
-        let storyboard = UIStoryboard(name: "Home", bundle: nil)
-        let secondView = storyboard.instantiateViewController(withIdentifier: "EditProfileTableViewController") as! EditProfileTableViewController
-        self.navigationController?.pushViewController(secondView, animated: true)
+    
+    func GetEmptByMobileNum() {
+        let mobile = UserDefaults.standard.string(forKey: "mobile")!
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetEmptByMobileNum?mobileNum=\(mobile)", method: .get).responseJSON { response in
+            debugPrint(response)
+            
+            switch response.result {
+            case .success:
+            let json = JSON(response.result.value!)
+            print(json)
+            
+            if json["Mobile"].stringValue == "" {
+                
+                
+                
+            } else {
+                UserDefaults.standard.set(json["UserId"].stringValue, forKey: "UserId")
+                UserDefaults.standard.set(json["CustmoerName"].stringValue, forKey: "CustmoerName")
+                UserDefaults.standard.set(json["Email"].stringValue, forKey: "Email")
+                UserDefaults.standard.set(json["CustomerPhoto"].stringValue, forKey: "CustomerPhoto")
+                UserDefaults.standard.set(json["Mobile"].stringValue, forKey: "mobile")
+                self.setData()
+            }
+            case .failure(let error):
+            print(error)
+            UIViewController.removeSpinner(spinner: self.view)
+            let alertAction = UIAlertController(title: "خطاء في الاتصال", message: "اعادة المحاولة", preferredStyle: .alert)
+            
+            alertAction.addAction(UIAlertAction(title: "نعم", style: .default, handler: { action in
+                self.GetEmptByMobileNum()
+            }))
+            
+            alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+            }))
+            
+            self.present(alertAction, animated: true, completion: nil)
+            
+        }
+            
+        }
+        
     }
     
    
