@@ -76,6 +76,14 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func dataReady() {
         // Access the video objects that have been downloaded
         self.searchResu = self.model.resultArray
+        if searchResu.count == 0 {
+            NothingLabel.isHidden = false
+            AlertImage.isHidden = false
+        } else {
+            tableView.isHidden = false
+            NothingLabel.isHidden = true
+            AlertImage.isHidden = true
+        }
         visitsModel.removeAllItems()
         for i in self.model.resultArray {
             self.visitsModel.append(i)
@@ -121,15 +129,7 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        if searchResu.count == 0 {
-            NothingLabel.isHidden = false
-            AlertImage.isHidden = false
-            tableView.isHidden = true
-        } else {
-            tableView.isHidden = false
-            NothingLabel.isHidden = true
-            AlertImage.isHidden = true
-        }
+        
         return searchResu.count
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -137,10 +137,6 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "VisitsTableViewCell", for: indexPath) as! VisitsTableViewCell
-        DispatchQueue.main.async {
-            cell.statusV.roundCorners(.bottomRight, radius: 10.0)
-            cell.roundCorners([.bottomLeft,.bottomRight,.topRight], radius: 10)
-        }
 
         cell.officeNameLabel.setTitle(searchResu[indexPath.section].ComapnyName, for: .normal)
         cell.titleVisit.text = searchResu[indexPath.section].Title
@@ -183,7 +179,10 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }else {
             print("error status")
         }
-
+        DispatchQueue.main.async {
+            cell.statusV.roundCorners(.bottomRight, radius: 10.0)
+            cell.roundCorners([.bottomLeft,.bottomRight,.topRight], radius: 10)
+        }
         return cell
     }
 

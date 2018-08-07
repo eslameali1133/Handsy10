@@ -221,15 +221,6 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if myProjects.count == 0 {
-            NothingLabel.isHidden = false
-            AlertImage.isHidden = false
-            MyProjectsTableView.isHidden = true
-        } else {
-            MyProjectsTableView.isHidden = false
-            NothingLabel.isHidden = true
-            AlertImage.isHidden = true
-        }
         return myProjects.count
     }
     
@@ -330,10 +321,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         for i in self.model.resultArray {
             self.projectModel.append(i)
         }
-        // Tell the tableview to reload
-        self.MyProjectsTableView.reloadData()
-        setBadge()
-        if myProjects.count == 0 {
+        if self.model.resultArray.count == 0 {
             if checkEmpty != 0 {
                 
             }else {
@@ -346,17 +334,18 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
                 NavController.selectedIndex = 2
                 
                 self.present(NavController, animated: false, completion: nil)
-                
             }
-//            if let check = UserDefaults.standard.string(forKey: "checkEmpty"){
-//
-//            }else {
-//
-//            }
-            
-            
-//            _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(HideFunc), userInfo: nil, repeats: false)
+            NothingLabel.isHidden = false
+            AlertImage.isHidden = false
+            MyProjectsTableView.isHidden = true
+        } else {
+            MyProjectsTableView.isHidden = false
+            NothingLabel.isHidden = true
+            AlertImage.isHidden = true
         }
+        setBadge()
+        // Tell the tableview to reload
+        self.MyProjectsTableView.reloadData()
     }
     
     
@@ -418,13 +407,30 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         let index = MyProjectsTableView.indexPathForRow(at: point)?.row
         let dLati = myProjects[index!].LatBranch
         let dLang = myProjects[index!].LngBranch
-        let location = CLLocation(latitude: dLati, longitude: dLang)
-        print(location.coordinate)
-        MKMapView.openMapsWith(location) { (error) in
-            if error != nil {
-                print("Could not open maps" + error!.localizedDescription)
+        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
+        
+        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
+            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(dLati),\(dLang)&zoom=14&views=traffic&q=\(dLati),\(dLang)")!, options: [:], completionHandler: nil)
+            } else {
+                print("Can't use comgooglemaps://")
+                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(dLati),\(dLang)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
             }
-        }
+        }))
+        
+        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
+            let location = CLLocation(latitude: dLati, longitude: dLang)
+            print(location.coordinate)
+            MKMapView.openMapsWith(location) { (error) in
+                if error != nil {
+                    print("Could not open maps" + error!.localizedDescription)
+                }
+            }
+        }))
+        
+        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+        }))
+        self.present(alertAction, animated: true, completion: nil)
     }
 
     @IBAction func CallMe(_ sender: UIButton) {

@@ -13,13 +13,7 @@ class DesignsOfProjectTableViewCell: UITableViewCell {
     @IBOutlet weak var StagesDetailsName: UILabel!
     @IBOutlet weak var CreateDate: UILabel!
     @IBOutlet weak var Details: UILabel!
-    @IBOutlet weak var Status: UIView!{
-        didSet {
-            DispatchQueue.main.async {
-                self.Status.roundCorners(.bottomRight, radius: 10.0)
-            }
-        }
-    }
+    @IBOutlet weak var Status: UIView!
     @IBOutlet weak var nameOfStatus: UILabel!
     @IBOutlet weak var EmpMobile: UIButton!
     
@@ -47,9 +41,7 @@ class DesignsOfProjectTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        DispatchQueue.main.async {
-            self.roundCorners([.bottomLeft,.bottomRight,.topRight], radius: 10)
-        }
+        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

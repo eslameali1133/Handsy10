@@ -77,6 +77,7 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
     var NotiMessageCount = 0
     var NotiTotalCount = 0
     let applicationl = UIApplication.shared
+    var backCondition = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -427,6 +428,7 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
     }
     
     func scrollToBottom(){
+        print("count: \(self.messagesList.count)")
         DispatchQueue.main.async {
             let indexPath = IndexPath(row: self.messagesList.count-1, section: 0)
             self.chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
@@ -694,7 +696,7 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
     }
     
     func ReadAllMessageForCust(ProjectId: String) {
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/ReadAllMessageForCust?ProjectId=\(ProjectId)", method: .post, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/api/ApiService/ReadAllMessageForCust?ProjectId=\(ProjectId)", method: .post, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
         }
     }
@@ -746,7 +748,11 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
         secondView.conditionService = "condition"
         secondView.LatBranch = LatBranch
         secondView.LngBranch = LngBranch
-        self.navigationController?.pushViewController(secondView, animated: true)
+        if backCondition == "" {
+            self.navigationController?.pushViewController(secondView, animated: true)
+        }else {
+            self.show(secondView, sender: nil)
+        }
     }
     
     @IBAction func DetialsProjectBtnAction(_ sender: UIButton) {
@@ -754,11 +760,19 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
         let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectDetialsFilterTableViewController") as! NewProjectDetialsFilterTableViewController
         secondView.ProjectId = ProjectId
         secondView.norma = "LOl"
-        self.navigationController?.pushViewController(secondView, animated: true)
+        if backCondition == "" {
+            self.navigationController?.pushViewController(secondView, animated: true)
+        }else {
+            self.show(secondView, sender: nil)
+        }
     }
     
     @IBAction func backBtn(_ sender: UIButton) {
-        self.navigationController!.popViewController(animated: true)
+        if backCondition == "" {
+           self.navigationController!.popViewController(animated: true)
+        }else {
+            self.dismiss(animated: false, completion: nil)
+        }
 //        self.dismiss(animated: false, completion: nil)
     }
 }

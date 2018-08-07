@@ -11,7 +11,22 @@ import Alamofire
 import SwiftyJSON
 
 class FilterDesignsViewController: UIViewController {
-
+    @IBOutlet weak var newDesignsCountLabel: UILabel!{
+        didSet {
+            DispatchQueue.main.async {
+                self.newDesignsCountLabel.layer.cornerRadius = self.newDesignsCountLabel.frame.width/2
+                self.newDesignsCountLabel.layer.masksToBounds = true
+            }
+        }
+    }
+    @IBOutlet weak var oldDesignsCountLabel: UILabel!{
+        didSet {
+            DispatchQueue.main.async {
+                self.oldDesignsCountLabel.layer.cornerRadius = self.oldDesignsCountLabel.frame.width/2
+                self.oldDesignsCountLabel.layer.masksToBounds = true
+            }
+        }
+    }
     var ProjectId = ""
     var projectTitleView = ""
     var ComapnyName = ""
@@ -28,6 +43,8 @@ class FilterDesignsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        oldDesignsCountLabel.isHidden = true
+        newDesignsCountLabel.isHidden = true
         DesignsCountByCustmoerId()
         // Do any additional setup after loading the view.
     }
@@ -91,6 +108,18 @@ class FilterDesignsViewController: UIViewController {
             let json = JSON(response.result.value!)
             self.FinishDesignsCount = json["FinishDesignsCount"].stringValue
             self.NewDesignsCount = json["NewDesignsCount"].stringValue
+            if self.FinishDesignsCount == "0" || self.FinishDesignsCount == ""{
+                self.oldDesignsCountLabel.isHidden = true
+            }else {
+                self.oldDesignsCountLabel.isHidden = false
+                self.oldDesignsCountLabel.text = self.FinishDesignsCount
+            }
+            if self.NewDesignsCount == "0" || self.NewDesignsCount == ""{
+                self.newDesignsCountLabel.isHidden = true
+            }else {
+                self.newDesignsCountLabel.isHidden = false
+                self.newDesignsCountLabel.text = self.NewDesignsCount
+            }
         }
     }
     

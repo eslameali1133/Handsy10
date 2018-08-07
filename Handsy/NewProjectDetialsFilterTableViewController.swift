@@ -221,9 +221,9 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         super.viewDidLoad()
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.tabBarController?.tabBar.isHidden = false
-
+        
         newVisitsCountLabel.isHidden = true
-//        newVisitsCountImage.isHidden = true
+        //        newVisitsCountImage.isHidden = true
         cancelProView.isHidden = true
         MoneyDetialsBtnOut.isHidden = true
         contractAlertLabel.isHidden = true
@@ -231,13 +231,13 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             self.statusView.roundCorners([.topLeft, .topRight], radius: 10)
         }
         contractBtn.isHidden = true
-//        if norma != "" {
-//            navigationItem.title = ProjectTitle
-//        } else {
-//            navigationItem.title = searchResu[index!].ProjectTitle
-//        }
+        //        if norma != "" {
+        //            navigationItem.title = ProjectTitle
+        //        } else {
+        //            navigationItem.title = searchResu[index!].ProjectTitle
+        //        }
         
-       
+        
         popUp.isHidden = true
         DispatchQueue.main.async {
             self.popUp.frame = CGRect.init(x: 0, y: 0, width: 338, height: 190)
@@ -267,6 +267,8 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             
         } else {
             if nour == "loll" {
+                
+            }else if nou == "uu" {
                 
             }else {
                 addBackBarButtonItem()
@@ -378,7 +380,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         }else {
             print("error status \(status)")
         }
-//        companyNameLabel.text = ProjectOfResult[0].ComapnyName!
+        //        companyNameLabel.text = ProjectOfResult[0].ComapnyName!
         projectTitleLabel.text = ProjectOfResult[0].ProjectTitle
         EngNameLabel.text = ProjectOfResult[0].EmpName
         engJobName.text = ProjectOfResult[0].JobName
@@ -393,14 +395,14 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     }
     
     func setSecondSection() {
-//        let condition = ProjectOfResult[0].ProjectStatusNum
-//        if condition == "1" {
-//            MoneyDetialsBtnOut.isHidden = true
-//            contractAlertLabel.isHidden = false
-//        } else {
-//            MoneyDetialsBtnOut.isHidden = false
-//            contractAlertLabel.isHidden = true
-//        }
+        //        let condition = ProjectOfResult[0].ProjectStatusNum
+        //        if condition == "1" {
+        //            MoneyDetialsBtnOut.isHidden = true
+        //            contractAlertLabel.isHidden = false
+        //        } else {
+        //            MoneyDetialsBtnOut.isHidden = false
+        //            contractAlertLabel.isHidden = true
+        //        }
         if ProjectOfResult[0].ProjectContract == "1" {
             contractBtn.isHidden = false
             contractBtn.isEnabled = true
@@ -425,7 +427,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             contractAlertLabel.isHidden = false
         }
         tableView.reloadData()
-       
+        
         let largeNumber = Double(ProjectOfResult[0].ProjectsPaymentsCost!) ?? 0.0
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = NumberFormatter.Style.decimal
@@ -461,15 +463,15 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     }
     
     func setThirdSection() {
-//        DesignStackOut.isHidden = false
-//        if ProjectOfResult[0].DesignCount != "0" {
-//            numberOfDesignsLabel.text = "لديك \(ProjectOfResult[0].DesignCount!) تصميم"
-//            numberOfDesignsLabel.isHidden = false
-//        } else {
-//            DesignStackOut.isHidden = true
-//            tableView.reloadData()
-//        }
-//
+        //        DesignStackOut.isHidden = false
+        //        if ProjectOfResult[0].DesignCount != "0" {
+        //            numberOfDesignsLabel.text = "لديك \(ProjectOfResult[0].DesignCount!) تصميم"
+        //            numberOfDesignsLabel.isHidden = false
+        //        } else {
+        //            DesignStackOut.isHidden = true
+        //            tableView.reloadData()
+        //        }
+        //
         if ProjectOfResult[0].DesignNotifiCount != "0" {
             print("Design: \(ProjectOfResult[0].DesignNotifiCount!)")
             newDesignsCountLabel.isHidden = false
@@ -481,7 +483,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     
     func setFourthSection() {
         if self.ProjectOfResult[0].Meetingcount != "" {
-//            newVisitsCountImage.isHidden = false
+            //            newVisitsCountImage.isHidden = false
             if self.ProjectOfResult[0].Meetingcount == "0" {
                 newVisitsCountLabel.isHidden = true
             }else {
@@ -489,7 +491,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             }
             newVisitsCountLabel.text = self.ProjectOfResult[0].Meetingcount
         } else {
-//            newVisitsCountImage.isHidden = true
+            //            newVisitsCountImage.isHidden = true
             newVisitsCountLabel.isHidden = true
         }
     }
@@ -598,25 +600,25 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             }
         }
     }
-//    @IBOutlet weak var viewOneConst: UIView!
-//    @IBOutlet weak var ViewOneCons: NSLayoutConstraint!
+    //    @IBOutlet weak var viewOneConst: UIView!
+    //    @IBOutlet weak var ViewOneCons: NSLayoutConstraint!
     
-//    @IBOutlet weak var viewTwoConst: UIView!
-//    @IBOutlet weak var viewTwoCons: NSLayoutConstraint!
-//    @IBOutlet weak var stackBtn: UIStackView!
+    //    @IBOutlet weak var viewTwoConst: UIView!
+    //    @IBOutlet weak var viewTwoCons: NSLayoutConstraint!
+    //    @IBOutlet weak var stackBtn: UIStackView!
     
     @IBAction func end(_ sender: UIButton) {
         endPopUp.isHidden = true
         GetProjectByProjectId()
-//        DispatchQueue.main.async {
-//            self.ViewOneCons.constant = 52
-//            self.viewTwoCons.constant = 52
-//            self.EditViewOut.isHidden = true
-//        }
+        //        DispatchQueue.main.async {
+        //            self.ViewOneCons.constant = 52
+        //            self.viewTwoCons.constant = 52
+        //            self.EditViewOut.isHidden = true
+        //        }
         tableView.reloadData()
     }
     
-//    @IBOutlet weak var EditViewOut: AMUIView!
+    //    @IBOutlet weak var EditViewOut: AMUIView!
     
     @IBAction func EditBtnAction(_ sender: UIButton) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
@@ -659,13 +661,13 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         self.navigationController?.pushViewController(cont, animated: true)
     }
     
-//    @IBOutlet weak var CancelBtnOut: UIButton!
-//    @IBOutlet weak var CancelViewBtn: AMUIView!
-//    @IBOutlet weak var CancelStackView: UIStackView!
-//
-//    @IBAction func CancelBtnAction(_ sender: UIButton) {
-//        popUp.isHidden = false
-//    }
+    //    @IBOutlet weak var CancelBtnOut: UIButton!
+    //    @IBOutlet weak var CancelViewBtn: AMUIView!
+    //    @IBOutlet weak var CancelStackView: UIStackView!
+    //
+    //    @IBAction func CancelBtnAction(_ sender: UIButton) {
+    //        popUp.isHidden = false
+    //    }
     
     @IBAction func goOfficeDetials(_ sender: UIButton) {
         GetOfficesByProvincesID()
@@ -685,35 +687,35 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             debugPrint(response)
             switch response.result {
             case .success:
-            let json = JSON(response.result.value!)
-            let requestProjectObj = GetOfficesArray()
-            requestProjectObj.CompanyInfoID = json["CompanyInfoID"].stringValue
-            requestProjectObj.ComapnyName = json["ComapnyName"].stringValue
-            requestProjectObj.CompanyMobile = json["CompanyMobile"].stringValue
-            requestProjectObj.Street = json["Street"].stringValue
-            requestProjectObj.BiuldNumber = json["BiuldNumber"].stringValue
-            requestProjectObj.PostNumber = json["PostNumber"].stringValue
-            requestProjectObj.PostSymbol = json["PostSymbol"].stringValue
-            requestProjectObj.PostNumberWasl = json["PostNumberWasl"].stringValue
-            requestProjectObj.Phone = json["Phone"].stringValue
-            requestProjectObj.Fax = json["Fax"].stringValue
-            requestProjectObj.Long = json["Long"].doubleValue
-            requestProjectObj.Lat = json["Lat"].doubleValue
-            requestProjectObj.Zoom = json["Zoom"].stringValue
-            requestProjectObj.LicenceNumber = json["LicenceNumber"].stringValue
-            requestProjectObj.CommercialNumber = json["CommercialNumber"].stringValue
-            requestProjectObj.CompanyEmail = json["CompanyEmail"].stringValue
-            requestProjectObj.IsCompany = json["IsCompany"].stringValue
-            requestProjectObj.Specialty = json["Specialty"].stringValue
-            requestProjectObj.IsSCE = json["IsSCE"].stringValue
-            requestProjectObj.Logo = json["Logo"].stringValue
-            requestProjectObj.BranchFB = json["BranchFB"].stringValue
-            requestProjectObj.BranchID = json["BranchID"].stringValue
-            requestProjectObj.Address = json["Address"].stringValue
-            
-            self.arrayOfResulr.append(requestProjectObj)
-            UIViewController.removeSpinner(spinner: sv)
-            self.goH()
+                let json = JSON(response.result.value!)
+                let requestProjectObj = GetOfficesArray()
+                requestProjectObj.CompanyInfoID = json["CompanyInfoID"].stringValue
+                requestProjectObj.ComapnyName = json["ComapnyName"].stringValue
+                requestProjectObj.CompanyMobile = json["CompanyMobile"].stringValue
+                requestProjectObj.Street = json["Street"].stringValue
+                requestProjectObj.BiuldNumber = json["BiuldNumber"].stringValue
+                requestProjectObj.PostNumber = json["PostNumber"].stringValue
+                requestProjectObj.PostSymbol = json["PostSymbol"].stringValue
+                requestProjectObj.PostNumberWasl = json["PostNumberWasl"].stringValue
+                requestProjectObj.Phone = json["Phone"].stringValue
+                requestProjectObj.Fax = json["Fax"].stringValue
+                requestProjectObj.Long = json["Long"].doubleValue
+                requestProjectObj.Lat = json["Lat"].doubleValue
+                requestProjectObj.Zoom = json["Zoom"].stringValue
+                requestProjectObj.LicenceNumber = json["LicenceNumber"].stringValue
+                requestProjectObj.CommercialNumber = json["CommercialNumber"].stringValue
+                requestProjectObj.CompanyEmail = json["CompanyEmail"].stringValue
+                requestProjectObj.IsCompany = json["IsCompany"].stringValue
+                requestProjectObj.Specialty = json["Specialty"].stringValue
+                requestProjectObj.IsSCE = json["IsSCE"].stringValue
+                requestProjectObj.Logo = json["Logo"].stringValue
+                requestProjectObj.BranchFB = json["BranchFB"].stringValue
+                requestProjectObj.BranchID = json["BranchID"].stringValue
+                requestProjectObj.Address = json["Address"].stringValue
+                
+                self.arrayOfResulr.append(requestProjectObj)
+                UIViewController.removeSpinner(spinner: sv)
+                self.goH()
             case .failure(let error):
                 print(error)
                 UIViewController.removeSpinner(spinner: sv)
@@ -782,13 +784,30 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     @IBAction func directionBtn(_ sender: UIButton) {
         let dLati = searchResu[index!].LatBranch
         let dLang = searchResu[index!].LngBranch
-        let location = CLLocation(latitude: dLati, longitude: dLang)
-        print(location.coordinate)
-        MKMapView.openMapsWith(location) { (error) in
-            if error != nil {
-                print("Could not open maps" + error!.localizedDescription)
+        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
+        
+        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
+            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(dLati),\(dLang)&zoom=14&views=traffic&q=\(dLati),\(dLang)")!, options: [:], completionHandler: nil)
+            } else {
+                print("Can't use comgooglemaps://")
+                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(dLati),\(dLang)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
             }
-        }
+        }))
+        
+        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
+            let location = CLLocation(latitude: dLati, longitude: dLang)
+            print(location.coordinate)
+            MKMapView.openMapsWith(location) { (error) in
+                if error != nil {
+                    print("Could not open maps" + error!.localizedDescription)
+                }
+            }
+        }))
+        
+        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+        }))
+        self.present(alertAction, animated: true, completion: nil)
     }
     
     func GetProjectByProjectId(){
@@ -797,6 +816,10 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         if nou == "" && norma == "" {
             parameters = [
                 "projectId": searchResu[index!].ProjectId
+            ]
+        }else if nou == "uu"{
+            parameters = [
+                "projectId": ProjectId
             ]
         }else{
             parameters = [
@@ -809,7 +832,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             
             let json = JSON(response.result.value!)
             let requestProjectObj = ProjectDetialsArray(ProjectId: json["ProjectId"].stringValue, ProjectsPaymentsCost: json["ProjectsPaymentsCost"].stringValue, CountNotPaid: json["CountNotPaid"].stringValue, CountPaid: json["CountPaid"].stringValue, EmpImage: json["EmpImage"].stringValue, BranchID: json["BranchID"].stringValue, BranchName: json["BranchName"].stringValue, CustmoerName: json["CustmoerName"].stringValue, CustomerEmail: json["CustomerEmail"].stringValue, CustomerMobile: json["CustomerMobile"].stringValue, CustomerNationalId: json["CustomerNationalId"].stringValue, DataSake: json["DataSake"].stringValue, DateLicence: json["DateLicence"].stringValue, EmpMobile: json["EmpMobile"].stringValue, EmpName: json["EmpName"].stringValue, GroundId: json["GroundId"].stringValue, IsDeleted: json["IsDeleted"].stringValue, JobName: json["JobName"].stringValue, LatBranch: json["LatBranch"].doubleValue, LatPrj: json["LatPrj"].stringValue, LicenceNum: json["LicenceNum"].stringValue, LngBranch: json["LngBranch"].doubleValue, LngPrj: json["LngPrj"].stringValue, Notes: json["Notes"].stringValue, PlanId: json["PlanId"].stringValue, ProjectInvoice: json["ProjectInvoice"].stringValue, ProjectContract: json["ProjectContract"].stringValue, ProjectStatusNum: json["ProjectStatusNum"].stringValue, ProjectBildTypeId: json["ProjectBildTypeId"].stringValue, ProjectEngComment: json["ProjectEngComment"].stringValue, ProjectStatusColor: json["ProjectStatusColor"].stringValue, ProjectStatusID: json["ProjectStatusID"].stringValue, ProjectStatusName: json["ProjectStatusName"].stringValue, ProjectTitle: json["ProjectTitle"].stringValue, ProjectTypeId: json["ProjectTypeId"].stringValue, ProjectTypeName: json["ProjectTypeName"].stringValue, SakNum: json["SakNum"].stringValue, Space: json["Space"].stringValue, Status: json["Status"].stringValue, TotalNotPaid: json["TotalNotPaid"].stringValue, TotalPaid: json["TotalPaid"].stringValue, ZoomBranch: json["ZoomBranch"].stringValue, ZoomPrj: json["ZoomPrj"].stringValue, projectOrderContractPhotoPath: json["projectOrderContractPhotoPath"].stringValue, ProvincesName: json["ProvincesName"].stringValue, SectoinName: json["SectoinName"].stringValue, ProjectsOrdersCellarErea: json["ProjectsOrdersCellarErea"].stringValue, ProjectsOrdersReFloorErea: json["ProjectsOrdersReFloorErea"].stringValue, ProjectsOrdersSupplementErea: json["ProjectsOrdersSupplementErea"].stringValue, ProjectsOrdersSupplementExternalErea: json["ProjectsOrdersSupplementExternalErea"].stringValue, ProjectsOrdersFloorErea: json["ProjectsOrdersFloorErea"].stringValue, ProjectsOrdersLandErea: json["ProjectsOrdersLandErea"].stringValue, ProjectsOrdersFloorNummber: json["ProjectsOrdersFloorNummber"].stringValue, ProjectsOrdersTotalBildErea: json["ProjectsOrdersTotalBildErea"].stringValue, ProjectsPaymentsWork: json["ProjectsPaymentsWork"].stringValue, ProjectsPaymentsDiscount: json["ProjectsPaymentsDiscount"].stringValue, CompanyInfoID: json["CompanyInfoID"].stringValue, ComapnyName: json["ComapnyName"].stringValue, CompanyAddress: json["Address"].stringValue, Logo: json["Logo"].stringValue, isCompany: json["IsCompany"].stringValue, DesignNewCount: json["DesignNewCount"].stringValue, DesignCount: json["DesignCount"].stringValue, Meetingcount: json["Meetingcount"].stringValue, MeetingDate: json["MeetingDate"].stringValue, MeetingTime: json["MeetingTime"].stringValue, ProjectLastComment: json["ProjectLastComment"].stringValue, ProjectLastTpye: json["ProjectLastTpye"].stringValue, ProjectCommentOther: json["ProjectCommentOther"].stringValue, LastDesignStagesID: json["LastDesignStagesID"].stringValue, LastMeetingID: json["LastMeetingID"].stringValue, MeetingNotifiCount: json["MeetingNotifiCount"].stringValue, DesignNotifiCount: json["DesignNotifiCount"].stringValue, NotifiCount: json["NotifiCount"].intValue, FileCount: json["FileCount"].stringValue, ProjectFileCount: json["ProjectFileCount"].stringValue)
-                UserDefaults.standard.set(json["CompanyInfoID"].stringValue, forKey: "companyInfoID")
+            UserDefaults.standard.set(json["CompanyInfoID"].stringValue, forKey: "companyInfoID")
             self.ProjectOfResult.removeAll()
             self.ProjectOfResult.append(requestProjectObj)
             self.FileCount = json["FileCount"].stringValue

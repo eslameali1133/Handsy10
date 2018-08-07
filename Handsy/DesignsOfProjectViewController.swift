@@ -245,7 +245,10 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
         }
         let EmpName = searchResu[indexPath.section].EmpName
         cell.EmpMobile.setTitle(EmpName, for: .normal)
-      
+        DispatchQueue.main.async {
+            cell.Status.roundCorners(.bottomRight, radius: 10.0)
+            cell.roundCorners([.bottomLeft,.bottomRight,.topRight], radius: 10)
+        }
         return cell
     }
     

@@ -11,7 +11,22 @@ import Alamofire
 import SwiftyJSON
 
 class FilterVisitsViewController: UIViewController {
-    
+    @IBOutlet weak var newVisitssCountLabel: UILabel!{
+        didSet {
+            DispatchQueue.main.async {
+                self.newVisitssCountLabel.layer.cornerRadius = self.newVisitssCountLabel.frame.width/2
+                self.newVisitssCountLabel.layer.masksToBounds = true
+            }
+        }
+    }
+    @IBOutlet weak var oldVisitsCountLabel: UILabel!{
+        didSet {
+            DispatchQueue.main.async {
+                self.oldVisitsCountLabel.layer.cornerRadius = self.oldVisitsCountLabel.frame.width/2
+                self.oldVisitsCountLabel.layer.masksToBounds = true
+            }
+        }
+    }
     var ProjectId: String = ""
     var projectTitleView: String = ""
     var ProjectFilesTitle: String = ""
@@ -31,6 +46,8 @@ class FilterVisitsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        oldVisitsCountLabel.isHidden = true
+        newVisitssCountLabel.isHidden = true
         MeetingCountByCustmoerId()
         // Do any additional setup after loading the view.
     }
@@ -74,6 +91,18 @@ class FilterVisitsViewController: UIViewController {
             let json = JSON(response.result.value!)
             self.FinishMeetingCount = json["FinishMeetingCount"].stringValue
             self.NewMeetingCount = json["NewMeetingCount"].stringValue
+            if self.FinishMeetingCount == "0" || self.FinishMeetingCount == ""{
+                self.oldVisitsCountLabel.isHidden = true
+            }else {
+                self.oldVisitsCountLabel.isHidden = false
+                self.oldVisitsCountLabel.text = self.FinishMeetingCount
+            }
+            if self.NewMeetingCount == "0" || self.NewMeetingCount == ""{
+                self.newVisitssCountLabel.isHidden = true
+            }else {
+                self.newVisitssCountLabel.isHidden = false
+                self.newVisitssCountLabel.text = self.NewMeetingCount
+            }
         }
     }
 }

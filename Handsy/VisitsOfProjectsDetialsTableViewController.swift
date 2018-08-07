@@ -12,6 +12,15 @@ import SwiftyJSON
 import MapKit
 
 class VisitsOfProjectsDetialsTableViewController: UITableViewController {
+    @IBOutlet var detialsBtnView: UIView!
+    @IBOutlet weak var projectDetialsBtnOut: UIButton!{
+        didSet {
+            DispatchQueue.main.async {
+                self.projectDetialsBtnOut.layer.cornerRadius = 7.0
+                self.projectDetialsBtnOut.layer.masksToBounds = true
+            }
+        }
+    }
     @IBOutlet weak var MessageBtn: UIButton! {
         didSet {
             MessageBtn.layer.borderWidth = 1.0
@@ -82,7 +91,7 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
     @IBOutlet weak var ClientReplayView: UIView!
     @IBOutlet weak var ClientReplayTF: UITextView!
     @IBOutlet weak var InformationVisit: UIView!
-    @IBOutlet weak var EngNameLabel: UILabel!
+    @IBOutlet weak var EngNameLabel: UIButton!
     @IBOutlet weak var JopNameLabel: UILabel!
     @IBOutlet weak var companyNameLabel: UILabel!
     
@@ -120,7 +129,16 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
                 self.setDetiales(condition: "offline")
             }
         }
-        
+        DispatchQueue.main.async {
+            self.detialsBtnView.frame = CGRect.init(x: 0, y: self.tableView.contentOffset.y + (self.view.frame.height-57), width: self.view.frame.width, height: 57)
+            if #available(iOS 11, *) {
+                self.tableView.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 47, right: 0)
+            }else{
+                self.tableView.contentInset = UIEdgeInsets.init(top: 52, left: 0, bottom: 47, right: 0)
+            }
+            self.tableView.bringSubview(toFront: self.detialsBtnView)
+            self.tableView.addSubview(self.detialsBtnView)
+        }
     }
     func GetMeetingWaitingByMeetingID(){
         let parameters: Parameters = [
@@ -166,7 +184,7 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
     }
     
     func ComapnyNameFunc(EmpName: String, companyName: String, companyLogo: String, JobName: String){
-        EngNameLabel.text = EmpName
+        EngNameLabel.setTitle(EmpName, for: .normal)
         companyNameLabel.text = companyName
         JopNameLabel.text = JobName
         let trimmedString = companyLogo.trimmingCharacters(in: .whitespaces)
@@ -178,11 +196,21 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func scrollViewDidScroll(_ scrollView: UIScrollView){
+        if scrollView == tableView {
+            var frame: CGRect = self.detialsBtnView.frame
+            frame.origin.y = scrollView.contentOffset.y + self.view.frame.height - 57
+            detialsBtnView.frame = frame
+        }
     }
     
+    @IBAction func openDetialsViewController(_ sender: UIButton) {
+        let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle: nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectDetialsFilterTableViewController") as! NewProjectDetialsFilterTableViewController
+        secondView.ProjectId = self.ProjectId
+        secondView.nou = "uu"
+        self.navigationController?.pushViewController(secondView, animated: true)
+    }
     
     func setDetiales(condition: String) {
         if condition == "online" {
@@ -384,13 +412,31 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
     }
     
     @IBAction func directionBtn(_ sender: UIButton) {
-        let location = CLLocation(latitude: LatBranch, longitude: LngBranch)
-        print(location.coordinate)
-        MKMapView.openMapsWith(location) { (error) in
-            if error != nil {
-                print("Could not open maps" + error!.localizedDescription)
+        
+        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
+        
+        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
+            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(self.LatBranch),\(self.LngBranch)&zoom=14&views=traffic&q=\(self.LatBranch),\(self.LngBranch)")!, options: [:], completionHandler: nil)
+            } else {
+                print("Can't use comgooglemaps://")
+                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(self.LatBranch),\(self.LngBranch)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
             }
-        }
+        }))
+        
+        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
+            let location = CLLocation(latitude: self.LatBranch, longitude: self.LngBranch)
+            print(location.coordinate)
+            MKMapView.openMapsWith(location) { (error) in
+                if error != nil {
+                    print("Could not open maps" + error!.localizedDescription)
+                }
+            }
+        }))
+        
+        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+        }))
+        self.present(alertAction, animated: true, completion: nil)
     }
     
     @IBAction func goOfficeDetials(_ sender: UIButton) {

@@ -45,6 +45,7 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
     var imagePath = ""
     var CustomerPhoto = URL(string: "")
     var code = ""
+    var condCamera = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -120,11 +121,6 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
             self.mobileLabel.textColor = UIColor(red: 227/255.0, green: 75/255.0, blue: 59/255.0, alpha: 1.0)
             self.mobileLabel.isHidden = false
         }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -274,12 +270,26 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
                     print("image: \(pickedImage)")
                     CustomerPhoto = assetPath
                 }
+            }else {
+                if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+                    imageProfile.image = pickedImage
+                    print("image: \(pickedImage)")
+                    condCamera = "sds"
+                }
             }
         } else {
             // Fallback on earlier versions
         }
         dismiss(animated: true, completion: nil)
         
+    }
+    func saveImage(image: UIImage, completion: @escaping (Error?) -> ()) {
+        UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(path:didFinishSavingWithError:contextInfo:)), nil)
+    }
+    
+    @objc private func image(path: String, didFinishSavingWithError error: NSError?, contextInfo: UnsafeMutableRawPointer?) {
+        debugPrint(path) // That's the path you want
+        CustomerPhoto = URL(string: path)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -326,7 +336,6 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
         }
         else if image.size.width >= 1024 && image.size.height < 1024
         {
-            
             UIGraphicsBeginImageContext(CGSize(width:1024, height:image.size.height))
             image.draw(in: CGRect(x:0, y:0, width:1024, height:image.size.height))
             
@@ -334,7 +343,6 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
             UIGraphicsEndImageContext()
             
             return newImage!
-            
         }
         else
         {

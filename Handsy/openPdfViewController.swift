@@ -12,22 +12,62 @@ import Alamofire
 
 class openPdfViewController: UIViewController, UIWebViewDelegate {
     @IBOutlet weak var WebViewPdf: UIWebView!
+    @IBOutlet weak var OK: UIButton!{
+        didSet {
+            OK.layer.cornerRadius = 4.0
+        }
+    }
+    @IBOutlet weak var Cancel: UIButton!{
+        didSet {
+            Cancel.layer.cornerRadius = 4.0
+        }
+    }
+    @IBOutlet weak var BtnOutLet: UIStackView!
     
+    var reloadApi: reloadApi?
     var url: String = ""
     var Webtitle: String = "التصميم المقترح"
+    var condBottomButtons = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = Webtitle
         WebViewPdf.delegate = self
-        
+        if condBottomButtons == "AcceptAndEdit" {
+            BtnOutLet.isHidden = false
+            OK.isHidden = false
+            Cancel.isHidden = false
+        }else if condBottomButtons == "Edit" {
+            BtnOutLet.isHidden = false
+            OK.isHidden = true
+            Cancel.isHidden = false
+        }else {
+            BtnOutLet.isHidden = true
+            OK.isHidden = true
+            Cancel.isHidden = true
+        }
         if let urlPdf = URL(string: url) {
             let request = URLRequest(url: urlPdf)
             WebViewPdf.loadRequest(request)
         }
-
-        // Do any additional setup after loading the view.
     }
+    
+    @IBAction func designCancel(_ sender: UIButton) {
+        let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "AlertDetialsDesignCancelViewController") as! AlertDetialsDesignCancelViewController
+        secondView.reloadApi = reloadApi!
+        secondView.modalPresentationStyle = .custom
+        self.present(secondView, animated: true)
+    }
+    
+    @IBAction func designOk(_ sender: UIButton) {
+        let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "AlertDetialsDesignOKViewController") as! AlertDetialsDesignOKViewController
+        secondView.reloadApi = reloadApi!
+        secondView.modalPresentationStyle = .custom
+        self.present(secondView, animated: true)
+    }
+    
     @IBAction func downloadPdf(_ sender: UIBarButtonItem) {
         download(url: url)
     }
@@ -57,25 +97,7 @@ class openPdfViewController: UIViewController, UIWebViewDelegate {
         
         Alamofire.download(url, to: destination).response { response in
             print(response)
-            
-            
         }
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

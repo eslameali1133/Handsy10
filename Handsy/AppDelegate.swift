@@ -68,11 +68,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             navigationController.selectedIndex = 0
             self.window?.rootViewController = navigationController
         }
-        let center =  UNUserNotificationCenter.current()
-        center.requestAuthorization(options: [.alert, .sound, .badge]) { (result, error) in
-            //handle result of request failure
-            print(result)
-        }
+//        let center =  UNUserNotificationCenter.current()
+//        center.requestAuthorization(options: [.alert, .sound, .badge]) { (result, error) in
+//            //handle result of request failure
+//            print(result)
+//        }
         //        contentPush(title: " Jurassic Park", body: "Its lunch time at the park, please join us for a dinosaur feeding")
         return true
     }
@@ -144,7 +144,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     //    func userNotificationCenter(_ center: UNUserNotificationCenter,
     //                                didReceive response: UNNotificationResponse,
     //                                withCompletionHandler completionHandler: @escaping () -> Void){
-    //        self.applicationl.applicationIconBadgeNumber = badgeCount + 1
+    //
     //    }
     
     
@@ -155,7 +155,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         // Messaging.messaging().appDidReceiveMessage(userInfo)
-        self.applicationl.applicationIconBadgeNumber = badgeCount + 1
+//
         // Print message ID.
         if let messageID = userInfo["Type"]{
             print("Message ID: \(messageID)")
@@ -180,7 +180,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 secondView.nou = "LOl"
                 let topController = UIApplication.topViewController()
                 topController?.show(secondView, sender: true)
-                self.applicationl.applicationIconBadgeNumber = badgeCount - 1
+                
             }else if type == "2" {
                 MarkNotifyReadByNotifyID(NotificationID: notificationID!)
                 let MeetingId = userInfo["MeetingId"] as? String
@@ -189,7 +189,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 let secondView = storyBoard.instantiateViewController(withIdentifier: "VisitsDetialsTableViewController") as! VisitsDetialsTableViewController
                 let topController = UIApplication.topViewController()
                 topController?.show(secondView, sender: true)
-                self.applicationl.applicationIconBadgeNumber = badgeCount - 1
+                
             }else if type == "3" {
                 MarkNotifyReadByNotifyID(NotificationID: notificationID!)
                 let ProjectId = userInfo["ProjectId"] as? String
@@ -200,7 +200,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 
                 let topController = UIApplication.topViewController()
                 topController?.show(secondView, sender: true)
-                self.applicationl.applicationIconBadgeNumber = badgeCount - 1
+                
             }else if type == "4" {
                 MarkNotifyReadByNotifyID(NotificationID: notificationID!)
                 let ProjectId = userInfo["ProjectId"] as? String
@@ -210,7 +210,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 secondView.pushCond = "LOl"
                 let topController = UIApplication.topViewController()
                 topController?.show(secondView, sender: true)
-                self.applicationl.applicationIconBadgeNumber = badgeCount - 1
+                
             }else if type == "5" {
                 MarkNotifyReadByNotifyID(NotificationID: notificationID!)
                 let DesignStagesID = userInfo["DesignStagesID"] as? String
@@ -219,7 +219,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 let secondView = storyBoard.instantiateViewController(withIdentifier: "DetailsDesignTableViewController") as! DetailsDesignTableViewController
                 let topController = UIApplication.topViewController()
                 topController?.show(secondView, sender: true)
-                self.applicationl.applicationIconBadgeNumber = badgeCount - 1
+                
             }else if type == "7" {
                 MarkNotifyReadByNotifyID(NotificationID: notificationID!)
                 let DesignStagesID = userInfo["DesignStagesID"] as? String
@@ -229,7 +229,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 secondView.isScroll = true
                 let topController = UIApplication.topViewController()
                 topController?.show(secondView, sender: true)
-                self.applicationl.applicationIconBadgeNumber = badgeCount - 1
+                
             }else if type == "8" {
                 MarkNotifyReadByNotifyID(NotificationID: notificationID!)
                 let File = userInfo["File"] as? String
@@ -240,11 +240,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 secondView.ProjectId = ProjectId!
                 let topController = UIApplication.topViewController()
                 topController?.show(secondView, sender: true)
-                self.applicationl.applicationIconBadgeNumber = badgeCount - 1
+                
             }else if type == "9" {
                 let ProjectId = userInfo["ProjectId"] as? String
-                ReadAllMessageForCust(ProjectId: ProjectId!)
-                if let VC = UIApplication.shared.topMostViewController() as? ChatOfProjectsViewController {
+                if let VC = UIApplication.topViewController() as? ChatOfProjectsViewController {
+                    ReadAllMessageForCust(ProjectId: ProjectId!)
                     let messageByProjectIdObj = MessageByProjectId()
                     messageByProjectIdObj.ImageName = userInfo["ImageName"] as? String
                     messageByProjectIdObj.ImagePath = userInfo["ImagePath"] as? String
@@ -263,8 +263,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
                     FirstViewController.ProjectId = ProjectId!
                     let topController = UIApplication.topViewController()
-                    topController?.present(FirstViewController, animated: false, completion: nil)
-                    self.applicationl.applicationIconBadgeNumber = badgeCount - 1
+                    topController?.show(FirstViewController, sender: nil)
                 }
             }else {
                 print("type: \(type)")
@@ -286,7 +285,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func ReadAllMessageForCust(ProjectId: String) {
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/ReadAllMessageForCust?ProjectId=\(ProjectId)", method: .post, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/api/ApiService/ReadAllMessageForCust?ProjectId=\(ProjectId)", method: .post, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
         }
     }
@@ -294,7 +293,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
         
-        self.applicationl.applicationIconBadgeNumber = badgeCount + 1
+        
         // Print full message.
         print(userInfo)
         // Print message ID.
@@ -381,11 +380,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 secondView.ProjectId = ProjectId!
                 let topController = UIApplication.topViewController()
                 topController?.show(secondView, sender: true)
-                self.applicationl.applicationIconBadgeNumber = badgeCount - 1
+                
             }else if type == "9" {
                 let ProjectId = userInfo["ProjectId"] as? String
-                ReadAllMessageForCust(ProjectId: ProjectId!)
-                if let VC = UIApplication.shared.topMostViewController() as? ChatOfProjectsViewController {
+                if let VC = UIApplication.topViewController() as? ChatOfProjectsViewController {
+                    ReadAllMessageForCust(ProjectId: ProjectId!)
                     let messageByProjectIdObj = MessageByProjectId()
                     messageByProjectIdObj.ImageName = userInfo["ImageName"] as? String
                     messageByProjectIdObj.ImagePath = userInfo["ImagePath"] as? String
@@ -404,9 +403,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
                     FirstViewController.ProjectId = ProjectId!
                     let topController = UIApplication.topViewController()
-                    topController?.present(FirstViewController, animated: false, completion: nil)
-                    self.applicationl.applicationIconBadgeNumber = badgeCount - 1
-                }
+                    topController?.show(FirstViewController, sender: nil)
+                 }
             }else {
                 print("type: \(type)")
             }
@@ -427,8 +425,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 let notificationID = userInfo["NotificationID"] as? String
                 if type == "9" {
                     let ProjectId = userInfo["ProjectId"] as? String
-                    ReadAllMessageForCust(ProjectId: ProjectId!)
-                    if let VC = UIApplication.shared.topMostViewController() as? ChatOfProjectsViewController {
+                    if let VC = UIApplication.topViewController() as? ChatOfProjectsViewController {
+                        ReadAllMessageForCust(ProjectId: ProjectId!)
                         let messageByProjectIdObj = MessageByProjectId()
                         messageByProjectIdObj.ImageName = userInfo["ImageName"] as? String
                         messageByProjectIdObj.ImagePath = userInfo["ImagePath"] as? String
@@ -486,7 +484,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 secondView.nou = "LOl"
                 let topController = UIApplication.topViewController()
                 topController?.show(secondView, sender: true)
-                self.applicationl.applicationIconBadgeNumber = badgeCount - 1
+                
             }else if type == "2" {
                 MarkNotifyReadByNotifyID(NotificationID: notificationID!)
                 let MeetingId = userInfo["MeetingId"] as? String
@@ -495,7 +493,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 let secondView = storyBoard.instantiateViewController(withIdentifier: "VisitsDetialsTableViewController") as! VisitsDetialsTableViewController
                 let topController = UIApplication.topViewController()
                 topController?.show(secondView, sender: true)
-                self.applicationl.applicationIconBadgeNumber = badgeCount - 1
+                
             }else if type == "3" {
                 MarkNotifyReadByNotifyID(NotificationID: notificationID!)
                 let ProjectId = userInfo["ProjectId"] as? String
@@ -505,7 +503,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 secondView.nou = "LOl"
                 let topController = UIApplication.topViewController()
                 topController?.show(secondView, sender: true)
-                self.applicationl.applicationIconBadgeNumber = badgeCount - 1
+                
             }else if type == "4" {
                 MarkNotifyReadByNotifyID(NotificationID: notificationID!)
                 let ProjectId = userInfo["ProjectId"] as? String
@@ -515,7 +513,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 secondView.pushCond = "LOl"
                 let topController = UIApplication.topViewController()
                 topController?.show(secondView, sender: true)
-                self.applicationl.applicationIconBadgeNumber = badgeCount - 1
+                
             }else if type == "5" {
                 MarkNotifyReadByNotifyID(NotificationID: notificationID!)
                 let DesignStagesID = userInfo["DesignStagesID"] as? String
@@ -524,7 +522,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 let secondView = storyBoard.instantiateViewController(withIdentifier: "DetailsDesignTableViewController") as! DetailsDesignTableViewController
                 let topController = UIApplication.topViewController()
                 topController?.show(secondView, sender: true)
-                self.applicationl.applicationIconBadgeNumber = badgeCount - 1
+                
             }else if type == "7" {
                 MarkNotifyReadByNotifyID(NotificationID: notificationID!)
                 let DesignStagesID = userInfo["DesignStagesID"] as? String
@@ -534,7 +532,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 secondView.isScroll = true
                 let topController = UIApplication.topViewController()
                 topController?.show(secondView, sender: true)
-                self.applicationl.applicationIconBadgeNumber = badgeCount - 1
+                
             }else if type == "8" {
                 MarkNotifyReadByNotifyID(NotificationID: notificationID!)
                 let File = userInfo["File"] as? String
@@ -545,11 +543,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 secondView.ProjectId = ProjectId!
                 let topController = UIApplication.topViewController()
                 topController?.show(secondView, sender: true)
-                self.applicationl.applicationIconBadgeNumber = badgeCount - 1
+                
             }else if type == "9" {
                 let ProjectId = userInfo["ProjectId"] as? String
                 ReadAllMessageForCust(ProjectId: ProjectId!)
-                if let VC = UIApplication.shared.topMostViewController() as? ChatOfProjectsViewController {
+                if let VC = UIApplication.topViewController() as? ChatOfProjectsViewController {
                     let messageByProjectIdObj = MessageByProjectId()
                     messageByProjectIdObj.ImageName = userInfo["ImageName"] as? String
                     messageByProjectIdObj.ImagePath = userInfo["ImagePath"] as? String
@@ -568,9 +566,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
                     FirstViewController.ProjectId = ProjectId!
                     let topController = UIApplication.topViewController()
-                    topController?.present(FirstViewController, animated: false, completion: nil)
-                    self.applicationl.applicationIconBadgeNumber = badgeCount - 1
-                }
+                    topController?.show(FirstViewController, sender: nil)
+                 }
             }else {
                 print("type: \(type)")
             }

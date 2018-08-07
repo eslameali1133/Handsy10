@@ -30,6 +30,7 @@ class HomeChatOfProjectsViewController: UIViewController, UITableViewDelegate, U
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "ابحث عن المشروع"
+        searchController.searchBar.delegate = self
         navigationItem.titleView = searchController.searchBar
         definesPresentationContext = true
         // Prevent the navigation bar from being hidden when searching.
@@ -47,7 +48,8 @@ class HomeChatOfProjectsViewController: UIViewController, UITableViewDelegate, U
     }
     
     @objc func backButtonPressed(){
-        self.dismiss(animated: true, completion: nil)
+//        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
     func isFiltering() -> Bool {
@@ -220,10 +222,38 @@ class HomeChatOfProjectsViewController: UIViewController, UITableViewDelegate, U
     }
     
 }
-extension HomeChatOfProjectsViewController: UISearchResultsUpdating {
+extension HomeChatOfProjectsViewController: UISearchResultsUpdating, UISearchBarDelegate {
     // MARK: - UISearchResultsUpdating Delegate
     func updateSearchResults(for searchController: UISearchController) {
         // TODO
         filterContentForSearchText(searchController.searchBar.text!)
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = true
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        // Stop doing the search stuff
+        // and clear the text in the search bar
+        searchBar.text = ""
+        // Hide the cancel button
+        searchBar.showsCancelButton = false
+        // You could also change the position, frame etc of the searchBar
+        searchBar.endEditing(true)
+        // retrive old data
+        allHomeMessageModel.AllMessageListForCust(view: self.view, VC: self, type: "", projectTitle: "") { (Results) in
+            self.filterdAllHomeMessage = Results
+            if self.filterdAllHomeMessage.count == 0 {
+                self.alertImage.isHidden = false
+                self.alertLabel.isHidden = false
+                self.chatOfProjectsTableView.isHidden = true
+            }else {
+                self.alertImage.isHidden = true
+                self.alertLabel.isHidden = true
+                self.chatOfProjectsTableView.isHidden = false
+            }
+            self.chatOfProjectsTableView.reloadData()
+        }
     }
 }

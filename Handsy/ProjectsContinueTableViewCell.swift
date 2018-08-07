@@ -18,13 +18,7 @@ class ProjectsContinueTableViewCell: UITableViewCell {
     
     @IBOutlet weak var companyAddress: UILabel!
     @IBOutlet weak var Details: UILabel!
-    @IBOutlet weak var Status: UIView!{
-        didSet {
-            DispatchQueue.main.async {
-                self.Status.roundCorners(.bottomRight, radius: 10.0)
-            }
-        }
-    }
+    @IBOutlet weak var Status: UIView!
     @IBOutlet weak var nameOfStatus: UILabel!
     @IBOutlet weak var CompanyLogoImage: UIImageView!{
         didSet {
@@ -53,9 +47,6 @@ class ProjectsContinueTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        DispatchQueue.main.async {
-            self.roundCorners([.bottomLeft,.bottomRight,.topRight], radius: 10)
-        }
         // Initialization code
     }
 

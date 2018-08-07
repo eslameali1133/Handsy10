@@ -76,7 +76,11 @@ class ShowContractViewController: UIViewController, UIWebViewDelegate {
                 let json = JSON(response.result.value!)
                 print(json)
                 self.AcceptViewOut.isHidden = true
-                self.navigationController!.popViewController(animated: false)
+                let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle: nil)
+                let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectDetialsFilterTableViewController") as! NewProjectDetialsFilterTableViewController
+                secondView.ProjectId = self.ProjectId
+                secondView.nou = "LOl"
+                self.navigationController?.pushViewController(secondView, animated: true)
             case .failure(let error):
                 print(error)
                 UIViewController.removeSpinner(spinner: sv)
@@ -101,6 +105,10 @@ class ShowContractViewController: UIViewController, UIWebViewDelegate {
 extension ShowContractViewController: reloadApi {
     func reload() {
         self.AcceptViewOut.isHidden = true
-        self.navigationController!.popViewController(animated: false)
+        let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle: nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectDetialsFilterTableViewController") as! NewProjectDetialsFilterTableViewController
+        secondView.ProjectId = self.ProjectId
+        secondView.nou = "LOl"
+        self.navigationController?.pushViewController(secondView, animated: true)
     }
 }

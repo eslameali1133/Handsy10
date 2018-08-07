@@ -198,7 +198,7 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
     
     override func viewWillAppear(_ animated: Bool) {
         if pushCond == "" {
-
+            
         }else {
             GetProjectByProjectId()
         }
@@ -537,7 +537,7 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
             secondView.url = openContract
             secondView.ProjectId = ProjectId
             secondView.Webtitle = "العقد"
-             self.navigationController?.pushViewController(secondView, animated: true)
+            self.navigationController?.pushViewController(secondView, animated: true)
         } else if ProjectContract == "2" {
             let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle:nil)
             let secondView = storyBoard.instantiateViewController(withIdentifier: "openPdfViewController") as! openPdfViewController
@@ -587,7 +587,7 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
             return 80
         }
     }
-
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let PaymentBatch = searchResu[indexPath.section].PaymentBatchStatusID
@@ -774,13 +774,30 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
     }
     
     @IBAction func directionBtn(_ sender: UIButton) {
-        let location = CLLocation(latitude: LatBranch, longitude: LngBranch)
-        print(location.coordinate)
-        MKMapView.openMapsWith(location) { (error) in
-            if error != nil {
-                print("Could not open maps" + error!.localizedDescription)
+        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
+        
+        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
+            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(self.LatBranch),\(self.LngBranch)&zoom=14&views=traffic&q=\(self.LatBranch),\(self.LngBranch)")!, options: [:], completionHandler: nil)
+            } else {
+                print("Can't use comgooglemaps://")
+                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(self.LatBranch),\(self.LngBranch)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
             }
-        }
+        }))
+        
+        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
+            let location = CLLocation(latitude: self.LatBranch, longitude: self.LngBranch)
+            print(location.coordinate)
+            MKMapView.openMapsWith(location) { (error) in
+                if error != nil {
+                    print("Could not open maps" + error!.localizedDescription)
+                }
+            }
+        }))
+        
+        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+        }))
+        self.present(alertAction, animated: true, completion: nil)
     }
     
     @IBAction func CallMe(_ sender: UIButton) {

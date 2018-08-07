@@ -168,6 +168,26 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
     func dataReady() {
         // Access the video objects that have been downloaded
         self.visitsByProjectIdArr = self.model.resultArray
+        if visitsByProjectIdArr.count == 0 {
+            NothingLabel.isHidden = true
+            AlertImage.isHidden = true
+            let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle: nil)
+            let secondView = storyBoard.instantiateViewController(withIdentifier: "VisitsOfProjectsArchiveViewController") as! VisitsOfProjectsArchiveViewController
+            secondView.ProjectId = ProjectId
+            secondView.projectTitleView = projectTitleView
+            secondView.ComapnyName = ComapnyName
+            secondView.Logo = Logo
+            secondView.EmpMobile = EmpMobile
+            secondView.EmpName = EmpName
+            secondView.LatBranch = LatBranch
+            secondView.LngBranch = LngBranch
+            secondView.CompanyInfoID = CompanyInfoID
+            secondView.ProjectOfResult = ProjectOfResult
+            self.navigationController?.pushViewController(secondView, animated: true)
+        } else {
+            NothingLabel.isHidden = true
+            AlertImage.isHidden = true
+        }
         self.visitsModel.append(self.model.resultArray, index: ProjectId)
         // Tell the tableview to reload
         tableView.reloadData()
@@ -201,13 +221,6 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        if visitsByProjectIdArr.count == 0 {
-            NothingLabel.isHidden = true
-            AlertImage.isHidden = true
-        } else {
-            NothingLabel.isHidden = true
-            AlertImage.isHidden = true
-        }
         return visitsByProjectIdArr.count
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -246,7 +259,10 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
         }else {
             print("error status")
         }
-        
+        DispatchQueue.main.async {
+            cell.Status.roundCorners(.bottomRight, radius: 10.0)
+            cell.roundCorners([.bottomLeft,.bottomRight,.topRight], radius: 10)
+        }
         return cell
     }
     

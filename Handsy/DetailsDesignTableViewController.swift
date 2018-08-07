@@ -12,6 +12,15 @@ import SwiftyJSON
 import MapKit
 
 class DetailsDesignTableViewController: UITableViewController {
+    @IBOutlet var detialsBtnView: UIView!
+    @IBOutlet weak var projectDetialsBtnOut: UIButton!{
+        didSet {
+            DispatchQueue.main.async {
+                self.projectDetialsBtnOut.layer.cornerRadius = 7.0
+                self.projectDetialsBtnOut.layer.masksToBounds = true
+            }
+        }
+    }
     @IBOutlet weak var OK: UIButton!{
         didSet {
             OK.layer.cornerRadius = 4.0
@@ -120,7 +129,16 @@ class DetailsDesignTableViewController: UITableViewController {
                 self.setData(condition: "offline")
             }
         }
-        
+        DispatchQueue.main.async {
+            self.detialsBtnView.frame = CGRect.init(x: 0, y: self.tableView.contentOffset.y + (self.view.frame.height-57), width: self.view.frame.width, height: 57)
+            if #available(iOS 11, *) {
+                self.tableView.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 47, right: 0)
+            }else{
+                self.tableView.contentInset = UIEdgeInsets.init(top: 52, left: 0, bottom: 47, right: 0)
+            }
+            self.tableView.bringSubview(toFront: self.detialsBtnView)
+            self.tableView.addSubview(self.detialsBtnView)
+        }
         InformationDetiView.isHidden = false
         NotesEng.isHidden = false
         NotesCus.isHidden = false
@@ -128,6 +146,14 @@ class DetailsDesignTableViewController: UITableViewController {
         OK.isHidden = true
         Cancel.isHidden = true
         
+    }
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView){
+        if scrollView == tableView {
+            var frame: CGRect = self.detialsBtnView.frame
+            frame.origin.y = scrollView.contentOffset.y + self.view.frame.height - 57
+            detialsBtnView.frame = frame
+        }
     }
     
     func GetDesignsByDesignStagesID(){
@@ -377,8 +403,17 @@ class DetailsDesignTableViewController: UITableViewController {
         let openPdf = DesignFile
         let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle:nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "openPdfViewController") as! openPdfViewController
-        self.navigationController?.pushViewController(secondView, animated: true)
+        if StatusLa.text == "انتظار الموافقة"{
+            secondView.condBottomButtons = "AcceptAndEdit"
+            secondView.reloadApi = self
+        }else if StatusLa.text == "طلب التعديل" {
+            secondView.condBottomButtons = "Edit"
+            secondView.reloadApi = self
+        }else {
+            print("error status")
+        }
         secondView.url = openPdf
+        self.navigationController?.pushViewController(secondView, animated: true)
         
         //        if let url = URL(string: openPdf) {
         //            UIApplication.shared.open(url)
@@ -389,6 +424,14 @@ class DetailsDesignTableViewController: UITableViewController {
     //        let openPdf = DesignFile
     //        download(url: openPdf)
     //    }
+    
+    @IBAction func openDetialsViewController(_ sender: UIButton) {
+        let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle: nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectDetialsFilterTableViewController") as! NewProjectDetialsFilterTableViewController
+        secondView.ProjectId = self.ProjectId
+        secondView.nou = "uu"
+        self.navigationController?.pushViewController(secondView, animated: true)
+    }
     
     func download(url: String){
         let destination: DownloadRequest.DownloadFileDestination = { _, _ in
@@ -434,14 +477,33 @@ class DetailsDesignTableViewController: UITableViewController {
     }
     
     @IBAction func directionBtn(_ sender: UIButton) {
-        let location = CLLocation(latitude: LatBranch, longitude: LngBranch)
-        print(location.coordinate)
-        MKMapView.openMapsWith(location) { (error) in
-            if error != nil {
-                print("Could not open maps" + error!.localizedDescription)
+        
+        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
+        
+        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
+            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(self.LatBranch),\(self.LngBranch)&zoom=14&views=traffic&q=\(self.LatBranch),\(self.LngBranch)")!, options: [:], completionHandler: nil)
+            } else {
+                print("Can't use comgooglemaps://")
+                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(self.LatBranch),\(self.LngBranch)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
             }
-        }
+        }))
+        
+        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
+            let location = CLLocation(latitude: self.LatBranch, longitude: self.LngBranch)
+            print(location.coordinate)
+            MKMapView.openMapsWith(location) { (error) in
+                if error != nil {
+                    print("Could not open maps" + error!.localizedDescription)
+                }
+            }
+        }))
+        
+        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+        }))
+        self.present(alertAction, animated: true, completion: nil)
     }
+    
     @IBAction func CallEng(_ sender: UIButton) {
         var mobile: String = mobileStr
         if mobile.count == 10 {

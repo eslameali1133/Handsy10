@@ -79,6 +79,14 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
     func dataReady() {
         // Access the video objects that have been downloaded
         self.searchResu = self.model.resultArray
+        if searchResu.count == 0 {
+            NothingLabel.isHidden = false
+            AlertImage.isHidden = false
+        } else {
+            tableView.isHidden = false
+            NothingLabel.isHidden = true
+            AlertImage.isHidden = true
+        }
         designsModel.removeAllItems()
         for i in self.model.resultArray {
             self.designsModel.append(i)
@@ -105,15 +113,7 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        if searchResu.count == 0 {
-            NothingLabel.isHidden = false
-            AlertImage.isHidden = false
-            tableView.isHidden = true
-        } else {
-            tableView.isHidden = false
-            NothingLabel.isHidden = true
-            AlertImage.isHidden = true
-        }
+        
         return searchResu.count
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -160,7 +160,10 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
             print("error status")
             cell.PDF.isHidden = false
         }
-        
+        DispatchQueue.main.async {
+            cell.Status.roundCorners(.bottomRight, radius: 10.0)
+            cell.roundCorners([.bottomLeft,.bottomRight,.topRight], radius: 10)
+        }
         return cell
     }
     

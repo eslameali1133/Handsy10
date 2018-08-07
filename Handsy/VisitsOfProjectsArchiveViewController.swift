@@ -162,6 +162,14 @@ class VisitsOfProjectsArchiveViewController: UIViewController, UITableViewDelega
     func dataReady() {
         // Access the video objects that have been downloaded
         self.visitsByProjectIdArr = self.model.resultArray
+        if visitsByProjectIdArr.count == 0 {
+            NothingLabel.isHidden = false
+            AlertImage.isHidden = false
+        } else {
+            tableView.isHidden = false
+            NothingLabel.isHidden = true
+            AlertImage.isHidden = true
+        }
         self.visitsModel.append(self.model.resultArray, index: self.ProjectId)
         // Tell the tableview to reload
         tableView.reloadData()
@@ -195,15 +203,6 @@ class VisitsOfProjectsArchiveViewController: UIViewController, UITableViewDelega
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        if visitsByProjectIdArr.count == 0 {
-            NothingLabel.isHidden = false
-            AlertImage.isHidden = false
-            tableView.isHidden = true
-        } else {
-            tableView.isHidden = false
-            NothingLabel.isHidden = true
-            AlertImage.isHidden = true
-        }
         return visitsByProjectIdArr.count
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -242,10 +241,10 @@ class VisitsOfProjectsArchiveViewController: UIViewController, UITableViewDelega
         }else {
             print("error status")
         }
-        
-        cell.contentView.layer.borderColor = UIColor.clear.cgColor
-        cell.contentView.layer.borderWidth = 0
-        
+        DispatchQueue.main.async {
+            cell.Status.roundCorners(.bottomRight, radius: 10.0)
+            cell.roundCorners([.bottomLeft,.bottomRight,.topRight], radius: 10)
+        }
         return cell
     }
     
