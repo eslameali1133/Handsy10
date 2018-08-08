@@ -289,7 +289,7 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
     
     @objc private func image(path: String, didFinishSavingWithError error: NSError?, contextInfo: UnsafeMutableRawPointer?) {
         debugPrint(path) // That's the path you want
-        CustomerPhoto = URL(string: path)
+        condCamera = path
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -682,16 +682,28 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
                 parameters = [
                     "UserId" : UserId,
                     "CustmoerName": userName.text!,
-                    "CustomerPhoto": CustomerPhoto!,
+                    "CustomerPhoto": self.CustomerPhoto!,
                     "Mobile": NewMobileNumber
                 ]
             }else {
-                parameters = [
-                    "UserId" : UserId,
-                    "CustmoerName": userName.text!,
-                    "CustomerPhoto": imagePath,
-                    "Mobile": NewMobileNumber
-                ]
+                if self.condCamera != "" {
+                    if let data = UIImageJPEGRepresentation(self.imageProfile.image!, 0.5){
+                        parameters = [
+                            "UserId" : UserId,
+                            "CustmoerName": userName.text!,
+                            "CustomerPhoto": data,
+                            "Mobile": NewMobileNumber
+                        ]
+                    }
+                    
+                }else {
+                    parameters = [
+                        "UserId" : UserId,
+                        "CustmoerName": userName.text!,
+                        "CustomerPhoto": imagePath,
+                        "Mobile": NewMobileNumber
+                    ]
+                }
             }
             
             Alamofire.upload(
@@ -703,6 +715,10 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
                     }
                     if self.CustomerPhoto != nil {
                         multipartFormData.append(self.CustomerPhoto!, withName: "CustomerPhoto", fileName: "CustomerPhoto\(arc4random_uniform(100))"+".jpeg", mimeType: "image/jpeg")
+                    }else if self.condCamera != "" {
+                        if let data = UIImageJPEGRepresentation(self.imageProfile.image!, 0.5) {
+                            multipartFormData.append(data, withName: "CustomerPhoto", fileName: "CustomerPhoto\(arc4random_uniform(100))"+".jpeg", mimeType: "image/jpeg")
+                        }
                     }
             },
                 usingThreshold:UInt64.init(),

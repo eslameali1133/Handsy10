@@ -490,7 +490,7 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
         print("image: \(image)")
         dismiss(animated: true, completion: nil)
     }
-    
+    let sendImg = UIImageView()
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         //        let assetPath = info[UIImagePickerControllerReferenceURL] as! URL
         //        let imgName = assetPath.lastPathComponent
@@ -521,6 +521,12 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
                     print("Unknown")
                 }
                 
+            }else {
+                if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+                    sendImg.image = pickedImage
+                    let imagePath = URL(fileURLWithPath: "")
+                    addMessage(MessageType: "2", Message: "jk", ImagePath: imagePath, SenderType: "1", type: "jpeg", fileName: "\(randomString(len: 20)).jpeg", Lat: "", Lng: "")
+                }
             }
         } else {
             // Fallback on earlier versions
@@ -594,16 +600,57 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
     func addMessage(MessageType: String, Message: String, ImagePath: URL, SenderType: String, type: String, fileName: String, Lat: String, Lng: String) {
         let sv = UIViewController.displaySpinner(onView: self.view)
         let UserId = UserDefaults.standard.string(forKey: "UserId")!
-        let parameters: Parameters = [
-            "UserId" : UserId,
-            "ProjectId": ProjectId,
-            "MessageType": MessageType,
-            "Message": Message,
-            "ImagePath": ImagePath,
-            "SenderType": SenderType,
-            "Lat": Lat,
-            "Lng": Lng
-        ]
+        var parameters: Parameters = [:]
+        let data = UIImageJPEGRepresentation(sendImg.image!, 0.5)
+        if type != "" {
+            if type == "jpeg" {
+                if Message == "jk" {
+                    parameters = [
+                        "UserId" : UserId,
+                        "ProjectId": ProjectId,
+                        "MessageType": MessageType,
+                        "Message": "",
+                        "ImagePath": data!,
+                        "SenderType": SenderType,
+                        "Lat": Lat,
+                        "Lng": Lng
+                    ]
+                }else {
+                    parameters = [
+                        "UserId" : UserId,
+                        "ProjectId": ProjectId,
+                        "MessageType": MessageType,
+                        "Message": Message,
+                        "ImagePath": ImagePath,
+                        "SenderType": SenderType,
+                        "Lat": Lat,
+                        "Lng": Lng
+                    ]
+                }
+            }else {
+                parameters = [
+                    "UserId" : UserId,
+                    "ProjectId": ProjectId,
+                    "MessageType": MessageType,
+                    "Message": Message,
+                    "ImagePath": ImagePath,
+                    "SenderType": SenderType,
+                    "Lat": Lat,
+                    "Lng": Lng
+                ]
+            }
+        }else {
+            parameters = [
+                "UserId" : UserId,
+                "ProjectId": ProjectId,
+                "MessageType": MessageType,
+                "Message": Message,
+                "ImagePath": ImagePath,
+                "SenderType": SenderType,
+                "Lat": Lat,
+                "Lng": Lng
+            ]
+        }
         print(Lat,Lng)
         Alamofire.upload(
             multipartFormData: { multipartFormData in
@@ -614,7 +661,15 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
                     }
                 }
                 if type != "" {
-                    multipartFormData.append(ImagePath, withName: "ImagePath", fileName: fileName, mimeType: "image/\(type)")
+                    if type == "jpeg" {
+                        if Message == "jk" {
+                            multipartFormData.append(data!, withName: "ImagePath", fileName: fileName, mimeType: "image/\(type)")
+                        }else {
+                            multipartFormData.append(ImagePath, withName: "ImagePath", fileName: fileName, mimeType: "image/\(type)")
+                        }
+                    }else {
+                        multipartFormData.append(ImagePath, withName: "ImagePath", fileName: fileName, mimeType: "image/\(type)")
+                    }
                 }
         },
             usingThreshold:UInt64.init(),
@@ -783,4 +838,13 @@ extension ChatOfProjectsViewController: shareLocationDelegate {
         print(lat,Long)
         addMessage(MessageType: "4", Message: "", ImagePath: imagePath, SenderType: "1", type: "", fileName: "", Lat: lat, Lng: Long)
     }
+}
+func randomString(len:Int) -> String {
+    let charSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    var c = Array(charSet)
+    var s:String = ""
+    for n in (1...10) {
+        s.append(c[Int(arc4random()) % c.count])
+    }
+    return s
 }

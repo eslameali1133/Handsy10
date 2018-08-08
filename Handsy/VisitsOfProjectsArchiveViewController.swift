@@ -86,6 +86,15 @@ class VisitsOfProjectsArchiveViewController: UIViewController, UITableViewDelega
         tableView.dataSource = self
         
         model.delegate = self
+        
+        DispatchQueue.main.async {
+            self.NothingLabel.isHidden = true
+        }
+        // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
             model.GetMeetingByCustId(view: self.view, projectId: ProjectId, condtion: "notfirst", type: "1", StatusId: "")
@@ -107,15 +116,6 @@ class VisitsOfProjectsArchiveViewController: UIViewController, UITableViewDelega
             }
             tableView.reloadData()
         }
-        DispatchQueue.main.async {
-            self.NothingLabel.isHidden = true
-        }
-        // Do any additional setup after loading the view.
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func ComapnyNameFunc(){

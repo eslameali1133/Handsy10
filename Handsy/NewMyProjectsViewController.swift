@@ -90,6 +90,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
     }
 
     
+    
     @IBAction func callBtnAction(_ sender: UIButton) {
         callButtonPressed() 
     }
@@ -372,6 +373,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         secondView.projectTitle = myProjects[index!].ProjectTitle
         secondView.companyName = myProjects[index!].ComapnyName
         secondView.companyPhone = myProjects[index!].EmpMobile
+        secondView.companyLogo = myProjects[index!].Logo
         self.navigationController?.pushViewController(secondView, animated: true)
     }
     

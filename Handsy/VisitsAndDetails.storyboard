@@ -93,7 +93,6 @@
                                                                     <state key="normal" image="NewProCallBtn"/>
                                                                     <connections>
                                                                         <action selector="CallEng:" destination="egb-L3-HRz" eventType="touchUpInside" id="C9J-b6-rF8"/>
-                                                                        <action selector="CallMe:" destination="Etz-9h-tBP" eventType="touchUpInside" id="8Gr-i8-ZN6"/>
                                                                     </connections>
                                                                 </button>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aTF-J1-gUc">
@@ -104,7 +103,6 @@
                                                                     </state>
                                                                     <connections>
                                                                         <action selector="CallEng:" destination="egb-L3-HRz" eventType="touchUpInside" id="lff-qe-BR6"/>
-                                                                        <action selector="CallMe:" destination="Etz-9h-tBP" eventType="touchUpInside" id="ahO-CS-i49"/>
                                                                     </connections>
                                                                 </button>
                                                             </subviews>
@@ -1329,7 +1327,7 @@
                                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="isCircle" value="YES"/>
                                                                     </userDefinedRuntimeAttributes>
                                                                 </imageView>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="موافقة و قيد المقابلة" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ArT-Ao-c2s">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ArT-Ao-c2s">
                                                                     <rect key="frame" x="27" y="14" width="93" height="22"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="93" id="InK-43-o2e"/>
@@ -1392,7 +1390,7 @@
                                                                     <rect key="frame" x="10" y="104" width="374" height="35"/>
                                                                     <subviews>
                                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DHr-Ny-qJE">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="183" height="35"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="119.5" height="35"/>
                                                                             <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="12"/>
                                                                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="20" maxY="0.0"/>
                                                                             <state key="normal" title="محادثة" image="proMessage">
@@ -1402,8 +1400,19 @@
                                                                                 <action selector="openChat:" destination="Etz-9h-tBP" eventType="touchUpInside" id="RBX-o2-9aX"/>
                                                                             </connections>
                                                                         </button>
+                                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RmL-v2-tQT">
+                                                                            <rect key="frame" x="127.5" y="0.0" width="119" height="35"/>
+                                                                            <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="12"/>
+                                                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="20" maxY="0.0"/>
+                                                                            <state key="normal" title="اتصال" image="NewProCallBtn">
+                                                                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                            </state>
+                                                                            <connections>
+                                                                                <action selector="CallMe:" destination="Etz-9h-tBP" eventType="touchUpInside" id="nMa-r8-4jI"/>
+                                                                            </connections>
+                                                                        </button>
                                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rLT-xF-tEH">
-                                                                            <rect key="frame" x="191" y="0.0" width="183" height="35"/>
+                                                                            <rect key="frame" x="254.5" y="0.0" width="119.5" height="35"/>
                                                                             <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="12"/>
                                                                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
                                                                             <state key="normal" title="الموقع" image="officeLoc">
@@ -1644,10 +1653,10 @@
                                                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="C5U-qX-uCb"/>
                                                                             </constraints>
                                                                             <attributedString key="attributedText">
-                                                                                <fragment content="هذا">
+                                                                                <fragment content=" ">
                                                                                     <attributes>
                                                                                         <color key="NSColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                                        <font key="NSFont" metaFont="system" size="14"/>
+                                                                                        <font key="NSFont" size="14" name=".ArabicUIText-Regular"/>
                                                                                         <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
                                                                                     </attributes>
                                                                                 </fragment>
@@ -1688,10 +1697,10 @@
                                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" id="hr0-q8-unt"/>
                                                                     </constraints>
                                                                     <attributedString key="attributedText">
-                                                                        <fragment content="هذا النص هو مثال لنص يمكن أن يستبدل في نفس">
+                                                                        <fragment content=" ">
                                                                             <attributes>
                                                                                 <color key="NSColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                                <font key="NSFont" metaFont="system" size="14"/>
+                                                                                <font key="NSFont" size="14" name=".ArabicUIText-Regular"/>
                                                                                 <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
                                                                             </attributes>
                                                                         </fragment>
@@ -1736,10 +1745,10 @@
                                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" id="FA1-Aw-cL3"/>
                                                                     </constraints>
                                                                     <attributedString key="attributedText">
-                                                                        <fragment content="هذا ">
+                                                                        <fragment content=" ">
                                                                             <attributes>
                                                                                 <color key="NSColor" red="0.22745098039215686" green="0.22352941176470587" blue="0.21568627450980393" alpha="1" colorSpace="calibratedRGB"/>
-                                                                                <font key="NSFont" metaFont="system" size="14"/>
+                                                                                <font key="NSFont" size="14" name=".ArabicUIText-Regular"/>
                                                                                 <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
                                                                             </attributes>
                                                                         </fragment>
@@ -1816,6 +1825,7 @@
                         <outlet property="OKVisit" destination="Xvp-0t-7jp" id="7tl-fm-hKN"/>
                         <outlet property="PauseVisit" destination="Fnk-Es-L4a" id="A6q-tg-MPG"/>
                         <outlet property="buttonsView" destination="XLp-3T-WEG" id="4MH-X8-zCT"/>
+                        <outlet property="callBtn" destination="RmL-v2-tQT" id="J3v-H1-48C"/>
                         <outlet property="companyImageOut" destination="Fvx-2K-UP2" id="HsH-Ry-eA8"/>
                         <outlet property="companyNameLabel" destination="ar1-mM-ZjH" id="RTG-lb-zkA"/>
                         <outlet property="dateEngReplay" destination="SiX-CQ-F0d" id="dUe-tF-VNQ"/>

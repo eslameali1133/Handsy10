@@ -33,7 +33,13 @@ class VisitsDetialsTableViewController: UITableViewController {
             MessageBtn.layer.cornerRadius = 4.0
         }
     }
-    
+    @IBOutlet weak var callBtn: UIButton! {
+        didSet {
+            callBtn.layer.borderWidth = 1.0
+            callBtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            callBtn.layer.cornerRadius = 4.0
+        }
+    }
     @IBOutlet weak var officeDetialsBtn: UIButton! {
         didSet {
             officeDetialsBtn.layer.borderWidth = 1.0
@@ -134,6 +140,7 @@ class VisitsDetialsTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
             GetMeetingWaitingByMeetingID()

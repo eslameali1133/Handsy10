@@ -149,6 +149,10 @@ class DesignDetailsTableViewController: UITableViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
     func GetDesignsByDesignStagesID(){
         let sv = UIViewController.displaySpinner(onView: view)
         let parameters: Parameters = [

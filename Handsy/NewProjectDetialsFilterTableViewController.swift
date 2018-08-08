@@ -216,12 +216,12 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             }
         }
     }
+    var timer: Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.tabBarController?.tabBar.isHidden = false
-        
+        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(hideContract), userInfo: nil, repeats: false)
         newVisitsCountLabel.isHidden = true
         //        newVisitsCountImage.isHidden = true
         cancelProView.isHidden = true
@@ -278,6 +278,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
             GetProjectByProjectId()
@@ -302,6 +303,11 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             self.BtnSettingFunc()
             tableView.reloadData()
         }
+    }
+    
+    @objc func hideContract() {
+        newContractOut.isHidden = true
+        tableView.reloadData()
     }
     
     func addBackBarButtonItem() {
@@ -930,6 +936,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         secondView.projectTitle = self.ProjectOfResult[0].ProjectTitle!
         secondView.companyName = self.ProjectOfResult[0].ComapnyName!
         secondView.companyPhone = self.ProjectOfResult[0].EmpMobile!
+        secondView.companyLogo = self.ProjectOfResult[0].Logo!
         self.navigationController?.pushViewController(secondView, animated: true)
     }
     

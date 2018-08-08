@@ -825,7 +825,6 @@
 				C1EAA5D51FFA5C98008C2249 /* DesignsByProjectId */,
 				C1EAA5DA1FFA5FB2008C2249 /* VisitsByProjectId */,
 				C190A0EC20595378007A184B /* NewFilter */,
-				C1FC1B391FEE66E500D3939E /* ProjectsAndEdit.storyboard */,
 				C1FC1B3A1FEE66E600D3939E /* MyFilesAndMoney.storyboard */,
 				C136467F1FF253F900C72AE7 /* WelcomeScreen.storyboard */,
 				C13646811FF2541900C72AE7 /* NewWelcomeScreenViewController.swift */,
@@ -917,7 +916,7 @@
 				C1FA0F0F1F3B56B400A13132 /* TeamWork */,
 				C1FA0F081F3B555900A13132 /* Alert */,
 				C1FA0F071F3B553100A13132 /* Edit */,
-				C1FA0F091F3B55AE00A13132 /* Deteials */,
+				C1FA0F091F3B55AE00A13132 /* Project Deteials */,
 				C1FA0F101F3B56C400A13132 /* OurProjects */,
 				C1FA0F0A1F3B55D800A13132 /* RequestProjects */,
 				C178655F1F29FA56006AA25F /* SelectSection.swift */,
@@ -1020,9 +1019,10 @@
 			name = Alert;
 			sourceTree = "<group>";
 		};
-		C1FA0F091F3B55AE00A13132 /* Deteials */ = {
+		C1FA0F091F3B55AE00A13132 /* Project Deteials */ = {
 			isa = PBXGroup;
 			children = (
+				C1FC1B391FEE66E500D3939E /* ProjectsAndEdit.storyboard */,
 				C157FAA61F33251F00471560 /* EngViewController.swift */,
 				C1FC1B431FEE678B00D3939E /* InformationViewController.swift */,
 				C130AB601F76B68D0054F9D5 /* PanelSectionTableViewCell.swift */,
@@ -1043,7 +1043,7 @@
 				C15CEDD81F6FDF74009C4C4A /* CollectedDetialRowTableViewCell.swift */,
 				C15CEDDA1F6FDF82009C4C4A /* NotCollectedDetialsTableViewCell.swift */,
 			);
-			name = Deteials;
+			name = "Project Deteials";
 			sourceTree = "<group>";
 		};
 		C1FA0F0A1F3B55D800A13132 /* RequestProjects */ = {

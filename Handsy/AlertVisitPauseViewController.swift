@@ -79,7 +79,7 @@ class AlertVisitPauseViewController: UIViewController {
     func pauseVisit() {
         let parameters: Parameters = [
             "meetingID": MeetingID,
-            "clientReply": Comments.text!,
+            "clientReply": String(Comments.text!),
             "status": "4"
         ]
         

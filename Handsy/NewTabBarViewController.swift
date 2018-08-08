@@ -172,9 +172,24 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
         ]
         
         Alamofire.request("http://smusers.promit2030.com/Service1.svc/PushInsertUpdate", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
-            let json = JSON(response.result.value!)
-            print(json)
-            
+            switch response.result {
+            case .success:
+                let json = JSON(response.result.value!)
+                print(json)
+            case .failure(let error):
+                print(error)
+                let alertAction = UIAlertController(title: "خطاء في الاتصال", message: "اعادة المحاولة", preferredStyle: .alert)
+                
+                alertAction.addAction(UIAlertAction(title: "نعم", style: .default, handler: { action in
+                    self.PushInsertUpdate()
+                }))
+                
+                alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+                }))
+                
+                self.present(alertAction, animated: true, completion: nil)
+                
+            }
         }
     }
     // set CountCustomerNotification

@@ -420,18 +420,18 @@
                                                                 <constraint firstAttribute="height" constant="1" id="mAf-kF-2ua"/>
                                                             </constraints>
                                                         </view>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="تم استلام المشروع" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hyE-ZH-NNU">
-                                                            <rect key="frame" x="94" y="0.0" width="227" height="31"/>
-                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="تم استلام المشروع" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="hyE-ZH-NNU">
+                                                            <rect key="frame" x="109" y="0.0" width="212" height="31"/>
+                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                             <color key="textColor" red="0.20000000000000001" green="0.56470588239999997" blue="0.38823529410000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="قيد الاستقبال" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kip-Uy-ooD">
-                                                            <rect key="frame" x="24" y="0.0" width="60" height="31"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="قيد الاستقبال" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kip-Uy-ooD">
+                                                            <rect key="frame" x="24" y="0.0" width="75" height="31"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="60" id="03w-YI-hmo"/>
+                                                                <constraint firstAttribute="width" constant="75" id="03w-YI-hmo"/>
                                                             </constraints>
-                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
+                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -747,9 +747,9 @@
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k2I-1f-27j">
                                     <rect key="frame" x="8" y="49" width="398" height="31"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="تم التعاقد ع المشروع" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0w3-VI-a67">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0w3-VI-a67">
                                             <rect key="frame" x="92" y="0.0" width="292" height="31"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                             <color key="textColor" red="0.20000000000000001" green="0.56470588235294117" blue="0.38823529411764707" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -787,7 +787,7 @@
                                         <constraint firstAttribute="height" constant="31" id="vAr-cw-JUF"/>
                                     </constraints>
                                 </view>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="اضافه الدور الاول والرئيسي" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pSL-oe-Gzq">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pSL-oe-Gzq">
                                     <rect key="frame" x="65" y="0.0" width="327" height="45"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="45" id="uL0-Aj-D4I"/>
@@ -980,7 +980,7 @@
                                                                         <constraint firstAttribute="height" constant="26" id="0J6-B0-BwU"/>
                                                                     </constraints>
                                                                 </stackView>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0hj-Jj-hYn">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0hj-Jj-hYn">
                                                                     <rect key="frame" x="0.0" y="52" width="288" height="22"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="22" id="8TW-69-R6r"/>
@@ -2235,7 +2235,7 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="قيد الاستقبال" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bWZ-NE-oNK">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bWZ-NE-oNK">
                                                     <rect key="frame" x="15" y="0.0" width="105" height="22.5"/>
                                                     <fontDescription key="fontDescription" name="AJannatLT" family="A Jannat LT" pointSize="12"/>
                                                     <color key="textColor" red="0.5450980392" green="0.5450980392" blue="0.5450980392" alpha="1" colorSpace="calibratedRGB"/>
@@ -2246,7 +2246,7 @@
                                                 <constraint firstAttribute="width" constant="120" id="raP-4b-h3D"/>
                                             </constraints>
                                         </stackView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="اسكتش الواقع العام" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cVe-Me-gQ7">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cVe-Me-gQ7">
                                             <rect key="frame" x="130" y="0.0" width="264" height="33.5"/>
                                             <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="18"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2279,8 +2279,8 @@
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="GGd-ap-1Oy">
                                                             <rect key="frame" x="10" y="17" width="284" height="70"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="المهندس المسؤول" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="G3H-Ae-X0u">
-                                                                    <rect key="frame" x="171.5" y="0.0" width="112.5" height="26"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="G3H-Ae-X0u">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="284" height="26"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="26" id="dbT-p3-DkM"/>
                                                                     </constraints>
@@ -2288,8 +2288,8 @@
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RWY-YP-4yN">
-                                                                    <rect key="frame" x="248.5" y="26" width="35.5" height="22"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RWY-YP-4yN">
+                                                                    <rect key="frame" x="0.0" y="26" width="284" height="22"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="22" id="bbc-FD-aDr"/>
                                                                     </constraints>
@@ -2320,6 +2320,10 @@
                                                                     </constraints>
                                                                 </stackView>
                                                             </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="RWY-YP-4yN" firstAttribute="leading" secondItem="GGd-ap-1Oy" secondAttribute="leading" id="NkM-5l-v3T"/>
+                                                                <constraint firstItem="G3H-Ae-X0u" firstAttribute="leading" secondItem="GGd-ap-1Oy" secondAttribute="leading" id="Zg0-GS-18j"/>
+                                                            </constraints>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="5dW-lj-VAb">
                                                             <rect key="frame" x="10" y="104" width="374" height="35"/>
@@ -2427,7 +2431,7 @@
                                                                             <color key="textColor" red="0.79993158580000001" green="0.65909171099999997" blue="0.19559401269999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="تصميم الوجهات" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GUm-br-9Fm">
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GUm-br-9Fm">
                                                                             <rect key="frame" x="0.0" y="25" width="372" height="30"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="height" constant="30" id="wrN-ij-M9p"/>
@@ -2436,7 +2440,7 @@
                                                                             <color key="textColor" red="0.22745098039215686" green="0.22352941176470587" blue="0.21568627450980393" alpha="1" colorSpace="calibratedRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="16/08/2017" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YqW-yp-G6s">
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YqW-yp-G6s">
                                                                             <rect key="frame" x="0.0" y="63" width="372" height="26"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="height" constant="26" id="rfH-yG-GWi"/>
@@ -2532,10 +2536,10 @@
                                                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="pFT-56-cWb"/>
                                                                                     </constraints>
                                                                                     <attributedString key="attributedText">
-                                                                                        <fragment content="مي المواقع على وجه الخصوص، حيث يحتاج العميل فى كثير ">
+                                                                                        <fragment content=" ">
                                                                                             <attributes>
                                                                                                 <color key="NSColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                                                <font key="NSFont" metaFont="system" size="14"/>
+                                                                                                <font key="NSFont" size="14" name=".ArabicUIText-Regular"/>
                                                                                                 <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
                                                                                             </attributes>
                                                                                         </fragment>
@@ -2578,10 +2582,10 @@
                                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" id="vs0-97-SU4"/>
                                                                     </constraints>
                                                                     <attributedString key="attributedText">
-                                                                        <fragment content="هذا النص هو مثال لنص يمكن أن يستبدل في نفس">
+                                                                        <fragment content=" ">
                                                                             <attributes>
                                                                                 <color key="NSColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                                <font key="NSFont" metaFont="system" size="14"/>
+                                                                                <font key="NSFont" size="14" name=".ArabicUIText-Regular"/>
                                                                                 <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
                                                                             </attributes>
                                                                         </fragment>
@@ -2622,133 +2626,7 @@
                                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" id="fRu-II-mQU"/>
                                                                     </constraints>
                                                                     <attributedString key="attributedText">
-                                                                        <fragment content="هذا">
-                                                                            <attributes>
-                                                                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                <font key="NSFont" size="14" name=".ArabicUIText-Regular"/>
-                                                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
-                                                                            </attributes>
-                                                                        </fragment>
                                                                         <fragment content=" ">
-                                                                            <attributes>
-                                                                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                <font key="NSFont" metaFont="system" size="14"/>
-                                                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
-                                                                            </attributes>
-                                                                        </fragment>
-                                                                        <fragment content="النص">
-                                                                            <attributes>
-                                                                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                <font key="NSFont" size="14" name=".ArabicUIText-Regular"/>
-                                                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
-                                                                            </attributes>
-                                                                        </fragment>
-                                                                        <fragment content=" ">
-                                                                            <attributes>
-                                                                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                <font key="NSFont" metaFont="system" size="14"/>
-                                                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
-                                                                            </attributes>
-                                                                        </fragment>
-                                                                        <fragment content="هو">
-                                                                            <attributes>
-                                                                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                <font key="NSFont" size="14" name=".ArabicUIText-Regular"/>
-                                                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
-                                                                            </attributes>
-                                                                        </fragment>
-                                                                        <fragment content=" ">
-                                                                            <attributes>
-                                                                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                <font key="NSFont" metaFont="system" size="14"/>
-                                                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
-                                                                            </attributes>
-                                                                        </fragment>
-                                                                        <fragment content="مثال">
-                                                                            <attributes>
-                                                                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                <font key="NSFont" size="14" name=".ArabicUIText-Regular"/>
-                                                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
-                                                                            </attributes>
-                                                                        </fragment>
-                                                                        <fragment content=" ">
-                                                                            <attributes>
-                                                                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                <font key="NSFont" metaFont="system" size="14"/>
-                                                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
-                                                                            </attributes>
-                                                                        </fragment>
-                                                                        <fragment content="لنص">
-                                                                            <attributes>
-                                                                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                <font key="NSFont" size="14" name=".ArabicUIText-Regular"/>
-                                                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
-                                                                            </attributes>
-                                                                        </fragment>
-                                                                        <fragment content=" ">
-                                                                            <attributes>
-                                                                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                <font key="NSFont" metaFont="system" size="14"/>
-                                                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
-                                                                            </attributes>
-                                                                        </fragment>
-                                                                        <fragment content="يمكن">
-                                                                            <attributes>
-                                                                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                <font key="NSFont" size="14" name=".ArabicUIText-Regular"/>
-                                                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
-                                                                            </attributes>
-                                                                        </fragment>
-                                                                        <fragment content=" ">
-                                                                            <attributes>
-                                                                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                <font key="NSFont" metaFont="system" size="14"/>
-                                                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
-                                                                            </attributes>
-                                                                        </fragment>
-                                                                        <fragment content="أن">
-                                                                            <attributes>
-                                                                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                <font key="NSFont" size="14" name=".ArabicUIText-Regular"/>
-                                                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
-                                                                            </attributes>
-                                                                        </fragment>
-                                                                        <fragment content=" ">
-                                                                            <attributes>
-                                                                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                <font key="NSFont" metaFont="system" size="14"/>
-                                                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
-                                                                            </attributes>
-                                                                        </fragment>
-                                                                        <fragment content="يستبدل">
-                                                                            <attributes>
-                                                                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                <font key="NSFont" size="14" name=".ArabicUIText-Regular"/>
-                                                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
-                                                                            </attributes>
-                                                                        </fragment>
-                                                                        <fragment content=" ">
-                                                                            <attributes>
-                                                                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                <font key="NSFont" metaFont="system" size="14"/>
-                                                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
-                                                                            </attributes>
-                                                                        </fragment>
-                                                                        <fragment content="في">
-                                                                            <attributes>
-                                                                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                <font key="NSFont" size="14" name=".ArabicUIText-Regular"/>
-                                                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
-                                                                            </attributes>
-                                                                        </fragment>
-                                                                        <fragment content=" ">
-                                                                            <attributes>
-                                                                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                <font key="NSFont" metaFont="system" size="14"/>
-                                                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
-                                                                            </attributes>
-                                                                        </fragment>
-                                                                        <fragment content="نفس">
                                                                             <attributes>
                                                                                 <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                 <font key="NSFont" size="14" name=".ArabicUIText-Regular"/>
@@ -3957,7 +3835,7 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="موافقة وقيد المقابلة" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O2n-M8-IPm">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O2n-M8-IPm">
                                                     <rect key="frame" x="15" y="0.0" width="115" height="22.5"/>
                                                     <fontDescription key="fontDescription" name="AJannatLT" family="A Jannat LT" pointSize="12"/>
                                                     <color key="textColor" red="0.5450980392" green="0.5450980392" blue="0.5450980392" alpha="1" colorSpace="calibratedRGB"/>
@@ -3968,7 +3846,7 @@
                                                 <constraint firstAttribute="width" constant="130" id="yFa-iU-UzL"/>
                                             </constraints>
                                         </stackView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="اسكتش الواقع العام" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zXA-hT-aZV">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zXA-hT-aZV">
                                             <rect key="frame" x="140" y="0.0" width="254" height="33.5"/>
                                             <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="18"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -4000,7 +3878,7 @@
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="Xn6-xU-dzj">
                                                             <rect key="frame" x="10" y="17" width="284" height="70"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="المهندس المسؤول" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="94B-Ok-qeC">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="94B-Ok-qeC">
                                                                     <rect key="frame" x="171.5" y="0.0" width="112.5" height="26"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="26" id="mZ4-VD-paj"/>
@@ -4009,8 +3887,8 @@
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xax-9m-hgJ">
-                                                                    <rect key="frame" x="248.5" y="26" width="35.5" height="22"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xax-9m-hgJ">
+                                                                    <rect key="frame" x="234" y="26" width="50" height="22"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="22" id="0uG-IF-AS6"/>
                                                                     </constraints>
@@ -4026,7 +3904,7 @@
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="14"/>
                                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
-                                                                    <state key="normal" image="NewProCallBtn">
+                                                                    <state key="normal">
                                                                         <color key="titleColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.21176470589999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     </state>
                                                                     <connections>
@@ -4039,7 +3917,7 @@
                                                             <rect key="frame" x="10" y="104" width="374" height="35"/>
                                                             <subviews>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="viF-ze-q1W">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="183" height="35"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="119.5" height="35"/>
                                                                     <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="12"/>
                                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="20" maxY="0.0"/>
                                                                     <state key="normal" title="محادثة" image="proMessage">
@@ -4049,8 +3927,19 @@
                                                                         <action selector="openChatBtn:" destination="QNU-Tu-X28" eventType="touchUpInside" id="AeJ-5M-8zn"/>
                                                                     </connections>
                                                                 </button>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Udt-id-KNT">
+                                                                    <rect key="frame" x="127.5" y="0.0" width="119" height="35"/>
+                                                                    <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="12"/>
+                                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="20" maxY="0.0"/>
+                                                                    <state key="normal" title="اتصال" image="NewProCallBtn">
+                                                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    </state>
+                                                                    <connections>
+                                                                        <action selector="CallMe:" destination="QNU-Tu-X28" eventType="touchUpInside" id="hYP-k1-2mx"/>
+                                                                    </connections>
+                                                                </button>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="63X-j1-hVX">
-                                                                    <rect key="frame" x="191" y="0.0" width="183" height="35"/>
+                                                                    <rect key="frame" x="254.5" y="0.0" width="119.5" height="35"/>
                                                                     <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="12"/>
                                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
                                                                     <state key="normal" title="الموقع" image="officeLoc">
@@ -4124,10 +4013,10 @@
                                                                             <rect key="frame" x="0.0" y="0.0" width="372" height="114.5"/>
                                                                             <subviews>
                                                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="qFD-kx-QsS">
-                                                                                    <rect key="frame" x="0.0" y="0.0" width="372" height="55.5"/>
+                                                                                    <rect key="frame" x="0.0" y="0.0" width="372" height="26.5"/>
                                                                                     <subviews>
-                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="هبوط فى ارضية الحمام" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="plR-VT-Sta">
-                                                                                            <rect key="frame" x="0.0" y="0.0" width="297.5" height="30"/>
+                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="plR-VT-Sta">
+                                                                                            <rect key="frame" x="0.0" y="0.0" width="297.5" height="0.0"/>
                                                                                             <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="16"/>
                                                                                             <color key="textColor" red="0.22745098039215686" green="0.22352941176470587" blue="0.21568627450980393" alpha="1" colorSpace="calibratedRGB"/>
                                                                                             <nil key="highlightedColor"/>
@@ -4144,16 +4033,16 @@
                                                                                     </subviews>
                                                                                 </stackView>
                                                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gPy-7Q-Qma">
-                                                                                    <rect key="frame" x="0.0" y="58.5" width="372" height="26.5"/>
+                                                                                    <rect key="frame" x="0.0" y="29.5" width="372" height="50"/>
                                                                                     <subviews>
-                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2019/05/20" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xze-2f-nlf">
-                                                                                            <rect key="frame" x="0.0" y="0.0" width="327" height="26.5"/>
+                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xze-2f-nlf">
+                                                                                            <rect key="frame" x="0.0" y="0.0" width="327" height="50"/>
                                                                                             <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="12"/>
                                                                                             <color key="textColor" red="0.2274509804" green="0.22352941179999999" blue="0.2156862745" alpha="1" colorSpace="calibratedRGB"/>
                                                                                             <nil key="highlightedColor"/>
                                                                                         </label>
                                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="التاريخ : " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iuC-HK-KiM">
-                                                                                            <rect key="frame" x="327" y="0.0" width="45" height="26.5"/>
+                                                                                            <rect key="frame" x="327" y="0.0" width="45" height="50"/>
                                                                                             <constraints>
                                                                                                 <constraint firstAttribute="width" constant="45" id="5DZ-Vt-LSt"/>
                                                                                             </constraints>
@@ -4164,16 +4053,16 @@
                                                                                     </subviews>
                                                                                 </stackView>
                                                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fnt-h3-SXF">
-                                                                                    <rect key="frame" x="0.0" y="88" width="372" height="26.5"/>
+                                                                                    <rect key="frame" x="0.0" y="82.5" width="372" height="32"/>
                                                                                     <subviews>
                                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="7:30 AM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cis-W1-UFI">
-                                                                                            <rect key="frame" x="0.0" y="0.0" width="266" height="26.5"/>
+                                                                                            <rect key="frame" x="0.0" y="0.0" width="264" height="32"/>
                                                                                             <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="12"/>
                                                                                             <color key="textColor" red="0.2274509804" green="0.22352941179999999" blue="0.2156862745" alpha="1" colorSpace="calibratedRGB"/>
                                                                                             <nil key="highlightedColor"/>
                                                                                         </label>
                                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" - " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qfl-5e-ANj">
-                                                                                            <rect key="frame" x="266" y="0.0" width="10" height="26.5"/>
+                                                                                            <rect key="frame" x="264" y="0.0" width="10" height="32"/>
                                                                                             <constraints>
                                                                                                 <constraint firstAttribute="width" constant="10" id="9y2-Zv-aww"/>
                                                                                             </constraints>
@@ -4181,14 +4070,14 @@
                                                                                             <color key="textColor" red="0.2274509804" green="0.22352941179999999" blue="0.2156862745" alpha="1" colorSpace="calibratedRGB"/>
                                                                                             <nil key="highlightedColor"/>
                                                                                         </label>
-                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="6:30 AM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tva-Tf-uR0">
-                                                                                            <rect key="frame" x="276" y="0.0" width="48" height="26.5"/>
+                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tva-Tf-uR0">
+                                                                                            <rect key="frame" x="274" y="0.0" width="50" height="32"/>
                                                                                             <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="12"/>
                                                                                             <color key="textColor" red="0.2274509804" green="0.22352941179999999" blue="0.2156862745" alpha="1" colorSpace="calibratedRGB"/>
                                                                                             <nil key="highlightedColor"/>
                                                                                         </label>
                                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="الوقت : " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jcO-eX-xYT">
-                                                                                            <rect key="frame" x="324" y="0.0" width="48" height="26.5"/>
+                                                                                            <rect key="frame" x="324" y="0.0" width="48" height="32"/>
                                                                                             <constraints>
                                                                                                 <constraint firstAttribute="width" constant="47.5" id="kLG-OX-UTv"/>
                                                                                             </constraints>
@@ -4284,10 +4173,10 @@
                                                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="ysG-7x-xpC"/>
                                                                             </constraints>
                                                                             <attributedString key="attributedText">
-                                                                                <fragment content="هذا النص هو مثال لنص يمكن أن يستبدل في نفس">
+                                                                                <fragment content=" ">
                                                                                     <attributes>
                                                                                         <color key="NSColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                                        <font key="NSFont" metaFont="system" size="14"/>
+                                                                                        <font key="NSFont" size="14" name=".ArabicUIText-Regular"/>
                                                                                         <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
                                                                                     </attributes>
                                                                                 </fragment>
@@ -4328,10 +4217,10 @@
                                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" id="mNV-5p-Huw"/>
                                                                     </constraints>
                                                                     <attributedString key="attributedText">
-                                                                        <fragment content="هذا النص هو مثال لنص يمكن أن يستبدل في نفس">
+                                                                        <fragment content=" ">
                                                                             <attributes>
                                                                                 <color key="NSColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                                <font key="NSFont" metaFont="system" size="14"/>
+                                                                                <font key="NSFont" size="14" name=".ArabicUIText-Regular"/>
                                                                                 <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
                                                                             </attributes>
                                                                         </fragment>
@@ -4375,17 +4264,17 @@
                                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" id="2hg-uG-Qhx"/>
                                                                     </constraints>
                                                                     <attributedString key="attributedText">
-                                                                        <fragment content="هذا النص هو مثال لنص يمكن أن يستبدل في نفس">
+                                                                        <fragment content=" ">
                                                                             <attributes>
                                                                                 <color key="NSColor" red="0.22745098039215686" green="0.22352941176470587" blue="0.21568627450980393" alpha="1" colorSpace="calibratedRGB"/>
-                                                                                <font key="NSFont" metaFont="system" size="14"/>
+                                                                                <font key="NSFont" size="14" name=".ArabicUIText-Regular"/>
                                                                                 <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
                                                                             </attributes>
                                                                         </fragment>
                                                                     </attributedString>
                                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                                 </textView>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="9/14/2017 2:00:00 AM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TwB-b5-TFo">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text=" " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TwB-b5-TFo">
                                                                     <rect key="frame" x="11" y="51.5" width="372" height="27"/>
                                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                     <constraints>
@@ -4454,6 +4343,7 @@
                         <outlet property="OKVisit" destination="c6W-YJ-3SL" id="YTg-Xt-hwd"/>
                         <outlet property="PauseVisit" destination="WLC-Of-qXn" id="PVx-BI-OrQ"/>
                         <outlet property="buttonsView" destination="2OF-rh-XcW" id="8pS-qK-ppT"/>
+                        <outlet property="callBtn" destination="Udt-id-KNT" id="35M-r7-Czf"/>
                         <outlet property="companyImageOut" destination="o6Q-gy-QEw" id="R6A-sl-IHP"/>
                         <outlet property="companyNameLabel" destination="94B-Ok-qeC" id="ikf-Co-BmN"/>
                         <outlet property="dateEngReplay" destination="TwB-b5-TFo" id="kXn-tF-hFP"/>
@@ -4595,13 +4485,13 @@
                                                     </constraints>
                                                 </view>
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="KaK-vh-Zm1">
-                                                    <rect key="frame" x="163" y="108" width="202" height="35"/>
+                                                    <rect key="frame" x="145" y="108" width="220" height="35"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jcf-Pk-cKU" customClass="AMUIView" customModule="Handsy" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="202" height="35"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="220" height="35"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="xed-hC-6aD">
-                                                                    <rect key="frame" x="15" y="0.0" width="172" height="35"/>
+                                                                    <rect key="frame" x="15" y="0.0" width="190" height="35"/>
                                                                     <subviews>
                                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wyg-w3-DdF">
                                                                             <rect key="frame" x="0.0" y="0.0" width="47" height="35"/>
@@ -4618,7 +4508,7 @@
                                                                             </connections>
                                                                         </button>
                                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gg7-0F-YwJ">
-                                                                            <rect key="frame" x="57" y="0.0" width="115" height="35"/>
+                                                                            <rect key="frame" x="57" y="0.0" width="133" height="35"/>
                                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="14"/>
                                                                             <state key="normal" title=" تصفية بحالة الزيارة">
@@ -4636,7 +4526,6 @@
                                                                 <constraint firstAttribute="bottom" secondItem="xed-hC-6aD" secondAttribute="bottom" id="GRk-hq-9fT"/>
                                                                 <constraint firstItem="xed-hC-6aD" firstAttribute="top" secondItem="Jcf-Pk-cKU" secondAttribute="top" id="KCi-Dp-DtO"/>
                                                                 <constraint firstAttribute="trailing" secondItem="xed-hC-6aD" secondAttribute="trailing" constant="15" id="SMz-UW-bos"/>
-                                                                <constraint firstAttribute="width" relation="lessThanOrEqual" constant="202" id="Un2-Gg-l9l"/>
                                                                 <constraint firstItem="xed-hC-6aD" firstAttribute="leading" secondItem="Jcf-Pk-cKU" secondAttribute="leading" constant="15" id="foH-wV-snm"/>
                                                             </constraints>
                                                             <userDefinedRuntimeAttributes>
@@ -4648,7 +4537,6 @@
                                                         </view>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="202" id="NbK-Z5-3b8"/>
                                                         <constraint firstAttribute="height" constant="35" id="fjv-rB-3Ga"/>
                                                     </constraints>
                                                 </stackView>
@@ -4706,6 +4594,7 @@
                                                 <constraint firstItem="KaK-vh-Zm1" firstAttribute="top" secondItem="PtX-5y-qbq" secondAttribute="bottom" constant="10" id="1sK-41-XbP"/>
                                                 <constraint firstItem="ShI-o0-WZ5" firstAttribute="top" secondItem="TnH-mW-spv" secondAttribute="top" constant="7" id="64T-oN-2d8"/>
                                                 <constraint firstAttribute="trailing" secondItem="KaK-vh-Zm1" secondAttribute="trailing" id="CPw-n2-Lv5"/>
+                                                <constraint firstItem="KaK-vh-Zm1" firstAttribute="leading" secondItem="TnH-mW-spv" secondAttribute="leading" constant="145" id="FWb-TP-tui"/>
                                                 <constraint firstAttribute="trailing" secondItem="PtX-5y-qbq" secondAttribute="trailing" constant="10" id="LfK-DR-r9v"/>
                                                 <constraint firstItem="ShI-o0-WZ5" firstAttribute="leading" secondItem="OLF-sI-KLb" secondAttribute="trailing" constant="10" id="Ona-g2-tWj"/>
                                                 <constraint firstAttribute="trailing" secondItem="ShI-o0-WZ5" secondAttribute="trailing" constant="10" id="PTb-1U-ktQ"/>
@@ -5090,27 +4979,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="73"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Wahdan" translatesAutoresizingMaskIntoConstraints="NO" id="Y90-Y0-OM9" customClass="AMCircleImageView" customModule="Handsy" customModuleProvider="target">
-                                                    <rect key="frame" x="296" y="11.5" width="50" height="50"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="50" id="PFV-ji-GV8"/>
-                                                        <constraint firstAttribute="height" constant="50" id="vh0-MV-qys"/>
-                                                    </constraints>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="isCircle" value="YES"/>
-                                                    </userDefinedRuntimeAttributes>
-                                                </imageView>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PWZ-Wi-Fqa">
-                                                    <rect key="frame" x="300" y="53" width="10" height="10"/>
-                                                    <color key="backgroundColor" red="0.82745098039999998" green="0.68235294120000001" blue="0.25882352939999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="10" id="YbD-Lp-Ojx"/>
-                                                        <constraint firstAttribute="width" constant="10" id="kQ4-xQ-feJ"/>
-                                                    </constraints>
-                                                </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="لا يو جد ما يتم اشعاره هنا" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="usC-Rb-CAp">
-                                                    <rect key="frame" x="50" y="10" width="228" height="26"/>
+                                                    <rect key="frame" x="50" y="10" width="315" height="26"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="26" id="aPY-KT-IaN"/>
                                                     </constraints>
@@ -5147,7 +5017,7 @@
                                                     </state>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="التاريخ" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R2V-7X-XtY">
-                                                    <rect key="frame" x="62" y="36" width="216" height="20"/>
+                                                    <rect key="frame" x="62" y="36" width="303" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="GWD-Cc-NUH"/>
                                                     </constraints>
@@ -5158,31 +5028,25 @@
                                             </subviews>
                                             <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="R2V-7X-XtY" secondAttribute="trailing" constant="10" id="3fs-X2-HUk"/>
                                                 <constraint firstItem="SRf-pX-dMT" firstAttribute="leading" secondItem="Hxv-7g-pBu" secondAttribute="leading" constant="5" id="5jl-vs-cNP"/>
                                                 <constraint firstItem="vww-Zs-y4B" firstAttribute="leading" secondItem="Hxv-7g-pBu" secondAttribute="leading" constant="10" id="9Ll-OD-hvb"/>
-                                                <constraint firstItem="Y90-Y0-OM9" firstAttribute="leading" secondItem="R2V-7X-XtY" secondAttribute="trailing" constant="18" id="C3I-Ob-cYy"/>
-                                                <constraint firstAttribute="trailing" secondItem="PWZ-Wi-Fqa" secondAttribute="trailing" constant="65" id="EmU-QK-bu1"/>
                                                 <constraint firstAttribute="trailing" secondItem="eoD-wc-9cG" secondAttribute="trailing" id="ICQ-VD-hmh"/>
                                                 <constraint firstItem="R2V-7X-XtY" firstAttribute="top" secondItem="usC-Rb-CAp" secondAttribute="bottom" id="It4-Sd-2Lt"/>
-                                                <constraint firstAttribute="bottom" secondItem="PWZ-Wi-Fqa" secondAttribute="bottom" constant="10" id="Loa-dg-gWm"/>
                                                 <constraint firstItem="usC-Rb-CAp" firstAttribute="leading" secondItem="vww-Zs-y4B" secondAttribute="trailing" constant="10" id="LzS-27-gaL"/>
-                                                <constraint firstAttribute="trailing" secondItem="Y90-Y0-OM9" secondAttribute="trailing" constant="29" id="Rrr-Cc-XhB"/>
                                                 <constraint firstAttribute="bottom" secondItem="eoD-wc-9cG" secondAttribute="bottom" id="Tpe-jt-q2t"/>
                                                 <constraint firstItem="R2V-7X-XtY" firstAttribute="leading" secondItem="SRf-pX-dMT" secondAttribute="trailing" constant="5" id="dUs-Tb-D8g"/>
-                                                <constraint firstItem="Y90-Y0-OM9" firstAttribute="centerY" secondItem="Hxv-7g-pBu" secondAttribute="centerY" id="gRv-O0-Ue9"/>
+                                                <constraint firstAttribute="trailing" secondItem="usC-Rb-CAp" secondAttribute="trailing" constant="10" id="em2-LM-Mno"/>
                                                 <constraint firstItem="eoD-wc-9cG" firstAttribute="leading" secondItem="Hxv-7g-pBu" secondAttribute="leading" id="oA0-Ug-1dt"/>
                                                 <constraint firstItem="vww-Zs-y4B" firstAttribute="top" secondItem="Hxv-7g-pBu" secondAttribute="top" constant="10" id="pip-ik-Xx6"/>
-                                                <constraint firstItem="Y90-Y0-OM9" firstAttribute="leading" secondItem="usC-Rb-CAp" secondAttribute="trailing" constant="18" id="r6x-Jr-SLB"/>
                                                 <constraint firstAttribute="bottom" secondItem="SRf-pX-dMT" secondAttribute="bottom" constant="1" id="v97-Qu-QTN"/>
                                                 <constraint firstItem="usC-Rb-CAp" firstAttribute="top" secondItem="Hxv-7g-pBu" secondAttribute="top" constant="10" id="wdF-Xd-vYa"/>
                                                 <constraint firstItem="eoD-wc-9cG" firstAttribute="top" secondItem="R2V-7X-XtY" secondAttribute="bottom" constant="16" id="zXJ-Fu-JiK"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="companyLogoImg" destination="Y90-Y0-OM9" id="vBe-Su-gWb"/>
                                             <outlet property="newNotficationBtn" destination="vww-Zs-y4B" id="y5w-dZ-FWY"/>
                                             <outlet property="notficationDateLabel" destination="R2V-7X-XtY" id="8R8-3h-IO6"/>
-                                            <outlet property="notficationLightView" destination="PWZ-Wi-Fqa" id="jHw-NT-b9w"/>
                                             <outlet property="notficationTimeLabel" destination="SRf-pX-dMT" id="xav-ra-5ce"/>
                                             <outlet property="notficationTitleLabel" destination="usC-Rb-CAp" id="9vZ-9q-2jd"/>
                                         </connections>
@@ -5193,19 +5057,19 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="94"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="bottom" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="sPW-4i-rc3">
-                                        <rect key="frame" x="10" y="7" width="355" height="76"/>
+                                        <rect key="frame" x="10" y="7" width="295" height="76"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="ova-BA-cdt">
-                                                <rect key="frame" x="0.0" y="0.0" width="355" height="22"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="295" height="22"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="سكن" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BxQ-5M-R91">
-                                                        <rect key="frame" x="0.0" y="0.0" width="265" height="22"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="205" height="22"/>
                                                         <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="14"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="اسم المشروع :" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y2b-lc-uwU">
-                                                        <rect key="frame" x="266" y="0.0" width="89" height="22"/>
+                                                        <rect key="frame" x="206" y="0.0" width="89" height="22"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="89" id="HzN-RA-gB3"/>
                                                         </constraints>
@@ -5216,16 +5080,16 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="m3N-NI-T0q">
-                                                <rect key="frame" x="0.0" y="27" width="355" height="22"/>
+                                                <rect key="frame" x="0.0" y="27" width="295" height="22"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="سكن" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0og-WY-73d">
-                                                        <rect key="frame" x="0.0" y="0.0" width="245" height="22"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="185" height="22"/>
                                                         <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="14"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="المكتب/المهندس : " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FRb-50-Wjp">
-                                                        <rect key="frame" x="246" y="0.0" width="109" height="22"/>
+                                                        <rect key="frame" x="186" y="0.0" width="109" height="22"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="109" id="A1v-xv-gyC"/>
                                                         </constraints>
@@ -5236,7 +5100,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="hLg-WM-Z11">
-                                                <rect key="frame" x="213" y="54" width="142" height="22"/>
+                                                <rect key="frame" x="153" y="54" width="142" height="22"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aXz-ye-h3D">
                                                         <rect key="frame" x="0.0" y="0.0" width="16" height="22"/>
@@ -5286,15 +5150,38 @@
                                             <constraint firstAttribute="height" constant="1" id="8wX-bL-hxm"/>
                                         </constraints>
                                     </view>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Wahdan" translatesAutoresizingMaskIntoConstraints="NO" id="Y90-Y0-OM9" customClass="AMCircleImageView" customModule="Handsy" customModuleProvider="target">
+                                        <rect key="frame" x="315" y="21" width="50" height="50"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="PFV-ji-GV8"/>
+                                            <constraint firstAttribute="height" constant="50" id="vh0-MV-qys"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isCircle" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PWZ-Wi-Fqa">
+                                        <rect key="frame" x="319" y="63" width="10" height="10"/>
+                                        <color key="backgroundColor" red="0.82745098039999998" green="0.68235294120000001" blue="0.25882352939999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="10" id="YbD-Lp-Ojx"/>
+                                            <constraint firstAttribute="width" constant="10" id="kQ4-xQ-feJ"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="sPW-4i-rc3" firstAttribute="leading" secondItem="kOh-bT-GQa" secondAttribute="leading" constant="10" id="2Og-WI-9Ak"/>
+                                    <constraint firstAttribute="bottom" secondItem="PWZ-Wi-Fqa" secondAttribute="bottom" constant="21" id="BH6-Gi-k3D"/>
+                                    <constraint firstItem="Y90-Y0-OM9" firstAttribute="leading" secondItem="sPW-4i-rc3" secondAttribute="trailing" constant="10" id="Hcv-7b-68R"/>
+                                    <constraint firstAttribute="trailing" secondItem="Y90-Y0-OM9" secondAttribute="trailing" constant="10" id="Jpw-Jp-Rkw"/>
                                     <constraint firstItem="uqG-Z3-Qae" firstAttribute="leading" secondItem="kOh-bT-GQa" secondAttribute="leading" id="iCZ-XG-350"/>
                                     <constraint firstAttribute="bottom" secondItem="uqG-Z3-Qae" secondAttribute="bottom" id="jEc-Fi-atT"/>
+                                    <constraint firstAttribute="trailing" secondItem="PWZ-Wi-Fqa" secondAttribute="trailing" constant="46" id="kx3-mh-Uri"/>
                                     <constraint firstItem="uqG-Z3-Qae" firstAttribute="top" secondItem="sPW-4i-rc3" secondAttribute="bottom" constant="10" id="l7g-i5-u50"/>
+                                    <constraint firstItem="Y90-Y0-OM9" firstAttribute="centerY" secondItem="kOh-bT-GQa" secondAttribute="centerY" constant="-1" id="lHg-l7-NYw"/>
                                     <constraint firstAttribute="trailing" secondItem="uqG-Z3-Qae" secondAttribute="trailing" constant="10" id="lIZ-BR-eIg"/>
-                                    <constraint firstAttribute="trailing" secondItem="sPW-4i-rc3" secondAttribute="trailing" constant="10" id="s2b-60-GY0"/>
                                     <constraint firstItem="sPW-4i-rc3" firstAttribute="top" secondItem="kOh-bT-GQa" secondAttribute="top" constant="7" id="tEQ-lc-pfA"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
@@ -5326,9 +5213,11 @@
                     <connections>
                         <outlet property="AlertImage" destination="hIv-gO-okZ" id="yZ9-uh-qKi"/>
                         <outlet property="NothingLabel" destination="5L4-yu-Kq7" id="5IW-s5-EaU"/>
+                        <outlet property="companyLogoImg" destination="Y90-Y0-OM9" id="Q1g-YP-Af7"/>
                         <outlet property="companyMobile" destination="5vI-J4-Mvf" id="Sng-ar-9VH"/>
                         <outlet property="companyNameLabel" destination="0og-WY-73d" id="xth-Mz-4OZ"/>
                         <outlet property="myProjectTableView" destination="Crg-ek-4qL" id="B9S-q0-g4U"/>
+                        <outlet property="notficationLightView" destination="PWZ-Wi-Fqa" id="abh-z2-PIv"/>
                         <outlet property="projectNameLabel" destination="BxQ-5M-R91" id="YUV-lO-EFw"/>
                     </connections>
                 </viewController>
@@ -40945,7 +40834,7 @@ WQAAAAAAAAAAAAAAAAAQHLk
         <image name="strokeMoreTab" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="eC8-b4-JcH"/>
+        <segue reference="waP-8Y-MaL"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.21176470589999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

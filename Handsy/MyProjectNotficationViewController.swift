@@ -17,10 +17,21 @@ class MyProjectNotficationViewController: UIViewController, UITableViewDelegate,
     var companyName = ""
     var companyPhone = ""
     var projectTitle = ""
+    var companyLogo = ""
     var myProjectNotfications: [MyProjectNotfications] = [MyProjectNotfications]()
     
     let myProjectNotficationsModel: MyProjectNotficationsModel = MyProjectNotficationsModel()
-    
+    @IBOutlet weak var companyLogoImg: AMCircleImageView!
+    @IBOutlet weak var notficationLightView: UIView!{
+        didSet {
+            DispatchQueue.main.async {
+                self.notficationLightView.layer.cornerRadius = self.notficationLightView.frame.width/2
+                self.notficationLightView.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+                self.notficationLightView.layer.borderWidth = 1.0
+                self.notficationLightView.layer.masksToBounds = true
+            }
+        }
+    }
     @IBOutlet weak var NothingLabel: UILabel!
     @IBOutlet weak var AlertImage: UIImageView!
     @IBOutlet weak var projectNameLabel: UILabel!
@@ -44,6 +55,14 @@ class MyProjectNotficationViewController: UIViewController, UITableViewDelegate,
         projectNameLabel.text = projectTitle
         companyNameLabel.text = companyName
         companyMobile.setTitle(companyPhone, for: .normal)
+        let trimmedString = companyLogo.trimmingCharacters(in: .whitespaces)
+        if let url = URL.init(string: trimmedString) {
+            print(url)
+            companyLogoImg.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
+        } else{
+            print("nil")
+            companyLogoImg.image = #imageLiteral(resourceName: "officePlaceholder")
+        }
     }
 
     func dataReady() {
@@ -77,23 +96,13 @@ class MyProjectNotficationViewController: UIViewController, UITableViewDelegate,
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyProjectNotficationTableViewCell", for: indexPath) as! MyProjectNotficationTableViewCell
         // Configure the cell...
-        let companyLogo = myProjectNotfications[indexPath.row].CompanyLogo!
-        let trimmedString = companyLogo.trimmingCharacters(in: .whitespaces)
-        if let url = URL.init(string: trimmedString) {
-            print(url)
-            cell.companyLogoImg.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
-        } else{
-            print("nil")
-            cell.companyLogoImg.image = #imageLiteral(resourceName: "officePlaceholder")
-        }
+        
         let isRead = myProjectNotfications[indexPath.row].IsRead
         if isRead == "True" {
             cell.contentView.backgroundColor = #colorLiteral(red: 0.1177957579, green: 0.10955102, blue: 0.1219234392, alpha: 1)
-            cell.notficationLightView.isHidden = true
             cell.newNotficationBtn.isHidden = true
         }else {
             cell.contentView.backgroundColor = #colorLiteral(red: 0.199973762, green: 0.2000150383, blue: 0.1999711692, alpha: 1)
-            cell.notficationLightView.isHidden = false
             cell.newNotficationBtn.isHidden = false
         }
 //        cell.companyNameLabel.text = myProjectNotfications[indexPath.row].ComapnyName

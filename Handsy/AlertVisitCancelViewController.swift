@@ -94,7 +94,7 @@ class AlertVisitCancelViewController: UIViewController {
     func CancelVisit() {
         let parameters: Parameters = [
             "meetingID": MeetingID,
-            "clientReply": Comments.text!,
+            "clientReply": String(Comments.text!),
             "status": "2"
         ]
         Alamofire.request("http://smusers.promit2030.com/Service1.svc/UpdateVisit", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in

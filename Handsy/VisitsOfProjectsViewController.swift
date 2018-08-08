@@ -93,6 +93,15 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
         
         model.delegate = self
         
+        
+        DispatchQueue.main.async {
+            self.NothingLabel.isHidden = true
+        }
+        // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
             model.GetMeetingByCustId(view: self.view, projectId: ProjectId, condtion: "first", type: "1", StatusId: "")
@@ -112,16 +121,6 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
             }
             tableView.reloadData()
         }
-        DispatchQueue.main.async {
-            self.NothingLabel.isHidden = true
-        }
-        // Do any additional setup after loading the view.
-    }
-    
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func ComapnyNameFunc(){
@@ -168,7 +167,7 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
     func dataReady() {
         // Access the video objects that have been downloaded
         self.visitsByProjectIdArr = self.model.resultArray
-        if visitsByProjectIdArr.count == 0 {
+        if visitsByProjectIdArr.count == 0 && statusNameBtn.titleLabel?.text == "تصفية بحالة الزيارة" {
             NothingLabel.isHidden = true
             AlertImage.isHidden = true
             let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle: nil)
@@ -184,7 +183,10 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
             secondView.CompanyInfoID = CompanyInfoID
             secondView.ProjectOfResult = ProjectOfResult
             self.navigationController?.pushViewController(secondView, animated: true)
-        } else {
+        }else if visitsByProjectIdArr.count == 0 && statusNameBtn.titleLabel?.text != "تصفية بحالة الزيارة"{
+            NothingLabel.isHidden = false
+            AlertImage.isHidden = true
+        }else {
             NothingLabel.isHidden = true
             AlertImage.isHidden = true
         }

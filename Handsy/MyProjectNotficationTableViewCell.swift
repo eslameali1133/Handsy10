@@ -9,17 +9,7 @@
 import UIKit
 
 class MyProjectNotficationTableViewCell: UITableViewCell {
-    @IBOutlet weak var companyLogoImg: AMCircleImageView!
-    @IBOutlet weak var notficationLightView: UIView!{
-        didSet {
-            DispatchQueue.main.async {
-                self.notficationLightView.layer.cornerRadius = self.notficationLightView.frame.width/2
-                self.notficationLightView.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-                self.notficationLightView.layer.borderWidth = 1.0
-                self.notficationLightView.layer.masksToBounds = true
-            }
-        }
-    }
+    
     @IBOutlet weak var notficationTitleLabel: UILabel!
     @IBOutlet weak var notficationTimeLabel: UILabel!
     @IBOutlet weak var newNotficationBtn: UIButton!{

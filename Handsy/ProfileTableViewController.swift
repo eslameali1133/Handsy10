@@ -16,7 +16,7 @@ class ProfileTableViewController: UITableViewController {
     @IBOutlet weak var profileImage: AMCircleImageView!
     @IBOutlet weak var CustName: UILabel!
     @IBOutlet weak var CustMobile: UILabel!
-    
+    let applicationl = UIApplication.shared
     var imagePath = ""
     
     @IBAction func VisubleImageBtn(_ sender: UIButton) {
@@ -197,7 +197,7 @@ class ProfileTableViewController: UITableViewController {
             //            let domain = Bundle.main.bundleIdentifier!
             //            UserDefaults.standard.removePersistentDomain(forName: domain)
             //            UserDefaults.standard.synchronize()
-            
+            self.applicationl.applicationIconBadgeNumber = 0
             self.timere?.invalidate()
             self.timere = nil
             let storyboard = UIStoryboard(name: "WelcomeScreen", bundle: nil)

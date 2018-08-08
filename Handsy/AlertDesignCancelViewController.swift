@@ -69,7 +69,7 @@ class AlertDesignCancelViewController: UIViewController {
     func CancelDesign() {
         let parameters: Parameters = [
             "designStagesID": designStagesID,
-            "clientReply": Comments.text!,
+            "clientReply": String(Comments.text!),
             "status": "3"
         ]
         

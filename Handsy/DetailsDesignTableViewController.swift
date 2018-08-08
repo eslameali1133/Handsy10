@@ -148,6 +148,10 @@ class DetailsDesignTableViewController: UITableViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
     override func scrollViewDidScroll(_ scrollView: UIScrollView){
         if scrollView == tableView {
             var frame: CGRect = self.detialsBtnView.frame
