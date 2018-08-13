@@ -159,10 +159,20 @@ class MyProjectNotficationViewController: UIViewController, UITableViewDelegate,
             self.navigationController?.pushViewController(secondView, animated: true)
         }else if type == "8" {
             let File = myProjectNotfications[indexPath.row].Other
-            let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
-            let secondView = storyBoard.instantiateViewController(withIdentifier: "ShowContractViewController") as! ShowContractViewController
-            secondView.url = File!
-            self.navigationController?.pushViewController(secondView, animated: true)
+            let ProjectContract = myProjectNotfications[indexPath.row].ProjectContract
+            if ProjectContract == "1" {
+                let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
+                let secondView = storyBoard.instantiateViewController(withIdentifier: "ShowContractViewController") as! ShowContractViewController
+                secondView.url = File!
+                secondView.ProjectId = myProjectNotfications[indexPath.row].ProjectId!
+                self.navigationController?.pushViewController(secondView, animated: true)
+            }else {
+                let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle:nil)
+                let secondView = storyBoard.instantiateViewController(withIdentifier: "openPdfViewController") as! openPdfViewController
+                secondView.url = File!
+                secondView.Webtitle = "العقد"
+                self.navigationController?.pushViewController(secondView, animated: true)
+            }
         }else {
             print("type: \(type)")
         }

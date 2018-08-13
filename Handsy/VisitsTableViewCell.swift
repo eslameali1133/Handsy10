@@ -11,6 +11,7 @@ import UIKit
 class VisitsTableViewCell: UITableViewCell {
     
     
+    @IBOutlet weak var circleStatusImage: AMCircleImageView!
     
     @IBOutlet weak var visitDetials: UIButton!{
         didSet {

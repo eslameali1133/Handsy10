@@ -44,6 +44,16 @@ class DesignDetailsTableViewController: UITableViewController {
             messageChat.layer.cornerRadius = 4.0
         }
     }
+    
+    @IBOutlet weak var messageCountLabel: UILabel!{
+        didSet {
+            DispatchQueue.main.async {
+                self.messageCountLabel.layer.cornerRadius = self.messageCountLabel.frame.width/2
+                self.messageCountLabel.layer.masksToBounds = true
+            }
+        }
+    }
+    
     @IBOutlet weak var officeLocation: UIButton!{
         didSet {
             officeLocation.layer.borderWidth = 1.0
@@ -164,7 +174,7 @@ class DesignDetailsTableViewController: UITableViewController {
             
             let json = JSON(response.result.value!)
             
-            let requestProjectObj = DesignsDetialsArray(CreateDate: json["CreateDate"].stringValue, DesignFile: json["DesignFile"].stringValue, DesignStagesID: json["DesignStagesID"].stringValue, Details: json["Details"].stringValue, EmpName: json["EmpName"].stringValue, mobileStr: json["Mobile"].stringValue, ProjectBildTypeName: json["ProjectBildTypeName"].stringValue, ProjectStatusID: json["ProjectStatusID"].stringValue, SakNum: json["SakNum"].stringValue, StagesDetailsName: json["StagesDetailsName"].stringValue, Status: json["Status"].stringValue, ClientReply: json["ClientReply"].stringValue, EmpReply: json["EmpReply"].stringValue, ComapnyName: json["ComapnyName"].stringValue, LatBranch: json["LatBranch"].doubleValue, LngBranch: json["LngBranch"].doubleValue, JobName: json["JobName"].stringValue, Address: json["Address"].stringValue, Logo: json["Logo"].stringValue, ProjectId: json["ProjectId"].stringValue)
+            let requestProjectObj = DesignsDetialsArray(CreateDate: json["CreateDate"].stringValue, DesignFile: json["DesignFile"].stringValue, DesignStagesID: json["DesignStagesID"].stringValue, Details: json["Details"].stringValue, EmpName: json["EmpName"].stringValue, mobileStr: json["Mobile"].stringValue, ProjectBildTypeName: json["ProjectBildTypeName"].stringValue, ProjectStatusID: json["ProjectStatusID"].stringValue, SakNum: json["SakNum"].stringValue, StagesDetailsName: json["StagesDetailsName"].stringValue, Status: json["Status"].stringValue, ClientReply: json["ClientReply"].stringValue, EmpReply: json["EmpReply"].stringValue, ComapnyName: json["ComapnyName"].stringValue, LatBranch: json["LatBranch"].doubleValue, LngBranch: json["LngBranch"].doubleValue, JobName: json["JobName"].stringValue, Address: json["Address"].stringValue, Logo: json["Logo"].stringValue, ProjectId: json["ProjectId"].stringValue, CompanyInfoID: json["CompanyInfoID"].stringValue, IsCompany: json["IsCompany"].stringValue)
             
             self.CreateDate = json["CreateDate"].stringValue
             self.Address = json["Address"].stringValue
@@ -184,7 +194,7 @@ class DesignDetailsTableViewController: UITableViewController {
             self.EmpReply = json["EmpReply"].stringValue
             self.JobName = json["JobName"].stringValue
             self.ProjectId = json["ProjectId"].stringValue
-            
+            self.GetCountMessageUnReaded()
             self.designsDetialsOfResult.append(requestProjectObj)
             for i in self.designsDetialsOfResult {
                 self.designsDetialsModel.append(i)
@@ -594,6 +604,27 @@ class DesignDetailsTableViewController: UITableViewController {
                 application.open(phoneCallURL, options: [:], completionHandler: nil)
             }
         }
+    }
+    
+    // func to Get Messages Count UnReaded
+    func GetCountMessageUnReaded() {
+        // call some api
+        
+        let parameters: Parameters = ["projectId": ProjectId]
+        
+        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetCountMessageUnReaded", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+            debugPrint(response)
+            let json = JSON(response.result.value!)
+            let MessageCount = json["MessageCount"].stringValue
+            if MessageCount == "" || MessageCount == "0" {
+                self.messageCountLabel.isHidden = true
+            }else {
+                self.messageCountLabel.isHidden = false
+                self.messageCountLabel.text = MessageCount
+            }
+            print(json)
+        }
+        
     }
 }
 

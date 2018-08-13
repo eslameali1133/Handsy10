@@ -158,9 +158,12 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         let status = searchResu[indexPath.section].MeetingStatus
         cell.statusNameLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        cell.circleStatusImage.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         if status == "0"{
             cell.statusV.backgroundColor = #colorLiteral(red: 0.9459478259, green: 0.7699176669, blue: 0.05561546981, alpha: 1)
             cell.statusNameLabel.text = "قيد المقابلة"
+            cell.statusNameLabel.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            cell.circleStatusImage.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         }else if status == "1"{
             cell.statusV.backgroundColor = #colorLiteral(red: 0.1812162697, green: 0.7981202602, blue: 0.4416504204, alpha: 1)
             cell.statusNameLabel.text = "تمت المقابلة"

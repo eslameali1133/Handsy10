@@ -55,10 +55,20 @@ class NewMyProjectsTableViewCell: UITableViewCell {
         }
     }
     
+    @IBOutlet weak var messageCountLabel: UILabel!{
+        didSet {
+            DispatchQueue.main.async {
+                self.messageCountLabel.layer.cornerRadius = self.messageCountLabel.frame.width/2
+                self.messageCountLabel.layer.masksToBounds = true
+            }
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         notficationAlertBtnOut.isHidden = true
         notficationCountLabel.isHidden = true
+        messageCountLabel.isHidden = true
         // Initialization code
     }
 

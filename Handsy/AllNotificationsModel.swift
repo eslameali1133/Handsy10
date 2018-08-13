@@ -34,7 +34,7 @@ class AllNotificationsModel: NSObject {
             switch response.result {
             case .success:
                 for json in JSON(response.result.value!).arrayValue {
-                    let requestProjectNotficationObj = AllNotifications(ComapnyName: json["ComapnyName"].stringValue, CompanyLogo: json["CompanyLogo"].stringValue, Desc: json["Desc"].stringValue, DesignStagesID: json["DesignStagesID"].stringValue, IsRead: json["IsRead"].stringValue, MeetingID: json["MeetingID"].stringValue, NotificationID: json["NotificationID"].stringValue, NotificationTypeID: json["NotificationTypeID"].stringValue, Other: json["Other"].stringValue, ProjectId: json["ProjectId"].stringValue, ProjectTitle: json["ProjectTitle"].stringValue, TimeAgo: json["TimeAgo"].stringValue, DateCreate: json["DateCreate"].stringValue)
+                    let requestProjectNotficationObj = AllNotifications(ComapnyName: json["ComapnyName"].stringValue, CompanyLogo: json["CompanyLogo"].stringValue, Desc: json["Desc"].stringValue, DesignStagesID: json["DesignStagesID"].stringValue, IsRead: json["IsRead"].stringValue, MeetingID: json["MeetingID"].stringValue, NotificationID: json["NotificationID"].stringValue, NotificationTypeID: json["NotificationTypeID"].stringValue, Other: json["Other"].stringValue, ProjectId: json["ProjectId"].stringValue, ProjectTitle: json["ProjectTitle"].stringValue, TimeAgo: json["TimeAgo"].stringValue, DateCreate: json["DateCreate"].stringValue, ProjectContract: json["ProjectContract"].stringValue)
                     arrayOfResulr.append(requestProjectNotficationObj)
                 }
                 self.resultArray = arrayOfResulr

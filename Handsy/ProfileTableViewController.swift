@@ -114,11 +114,16 @@ class ProfileTableViewController: UITableViewController {
             print(json)
             
             if json["Mobile"].stringValue == "" {
-                
-                
-                
+                UserDefaults.standard.set(json["UserId"].stringValue, forKey: "UserId")
+                UserDefaults.standard.set(json["CustmoerId"].stringValue, forKey: "CustmoerId")
+                UserDefaults.standard.set(json["CustmoerName"].stringValue, forKey: "CustmoerName")
+                UserDefaults.standard.set(json["Email"].stringValue, forKey: "Email")
+                UserDefaults.standard.set(json["CustomerPhoto"].stringValue, forKey: "CustomerPhoto")
+                UserDefaults.standard.set(json["Mobile"].stringValue, forKey: "mobile")
+                self.setData()
             } else {
                 UserDefaults.standard.set(json["UserId"].stringValue, forKey: "UserId")
+                UserDefaults.standard.set(json["CustmoerId"].stringValue, forKey: "CustmoerId")
                 UserDefaults.standard.set(json["CustmoerName"].stringValue, forKey: "CustmoerName")
                 UserDefaults.standard.set(json["Email"].stringValue, forKey: "Email")
                 UserDefaults.standard.set(json["CustomerPhoto"].stringValue, forKey: "CustomerPhoto")

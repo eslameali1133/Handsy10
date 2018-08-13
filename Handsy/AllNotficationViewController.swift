@@ -147,6 +147,7 @@ class AllNotficationViewController: UIViewController, UITableViewDelegate, UITab
             second?.items![1].badgeValue = "\(AllNot)"
             second?.items![1].badgeColor = #colorLiteral(red: 0.3058823529, green: 0.5058823529, blue: 0.5333333333, alpha: 1)
         } else {
+            
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -197,11 +198,20 @@ class AllNotficationViewController: UIViewController, UITableViewDelegate, UITab
             self.navigationController?.pushViewController(secondView, animated: true)
         }else if type == "8" {
             let File = allNotifications[indexPath.row].Other
-            let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
-            let secondView = storyBoard.instantiateViewController(withIdentifier: "ShowContractViewController") as! ShowContractViewController
-            secondView.url = File!
-            secondView.ProjectId = allNotifications[indexPath.row].ProjectId!
-            self.navigationController?.pushViewController(secondView, animated: true)
+            let ProjectContract = allNotifications[indexPath.row].ProjectContract
+            if ProjectContract == "1" {
+                let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
+                let secondView = storyBoard.instantiateViewController(withIdentifier: "ShowContractViewController") as! ShowContractViewController
+                secondView.url = File!
+                secondView.ProjectId = allNotifications[indexPath.row].ProjectId!
+                self.navigationController?.pushViewController(secondView, animated: true)
+            }else {
+                let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle:nil)
+                let secondView = storyBoard.instantiateViewController(withIdentifier: "openPdfViewController") as! openPdfViewController
+                secondView.url = File!
+                secondView.Webtitle = "العقد"
+                self.navigationController?.pushViewController(secondView, animated: true)
+            }
         }else {
             print("type: \(type)")
         }

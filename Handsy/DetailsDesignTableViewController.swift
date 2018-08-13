@@ -44,6 +44,14 @@ class DetailsDesignTableViewController: UITableViewController {
             messageChat.layer.cornerRadius = 4.0
         }
     }
+    @IBOutlet weak var messageCountLabel: UILabel!{
+        didSet {
+            DispatchQueue.main.async {
+                self.messageCountLabel.layer.cornerRadius = self.messageCountLabel.frame.width/2
+                self.messageCountLabel.layer.masksToBounds = true
+            }
+        }
+    }
     @IBOutlet weak var officeLocation: UIButton!{
         didSet {
             officeLocation.layer.borderWidth = 1.0
@@ -105,6 +113,8 @@ class DetailsDesignTableViewController: UITableViewController {
     var designsDetialsModel: DesignsDetialsModel = DesignsDetialsModel()
     var isScroll = false
     var ProjectId = ""
+    var CompanyInfoID = ""
+    var IsCompany = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -118,6 +128,7 @@ class DetailsDesignTableViewController: UITableViewController {
         
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
+            self.messageCountLabel.isHidden = true
             GetDesignsByDesignStagesID()
         }else{
             designsDetialsModel.loadItems()
@@ -168,7 +179,7 @@ class DetailsDesignTableViewController: UITableViewController {
         Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetDesignsByDesignStagesID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             let json = JSON(response.result.value!)
-            let requestProjectObj = DesignsDetialsArray(CreateDate: json["CreateDate"].stringValue, DesignFile: json["DesignFile"].stringValue, DesignStagesID: json["DesignStagesID"].stringValue, Details: json["Details"].stringValue, EmpName: json["EmpName"].stringValue, mobileStr: json["Mobile"].stringValue, ProjectBildTypeName: json["ProjectBildTypeName"].stringValue, ProjectStatusID: json["ProjectStatusID"].stringValue, SakNum: json["SakNum"].stringValue, StagesDetailsName: json["StagesDetailsName"].stringValue, Status: json["Status"].stringValue, ClientReply: json["ClientReply"].stringValue, EmpReply: json["EmpReply"].stringValue, ComapnyName: json["ComapnyName"].stringValue, LatBranch: json["LatBranch"].doubleValue, LngBranch: json["LngBranch"].doubleValue, JobName: json["JobName"].stringValue, Address: json["Address"].stringValue, Logo: json["Logo"].stringValue, ProjectId: json["ProjectId"].stringValue)
+            let requestProjectObj = DesignsDetialsArray(CreateDate: json["CreateDate"].stringValue, DesignFile: json["DesignFile"].stringValue, DesignStagesID: json["DesignStagesID"].stringValue, Details: json["Details"].stringValue, EmpName: json["EmpName"].stringValue, mobileStr: json["Mobile"].stringValue, ProjectBildTypeName: json["ProjectBildTypeName"].stringValue, ProjectStatusID: json["ProjectStatusID"].stringValue, SakNum: json["SakNum"].stringValue, StagesDetailsName: json["StagesDetailsName"].stringValue, Status: json["Status"].stringValue, ClientReply: json["ClientReply"].stringValue, EmpReply: json["EmpReply"].stringValue, ComapnyName: json["ComapnyName"].stringValue, LatBranch: json["LatBranch"].doubleValue, LngBranch: json["LngBranch"].doubleValue, JobName: json["JobName"].stringValue, Address: json["Address"].stringValue, Logo: json["Logo"].stringValue, ProjectId: json["ProjectId"].stringValue, CompanyInfoID: json["CompanyInfoID"].stringValue, IsCompany: json["IsCompany"].stringValue)
             
             self.CreateDate = json["CreateDate"].stringValue
             self.Address = json["Address"].stringValue
@@ -190,7 +201,9 @@ class DetailsDesignTableViewController: UITableViewController {
             self.LngBranch = json["LngBranch"].doubleValue
             self.JobName = json["JobName"].stringValue
             self.ProjectId = json["ProjectId"].stringValue
-            
+            self.CompanyInfoID = json["CompanyInfoID"].stringValue
+            self.IsCompany = json["IsCompany"].stringValue
+            self.GetCountMessageUnReaded()
             self.designsDetialsOfResult.append(requestProjectObj)
             for i in self.designsDetialsOfResult {
                 self.designsDetialsModel.append(i)
@@ -478,6 +491,38 @@ class DetailsDesignTableViewController: UITableViewController {
         let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
         FirstViewController.ProjectId = ProjectId
         self.navigationController?.pushViewController(FirstViewController, animated: true)
+    }
+    
+    // func to Get Messages Count UnReaded
+    func GetCountMessageUnReaded() {
+        // call some api
+        
+        let parameters: Parameters = ["projectId": ProjectId]
+        
+        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetCountMessageUnReaded", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+            debugPrint(response)
+            let json = JSON(response.result.value!)
+            let MessageCount = json["MessageCount"].stringValue
+            if MessageCount == "" || MessageCount == "0" {
+                self.messageCountLabel.isHidden = true
+            }else {
+                self.messageCountLabel.isHidden = false
+                self.messageCountLabel.text = MessageCount
+            }
+            print(json)
+        }
+        
+    }
+    
+    @IBAction func DetialsBtnAction(_ sender: UIButton) {
+        let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "DetailsOfOfficeTableViewController") as! DetailsOfOfficeTableViewController
+        secondView.isCompany = IsCompany
+        secondView.CompanyInfoID = CompanyInfoID
+        secondView.conditionService = "condition"
+        secondView.LatBranch = LatBranch
+        secondView.LngBranch = LngBranch
+        self.navigationController?.pushViewController(secondView, animated: true)
     }
     
     @IBAction func directionBtn(_ sender: UIButton) {

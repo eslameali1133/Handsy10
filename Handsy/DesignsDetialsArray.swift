@@ -29,8 +29,9 @@ class DesignsDetialsArray: NSObject, NSCoding {
     var Address: String?
     var Logo: String?
     var ProjectId: String?
-    
-    init(CreateDate: String, DesignFile: String, DesignStagesID: String, Details: String, EmpName: String, mobileStr: String, ProjectBildTypeName: String, ProjectStatusID: String, SakNum: String, StagesDetailsName: String, Status: String, ClientReply: String, EmpReply: String, ComapnyName: String, LatBranch: Double, LngBranch: Double, JobName: String, Address: String, Logo: String, ProjectId: String) {
+    var CompanyInfoID: String?
+    var IsCompany: String?
+    init(CreateDate: String, DesignFile: String, DesignStagesID: String, Details: String, EmpName: String, mobileStr: String, ProjectBildTypeName: String, ProjectStatusID: String, SakNum: String, StagesDetailsName: String, Status: String, ClientReply: String, EmpReply: String, ComapnyName: String, LatBranch: Double, LngBranch: Double, JobName: String, Address: String, Logo: String, ProjectId: String, CompanyInfoID: String, IsCompany: String) {
         self.CreateDate = CreateDate
         self.DesignFile = DesignFile
         self.DesignStagesID = DesignStagesID
@@ -51,6 +52,8 @@ class DesignsDetialsArray: NSObject, NSCoding {
         self.Address = Address
         self.Logo = Logo
         self.ProjectId = ProjectId
+        self.CompanyInfoID = CompanyInfoID
+        self.IsCompany = IsCompany
     }
     public required init?(coder aDecoder: NSCoder) {
         self.CreateDate = aDecoder.decodeObject(forKey: "CreateDate") as? String
@@ -73,6 +76,8 @@ class DesignsDetialsArray: NSObject, NSCoding {
         self.Address = aDecoder.decodeObject(forKey: "Address") as? String
         self.Logo = aDecoder.decodeObject(forKey: "Logo") as? String
         self.ProjectId = aDecoder.decodeObject(forKey: "ProjectId") as? String
+        self.CompanyInfoID = aDecoder.decodeObject(forKey: "CompanyInfoID") as? String
+        self.IsCompany = aDecoder.decodeObject(forKey: "IsCompany") as? String
     }
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(self.CreateDate, forKey: "CreateDate")
@@ -95,6 +100,8 @@ class DesignsDetialsArray: NSObject, NSCoding {
         aCoder.encode(self.Address, forKey: "Address")
         aCoder.encode(self.Logo, forKey: "Logo")
         aCoder.encode(self.ProjectId, forKey: "ProjectId")
+        aCoder.encode(self.CompanyInfoID, forKey: "CompanyInfoID")
+        aCoder.encode(self.IsCompany, forKey: "IsCompany")
     }
 }
 class DesignsDetialsModel : NSObject {

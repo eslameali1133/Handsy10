@@ -33,6 +33,14 @@ class VisitsDetialsTableViewController: UITableViewController {
             MessageBtn.layer.cornerRadius = 4.0
         }
     }
+    @IBOutlet weak var messageCountLabel: UILabel!{
+        didSet {
+            DispatchQueue.main.async {
+                self.messageCountLabel.layer.cornerRadius = self.messageCountLabel.frame.width/2
+                self.messageCountLabel.layer.masksToBounds = true
+            }
+        }
+    }
     @IBOutlet weak var callBtn: UIButton! {
         didSet {
             callBtn.layer.borderWidth = 1.0
@@ -109,6 +117,8 @@ class VisitsDetialsTableViewController: UITableViewController {
     var LatBranch: Double = 0.0
     var LngBranch: Double = 0.0
     var ProjectId = ""
+    var CompanyInfoID = ""
+    var IsCompany = ""
     
     var visitsDetialsArray = [VisitsDetialsArray]()
     var visitsDetialsModel: VisitsDetialsModel = VisitsDetialsModel()
@@ -126,6 +136,7 @@ class VisitsDetialsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         buttonsView.isHidden = true
+        self.messageCountLabel.isHidden = true
         //        assignbackground()
         DispatchQueue.main.async {
             self.detialsBtnView.frame = CGRect.init(x: 0, y: self.tableView.contentOffset.y + (self.view.frame.height-57), width: self.view.frame.width, height: 57)
@@ -173,7 +184,7 @@ class VisitsDetialsTableViewController: UITableViewController {
             debugPrint(response)
             
             let json = JSON(response.result.value!)
-            let requestProjectObj = VisitsDetialsArray(Address: json["Address"].stringValue, ComapnyName: json["ComapnyName"].stringValue, Logo: json["Logo"].stringValue, visitTitle: json["Title"].stringValue, MeetingStatus: json["MeetingStatus"].stringValue, Description: json["Description"].stringValue, Notes: json["Notes"].stringValue, Start: json["Start"].stringValue, TimeStartMeeting: json["TimeStartMeeting"].stringValue, StartTime: json["StartTime"].stringValue, ProjectBildTypeName: json["ProjectBildTypeName"].stringValue, Mobile: json["Mobile"].stringValue, EmpName: json["EmpName"].stringValue, Replay: json["Replay"].stringValue, DateReply: json["DateReply"].stringValue, EndTime: json["EndTime"].stringValue, LatBranch: json["LatBranch"].doubleValue, LngBranch: json["LngBranch"].doubleValue, JobName: json["JobName"].stringValue, ClientReply: json["ClientReply"].stringValue, MeetingID: json["MeetingID"].stringValue, ProjectId: json["ProjectId"].stringValue)
+            let requestProjectObj = VisitsDetialsArray(Address: json["Address"].stringValue, ComapnyName: json["ComapnyName"].stringValue, Logo: json["Logo"].stringValue, visitTitle: json["Title"].stringValue, MeetingStatus: json["MeetingStatus"].stringValue, Description: json["Description"].stringValue, Notes: json["Notes"].stringValue, Start: json["Start"].stringValue, TimeStartMeeting: json["TimeStartMeeting"].stringValue, StartTime: json["StartTime"].stringValue, ProjectBildTypeName: json["ProjectBildTypeName"].stringValue, Mobile: json["Mobile"].stringValue, EmpName: json["EmpName"].stringValue, Replay: json["Replay"].stringValue, DateReply: json["DateReply"].stringValue, EndTime: json["EndTime"].stringValue, LatBranch: json["LatBranch"].doubleValue, LngBranch: json["LngBranch"].doubleValue, JobName: json["JobName"].stringValue, ClientReply: json["ClientReply"].stringValue, MeetingID: json["MeetingID"].stringValue, ProjectId: json["ProjectId"].stringValue, CompanyInfoID: json["CompanyInfoID"].stringValue, IsCompany: json["IsCompany"].stringValue)
             
             self.Address = json["Address"].stringValue
             self.ComapnyName = json["ComapnyName"].stringValue
@@ -197,7 +208,9 @@ class VisitsDetialsTableViewController: UITableViewController {
             self.JobName = json["JobName"].stringValue
             self.ClientReply = json["ClientReply"].stringValue
             self.ProjectId = json["ProjectId"].stringValue
-            
+            self.CompanyInfoID = json["CompanyInfoID"].stringValue
+            self.IsCompany = json["IsCompany"].stringValue
+            self.GetCountMessageUnReaded()
             self.visitsDetialsArray.append(requestProjectObj)
             for i in self.visitsDetialsArray {
                 self.visitsDetialsModel.append(i)
@@ -451,6 +464,17 @@ class VisitsDetialsTableViewController: UITableViewController {
         self.navigationController?.pushViewController(secondView, animated: true)
     }
     
+    @IBAction func DetialsBtnAction(_ sender: UIButton) {
+        let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "DetailsOfOfficeTableViewController") as! DetailsOfOfficeTableViewController
+        secondView.isCompany = IsCompany
+        secondView.CompanyInfoID = CompanyInfoID
+        secondView.conditionService = "condition"
+        secondView.LatBranch = LatBranch
+        secondView.LngBranch = LngBranch
+        self.navigationController?.pushViewController(secondView, animated: true)
+    }
+    
     @IBAction func directionBtn(_ sender: UIButton) {
         
         let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
@@ -484,7 +508,26 @@ class VisitsDetialsTableViewController: UITableViewController {
         FirstViewController.ProjectId = ProjectId
         self.navigationController?.pushViewController(FirstViewController, animated: true)
     }
-    
+    // func to Get Messages Count UnReaded
+    func GetCountMessageUnReaded() {
+        // call some api
+        
+        let parameters: Parameters = ["projectId": ProjectId]
+        
+        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetCountMessageUnReaded", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+            debugPrint(response)
+            let json = JSON(response.result.value!)
+            let MessageCount = json["MessageCount"].stringValue
+            if MessageCount == "" || MessageCount == "0" {
+                self.messageCountLabel.isHidden = true
+            }else {
+                self.messageCountLabel.isHidden = false
+                self.messageCountLabel.text = MessageCount
+            }
+            print(json)
+        }
+        
+    }
     
     @IBAction func CallMe(_ sender: UIButton) {
         var mobile: String = Mobile

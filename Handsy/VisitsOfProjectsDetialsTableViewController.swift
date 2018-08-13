@@ -67,7 +67,7 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
     var indexi:Int = 0
     var isCompany = ""
     var ProjectId = ""
-    
+    var MessageCount = ""
     @IBOutlet weak var DataStart: UILabel!
     @IBOutlet weak var statusImage: UIImageView!
     @IBOutlet weak var status: UILabel!
@@ -116,6 +116,14 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
             }
         }
     }
+    @IBOutlet weak var messageCountLabel: UILabel!{
+        didSet {
+            DispatchQueue.main.async {
+                self.messageCountLabel.layer.cornerRadius = self.messageCountLabel.frame.width/2
+                self.messageCountLabel.layer.masksToBounds = true
+            }
+        }
+    }
     
     var visitsDetialsArray = [VisitsDetialsArray]()
     var visitsDetialsModel: VisitsDetialsModel = VisitsDetialsModel()
@@ -123,6 +131,7 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         buttonsView.isHidden = true
+        self.messageCountLabel.isHidden = true
         //        assignbackground()
         
     }
@@ -163,7 +172,7 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
             debugPrint(response)
             
             let json = JSON(response.result.value!)
-            let requestProjectObj = VisitsDetialsArray(Address: json["Address"].stringValue, ComapnyName: json["ComapnyName"].stringValue, Logo: json["Logo"].stringValue, visitTitle: json["Title"].stringValue, MeetingStatus: json["MeetingStatus"].stringValue, Description: json["Description"].stringValue, Notes: json["Notes"].stringValue, Start: json["Start"].stringValue, TimeStartMeeting: json["TimeStartMeeting"].stringValue, StartTime: json["StartTime"].stringValue, ProjectBildTypeName: json["ProjectBildTypeName"].stringValue, Mobile: json["Mobile"].stringValue, EmpName: json["EmpName"].stringValue, Replay: json["Replay"].stringValue, DateReply: json["DateReply"].stringValue, EndTime: json["EndTime"].stringValue, LatBranch: json["LatBranch"].doubleValue, LngBranch: json["LngBranch"].doubleValue, JobName: json["JobName"].stringValue, ClientReply: json["ClientReply"].stringValue, MeetingID: json["MeetingID"].stringValue, ProjectId: json["ProjectId"].stringValue)
+            let requestProjectObj = VisitsDetialsArray(Address: json["Address"].stringValue, ComapnyName: json["ComapnyName"].stringValue, Logo: json["Logo"].stringValue, visitTitle: json["Title"].stringValue, MeetingStatus: json["MeetingStatus"].stringValue, Description: json["Description"].stringValue, Notes: json["Notes"].stringValue, Start: json["Start"].stringValue, TimeStartMeeting: json["TimeStartMeeting"].stringValue, StartTime: json["StartTime"].stringValue, ProjectBildTypeName: json["ProjectBildTypeName"].stringValue, Mobile: json["Mobile"].stringValue, EmpName: json["EmpName"].stringValue, Replay: json["Replay"].stringValue, DateReply: json["DateReply"].stringValue, EndTime: json["EndTime"].stringValue, LatBranch: json["LatBranch"].doubleValue, LngBranch: json["LngBranch"].doubleValue, JobName: json["JobName"].stringValue, ClientReply: json["ClientReply"].stringValue, MeetingID: json["MeetingID"].stringValue, ProjectId: json["ProjectId"].stringValue, CompanyInfoID: json["CompanyInfoID"].stringValue, IsCompany: json["IsCompany"].stringValue)
             self.Address = json["Address"].stringValue
             self.ComapnyName = json["ComapnyName"].stringValue
             self.Logo = json["Logo"].stringValue
@@ -187,6 +196,7 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
             self.ClientReply = json["ClientReply"].stringValue
             self.ProjectId = json["ProjectId"].stringValue
             self.visitsDetialsArray.append(requestProjectObj)
+            self.GetCountMessageUnReaded()
             for i in self.visitsDetialsArray {
                 self.visitsDetialsModel.append(i)
             }
@@ -519,6 +529,27 @@ class VisitsOfProjectsDetialsTableViewController: UITableViewController {
         let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
         FirstViewController.ProjectId = ProjectId
         self.navigationController?.pushViewController(FirstViewController, animated: true)
+    }
+    
+    // func to Get Messages Count UnReaded
+    func GetCountMessageUnReaded() {
+        // call some api
+        
+        let parameters: Parameters = ["projectId": ProjectId]
+        
+        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetCountMessageUnReaded", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+            debugPrint(response)
+            let json = JSON(response.result.value!)
+            let MessageCount = json["MessageCount"].stringValue
+            if MessageCount == "" || MessageCount == "0" {
+                self.messageCountLabel.isHidden = true
+            }else {
+                self.messageCountLabel.isHidden = false
+                self.messageCountLabel.text = MessageCount
+            }
+            print(json)
+        }
+        
     }
     
     @IBAction func CallMe(_ sender: UIButton) {

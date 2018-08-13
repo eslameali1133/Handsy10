@@ -47,6 +47,16 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         }
     }
     
+    
+    @IBOutlet weak var messageCountLabel: UILabel!{
+        didSet {
+            DispatchQueue.main.async {
+                self.messageCountLabel.layer.cornerRadius = self.messageCountLabel.frame.width/2
+                self.messageCountLabel.layer.masksToBounds = true
+            }
+        }
+    }
+    
     @IBOutlet weak var cancelProView: UIView!{
         didSet {
             cancelProView.layer.cornerRadius = 4.0
@@ -279,9 +289,11 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
+        messageCountLabel.isHidden = true
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
             GetProjectByProjectId()
+            GetCountMessageUnReaded()
         }else{
             projectsDetialsModel.loadItems()
             print("Internet Connection not Available!")
@@ -1148,5 +1160,39 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
         FirstViewController.ProjectId = self.ProjectId
         self.navigationController?.pushViewController(FirstViewController, animated: true)
+    }
+    
+    // func to Get Messages Count UnReaded
+    func GetCountMessageUnReaded() {
+        // call some api
+        
+        var parameters: Parameters = [:]
+        if nou == "" && norma == "" {
+            parameters = [
+                "projectId": searchResu[index!].ProjectId
+            ]
+        }else if nou == "uu"{
+            parameters = [
+                "projectId": ProjectId
+            ]
+        }else{
+            parameters = [
+                "projectId": ProjectId
+            ]
+        }
+        
+        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetCountMessageUnReaded", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+            debugPrint(response)
+            let json = JSON(response.result.value!)
+            let MessageCount = json["MessageCount"].stringValue
+            if MessageCount == "" || MessageCount == "0" {
+                self.messageCountLabel.isHidden = true
+            }else {
+                self.messageCountLabel.isHidden = false
+                self.messageCountLabel.text = MessageCount
+            }
+            print(json)
+        }
+        
     }
 }

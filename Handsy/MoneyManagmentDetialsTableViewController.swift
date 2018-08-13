@@ -16,7 +16,6 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var viewMoney: UIView!
     
-    
     let model: MoneyMangmentModel = MoneyMangmentModel()
     var searchResu:[MoneyManaagmentArray] = [MoneyManaagmentArray]()
     let moneyManagmentModel = MoneyManaagmentModel()
@@ -27,43 +26,10 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
     @IBOutlet weak var HeaderMoneyOut: UIView!
     @IBOutlet weak var HeaderTypeOut: UIView!
     
-    @IBOutlet weak var callBtn: UIButton! {
-        didSet {
-            callBtn.layer.borderWidth = 1.0
-            callBtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
-            callBtn.layer.cornerRadius = 4.0
-        }
-    }
     
-    @IBOutlet weak var officeDetialsBtn: UIButton! {
-        didSet {
-            officeDetialsBtn.layer.borderWidth = 1.0
-            officeDetialsBtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
-            officeDetialsBtn.layer.cornerRadius = 4.0
-        }
-    }
-    @IBOutlet weak var messageBtn: UIButton! {
-        didSet {
-            messageBtn.layer.borderWidth = 1.0
-            messageBtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
-            messageBtn.layer.cornerRadius = 4.0
-        }
-    }
     
-    @IBOutlet weak var companyImageOut: UIImageView!
     @IBOutlet weak var projectTitleLabel: UILabel!
-    @IBOutlet weak var EngNameLabel: UILabel!
-    @IBOutlet weak var engJobName: UILabel!
-    @IBOutlet weak var statusView: UIView!{
-        didSet{
-            DispatchQueue.main.async {
-                self.statusView.roundCorners([.topLeft, .topRight], radius: 10)
-            }
-        }
-    }
-    @IBOutlet weak var lastStatusLabel: UILabel!
-    @IBOutlet weak var statusImgView: UIImageView!
-    @IBOutlet weak var statusNameLabel: UILabel!
+   
     @IBOutlet weak var notficationAlertBtnOut: UIButton!
     @IBOutlet weak var notficationCountLabel: UILabel!{
         didSet {
@@ -179,7 +145,15 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
     var NotiMessageCount = 0
     var NotiTotalCount = 0
     var pushCond = ""
-    
+    @IBOutlet var detialsBtnView: UIView!
+    @IBOutlet weak var projectDetialsBtnOut: UIButton!{
+        didSet {
+            DispatchQueue.main.async {
+                self.projectDetialsBtnOut.layer.cornerRadius = 7.0
+                self.projectDetialsBtnOut.layer.masksToBounds = true
+            }
+        }
+    }
     @IBOutlet weak var paymentsCost: UILabel!
     @IBOutlet weak var projectTotalPaid: UILabel!
     @IBOutlet weak var projectTotalNotPaid: UILabel!
@@ -220,8 +194,24 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
         tableView.delegate = self
         tableView.dataSource = self
         CountCustomerNotification()
+        DispatchQueue.main.async {
+            self.detialsBtnView.frame = CGRect.init(x: 0, y: self.tableView.contentOffset.y + (self.view.frame.height-57), width: self.view.frame.width, height: 57)
+            if #available(iOS 11, *) {
+                self.tableView.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 47, right: 0)
+            }else{
+                self.tableView.contentInset = UIEdgeInsets.init(top: 52, left: 0, bottom: 47, right: 0)
+            }
+            self.tableView.bringSubview(toFront: self.detialsBtnView)
+            self.tableView.addSubview(self.detialsBtnView)
+        }
     }
-    
+    func scrollViewDidScroll(_ scrollView: UIScrollView){
+        if scrollView == tableView {
+            var frame: CGRect = self.detialsBtnView.frame
+            frame.origin.y = scrollView.contentOffset.y + self.view.frame.height - 57
+            detialsBtnView.frame = frame
+        }
+    }
     func loadTabel(){
         if Reachability.isConnectedToNetwork(){
             model.delegate = self
@@ -255,7 +245,6 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
     
     func setHeaderDetials(){
         if ProjectOfResult.count != 0 {
-            lastStatusLabel.text = ProjectOfResult[0].ProjectLastComment!
             let NotLabel = ProjectOfResult[0].NotifiCount!
             
             if NotLabel != 0 {
@@ -268,44 +257,11 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
             }
             let status = ProjectOfResult[0].ProjectStatusID!
             let statusName = ProjectOfResult[0].ProjectStatusName!
-            if status == "5"{
-                statusNameLabel.text = statusName
-                statusImgView.backgroundColor = #colorLiteral(red: 0.9921568627, green: 0.4274509804, blue: 0.337254902, alpha: 1)
-            }else if status == "4"{
-                statusNameLabel.text = statusName
-                statusImgView.backgroundColor = #colorLiteral(red: 0.1176470588, green: 0.368627451, blue: 0.4666666667, alpha: 1)
-            }else if status == "3"{
-                statusNameLabel.text = statusName
-                statusImgView.backgroundColor = #colorLiteral(red: 0.1764705882, green: 0.4745098039, blue: 0.8862745098, alpha: 1)
-            }else if status == "1"{
-                statusNameLabel.text = statusName
-                statusImgView.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
-            }else if status == "2"{
-                statusNameLabel.text = statusName
-                statusImgView.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
-            }else if status == "6"{
-                statusNameLabel.text = statusName
-                statusImgView.backgroundColor = #colorLiteral(red: 0.2588235294, green: 0.8666666667, blue: 0.1764705882, alpha: 1)
-            }else if status == "7"{
-                statusNameLabel.text = statusName
-                statusImgView.backgroundColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
-            }else {
-                print("error status \(status)")
-            }
+            
             //        companyNameLabel.text = ProjectOfResult[0].ComapnyName!
             projectTitleLabel.text = "\(ProjectOfResult[0].ProjectTitle!)"
-            EngNameLabel.text = ProjectOfResult[0].EmpName
-            engJobName.text = ProjectOfResult[0].JobName
-            let img = ProjectOfResult[0].EmpImage!
-            let trimmedString = img.trimmingCharacters(in: .whitespaces)
-            if let url = URL.init(string: trimmedString) {
-                companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
-            } else{
-                print("nil")
-                companyImageOut.image = #imageLiteral(resourceName: "officePlaceholder")
-            }
+            
         } else {
-            lastStatusLabel.text = ProjectLastComment
             let NotLabel = NotifiCount
             
             if NotLabel != 0 {
@@ -318,42 +274,10 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
             }
             let status = ProjectStatusID
             let statusName = ProjectStatusName
-            if status == "5"{
-                statusNameLabel.text = statusName
-                statusImgView.backgroundColor = #colorLiteral(red: 0.9921568627, green: 0.4274509804, blue: 0.337254902, alpha: 1)
-            }else if status == "4"{
-                statusNameLabel.text = statusName
-                statusImgView.backgroundColor = #colorLiteral(red: 0.1176470588, green: 0.368627451, blue: 0.4666666667, alpha: 1)
-            }else if status == "3"{
-                statusNameLabel.text = statusName
-                statusImgView.backgroundColor = #colorLiteral(red: 0.1764705882, green: 0.4745098039, blue: 0.8862745098, alpha: 1)
-            }else if status == "1"{
-                statusNameLabel.text = statusName
-                statusImgView.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
-            }else if status == "2"{
-                statusNameLabel.text = statusName
-                statusImgView.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
-            }else if status == "6"{
-                statusNameLabel.text = statusName
-                statusImgView.backgroundColor = #colorLiteral(red: 0.2588235294, green: 0.8666666667, blue: 0.1764705882, alpha: 1)
-            }else if status == "7"{
-                statusNameLabel.text = statusName
-                statusImgView.backgroundColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
-            }else {
-                print("error status \(status)")
-            }
+            
             //        companyNameLabel.text = ProjectOfResult[0].ComapnyName!
             projectTitleLabel.text = ProjectTitle
-            EngNameLabel.text = EmpName
-            engJobName.text = JobName
-            let img = EmpImage
-            let trimmedString = img.trimmingCharacters(in: .whitespaces)
-            if let url = URL.init(string: trimmedString) {
-                companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
-            } else{
-                print("nil")
-                companyImageOut.image = #imageLiteral(resourceName: "officePlaceholder")
-            }
+            
         }
     }
     
@@ -481,7 +405,7 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
         if TotalPaid == "0" {
             projectTotalNotPaid.textColor = UIColor(red: 212/250.0, green: 175/250.0, blue: 54/250.0, alpha: 1.0)
         } else {
-            projectTotalNotPaid.textColor = UIColor.red
+            projectTotalNotPaid.textColor = #colorLiteral(red: 0.9607843137, green: 0.2745098039, blue: 0.2588235294, alpha: 1)
             //(red: 184/250.0, green: 101/250.0, blue: 27/250.0, alpha: 1.0)
         }
         projectCountNotPaid.text = CountNotPaid
@@ -508,7 +432,7 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
             acceptContractBtn.isHidden = true
             contractViewOut.isHidden = true
             contractBtnOut.isHidden = true
-            viewMoney.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 525)
+            viewMoney.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 331)
             self.view.setNeedsLayout()
             self.view.layoutIfNeeded()
         } else {
@@ -517,7 +441,7 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
             acceptContractBtn.isHidden = true
             contractViewOut.isHidden = true
             contractBtnOut.isHidden = true
-            viewMoney.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 525)
+            viewMoney.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 331)
             self.view.setNeedsLayout()
             self.view.layoutIfNeeded()
         }
@@ -628,6 +552,13 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
         }
     }
     
+    @IBAction func openDetialsViewController(_ sender: UIButton) {
+        let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle: nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectDetialsFilterTableViewController") as! NewProjectDetialsFilterTableViewController
+        secondView.ProjectId = self.ProjectId
+        secondView.nou = "uu"
+        self.navigationController?.pushViewController(secondView, animated: true)
+    }
     
     @IBAction func InvoiceAction(_ sender: UIButton) {
         let point = sender.convert(CGPoint.zero, to: tableView)
@@ -821,10 +752,9 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
             callNumber(phoneNumber: mobile)
         }
     }
-    private func callNumber(phoneNumber:String) {
+    private func callNumber(phoneNumber: String) {
         
         if let phoneCallURL = URL(string: "tel://\(phoneNumber)") {
-            
             let application:UIApplication = UIApplication.shared
             if (application.canOpenURL(phoneCallURL)) {
                 application.open(phoneCallURL, options: [:], completionHandler: nil)

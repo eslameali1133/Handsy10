@@ -175,8 +175,18 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
         let openPdf = searchResu[index!].DesignFile
         let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle:nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "openPdfViewController") as! openPdfViewController
-        self.navigationController?.pushViewController(secondView, animated: true)
         secondView.url = openPdf
+        if searchResu[index!].Status == "1" {
+            secondView.condBottomButtons = "AcceptAndEdit"
+            secondView.reloadApi = self
+        }else if searchResu[index!].Status == "3" {
+            secondView.condBottomButtons = "Edit"
+            secondView.reloadApi = self
+        }else {
+            print("error status")
+        }
+        self.navigationController?.pushViewController(secondView, animated: true)
+        
         
         //        if let url = URL(string: openPdf) {
         //            UIApplication.shared.open(url)
@@ -351,12 +361,15 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
     
 }
 
-extension ProjectsContinueViewController: FilterDesignsDelegate {
+extension ProjectsContinueViewController: FilterDesignsDelegate, reloadApi {
     func filterDesignsByStatusId(StatusId: String, StatusName: String) {
         model.GetDesignsByCustID(view: self.view, VC: self, condition: "", StatusId: StatusId)
         self.StatusId = StatusId
         statusNameBtn.setTitle(StatusName, for: .normal)
         cancelStatusBtn.isHidden = false
+    }
+    func reload() {
+        viewWillAppear(false)
     }
 }
 extension ProjectsContinueViewController: UIPopoverPresentationControllerDelegate {

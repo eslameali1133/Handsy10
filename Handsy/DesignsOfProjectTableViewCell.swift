@@ -30,6 +30,7 @@ class DesignsOfProjectTableViewCell: UITableViewCell {
             messageChat.layer.cornerRadius = 4.0
         }
     }
+    
     @IBOutlet weak var designDetialsBtn: UIButton! {
         didSet {
             designDetialsBtn.layer.borderWidth = 1.0
@@ -37,7 +38,14 @@ class DesignsOfProjectTableViewCell: UITableViewCell {
             designDetialsBtn.layer.cornerRadius = 4.0
         }
     }
-    
+    @IBOutlet weak var messageCountLabel: UILabel!{
+        didSet {
+            DispatchQueue.main.async {
+                self.messageCountLabel.layer.cornerRadius = self.messageCountLabel.frame.width/2
+                self.messageCountLabel.layer.masksToBounds = true
+            }
+        }
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

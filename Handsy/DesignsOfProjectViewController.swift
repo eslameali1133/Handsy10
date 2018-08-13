@@ -64,6 +64,7 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
     var indexi:Int = 0
     var isCompany = ""
     var StatusId = ""
+    var MessageCount = ""
     
     @IBOutlet weak var NothingLabel: UILabel!
     @IBOutlet weak var AlertImage: UIImageView!
@@ -80,6 +81,7 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
         tableView.dataSource = self
         
         if Reachability.isConnectedToNetwork(){
+            GetCountMessageUnReaded()
             model.delegate = self
             model.GetDesignsByProjectID(view: self.view, projectId: ProjectId, type: "1", StatusId: "")
         }else{
@@ -244,6 +246,18 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
         }
         let EmpName = searchResu[indexPath.section].EmpName
         cell.EmpMobile.setTitle(EmpName, for: .normal)
+        if MessageCount == "" || MessageCount == "0" {
+            cell.messageCountLabel.isHidden = true
+        }else {
+            cell.messageCountLabel.isHidden = false
+            cell.messageCountLabel.text = MessageCount
+        }
+        if MessageCount == "" || MessageCount == "0" {
+            cell.messageCountLabel.isHidden = true
+        }else {
+            cell.messageCountLabel.isHidden = false
+            cell.messageCountLabel.text = MessageCount
+        }
         DispatchQueue.main.async {
             cell.Status.roundCorners(.bottomRight, radius: 10.0)
             cell.roundCorners([.bottomLeft,.bottomRight,.topRight], radius: 10)
@@ -321,6 +335,15 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
         let openPdf = searchResu[index!].DesignFile
         let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle:nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "openPdfViewController") as! openPdfViewController
+        if searchResu[index!].Status == "1" {
+            secondView.condBottomButtons = "AcceptAndEdit"
+            secondView.reloadApi = self
+        }else if searchResu[index!].Status == "3" {
+            secondView.condBottomButtons = "Edit"
+            secondView.reloadApi = self
+        }else {
+            print("error status")
+        }
         self.navigationController?.pushViewController(secondView, animated: true)
         secondView.url = openPdf!
         
@@ -357,6 +380,22 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
         FirstViewController.ProjectId = ProjectId
         self.navigationController?.pushViewController(FirstViewController, animated: true)
     }
+    
+    // func to Get Messages Count UnReaded
+    func GetCountMessageUnReaded() {
+        // call some api
+        
+        let parameters: Parameters = ["projectId": ProjectId]
+        
+        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetCountMessageUnReaded", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+            debugPrint(response)
+            let json = JSON(response.result.value!)
+            self.MessageCount = json["MessageCount"].stringValue
+            print(json)
+        }
+        
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDeti" {
             if let indexPath = tableView.indexPathForSelectedRow {
@@ -510,12 +549,15 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
         model.GetDesignsByProjectID(view: self.view, projectId: ProjectId, type: "1", StatusId: "")
     }
 }
-extension DesignsOfProjectViewController: FilterDesignsDelegate {
+extension DesignsOfProjectViewController: FilterDesignsDelegate, reloadApi {
     func filterDesignsByStatusId(StatusId: String, StatusName: String) {
         model.GetDesignsByProjectID(view: self.view, projectId: ProjectId, type: "2", StatusId: StatusId)
         self.StatusId = StatusId
         statusNameBtn.setTitle(StatusName, for: .normal)
         cancelStatusBtn.isHidden = false
+    }
+    func reload() {
+        viewDidLoad()
     }
 }
 extension DesignsOfProjectViewController: UIPopoverPresentationControllerDelegate {

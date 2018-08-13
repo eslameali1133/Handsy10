@@ -17,6 +17,8 @@ class VisitsOfProjectsTableViewCell: UITableViewCell {
         }
     }
     
+    @IBOutlet weak var circleStatusImage: AMCircleImageView!
+    
     @IBOutlet weak var visitsDetialsBtn: UIButton! {
         didSet {
             visitsDetialsBtn.layer.borderWidth = 1.0
@@ -32,6 +34,15 @@ class VisitsOfProjectsTableViewCell: UITableViewCell {
             visitsMessageBtn.layer.cornerRadius = 4.0
         }
     }
+    
+    @IBOutlet weak var messageCountLabel: UILabel!{
+        didSet {
+            DispatchQueue.main.async {
+                self.messageCountLabel.layer.cornerRadius = self.messageCountLabel.frame.width/2
+                self.messageCountLabel.layer.masksToBounds = true
+            }
+        }
+    }
 
     @IBOutlet weak var titleVisit: UILabel!
     @IBOutlet weak var dateOfVisit: UILabel!
@@ -44,6 +55,7 @@ class VisitsOfProjectsTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.messageCountLabel.isHidden = true
         // Initialization code
         
     }

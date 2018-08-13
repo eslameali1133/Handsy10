@@ -34,6 +34,7 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
     var arrayOfResulr = [GetOfficesArray]()
     var indexi:Int = 0
     var isCompany = ""
+    var MessageCount = ""
     var ProjectOfResult: [ProjectDetialsArray] = [ProjectDetialsArray]()
 
     
@@ -79,7 +80,6 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
     @IBOutlet weak var companyNameLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         ComapnyNameFunc()
@@ -104,6 +104,7 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
+            GetCountMessageUnReaded()
             model.GetMeetingByCustId(view: self.view, projectId: ProjectId, condtion: "first", type: "1", StatusId: "")
         }else{
             print("Internet Connection not Available!")
@@ -240,9 +241,12 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
         let status = visitsByProjectIdArr[indexPath.section].MeetingStatus!
         print(status)
         cell.statusNameLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        cell.circleStatusImage.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         if status == "0"{
             cell.Status.backgroundColor = #colorLiteral(red: 0.9459478259, green: 0.7699176669, blue: 0.05561546981, alpha: 1)
             cell.statusNameLabel.text = "قيد المقابلة"
+            cell.statusNameLabel.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            cell.circleStatusImage.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         }else if status == "1"{
             cell.Status.backgroundColor = #colorLiteral(red: 0.1812162697, green: 0.7981202602, blue: 0.4416504204, alpha: 1)
             cell.statusNameLabel.text = "تمت المقابلة"
@@ -260,6 +264,12 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
             cell.statusNameLabel.text = "موافقة وقيد المقابلة"
         }else {
             print("error status")
+        }
+        if MessageCount == "" || MessageCount == "0" {
+            cell.messageCountLabel.isHidden = true
+        }else {
+            cell.messageCountLabel.isHidden = false
+            cell.messageCountLabel.text = MessageCount
         }
         DispatchQueue.main.async {
             cell.Status.roundCorners(.bottomRight, radius: 10.0)
@@ -430,6 +440,21 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
         let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
         FirstViewController.ProjectId = ProjectId
         self.navigationController?.pushViewController(FirstViewController, animated: true)
+    }
+
+    // func to Get Messages Count UnReaded
+    func GetCountMessageUnReaded() {
+        // call some api
+        
+        let parameters: Parameters = ["projectId": ProjectId]
+        
+        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetCountMessageUnReaded", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+            debugPrint(response)
+            let json = JSON(response.result.value!)
+            self.MessageCount = json["MessageCount"].stringValue
+            print(json)
+        }
+        
     }
     
     @IBAction func CallMe(_ sender: UIButton) {

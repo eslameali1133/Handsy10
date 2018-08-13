@@ -141,16 +141,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
-        if Reachability.isConnectedToNetwork(){
-            print("Internet Connection Available!")
-            model.GetProjectByCustID(view: self.view, VC: self)
-        }else{
-            print("Internet Connection not Available!")
-            projectModel.loadItems()
-            self.myProjects = projectModel.projects
-            MyProjectsTableView.reloadData()
-        }
-        CountCustomerNotification()
+        GetEmptByMobileNum()
     }
     
 
@@ -297,7 +288,13 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
             cell.notficationAlertBtnOut.isHidden = false
             cell.notficationCountLabel.isHidden = true
         }
-        
+        let MessageCount = myProjects[indexPath.row].MessageCount
+        if MessageCount == "" || MessageCount == "0" {
+            cell.messageCountLabel.isHidden = true
+        }else {
+            cell.messageCountLabel.isHidden = false
+            cell.messageCountLabel.text = MessageCount
+        }
 //        let first = tabBarController?.viewControllers?.first
 //        AllNot += NotLabel
 //        first?.tabBarItem.badgeValue = "\(AllNot)"
@@ -361,6 +358,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
             second?.items![1].badgeValue = "\(AllNot)"
             second?.items![1].badgeColor = #colorLiteral(red: 0.3058823529, green: 0.5058823529, blue: 0.5333333333, alpha: 1)
         } else {
+            
         }
     }
     
@@ -509,6 +507,70 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
             messageNotfiCount.text = "\(NotiMessageCount)"
             messageNotfiCount.isHidden = false
         }
+    }
+    func GetEmptByMobileNum() {
+        let mobile = UserDefaults.standard.string(forKey: "mobile")!
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetEmptByMobileNum?mobileNum=\(mobile)", method: .get).responseJSON { response in
+            debugPrint(response)
+            
+            switch response.result {
+            case .success:
+                let json = JSON(response.result.value!)
+                print(json)
+                
+                if json["Mobile"].stringValue == "" {
+                    UserDefaults.standard.set(json["UserId"].stringValue, forKey: "UserId")
+                    UserDefaults.standard.set(json["CustmoerId"].stringValue, forKey: "CustmoerId")
+                    UserDefaults.standard.set(json["CustmoerName"].stringValue, forKey: "CustmoerName")
+                    UserDefaults.standard.set(json["Email"].stringValue, forKey: "Email")
+                    UserDefaults.standard.set(json["CustomerPhoto"].stringValue, forKey: "CustomerPhoto")
+                    UserDefaults.standard.set(json["Mobile"].stringValue, forKey: "mobile")
+                    if Reachability.isConnectedToNetwork(){
+                        print("Internet Connection Available!")
+                        self.model.GetProjectByCustID(view: self.view, VC: self)
+                    }else{
+                        print("Internet Connection not Available!")
+                        self.projectModel.loadItems()
+                        self.myProjects = self.projectModel.projects
+                        self.MyProjectsTableView.reloadData()
+                    }
+                    self.CountCustomerNotification()
+                } else {
+                    UserDefaults.standard.set(json["UserId"].stringValue, forKey: "UserId")
+                    UserDefaults.standard.set(json["CustmoerId"].stringValue, forKey: "CustmoerId")
+                    UserDefaults.standard.set(json["CustmoerName"].stringValue, forKey: "CustmoerName")
+                    UserDefaults.standard.set(json["Email"].stringValue, forKey: "Email")
+                    UserDefaults.standard.set(json["CustomerPhoto"].stringValue, forKey: "CustomerPhoto")
+                    UserDefaults.standard.set(json["Mobile"].stringValue, forKey: "mobile")
+                    if Reachability.isConnectedToNetwork(){
+                        print("Internet Connection Available!")
+                        self.model.GetProjectByCustID(view: self.view, VC: self)
+                    }else{
+                        print("Internet Connection not Available!")
+                        self.projectModel.loadItems()
+                        self.myProjects = self.projectModel.projects
+                        self.MyProjectsTableView.reloadData()
+                    }
+                    self.CountCustomerNotification()
+                }
+            case .failure(let error):
+                print(error)
+                UIViewController.removeSpinner(spinner: self.view)
+                let alertAction = UIAlertController(title: "خطاء في الاتصال", message: "اعادة المحاولة", preferredStyle: .alert)
+                
+                alertAction.addAction(UIAlertAction(title: "نعم", style: .default, handler: { action in
+                    self.GetEmptByMobileNum()
+                }))
+                
+                alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+                }))
+                
+                self.present(alertAction, animated: true, completion: nil)
+                
+            }
+            
+        }
+        
     }
 }
 import SystemConfiguration
