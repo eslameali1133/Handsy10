@@ -55,6 +55,9 @@ class VisitsDetialsTableViewController: UITableViewController {
             officeDetialsBtn.layer.cornerRadius = 4.0
         }
     }
+    
+    @IBOutlet weak var StatusView: UIView!
+    
     var visitTitle: String = ""
     var MeetingStatus: String = ""
     var Description: String = ""
@@ -244,48 +247,53 @@ class VisitsDetialsTableViewController: UITableViewController {
             DataStart.text = Start
             if MeetingStatus == "0"{
                 status.text = "قيد المقابلة"
-                statusImage.image = #imageLiteral(resourceName: "Yellow")
-                status.textColor = #colorLiteral(red: 0.9411764706, green: 0.7647058824, blue: 0.1882352941, alpha: 1)
+               StatusView.backgroundColor = #colorLiteral(red: 0.9459478259, green: 0.7699176669, blue: 0.05561546981, alpha: 1)
+                //status.textColor = #colorLiteral(red: 0.9411764706, green: 0.7647058824, blue: 0.1882352941, alpha: 1)
                 OKVisit.isEnabled = true
                 CancelVisit.isEnabled = true
                 PauseVisit.isEnabled = true
                 buttonsView.isHidden = false
             }else if MeetingStatus == "1"{
                 status.text = "تمت المقابلة"
-                statusImage.image = #imageLiteral(resourceName: "Green")
-                status.textColor = #colorLiteral(red: 0.2235294118, green: 0.7921568627, blue: 0.4549019608, alpha: 1)
+//                statusImage.image = #imageLiteral(resourceName: "Green")
+//                //status.textColor = #colorLiteral(red: 0.2235294118, green: 0.7921568627, blue: 0.4549019608, alpha: 1)
+                StatusView.backgroundColor = #colorLiteral(red: 0.1812162697, green: 0.7981202602, blue: 0.4416504204, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
                 PauseVisit.isEnabled = false
                 buttonsView.isHidden = true
             }else if MeetingStatus == "2"{
                 status.text = "ملغية"
-                statusImage.image = #imageLiteral(resourceName: "Orange")
-                status.textColor = #colorLiteral(red: 0.8941176471, green: 0.4941176471, blue: 0.1882352941, alpha: 1)
+//                statusImage.image = #imageLiteral(resourceName: "Orange")
+                //status.textColor = #colorLiteral(red: 0.8941176471, green: 0.4941176471, blue: 0.1882352941, alpha: 1)
+                 StatusView.backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.4941176471, blue: 0.1882352941, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
                 PauseVisit.isEnabled = false
                 buttonsView.isHidden = true
             }else if MeetingStatus == "3"{
                 status.text = "فائته"
-                statusImage.image = #imageLiteral(resourceName: "Red")
-                status.textColor = #colorLiteral(red: 0.8980392157, green: 0.3019607843, blue: 0.2588235294, alpha: 1)
+//                statusImage.image = #imageLiteral(resourceName: "Red")
+                //status.textColor = #colorLiteral(red: 0.8980392157, green: 0.3019607843, blue: 0.2588235294, alpha: 1)
+                 StatusView.backgroundColor =  #colorLiteral(red: 0.8980392157, green: 0.3019607843, blue: 0.2588235294, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
                 PauseVisit.isEnabled = false
                 buttonsView.isHidden = true
             }else if MeetingStatus == "4"{
                 status.text = "مؤجلة"
-                statusImage.image = #imageLiteral(resourceName: "Blue")
-                status.textColor = #colorLiteral(red: 0.2274509804, green: 0.6, blue: 0.8470588235, alpha: 1)
+//                statusImage.image = #imageLiteral(resourceName: "Blue")
+                //status.textColor = #colorLiteral(red: 0.2274509804, green: 0.6, blue: 0.8470588235, alpha: 1)
+                 StatusView.backgroundColor =  #colorLiteral(red: 0.2274509804, green: 0.6, blue: 0.8470588235, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
                 PauseVisit.isEnabled = false
                 buttonsView.isHidden = true
             }else if MeetingStatus == "5"{
                 status.text = "موافقة و قيد المقابلة"
-                statusImage.image = #imageLiteral(resourceName: "تم الانجاز-1")
-                status.textColor = #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
+//                statusImage.image = #imageLiteral(resourceName: "تم الانجاز-1")
+                //status.textColor = #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
+                 StatusView.backgroundColor = #colorLiteral(red: 0.1812162697, green: 0.7981202602, blue: 0.4416504204, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
                 PauseVisit.isEnabled = false
@@ -321,48 +329,54 @@ class VisitsDetialsTableViewController: UITableViewController {
             DataStart.text = visitsDetialsArray[0].Start
             if visitsDetialsArray[0].MeetingStatus == "0"{
                 status.text = "قيد المقابلة"
-                statusImage.image = #imageLiteral(resourceName: "Yellow")
-                status.textColor = #colorLiteral(red: 0.9411764706, green: 0.7647058824, blue: 0.1882352941, alpha: 1)
+//                statusImage.image = #imageLiteral(resourceName: "Yellow")
+                  StatusView.backgroundColor = #colorLiteral(red: 0.9459478259, green: 0.7699176669, blue: 0.05561546981, alpha: 1)
+                //status.textColor = #colorLiteral(red: 0.9411764706, green: 0.7647058824, blue: 0.1882352941, alpha: 1)
                 OKVisit.isEnabled = true
                 CancelVisit.isEnabled = true
                 PauseVisit.isEnabled = true
                 buttonsView.isHidden = false
             }else if visitsDetialsArray[0].MeetingStatus == "1"{
                 status.text = "تمت المقابلة"
-                statusImage.image = #imageLiteral(resourceName: "Green")
-                status.textColor = #colorLiteral(red: 0.2235294118, green: 0.7921568627, blue: 0.4549019608, alpha: 1)
+//                statusImage.image = #imageLiteral(resourceName: "Green")
+                  StatusView.backgroundColor = #colorLiteral(red: 0.2235294118, green: 0.7921568627, blue: 0.4549019608, alpha: 1)
+                //status.textColor = #colorLiteral(red: 0.2235294118, green: 0.7921568627, blue: 0.4549019608, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
                 PauseVisit.isEnabled = false
                 buttonsView.isHidden = true
             }else if visitsDetialsArray[0].MeetingStatus == "2"{
                 status.text = "ملغية"
-                statusImage.image = #imageLiteral(resourceName: "Orange")
-                status.textColor = #colorLiteral(red: 0.8941176471, green: 0.4941176471, blue: 0.1882352941, alpha: 1)
+//                statusImage.image = #imageLiteral(resourceName: "Orange")
+                  StatusView.backgroundColor =  #colorLiteral(red: 0.8941176471, green: 0.4941176471, blue: 0.1882352941, alpha: 1)
+                //status.textColor = #colorLiteral(red: 0.8941176471, green: 0.4941176471, blue: 0.1882352941, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
                 PauseVisit.isEnabled = false
                 buttonsView.isHidden = true
             }else if visitsDetialsArray[0].MeetingStatus == "3"{
                 status.text = "فائته"
-                statusImage.image = #imageLiteral(resourceName: "Red")
-                status.textColor = #colorLiteral(red: 0.8980392157, green: 0.3019607843, blue: 0.2588235294, alpha: 1)
+//                statusImage.image = #imageLiteral(resourceName: "Red")
+                  StatusView.backgroundColor = #colorLiteral(red: 0.8980392157, green: 0.3019607843, blue: 0.2588235294, alpha: 1)
+                //status.textColor = #colorLiteral(red: 0.8980392157, green: 0.3019607843, blue: 0.2588235294, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
                 PauseVisit.isEnabled = false
                 buttonsView.isHidden = true
             }else if visitsDetialsArray[0].MeetingStatus == "4"{
                 status.text = "مؤجلة"
-                statusImage.image = #imageLiteral(resourceName: "Blue")
-                status.textColor = #colorLiteral(red: 0.2274509804, green: 0.6, blue: 0.8470588235, alpha: 1)
+//                statusImage.image = #imageLiteral(resourceName: "Blue")
+                  StatusView.backgroundColor = #colorLiteral(red: 0.2274509804, green: 0.6, blue: 0.8470588235, alpha: 1)
+                //status.textColor = #colorLiteral(red: 0.2274509804, green: 0.6, blue: 0.8470588235, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
                 PauseVisit.isEnabled = false
                 buttonsView.isHidden = true
             }else if visitsDetialsArray[0].MeetingStatus == "5"{
                 status.text = "موافقة و قيد المقابلة"
-                statusImage.image = #imageLiteral(resourceName: "تم الانجاز-1")
-                status.textColor = #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
+//                statusImage.image = #imageLiteral(resourceName: "تم الانجاز-1")
+                  StatusView.backgroundColor =  #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
+                //status.textColor = #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
                 PauseVisit.isEnabled = false

@@ -22,7 +22,8 @@ class GalaryViewController: UIViewController, UICollectionViewDelegate, UICollec
     var inde: IndexPath?
     var index: Int?
     var cond = ""
-    
+    var url: String = ""
+    var documentInteractionController = UIDocumentInteractionController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +50,40 @@ class GalaryViewController: UIViewController, UICollectionViewDelegate, UICollec
         }
         assignbackground()
         // Do any additional setup after loading the view.
+         downloadPdf()
+    }
+    func downloadPdf()  {
+        let download = UIButton(type: .custom)
+        download.setImage(UIImage (named: "download-button-1"), for: .normal)
+        download.tintColor = UIColor.white
+       download.widthAnchor.constraint(equalToConstant: 30).isActive = true
+         download.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        download.frame = CGRect(x: 0.0, y: 0.0, width: 35.0, height: 35.0)
+        download.addTarget(self, action:#selector(downloadPdfButton), for: .touchUpInside)
+        
+        let barButtonItem2 = UIBarButtonItem(customView: download)
+        barButtonItem2.tintColor = UIColor.white
+        self.navigationItem.rightBarButtonItems = [ barButtonItem2]
+    }
+    @objc func downloadPdfButton(sender: UIButton) {
+        guard let url = URL(string: url) else { return }
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else { return }
+            let tmpURL = FileManager.default.temporaryDirectory
+                .appendingPathComponent(response?.suggestedFilename ?? "Contract.pdf")
+            do {
+                try data.write(to: tmpURL)
+            } catch { print(error) }
+            DispatchQueue.main.async {
+                self.share(url: tmpURL)
+            }
+            }.resume()
+    }
+    func share(url: URL) {
+        documentInteractionController.url = url
+        documentInteractionController.uti = url.typeIdentifier ?? "public.data, public.content"
+        documentInteractionController.name = url.localizedName ?? url.lastPathComponent
+        documentInteractionController.presentOptionsMenu(from: view.frame, in: view, animated: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -97,6 +132,7 @@ class GalaryViewController: UIViewController, UICollectionViewDelegate, UICollec
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GalaryCollectionViewCell", for: indexPath) as! GalaryCollectionViewCell
+        url = AddItemPhotos[indexPath.row].ProjectsImagePath
         if cond == "" {
             if AddItem1 == "" {
                 if AddItem == ""{

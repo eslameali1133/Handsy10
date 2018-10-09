@@ -16,10 +16,11 @@ class SearchOfOfficesModel: NSObject {
         let Parameters: Parameters = [
             "isCompany": isCompany,
             "SortBy": SortBy,
-            "SortExp": text
+            "SortExp": text,
+            "Rate": ""
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetOffices", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetOffices", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             var arrayOfResulr = [GetOfficesArray]()
@@ -51,6 +52,7 @@ class SearchOfOfficesModel: NSObject {
                 requestProjectObj.BranchID = json["BranchID"].stringValue
                 requestProjectObj.Address = json["Address"].stringValue
                 requestProjectObj.ProjCount = json["ProjCount"].stringValue
+                 requestProjectObj.RateNumber = json["StarsCount"].double!
                 
                 arrayOfResulr.append(requestProjectObj)
             }

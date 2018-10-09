@@ -13,11 +13,12 @@ import SwiftyJSON
 import MapKit
 
 protocol BarBtnMapDelegate {
-    func BarBtnSortExpDidChange(SortExp: String, companyTypeName: String)
+    func BarBtnSortExpDidChange(SortExp: String, companyTypeName: String , RateNumber: String)
 }
 protocol PresentDelegate {
-    func mapValueDidChange(resultMyLocation2: CLLocation, distance: CLLocationDistance, address: String, newPlace: GMSPlace, SortExp: String, resultsText: String)
-    func newMapValueDidChange(address: String, SortExp: String, resultsText: String) 
+    func mapValueDidChange(resultMyLocation2: CLLocation, distance: CLLocationDistance, address: String, newPlace: GMSPlace, SortExp: String, resultsText: String,Rate: String,IsNear: Bool,IsSearch: Bool ,R1:String,R2:String)
+    
+    func newMapValueDidChange(address: String, SortExp: String, resultsText: String, Rate: String,IsNear: Bool,IsSearch: Bool,R1:String,R2:String)
 }
 
 
@@ -52,6 +53,8 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
+    @IBOutlet weak var popup_CompanyName: UILabel!
+    @IBOutlet weak var Rate_PopUp: RatingController!
     @IBOutlet weak var chooseBtnOut: UIButton!{
         didSet {
             DispatchQueue.main.async {
@@ -78,6 +81,15 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
     var arrayOfResulr = [GetOfficesArray]()
     var indexi:Int?
     var address = ""
+    var rate_StarValue = ""
+     var Exp_sort = ""
+    var Rate_Sent = ""
+    var Res_Sent = ""
+    var companyNameT = ""
+    var IsRsearch = false
+    var IsNear = true
+    var distanceSend = 0.0
+    var searchtext = ""
     //    var BiuldNum = ""
     //    var branchFB = ""
     //    var branchID = ""
@@ -96,6 +108,16 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBOutlet weak var myLocationBtnLabel: UIButton!
     
+    @IBAction func FilterRate(_ sender: Any) {
+        let dvc = self.storyboard!.instantiateViewController(withIdentifier: "FilterByRateVc") as! FilterByRateVc
+        
+        dvc.barBtnMapDelegate = self
+          dvc.rateSelected = rate_StarValue
+dvc.Expsort = Exp_sort
+       dvc.CompanyName = companyNameT
+        self.present(dvc, animated: true, completion: nil)
+        
+    }
     @IBOutlet weak var listOfOfficesLabel: UIButton!
     
     @IBOutlet weak var PopUpView: UIView!
@@ -144,6 +166,17 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
+    @IBOutlet weak var FilterbyRate: UIButton!{
+        didSet {
+            DispatchQueue.main.async {
+                self.FilterbyRate.layer.cornerRadius = 7.0
+                self.FilterbyRate.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                self.FilterbyRate.layer.borderWidth = 1.0
+                self.FilterbyRate.layer.masksToBounds = true
+                
+            }
+        }
+    }
     @IBOutlet weak var filterOfficeTypeOut: UIButton!{
         didSet {
             DispatchQueue.main.async {
@@ -213,7 +246,7 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
         self.navigationItem.hidesBackButton = true
         self.locationManager.delegate = self
         self.locationManager.requestWhenInUseAuthorization()
-        GetOfficesByProvincesID(SortBy: "1", SortExp: "")
+        GetOfficesByProvincesID(SortBy: "1", SortExp: "", Rate: "")
         
         mapView.delegate = self
         mapView.mapType = .terrain
@@ -356,17 +389,19 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
             self.view.layoutIfNeeded()
         }
     }
-    func GetOfficesByProvincesID(SortBy: String, SortExp: String){
+    func GetOfficesByProvincesID(SortBy: String, SortExp: String,Rate: String){
         let sv = UIViewController.displaySpinner(onView: self.view)
         self.arrayOfResulr.removeAll()
         mapView.clear()
         let Parameters: Parameters = [
             "isCompany": isCompany,
             "SortBy": SortBy,
-            "SortExp": SortExp
+            "SortExp": SortExp,
+            "Rate": Rate
         ]
+        print(Parameters)
         var markersArray = [GMSMarker]()
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetOffices", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetOffices", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             switch response.result {
             case .success:
@@ -462,7 +497,7 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
                 let alertAction = UIAlertController(title: "خطاء في الاتصال", message: "اعادة المحاولة", preferredStyle: .alert)
                 
                 alertAction.addAction(UIAlertAction(title: "نعم", style: .default, handler: { action in
-                    self.GetOfficesByProvincesID(SortBy: SortBy, SortExp: SortExp)
+                    self.GetOfficesByProvincesID(SortBy: SortBy, SortExp: SortExp, Rate: Rate)
                 }))
                 
                 alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
@@ -501,12 +536,19 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
         secondView.resultsText = resultsText
         secondView.resultsText1 = resultsText1
         secondView.resultsText2 = resultsText2
+        secondView.RateValue = RateValue
+        secondView.IsRsearch = IsRsearch
+        secondView.IsNear = IsNear
+        secondView.distanceComing = distanceSend
+        secondView.searchtext = (searchController?.searchBar.text)!
         if SortExp != nil {
             secondView.SortExp = self.SortExp!
+            
         }else {
             secondView.SortExp = ""
         }
-        
+       
+     
         self.present(NavController, animated: false, completion: nil)
     }
     
@@ -585,6 +627,7 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
         let NavController = storyboard.instantiateViewController(withIdentifier: "NavSearchOfOffice") as! UINavigationController
         let secondView = NavController.viewControllers.first as! SearchByOfficeNameViewController
         secondView.type = "1"
+       
         secondView.arrayOfResulr = self.arrayOfResulr
         secondView.targetMyLocation = self.targetMyLocation
         secondView.resultMyLocation2 = self.resultMyLocation2
@@ -596,6 +639,7 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
         let dvc = self.storyboard!.instantiateViewController(withIdentifier: "FilterCompanyTypeTableViewController") as! FilterCompanyTypeTableViewController
         
         dvc.barBtnMapDelegate = self
+         dvc.reate = rate_StarValue
         dvc.modalPresentationStyle = .popover
         dvc.popoverPresentationController?.sourceView = sender
         dvc.popoverPresentationController?.sourceRect = CGRect(x: sender.frame.midX-100 , y: sender.frame.maxY, width: 0, height: 0)
@@ -607,13 +651,17 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     @IBAction func myLocationBtn(_ sender: UIButton) {
+       
+        IsRsearch = false
         if filterOfficeByNeerOut.backgroundColor == #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1) {
+             IsNear = false
             self.filterOfficeByNeerOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
             self.filterOfficeByNeerOut.layer.cornerRadius = 7.0
             self.filterOfficeByNeerOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
             self.filterOfficeByNeerOut.layer.borderWidth = 1.0
             self.filterOfficeByNeerOut.layer.masksToBounds = true
         } else {
+             IsNear = true
             self.filterOfficeByNeerOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
             self.filterOfficeByNeerOut.layer.cornerRadius = 7.0
             self.filterOfficeByNeerOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
@@ -625,25 +673,88 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
     
     func gotoMyLocationAction(sender: UIButton)
     {
+        
+        /// near
+       
+        print(RateValue)
         searchController?.searchBar.text = ""
+        resultsText1 = ""
         if arrayOfResulr.count != 0 {
             arrayOfResulr.removeAll()
         }
         mapView.clear()
-        if SortExp == nil || SortExp == "-1" || SortExp == "" {
-            GetOfficesByProvincesID(SortBy: "1", SortExp: "")
+        if ((SortExp == nil || SortExp == "-1" || SortExp == "") && RateValue == "" )  {
+            GetOfficesByProvincesID(SortBy: "1", SortExp: "", Rate: "")
             self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+              self.FilterbyRate.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
             self.filterOfficeTypeOut.layer.cornerRadius = 7.0
             self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
             self.filterOfficeTypeOut.layer.borderWidth = 1.0
             self.filterOfficeTypeOut.layer.masksToBounds = true
-        }else {
-            GetOfficesByProvincesID(SortBy: "3", SortExp: SortExp!)
+        } else if((RateValue == "" || RateValue == nil) && (SortExp != "" || SortExp != nil)) {
+            rate_StarValue = ""
+            GetOfficesByProvincesID(SortBy: "3", SortExp: SortExp!, Rate: "")
+           
+            self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            self.FilterbyRate.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.cornerRadius = 7.0
+            self.FilterbyRate.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.FilterbyRate.layer.borderWidth = 1.0
+            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.filterOfficeTypeOut.layer.borderWidth = 1.0
+            self.filterOfficeTypeOut.layer.masksToBounds = true
+            resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2
+            Res_Sent = resultsText + ", " + resultsText2
+            Exp_sort = SortExp!
+            Rate_Sent = rate_StarValue
+        }
+        else if((SortExp == "" || SortExp == nil) && (RateValue != "" || RateValue == nil)) {
+            rate_StarValue = RateValue
+            GetOfficesByProvincesID(SortBy: "6", SortExp: SortExp!, Rate: RateValue)
+          
+            self.FilterbyRate.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.cornerRadius = 7.0
+            self.FilterbyRate.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.borderWidth = 1.0
+            self.FilterbyRate.layer.masksToBounds = true
+            
+            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.filterOfficeTypeOut.layer.borderWidth = 1.0
+          
+            resaultsLabel.text = resultsText + " تقيم " + RateValue + " نجوم "
+            Res_Sent = resultsText + " تقيم " + RateValue + " نجوم "
+           
+        }
+        else
+        {
+            GetOfficesByProvincesID(SortBy: "7", SortExp: SortExp!, Rate: RateValue)
+            resaultsLabel.text = resultsText + "" + ", " + resultsText2
+             rate_StarValue = RateValue
+            rate_StarValue =  RateValue
+            self.FilterbyRate.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            self.FilterbyRate.layer.cornerRadius = 7.0
+            self.FilterbyRate.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.borderWidth = 1.0
+            self.FilterbyRate.layer.masksToBounds = true
+            self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.filterOfficeTypeOut.layer.borderWidth = 1.0
+            self.filterOfficeTypeOut.layer.masksToBounds = true
+            
+            resaultsLabel.text = resultsText + ", " + resultsText2 + " تقيم " +  RateValue  + " نجوم "
+            Res_Sent = resultsText + resultsText1 + ", " + resultsText2 + " تقيم " +  RateValue  + " نجوم "
+            
         }
         PopUpView.isHidden = true
         guard let lat = self.mapView.myLocation?.coordinate.latitude,
             let lng = self.mapView.myLocation?.coordinate.longitude else { return }
-        resaultsLabel.text = resultsText + "" + ", " + resultsText2
+        
+      
+      
         let camera = GMSCameraPosition.camera(withLatitude: lat ,longitude: lng , zoom: 12.0)
         self.mapView.animate(to: camera)
     }
@@ -718,6 +829,7 @@ class OfficesMapViewController: UIViewController, CLLocationManagerDelegate {
     var cam = 17.0
     var radius: CLLocationDistance?
     var SortExp: String?
+     var RateValue = ""
 }
 
 // Handle the user's selection.
@@ -749,6 +861,11 @@ extension OfficesMapViewController: GMSAutocompleteResultsViewControllerDelegate
             if arrayOfResulr.count > index {
                 CompanyNameLabel.text = arrayOfResulr[index].ComapnyName
                 companyMobileLabel = arrayOfResulr[index].CompanyMobile
+                
+                popup_CompanyName.text = arrayOfResulr[index].Address
+                print(arrayOfResulr[index].RateNumber)
+                print(arrayOfResulr[index].Address)
+                Rate_PopUp.starsRating = Int(5 - arrayOfResulr[index].RateNumber)
                 let img = arrayOfResulr[index].Logo
                 let trimmedString = img.trimmingCharacters(in: .whitespaces)
                 if let url = URL.init(string: trimmedString) {
@@ -761,6 +878,9 @@ extension OfficesMapViewController: GMSAutocompleteResultsViewControllerDelegate
                 let ind = (index - arrayOfResulr.count)+1
                 CompanyNameLabel.text = arrayOfResulr[index-ind].ComapnyName
                 companyMobileLabel = arrayOfResulr[index-ind].CompanyMobile
+                 popup_CompanyName.text = arrayOfResulr[index-ind].Address
+                print(arrayOfResulr[index-ind].RateNumber)
+                  Rate_PopUp.starsRating = Int(5 - arrayOfResulr[index-ind].RateNumber)
                 let img = arrayOfResulr[index-ind].Logo
                 let trimmedString = img.trimmingCharacters(in: .whitespaces)
                 if let url = URL.init(string: trimmedString) {
@@ -815,10 +935,20 @@ extension OfficesMapViewController: GMSAutocompleteResultsViewControllerDelegate
             arrayOfResulr.removeAll()
         }
         mapView.clear()
-        if SortExp == nil || SortExp == "-1" || SortExp == "" {
-            GetOfficesByProvincesID(SortBy: "1", SortExp: "")
-        }else {
-            GetOfficesByProvincesID(SortBy: "3", SortExp: SortExp!)
+        if SortExp == nil || SortExp == "-1" || SortExp == "" || RateValue == "" || RateValue != ""{
+            GetOfficesByProvincesID(SortBy: "1", SortExp: "", Rate: "")
+        }
+        else if((RateValue == "" || RateValue == nil) && (SortExp != "" || SortExp != nil)) {
+        
+            GetOfficesByProvincesID(SortBy: "3", SortExp: SortExp!, Rate: "")
+        }
+        else if((SortExp == "" || SortExp == nil) && (RateValue != "" || RateValue != nil)) {
+            
+            GetOfficesByProvincesID(SortBy: "6", SortExp: SortExp!, Rate: RateValue)
+        }
+        else
+        {
+          GetOfficesByProvincesID(SortBy: "7", SortExp: SortExp!, Rate: RateValue)
         }
         PopUpView.isHidden = true
         print(#function)
@@ -830,10 +960,26 @@ extension OfficesMapViewController: GMSAutocompleteResultsViewControllerDelegate
 //        //                self.resultsText1 = address.locality ?? self.resultsText1
 //        self.resultsText1 = ""
 //        self.resaultsLabel.text = self.resultsText + self.resultsText1 + ", " + self.resultsText2
+       
+        
+        
         resultMyLocation2 = CLLocation(latitude: position.target.latitude, longitude: position.target.longitude)
     }
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController, didAutocompleteWith place: GMSPlace) {
+        ///// search
+      
+        IsRsearch = true
+         print(RateValue)
         searchController?.isActive = false
+        if filterOfficeByNeerOut.backgroundColor == #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1) {
+            self.filterOfficeByNeerOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.filterOfficeByNeerOut.layer.cornerRadius = 7.0
+            self.filterOfficeByNeerOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.filterOfficeByNeerOut.layer.borderWidth = 1.0
+            self.filterOfficeByNeerOut.layer.masksToBounds = true
+             IsNear = false
+        }
+        
         // Do something with the selected place.
         print("Place name: \(place.name)")
 //        self.searchController?.searchBar.text = place.name
@@ -850,24 +996,95 @@ extension OfficesMapViewController: GMSAutocompleteResultsViewControllerDelegate
         let tarf = CLLocation(latitude: (f?.latitude)!, longitude: (f?.longitude)!)
         radius = targ.distance(from: tarf)
         let distance : GMSCoordinateBounds = GMSCoordinateBounds(coordinate: g!, coordinate: f!)
+        let distance33 : CLLocationDistance = targ.distance(from: tarf)
+        distanceSend = distance33
         let camera = mapView.camera(for: distance, insets: UIEdgeInsets())!
         cam = Double(camera.zoom)
         mapView.camera = camera
 //        map(l: place.coordinate.latitude, lng: place.coordinate.longitude, Z: 17.0, title: place.formattedAddress!)
         resultMyLocation2 = CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
-        if arrayOfResulr.count > 0 {
-            arrayOfResulr.removeAll()
-        }
-        if SortExp == nil || SortExp == "-1" || SortExp == "" {
-            GetOfficesByProvincesID(SortBy: "1", SortExp: "")
-        }else {
-            GetOfficesByProvincesID(SortBy: "3", SortExp: SortExp!)
-        }
-        PopUpView.isHidden = true
         address = place.formattedAddress!
         searchController?.searchBar.text = place.name
         resultsText1 = place.name
-        resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2
+        
+        if arrayOfResulr.count > 0 {
+            arrayOfResulr.removeAll()
+        }
+        if ((SortExp == nil || SortExp == "-1" || SortExp == "") && RateValue == "" ) {
+            
+            GetOfficesByProvincesID(SortBy: "1", SortExp: "", Rate: "")
+            self.FilterbyRate.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.cornerRadius = 7.0
+            self.FilterbyRate.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.FilterbyRate.layer.borderWidth = 1.0
+             self.FilterbyRate.layer.masksToBounds = true
+            self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.filterOfficeTypeOut.layer.borderWidth = 1.0
+            self.filterOfficeTypeOut.layer.masksToBounds = true
+        } else if((RateValue == "" || RateValue == nil) && (SortExp != "" || SortExp != nil)) {
+            
+            rate_StarValue = ""
+            GetOfficesByProvincesID(SortBy: "3", SortExp: SortExp!, Rate: "")
+            
+            self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            self.FilterbyRate.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.cornerRadius = 7.0
+            self.FilterbyRate.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.FilterbyRate.layer.borderWidth = 1.0
+            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.filterOfficeTypeOut.layer.borderWidth = 1.0
+            self.filterOfficeTypeOut.layer.masksToBounds = true
+            resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2
+            Res_Sent = resultsText + resultsText1 + ", " + resultsText2
+            Exp_sort = SortExp!
+            Rate_Sent = rate_StarValue
+        }
+        else if((SortExp == "" || SortExp == nil) && (RateValue != "" || RateValue != nil)) {
+            
+            rate_StarValue = RateValue
+            GetOfficesByProvincesID(SortBy: "6", SortExp: SortExp!, Rate: RateValue)
+            
+            self.FilterbyRate.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.cornerRadius = 7.0
+            self.FilterbyRate.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.borderWidth = 1.0
+            self.FilterbyRate.layer.masksToBounds = true
+            
+            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.filterOfficeTypeOut.layer.borderWidth = 1.0
+            
+            resaultsLabel.text = resultsText + " تقيم " + RateValue + " نجوم "
+            Res_Sent = resultsText + " تقيم " + RateValue + " نجوم "
+        }
+        else
+        {
+            GetOfficesByProvincesID(SortBy: "7", SortExp: SortExp!, Rate: RateValue)
+            resaultsLabel.text = resultsText + "" + ", " + resultsText2
+            rate_StarValue = RateValue
+            rate_StarValue =  RateValue
+            self.FilterbyRate.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            self.FilterbyRate.layer.cornerRadius = 7.0
+            self.FilterbyRate.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.borderWidth = 1.0
+            self.FilterbyRate.layer.masksToBounds = true
+            self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.filterOfficeTypeOut.layer.borderWidth = 1.0
+            self.filterOfficeTypeOut.layer.masksToBounds = true
+            
+            resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2 + " تقيم " +  RateValue  + " نجوم "
+            Res_Sent = resultsText + resultsText1 + ", " + resultsText2 + " تقيم " +  RateValue  + " نجوم "
+        }
+        PopUpView.isHidden = true
+       
+       
+       
     }
     
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController, didFailAutocompleteWithError error: Error){
@@ -903,6 +1120,9 @@ extension OfficesMapViewController: GMSAutocompleteResultsViewControllerDelegate
         //        marker.map = mapView
         
     }
+    
+    
+    
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         // Here you verify the user has granted you permission while the app is in use.
         
@@ -937,10 +1157,11 @@ extension OfficesMapViewController: GMSAutocompleteResultsViewControllerDelegate
 }
 
 extension OfficesMapViewController: BarBtnMapDelegate {
-    func BarBtnSortExpDidChange(SortExp: String, companyTypeName: String) {
+    func BarBtnSortExpDidChange(SortExp: String, companyTypeName: String , RateNumber: String ) {
         mapView.clear()
-        if SortExp == nil || SortExp == "-1" || SortExp == "" {
-            GetOfficesByProvincesID(SortBy: "1", SortExp: "")
+        RateValue = RateNumber
+        if SortExp == nil || SortExp == "-1" {
+            GetOfficesByProvincesID(SortBy: "1", SortExp: "", Rate: "")
             self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
             self.filterOfficeTypeOut.layer.cornerRadius = 7.0
             self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -948,22 +1169,124 @@ extension OfficesMapViewController: BarBtnMapDelegate {
             self.filterOfficeTypeOut.layer.masksToBounds = true
             resultsText2 = companyTypeName
             resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2
+            Res_Sent = resultsText + resultsText1 + ", " + resultsText2
+            rate_StarValue = ""
+             Exp_sort = SortExp
         }else {
-            GetOfficesByProvincesID(SortBy: "3", SortExp: SortExp)
+            
+            if(RateNumber == "" &&  SortExp != "")
+            {
+                
+            
+            GetOfficesByProvincesID(SortBy: "3", SortExp: SortExp, Rate: rate_StarValue)
             self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            self.FilterbyRate.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.cornerRadius = 7.0
+            self.FilterbyRate.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.FilterbyRate.layer.borderWidth = 1.0
             self.filterOfficeTypeOut.layer.cornerRadius = 7.0
             self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
             self.filterOfficeTypeOut.layer.borderWidth = 1.0
             self.filterOfficeTypeOut.layer.masksToBounds = true
+               rate_StarValue = ""
             resultsText2 = companyTypeName
+                
+                
             resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2
+                Res_Sent = resultsText + resultsText1 + ", " + resultsText2
+                 Exp_sort = SortExp
+              
+                Rate_Sent = rate_StarValue
+                companyNameT = companyTypeName
+            }
+             else if (RateNumber != "" &&  SortExp == "")
+            {
+              Exp_sort = ""
+                rate_StarValue = RateNumber
+                GetOfficesByProvincesID(SortBy: "6", SortExp: SortExp, Rate: RateNumber)
+                self.FilterbyRate.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+                 self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.FilterbyRate.layer.cornerRadius = 7.0
+                self.FilterbyRate.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.FilterbyRate.layer.borderWidth = 1.0
+                self.FilterbyRate.layer.masksToBounds = true
+                
+                self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+                self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                self.filterOfficeTypeOut.layer.borderWidth = 1.0
+                resultsText2 = companyTypeName
+                resaultsLabel.text = resultsText + resultsText1 + " تقيم " + RateNumber + " نجوم "
+                Res_Sent = resultsText + " تقيم " + RateNumber + " نجوم "
+            }
+            else
+            {
+               
+                
+                if(SortExp != "" && RateNumber != "" )
+                {
+                GetOfficesByProvincesID(SortBy: "7", SortExp: SortExp, Rate: RateNumber)
+                Exp_sort = SortExp
+                    
+                    Rate_Sent = RateNumber
+                companyNameT = companyTypeName
+                rate_StarValue = RateNumber
+                self.FilterbyRate.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+                self.FilterbyRate.layer.cornerRadius = 7.0
+                self.FilterbyRate.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.FilterbyRate.layer.borderWidth = 1.0
+                self.FilterbyRate.layer.masksToBounds = true
+                self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+                self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+                self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.filterOfficeTypeOut.layer.borderWidth = 1.0
+                self.filterOfficeTypeOut.layer.masksToBounds = true
+                resultsText2 = companyTypeName
+                resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2 + " تقيم " + RateNumber  + " نجوم "
+                    Res_Sent = resultsText + resultsText1 + ", " + resultsText2 + " تقيم " + RateNumber  + " نجوم "
+                }
+                else{
+                    self.FilterbyRate.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                    self.FilterbyRate.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                    self.FilterbyRate.layer.cornerRadius = 7.0
+                    self.FilterbyRate.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                    self.FilterbyRate.layer.borderWidth = 1.0
+                    
+                 self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                    GetOfficesByProvincesID(SortBy: "1", SortExp: "", Rate: "")
+                       resaultsLabel.text = ""
+                    Res_Sent = ""
+                      rate_StarValue = ""
+                     Exp_sort = ""
+                     }
+                
+            }
         }
         self.SortExp = SortExp
+        self.Rate_Sent = RateNumber
     }
 }
 
 extension OfficesMapViewController: PresentDelegate {
-    func mapValueDidChange(resultMyLocation2: CLLocation, distance: CLLocationDistance, address: String, newPlace: GMSPlace, SortExp: String, resultsText: String) {
+    func mapValueDidChange(resultMyLocation2: CLLocation, distance: CLLocationDistance, address: String, newPlace: GMSPlace, SortExp: String, resultsText: String, Rate: String,IsNear: Bool,IsSearch: Bool,R1:String,R2:String) {
+         Exp_sort = SortExp
+         self.SortExp  = SortExp
+        resultsText1 = R1
+        resultsText2 = R2
+        IsRsearch = true
+        self.IsNear = false
+          resaultsLabel.text = ""
+         RateValue = Rate
+          var resultsText = "نتائج البحث :"
+        print(RateValue)
+        searchController?.isActive = false
+        if filterOfficeByNeerOut.backgroundColor == #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1) {
+            self.filterOfficeByNeerOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.filterOfficeByNeerOut.layer.cornerRadius = 7.0
+            self.filterOfficeByNeerOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.filterOfficeByNeerOut.layer.borderWidth = 1.0
+            self.filterOfficeByNeerOut.layer.masksToBounds = true
+            
+        }
         searchController?.searchBar.text = address
         self.resultMyLocation2 = resultMyLocation2
         self.address = address
@@ -972,31 +1295,177 @@ extension OfficesMapViewController: PresentDelegate {
         let f = newPlace.viewport?.southWest
         let tarf = CLLocation(latitude: (f?.latitude)!, longitude: (f?.longitude)!)
         radius = targ.distance(from: tarf)
+         let distance : CLLocationDistance = targ.distance(from: tarf)
+        distanceSend = distance
 //        let distance : GMSCoordinateBounds = GMSCoordinateBounds(coordinate: g!, coordinate: f!)
         mapView.clear()
-        if SortExp == nil || SortExp == "-1" || SortExp == "" {
-            GetOfficesByProvincesID(SortBy: "1", SortExp: "")
-        }else {
-            GetOfficesByProvincesID(SortBy: "3", SortExp: SortExp)
+        if ((SortExp == nil || SortExp == "-1" || SortExp == "") && Rate == "" ) {
+            
+            GetOfficesByProvincesID(SortBy: "1", SortExp: "", Rate: "")
+            self.FilterbyRate.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.cornerRadius = 7.0
+            self.FilterbyRate.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.FilterbyRate.layer.borderWidth = 1.0
+            self.FilterbyRate.layer.masksToBounds = true
+            self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.filterOfficeTypeOut.layer.borderWidth = 1.0
+            self.filterOfficeTypeOut.layer.masksToBounds = true
+        } else if((Rate == "" || Rate == nil) && (SortExp != "" || SortExp != nil)) {
+            
+            rate_StarValue = ""
+             RateValue = ""
+            GetOfficesByProvincesID(SortBy: "3", SortExp: SortExp, Rate: "")
+            
+            self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            self.FilterbyRate.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.cornerRadius = 7.0
+            self.FilterbyRate.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.FilterbyRate.layer.borderWidth = 1.0
+            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.filterOfficeTypeOut.layer.borderWidth = 1.0
+            self.filterOfficeTypeOut.layer.masksToBounds = true
+            resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2
+            Res_Sent = resultsText + resultsText1 + ", " + resultsText2
+            Exp_sort = SortExp
+          
         }
-        resaultsLabel.text = resultsText
-        PopUpView.isHidden = true
-    }
-    func newMapValueDidChange(address: String, SortExp: String, resultsText: String) {
-        self.address = address
-        mapView.clear()
-        if SortExp == nil || SortExp == "-1" || SortExp == "" {
-            GetOfficesByProvincesID(SortBy: "1", SortExp: "")
-        }else {
-            GetOfficesByProvincesID(SortBy: "3", SortExp: SortExp)
+        else if((SortExp == "" || SortExp == nil) && (Rate != "" || Rate != nil)) {
+            
+            rate_StarValue = Rate
+             RateValue = Rate
+            GetOfficesByProvincesID(SortBy: "6", SortExp: SortExp, Rate: Rate)
+            
+            self.FilterbyRate.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.cornerRadius = 7.0
+            self.FilterbyRate.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.borderWidth = 1.0
+            self.FilterbyRate.layer.masksToBounds = true
+            
+            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.filterOfficeTypeOut.layer.borderWidth = 1.0
+            
+            resaultsLabel.text = resultsText + " تقيم " + Rate + " نجوم "
+            Res_Sent = resultsText + " تقيم " + Rate + " نجوم "
+        }
+        else
+        {
+            GetOfficesByProvincesID(SortBy: "7", SortExp: SortExp, Rate: Rate)
+           
+            rate_StarValue = Rate
+           
+             RateValue = Rate
+            self.FilterbyRate.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            self.FilterbyRate.layer.cornerRadius = 7.0
+            self.FilterbyRate.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.borderWidth = 1.0
+            self.FilterbyRate.layer.masksToBounds = true
             self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
             self.filterOfficeTypeOut.layer.cornerRadius = 7.0
             self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
             self.filterOfficeTypeOut.layer.borderWidth = 1.0
             self.filterOfficeTypeOut.layer.masksToBounds = true
+            print(resultsText1)
+             print(resultsText2)
+            resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2 + " تقيم " +  Rate  + " نجوم "
+            Res_Sent = resultsText + resultsText1 + ", " + resultsText2 + " تقيم " +  Rate  + " نجوم "
         }
-        resaultsLabel.text = resultsText
+        
+      
+        PopUpView.isHidden = true
     }
+    func newMapValueDidChange(address: String, SortExp: String, resultsText: String, Rate: String,IsNear: Bool,IsSearch: Bool,R1:String,R2:String) {
+          RateValue = Rate
+         Exp_sort = SortExp
+        self.SortExp  = SortExp
+        resultsText1 = R1
+        resultsText2 = R2
+        self.address = address
+        resaultsLabel.text = ""
+        mapView.clear()
+        var resultsText = "نتائج البحث :"
+        if ((SortExp == nil || SortExp == "-1" || SortExp == "") && Rate == "" ) {
+            
+            GetOfficesByProvincesID(SortBy: "1", SortExp: "", Rate: "")
+            self.FilterbyRate.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.cornerRadius = 7.0
+            self.FilterbyRate.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.FilterbyRate.layer.borderWidth = 1.0
+            self.FilterbyRate.layer.masksToBounds = true
+            self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.filterOfficeTypeOut.layer.borderWidth = 1.0
+            self.filterOfficeTypeOut.layer.masksToBounds = true
+        } else if((Rate == "" || Rate == nil) && (SortExp != "" || SortExp != nil)) {
+            
+            rate_StarValue = ""
+            GetOfficesByProvincesID(SortBy: "3", SortExp: SortExp, Rate: "")
+              RateValue = ""
+            self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            self.FilterbyRate.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.cornerRadius = 7.0
+            self.FilterbyRate.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.FilterbyRate.layer.borderWidth = 1.0
+            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.filterOfficeTypeOut.layer.borderWidth = 1.0
+            self.filterOfficeTypeOut.layer.masksToBounds = true
+            resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2
+          
+            Exp_sort = SortExp
+            
+        }
+        else if((SortExp == "" || SortExp == nil) && (Rate != "" || Rate != nil)) {
+            
+            rate_StarValue = Rate
+              RateValue = Rate
+            GetOfficesByProvincesID(SortBy: "6", SortExp: SortExp, Rate: Rate)
+            
+            self.FilterbyRate.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.cornerRadius = 7.0
+            self.FilterbyRate.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.borderWidth = 1.0
+            self.FilterbyRate.layer.masksToBounds = true
+            
+            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.filterOfficeTypeOut.layer.borderWidth = 1.0
+            
+            resaultsLabel.text = resultsText + " تقيم " + Rate + " نجوم "
+            Res_Sent = resultsText + " تقيم " + Rate + " نجوم "
+        }
+        else
+        {
+            GetOfficesByProvincesID(SortBy: "7", SortExp: SortExp, Rate: Rate)
+            
+            rate_StarValue = Rate
+            rate_StarValue =  Rate
+            RateValue = Rate
+            self.FilterbyRate.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            self.FilterbyRate.layer.cornerRadius = 7.0
+            self.FilterbyRate.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.borderWidth = 1.0
+            self.FilterbyRate.layer.masksToBounds = true
+            self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.filterOfficeTypeOut.layer.borderWidth = 1.0
+            self.filterOfficeTypeOut.layer.masksToBounds = true
+            print(resultsText1)
+              print(resultsText2)
+              print(Rate)
+            resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2 + " تقيم " +  Rate  + " نجوم "
+          
+        }
+      
+    }
+    
 }
 
 extension OfficesMapViewController: UIPopoverPresentationControllerDelegate {

@@ -106,8 +106,10 @@ class DetailsOfProjectViewController: UIViewController, GMSMapViewDelegate {
     
 //    @IBOutlet weak var companyNameLabel: UILabel!
     @IBOutlet weak var projectTitleLabel: UILabel!
+    @IBOutlet weak var Emp_NAme: UILabel!
     
     @IBOutlet weak var nameOfStatus: UILabel!
+    @IBOutlet weak var PhoneNumberEmp: UIButton!
     
     @IBOutlet weak var imageOfStatus: UIImageView!
     //    @IBOutlet weak var EngNameLabel: UILabel!
@@ -309,6 +311,8 @@ class DetailsOfProjectViewController: UIViewController, GMSMapViewDelegate {
     
     func CompanyNamefunc() {
         projectTitleLabel.text = ProjectTitle ?? ""
+        Emp_NAme.text = EmpName
+        PhoneNumberEmp.setTitle(EmpMobile, for: .normal)
         if self.ProjectStatusID == "5"{
             imageOfStatus.image = #imageLiteral(resourceName: "تم الالغاء-1")
             nameOfStatus.textColor = #colorLiteral(red: 0.1843137255, green: 0.5058823529, blue: 0.7176470588, alpha: 1)

@@ -10,7 +10,7 @@ import UIKit
 import Haneke
 import Alamofire
 import SwiftyJSON
-
+import UserNotifications
 class ProfileTableViewController: UITableViewController {
 
     @IBOutlet weak var profileImage: AMCircleImageView!
@@ -203,6 +203,9 @@ class ProfileTableViewController: UITableViewController {
             //            UserDefaults.standard.removePersistentDomain(forName: domain)
             //            UserDefaults.standard.synchronize()
             self.applicationl.applicationIconBadgeNumber = 0
+            let center = UNUserNotificationCenter.current()
+            center.removeAllDeliveredNotifications() // To remove all delivered notifications
+            center.removeAllPendingNotificationRequests()
             self.timere?.invalidate()
             self.timere = nil
             let storyboard = UIStoryboard(name: "WelcomeScreen", bundle: nil)

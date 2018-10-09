@@ -9,9 +9,11 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import UserNotifications
 
 class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
     @IBOutlet var buttonsView: UIView!
+    
     @IBOutlet weak var profileBtn: UIButton!{
         didSet {
             self.profileBtn.layer.cornerRadius = self.profileBtn.frame.width / 2
@@ -146,6 +148,10 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
             //            let domain = Bundle.main.bundleIdentifier!
             //            UserDefaults.standard.removePersistentDomain(forName: domain)
             //            UserDefaults.standard.synchronize()
+            self.applicationl.applicationIconBadgeNumber = 0
+            let center = UNUserNotificationCenter.current()
+            center.removeAllDeliveredNotifications() // To remove all delivered notifications
+            center.removeAllPendingNotificationRequests()
             
             let storyboard = UIStoryboard(name: "WelcomeScreen", bundle: nil)
             let NavController = storyboard.instantiateViewController(withIdentifier: "NewWelcome") as! UINavigationController

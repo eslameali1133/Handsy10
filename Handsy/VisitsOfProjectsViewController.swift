@@ -38,6 +38,29 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
     var ProjectOfResult: [ProjectDetialsArray] = [ProjectDetialsArray]()
 
     
+    @IBOutlet weak var lbl_ChatCounter: UILabel!{
+        didSet {
+            DispatchQueue.main.async {
+                self.lbl_ChatCounter.layer.cornerRadius = self.lbl_ChatCounter.frame.width/2
+                self.lbl_ChatCounter.layer.masksToBounds = true
+            }
+        }
+    }
+    @IBOutlet weak var companyCallBtn: UIButton! {
+        didSet {
+            companyCallBtn.layer.borderWidth = 1.0
+            companyCallBtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            companyCallBtn.layer.cornerRadius = 4.0
+        }
+    }
+    @IBOutlet weak var btnchat: UIButton!{
+        didSet {
+            btnchat.layer.borderWidth = 1.0
+            btnchat.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            btnchat.layer.cornerRadius = 4.0
+        }
+    }
+    
     @IBOutlet weak var NothingLabel: UIStackView!
     @IBOutlet weak var AlertImage: UIImageView!
     @IBOutlet weak var statusNameBtn: UIButton!
@@ -46,13 +69,7 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
     @IBOutlet weak var statusName: UILabel!
     @IBOutlet weak var statusImage: AMCircleImageView!
     
-    @IBOutlet weak var companyCallBtn: UIButton! {
-        didSet {
-            companyCallBtn.layer.borderWidth = 1.0
-            companyCallBtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
-            companyCallBtn.layer.cornerRadius = 4.0
-        }
-    }
+    
     @IBOutlet weak var mobileNumber: UIButton!
     
     @IBOutlet weak var officeDetialsBtn: UIButton! {
@@ -78,7 +95,7 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
     }
     @IBOutlet weak var projectTitleLabel: UILabel!
     @IBOutlet weak var companyNameLabel: UILabel!
-    @IBOutlet weak var addressLabel: UILabel!
+//    @IBOutlet weak var addressLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -127,42 +144,50 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
     func ComapnyNameFunc(){
         companyNameLabel.text = ProjectOfResult[0].ComapnyName!
         projectTitleLabel.text = ProjectOfResult[0].ProjectTitle
-        addressLabel.text = ProjectOfResult[0].CompanyAddress
-        mobileNumber.setTitle(ProjectOfResult[0].EmpMobile, for: .normal)
-        let status = ProjectOfResult[0].ProjectStatusID!
-        let statusName = ProjectOfResult[0].ProjectStatusName!
-        if status == "5"{
-            self.statusName.text = statusName
-            statusImage.backgroundColor = #colorLiteral(red: 0.9921568627, green: 0.4274509804, blue: 0.337254902, alpha: 1)
-        }else if status == "4"{
-            self.statusName.text = statusName
-            statusImage.backgroundColor = #colorLiteral(red: 0.1176470588, green: 0.368627451, blue: 0.4666666667, alpha: 1)
-        }else if status == "3"{
-            self.statusName.text = statusName
-            statusImage.backgroundColor = #colorLiteral(red: 0.1764705882, green: 0.4745098039, blue: 0.8862745098, alpha: 1)
-        }else if status == "1"{
-            self.statusName.text = statusName
-            statusImage.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
-        }else if status == "2"{
-            self.statusName.text = statusName
-            statusImage.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
-        }else if status == "6"{
-            self.statusName.text = statusName
-            statusImage.backgroundColor = #colorLiteral(red: 0.2588235294, green: 0.8666666667, blue: 0.1764705882, alpha: 1)
-        }else if status == "7"{
-            self.statusName.text = statusName
-            statusImage.backgroundColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+        
+        
+        if MessageCount == "" || MessageCount == "0" {
+            lbl_ChatCounter.isHidden = true
         }else {
-            print("error status \(status)")
+           lbl_ChatCounter.isHidden = false
+            lbl_ChatCounter.text = MessageCount
         }
-        let img = ProjectOfResult[0].Logo!
-        let trimmedString = img.trimmingCharacters(in: .whitespaces)
-        if let url = URL.init(string: trimmedString) {
-            companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
-        } else{
-            print("nil")
-            companyImageOut.image = #imageLiteral(resourceName: "officePlaceholder")
-        }
+//        addressLabel.text = ProjectOfResult[0].CompanyAddress
+//        mobileNumber.setTitle(ProjectOfResult[0].EmpMobile, for: .normal)
+//        let status = ProjectOfResult[0].ProjectStatusID!
+//        let statusName = ProjectOfResult[0].ProjectStatusName!
+//        if status == "5"{
+//            self.statusName.text = statusName
+//            statusImage.backgroundColor = #colorLiteral(red: 0.9921568627, green: 0.4274509804, blue: 0.337254902, alpha: 1)
+//        }else if status == "4"{
+//            self.statusName.text = statusName
+//            statusImage.backgroundColor = #colorLiteral(red: 0.1176470588, green: 0.368627451, blue: 0.4666666667, alpha: 1)
+//        }else if status == "3"{
+//            self.statusName.text = statusName
+//            statusImage.backgroundColor = #colorLiteral(red: 0.1764705882, green: 0.4745098039, blue: 0.8862745098, alpha: 1)
+//        }else if status == "1"{
+//            self.statusName.text = statusName
+//            statusImage.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+//        }else if status == "2"{
+//            self.statusName.text = statusName
+//            statusImage.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
+//        }else if status == "6"{
+//            self.statusName.text = statusName
+//            statusImage.backgroundColor = #colorLiteral(red: 0.2588235294, green: 0.8666666667, blue: 0.1764705882, alpha: 1)
+//        }else if status == "7"{
+//            self.statusName.text = statusName
+//            statusImage.backgroundColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+//        }else {
+//            print("error status \(status)")
+//        }
+//        let img = ProjectOfResult[0].Logo!
+//        let trimmedString = img.trimmingCharacters(in: .whitespaces)
+//        if let url = URL.init(string: trimmedString) {
+//            companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
+//        } else{
+//            print("nil")
+//            companyImageOut.image = #imageLiteral(resourceName: "officePlaceholder")
+//        }
     }
     
     func dataReady() {
@@ -265,12 +290,12 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
         }else {
             print("error status")
         }
-        if MessageCount == "" || MessageCount == "0" {
-            cell.messageCountLabel.isHidden = true
-        }else {
-            cell.messageCountLabel.isHidden = false
-            cell.messageCountLabel.text = MessageCount
-        }
+//        if MessageCount == "" || MessageCount == "0" {
+//            cell.messageCountLabel.isHidden = true
+//        }else {
+//            cell.messageCountLabel.isHidden = false
+//            cell.messageCountLabel.text = MessageCount
+//        }
         DispatchQueue.main.async {
             cell.Status.roundCorners(.bottomRight, radius: 10.0)
             cell.roundCorners([.bottomLeft,.bottomRight,.topRight], radius: 10)
@@ -278,6 +303,32 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let storyBoard : UIStoryboard = UIStoryboard(name: "VisitsAndDetails", bundle:nil)
+        let cont = storyBoard.instantiateViewController(withIdentifier: "VisitsDetialsTableViewController") as! VisitsDetialsTableViewController
+        
+        //let cont = segue.destination as! VisitsDetialsTableViewController
+        cont.visitTitle = visitsByProjectIdArr[indexPath.section].Title!
+        MeetingID = visitsByProjectIdArr[indexPath.section].MeetingID!
+        cont.Description = visitsByProjectIdArr[indexPath.section].Description!
+        cont.Mobile = visitsByProjectIdArr[indexPath.section].Mobile!
+        cont.EmpName = visitsByProjectIdArr[indexPath.section].EmpName!
+        cont.MeetingStatus = visitsByProjectIdArr[indexPath.section].MeetingStatus!
+        cont.DateReply = visitsByProjectIdArr[indexPath.section].DateReply!
+        cont.Notes = visitsByProjectIdArr[indexPath.section].Notes!
+        cont.ProjectBildTypeName = visitsByProjectIdArr[indexPath.section].ProjectBildTypeName!
+        cont.Replay = visitsByProjectIdArr[indexPath.section].Replay!
+        cont.Start = visitsByProjectIdArr[indexPath.section].Start!
+        cont.TimeStartMeeting = visitsByProjectIdArr[indexPath.section].TimeStartMeeting!
+        cont.StartTime = visitsByProjectIdArr[indexPath.section].StartTime!
+        cont.EndTime = visitsByProjectIdArr[indexPath.section].EndTime!
+        cont.ComapnyName = visitsByProjectIdArr[indexPath.section].ComapnyName!
+        cont.Address = visitsByProjectIdArr[indexPath.section].Address!
+        cont.Logo = visitsByProjectIdArr[indexPath.section].Logo!
+
+        self.navigationController?.pushViewController(cont, animated: true)
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetia" {

@@ -16,6 +16,13 @@ class NewMyProjectsTableViewCell: UITableViewCell {
     @IBOutlet weak var EngNameLabel: UILabel!
     @IBOutlet weak var DateRegisterLabel: UILabel!
     
+    @IBOutlet weak var StatusRightView: UIView!{
+        didSet {
+            
+           
+            StatusRightView.layer.cornerRadius = 4.0
+        }
+    }
     
     @IBOutlet weak var callBtn: UIButton! {
         didSet {

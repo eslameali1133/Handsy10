@@ -490,9 +490,9 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
         return 1
     }
     
-    //    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-    //        return 20
-    //    }
+        func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+            return 1
+        }
     //    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
     //        let view = UIView()
     //        view.backgroundColor = UIColor.clear

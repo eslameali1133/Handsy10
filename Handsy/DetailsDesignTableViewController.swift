@@ -64,6 +64,7 @@ class DetailsDesignTableViewController: UITableViewController {
     @IBOutlet weak var DateOul: UILabel!
     @IBOutlet weak var BtnOutLet: UIStackView!
     @IBOutlet weak var StatusIm: UIImageView!
+    @IBOutlet weak var StatsView: UIView!
     @IBOutlet weak var StatusLa: UILabel!
     @IBOutlet weak var TitleDesign: UILabel!
     @IBOutlet weak var StagesDe: UILabel!
@@ -272,27 +273,34 @@ class DetailsDesignTableViewController: UITableViewController {
             companyNameLabel.text = ComapnyName
             
             if Status == "1"{
-                StatusIm.image = #imageLiteral(resourceName: "جاري العمل-1")
+//                StatusIm.image = #imageLiteral(resourceName: "جاري العمل-1")
+//                StatsView.b
                 StatusLa.text = "انتظار الموافقة"
-                StatusLa.textColor = #colorLiteral(red: 0.8196078431, green: 0.3294117647, blue: 0.09803921569, alpha: 1)
+//                StatusLa.textColor = #colorLiteral(red: 0.8196078431, green: 0.3294117647, blue: 0.09803921569, alpha: 1)
+    StatsView.backgroundColor = #colorLiteral(red: 0.8196078431, green: 0.3294117647, blue: 0.09803921569, alpha: 1)
                 BtnOutLet.isHidden = false
                 OK.isHidden = false
                 Cancel.isHidden = false
             }else if Status == "2" {
-                StatusIm.image = #imageLiteral(resourceName: "تم الانجاز-1")
-                StatusLa.textColor = #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
+//                StatusIm.image = #imageLiteral(resourceName: "تم الانجاز-1")
+//                StatusLa.textColor = #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
+                 StatsView.backgroundColor = #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
                 StatusLa.text = "موافقة"
                 BtnOutLet.isHidden = true
             }else if Status == "3" {
-                StatusIm.image = #imageLiteral(resourceName: "مرفوض-1")
-                StatusLa.textColor = #colorLiteral(red: 0.8459660948, green: 0.2274509804, blue: 0.1921568627, alpha: 1)
+//                StatusIm.image = #imageLiteral(resourceName: "مرفوض-1")
+//                StatusLa.textColor = #colorLiteral(red: 0.8459660948, green: 0.2274509804, blue: 0.1921568627, alpha: 1)
+                StatsView.backgroundColor = #colorLiteral(red: 0.8459660948, green: 0.2274509804, blue: 0.1921568627, alpha: 1)
+
                 StatusLa.text = "طلب التعديل"
                 BtnOutLet.isHidden = false
                 OK.isHidden = true
                 Cancel.isHidden = false
             }else if Status == "5" {
-                StatusIm.image = #imageLiteral(resourceName: "مرفوض-1")
-                StatusLa.textColor = #colorLiteral(red: 0.7450980392, green: 0.2274509804, blue: 0.1921568627, alpha: 1)
+//                StatusIm.image = #imageLiteral(resourceName: "مرفوض-1")
+//                StatusLa.textColor = #colorLiteral(red: 0.7450980392, green: 0.2274509804, blue: 0.1921568627, alpha: 1)
+                StatsView.backgroundColor = #colorLiteral(red: 0.7450980392, green: 0.2274509804, blue: 0.1921568627, alpha: 1)
+
                 StatusLa.text = "جاري العمل"
                 BtnOutLet.isHidden = true
             }else {
@@ -346,28 +354,32 @@ class DetailsDesignTableViewController: UITableViewController {
             companyNameLabel.text = designsDetialsOfResult[0].ComapnyName
             
             if designsDetialsOfResult[0].Status == "1"{
-                StatusIm.image = #imageLiteral(resourceName: "جاري العمل-1")
+//                StatusIm.image = #imageLiteral(resourceName: "جاري العمل-1")
                 StatusLa.text = "انتظار الموافقة"
-                StatusLa.textColor = #colorLiteral(red: 0.8196078431, green: 0.3294117647, blue: 0.09803921569, alpha: 1)
+//                StatusLa.textColor = #colorLiteral(red: 0.8196078431, green: 0.3294117647, blue: 0.09803921569, alpha: 1)
+                 StatsView.backgroundColor = #colorLiteral(red: 0.8196078431, green: 0.3294117647, blue: 0.09803921569, alpha: 1)
                 BtnOutLet.isHidden = false
                 OK.isHidden = false
                 Cancel.isHidden = false
             }else if designsDetialsOfResult[0].Status == "2" {
-                StatusIm.image = #imageLiteral(resourceName: "تم الانجاز-1")
+//                StatusIm.image = #imageLiteral(resourceName: "تم الانجاز-1")
                 StatusLa.text = "موافقة"
-                StatusLa.textColor = #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
+//                StatusLa.textColor = #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
+                 StatsView.backgroundColor = #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
                 BtnOutLet.isHidden = true
             }else if designsDetialsOfResult[0].Status == "3" {
-                StatusIm.image = #imageLiteral(resourceName: "مرفوض-1")
-                StatusLa.text = "طلب التعديل"
-                StatusLa.textColor = #colorLiteral(red: 0.8459660948, green: 0.2274509804, blue: 0.1921568627, alpha: 1)
+//                StatusIm.image = #imageLiteral(resourceName: "مرفوض-1")
+                StatusLa.text = "طلب تعديل"
+//                StatusLa.textColor = #colorLiteral(red: 0.8459660948, green: 0.2274509804, blue: 0.1921568627, alpha: 1)
+                 StatsView.backgroundColor = #colorLiteral(red: 0.8459660948, green: 0.2274509804, blue: 0.1921568627, alpha: 1)
                 BtnOutLet.isHidden = false
                 OK.isHidden = true
                 Cancel.isHidden = false
             }else if designsDetialsOfResult[0].Status == "5" {
-                StatusIm.image = #imageLiteral(resourceName: "مرفوض-1")
+//                StatusIm.image = #imageLiteral(resourceName: "مرفوض-1")
                 StatusLa.text = "جاري العمل"
-                StatusLa.textColor = #colorLiteral(red: 0.7450980392, green: 0.2274509804, blue: 0.1921568627, alpha: 1)
+//                StatusLa.textColor = #colorLiteral(red: 0.7450980392, green: 0.2274509804, blue: 0.1921568627, alpha: 1)
+                 StatsView.backgroundColor = #colorLiteral(red: 0.7450980392, green: 0.2274509804, blue: 0.1921568627, alpha: 1)
                 BtnOutLet.isHidden = true
             }else {
                 print("error status")

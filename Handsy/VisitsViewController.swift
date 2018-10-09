@@ -31,6 +31,8 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         cancelStatusBtn.isHidden = true
         if condition == "New" {
             navigationItem.title = "الزيارات الجديدة"
@@ -111,7 +113,7 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
 //    }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 20
+        return 10
     }
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UIView()
@@ -125,7 +127,7 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return 249
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -145,7 +147,7 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         cell.endTime.text = searchResu[indexPath.section].EndTime
         cell.projectTitle.text = searchResu[indexPath.section].ProjectBildTypeName
         cell.companyMobile.setTitle(searchResu[indexPath.section].Mobile, for: .normal)
-        cell.companyAddress.text = searchResu[indexPath.section].Address
+        cell.companyAddress.text = searchResu[indexPath.section].EmpName
         
         let img = searchResu[indexPath.section].Logo
         let trimmedString = img.trimmingCharacters(in: .whitespaces)

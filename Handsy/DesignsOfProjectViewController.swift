@@ -31,7 +31,15 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
         }
     }
     
+    @IBOutlet weak var chatbtn: UIButton!{
+        didSet {
+            chatbtn.layer.borderWidth = 1.0
+            chatbtn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            chatbtn.layer.cornerRadius = 4.0
+        }
+    }
     
+    @IBOutlet weak var lbl_chat: UILabel!
     
     @IBOutlet weak var companyImageOut: UIImageView!{
         didSet {
@@ -72,7 +80,7 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
     override func viewDidLoad() {
         super.viewDidLoad()
         cancelStatusBtn.isHidden = true
-        ComapnyNameFunc()
+       
         DispatchQueue.main.async {
             self.NothingLabel.isHidden = true
             self.AlertImage.isHidden = true
@@ -84,13 +92,16 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
             GetCountMessageUnReaded()
             model.delegate = self
             model.GetDesignsByProjectID(view: self.view, projectId: ProjectId, type: "1", StatusId: "")
+            
         }else{
             designProjectIdModel.loadItems()
             if designProjectIdModel.returnProjectDetials(at: ProjectId) != nil {
                 let  designsDetials = designProjectIdModel.returnProjectDetials(at: ProjectId)
                 self.searchResu = designsDetials!
+                ComapnyNameFunc()
                 
             }
+            
             tableView.reloadData()
         }
         
@@ -107,42 +118,57 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
     func ComapnyNameFunc(){
         companyNameLabel.text = ProjectOfResult[0].ComapnyName!
         projectTitleLabel.text = ProjectOfResult[0].ProjectTitle
-        addressLabel.text = ProjectOfResult[0].CompanyAddress
-        callBtnNumber.setTitle(ProjectOfResult[0].EmpMobile, for: .normal)
+//        addressLabel.text = ProjectOfResult[0].CompanyAddress
+        
+        if MessageCount == "" || MessageCount == "0" {
+           lbl_chat.isHidden = true
+        }else {
+            lbl_chat.isHidden = false
+           lbl_chat.text = MessageCount
+        }
+        if MessageCount == "" || MessageCount == "0" {
+            lbl_chat.isHidden = true
+        }else {
+           lbl_chat.isHidden = false
+            lbl_chat.text = MessageCount
+        }
+        
+//        callBtnNumber.setTitle(ProjectOfResult[0].EmpMobile, for: .normal)
         let status = ProjectOfResult[0].ProjectStatusID!
         let statusName = ProjectOfResult[0].ProjectStatusName!
-        if status == "5"{
-            self.statusName.text = statusName
-            statusImage.backgroundColor = #colorLiteral(red: 0.9921568627, green: 0.4274509804, blue: 0.337254902, alpha: 1)
-        }else if status == "4"{
-            self.statusName.text = statusName
-            statusImage.backgroundColor = #colorLiteral(red: 0.1176470588, green: 0.368627451, blue: 0.4666666667, alpha: 1)
-        }else if status == "3"{
-            self.statusName.text = statusName
-            statusImage.backgroundColor = #colorLiteral(red: 0.1764705882, green: 0.4745098039, blue: 0.8862745098, alpha: 1)
-        }else if status == "1"{
-            self.statusName.text = statusName
-            statusImage.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
-        }else if status == "2"{
-            self.statusName.text = statusName
-            statusImage.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
-        }else if status == "6"{
-            self.statusName.text = statusName
-            statusImage.backgroundColor = #colorLiteral(red: 0.2588235294, green: 0.8666666667, blue: 0.1764705882, alpha: 1)
-        }else if status == "7"{
-            self.statusName.text = statusName
-            statusImage.backgroundColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
-        }else {
-            print("error status \(status)")
-        }
-        let img = ProjectOfResult[0].Logo!
-        let trimmedString = img.trimmingCharacters(in: .whitespaces)
-        if let url = URL.init(string: trimmedString) {
-            companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
-        } else{
-            print("nil")
-            companyImageOut.image = #imageLiteral(resourceName: "officePlaceholder")
-        }
+//        if status == "5"{
+//            self.statusName.text = statusName
+//            statusImage.backgroundColor = #colorLiteral(red: 0.9921568627, green: 0.4274509804, blue: 0.337254902, alpha: 1)
+//        }else if status == "4"{
+//            self.statusName.text = statusName
+//            statusImage.backgroundColor = #colorLiteral(red: 0.1176470588, green: 0.368627451, blue: 0.4666666667, alpha: 1)
+//        }else if status == "3"{
+//            self.statusName.text = statusName
+//            statusImage.backgroundColor = #colorLiteral(red: 0.1764705882, green: 0.4745098039, blue: 0.8862745098, alpha: 1)
+//        }else if status == "1"{
+//            self.statusName.text = statusName
+//            statusImage.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+//        }else if status == "2"{
+//            self.statusName.text = statusName
+//            statusImage.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
+//        }else if status == "6"{
+//            self.statusName.text = statusName
+//            statusImage.backgroundColor = #colorLiteral(red: 0.2588235294, green: 0.8666666667, blue: 0.1764705882, alpha: 1)
+//        }else if status == "7"{
+//            self.statusName.text = statusName
+//            statusImage.backgroundColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+//        }else {
+//            print("error status \(status)")
+//        }
+//        let img = searchResu[0].Logo!
+//        print(img)
+//        let trimmedString = img.trimmingCharacters(in: .whitespaces)
+//        if let url = URL.init(string: trimmedString) {
+//            companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
+//        } else{
+//            print("nil")
+//            companyImageOut.image = #imageLiteral(resourceName: "officePlaceholder")
+//        }
     }
     
     
@@ -151,6 +177,7 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
         self.searchResu = self.model.resultArray
         self.designProjectIdModel.append(self.model.resultArray, index: ProjectId)
         // Tell the tableview to reload
+        ComapnyNameFunc()
         tableView.reloadData()
     }
     
@@ -174,11 +201,36 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
+        return 205
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
+        
+        
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle:nil)
+        let cont = storyBoard.instantiateViewController(withIdentifier: "DetailsDesignTableViewController") as! DetailsDesignTableViewController
+      
+        cont.CreateDate = searchResu[indexPath.row].CreateDate!
+        cont.DesignFile = searchResu[indexPath.section].DesignFile!
+        designStagesID = searchResu[indexPath.section].DesignStagesID!
+        cont.Details = searchResu[indexPath.section].Details!
+        cont.EmpName = searchResu[indexPath.section].EmpName!
+        cont.mobileStr = searchResu[indexPath.section].Mobile!
+        cont.ProjectBildTypeName = searchResu[indexPath.section].ProjectBildTypeName!
+        cont.ProjectStatusID = searchResu[indexPath.section].ProjectStatusID!
+        cont.SakNum = searchResu[indexPath.section].SakNum!
+        cont.StagesDetailsName = searchResu[indexPath.section].StagesDetailsName!
+        cont.Status = searchResu[indexPath.section].Status!
+        cont.ClientReply = searchResu[indexPath.section].ClientReply!
+        cont.EmpReply = searchResu[indexPath.section].EmpReply!
+        cont.ComapnyName = searchResu[indexPath.section].ComapnyName!
+        cont.Logo = searchResu[indexPath.section].Logo!
+        cont.Address = searchResu[indexPath.section].Address!
+          self.navigationController?.pushViewController(cont, animated: true)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -200,10 +252,10 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
         cell.CreateDate.text = searchResu[indexPath.section].CreateDate
         cell.StagesDetailsName.text = searchResu[indexPath.section].StagesDetailsName
         if searchResu[indexPath.section].Details == "" {
-            cell.Details.isHidden = true
+            cell.lbl_Det.isHidden = true
         }else {
-            cell.Details.isHidden = false
-            cell.Details.text = searchResu[indexPath.section].Details
+            cell.lbl_Det.isHidden = false
+            cell.lbl_Det.text = searchResu[indexPath.section].Details
         }
         let status = searchResu[indexPath.section].Status
         if searchResu[indexPath.section].DesignFile == "" {
@@ -246,22 +298,13 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
         }
         let EmpName = searchResu[indexPath.section].EmpName
         cell.EmpMobile.setTitle(EmpName, for: .normal)
-        if MessageCount == "" || MessageCount == "0" {
-            cell.messageCountLabel.isHidden = true
-        }else {
-            cell.messageCountLabel.isHidden = false
-            cell.messageCountLabel.text = MessageCount
-        }
-        if MessageCount == "" || MessageCount == "0" {
-            cell.messageCountLabel.isHidden = true
-        }else {
-            cell.messageCountLabel.isHidden = false
-            cell.messageCountLabel.text = MessageCount
-        }
+       
         DispatchQueue.main.async {
             cell.Status.roundCorners(.bottomRight, radius: 10.0)
             cell.roundCorners([.bottomLeft,.bottomRight,.topRight], radius: 10)
         }
+        
+        cell.empcal.setTitle(searchResu[indexPath.section].Mobile, for: .normal)
         return cell
     }
     
@@ -435,9 +478,8 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     @IBAction func CallMe(_ sender: UIButton) {
-        let point = sender.convert(CGPoint.zero, to: tableView)
-        let index = tableView.indexPathForRow(at: point)?.section
-        let mobileNum = searchResu[index!].Mobile!
+        
+        let mobileNum = searchResu[0].Mobile!
         var mobile: String = (mobileNum)
         if mobile.count == 10 {
             if mobile.first! == "0" {

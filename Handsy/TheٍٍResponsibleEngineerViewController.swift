@@ -88,7 +88,7 @@ class TheResponsibleEngineerViewController: UIViewController, GMSMapViewDelegate
     
     func get() {
         
-        jobTitle.text = JobName
+//        jobTitle.text = JobName
         emplName.text = EmpName
         empMobile.text = Mobile
         let dLati = Double(BranchLat) ?? 0.0

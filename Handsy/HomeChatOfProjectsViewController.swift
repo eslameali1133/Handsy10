@@ -145,6 +145,9 @@ class HomeChatOfProjectsViewController: UIViewController, UITableViewDelegate, U
         return cell
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 115
+    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var message = AllHomeMessage()
         if isFiltering() {

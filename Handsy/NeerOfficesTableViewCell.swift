@@ -10,6 +10,10 @@ import UIKit
 
 class NeerOfficesTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var Rate: RatingController!
+    
+    @IBOutlet weak var Rate_Search: RatingController!
+    @IBOutlet weak var Office_Rate: FloatRatingView!
     @IBOutlet weak var CompanyLogoImage: UIImageView!{
         didSet {
             DispatchQueue.main.async {
@@ -37,6 +41,7 @@ class NeerOfficesTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+       
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

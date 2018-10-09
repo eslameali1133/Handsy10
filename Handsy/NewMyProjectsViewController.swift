@@ -56,11 +56,13 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
     @IBOutlet weak var AlertImage: UIImageView!
     let applicationl = UIApplication.shared
     var qustion = 0
-    
+    var LatBranch: Double = 0.0
+    var LngBranch: Double = 0.0
     
     var NotiProjectCount = 0
     var NotiMessageCount = 0
     var NotiTotalCount = 0
+      var AlertController: UIAlertController!
     override func viewDidLoad() {
         super.viewDidLoad()
         messageNotfiCount.isHidden = true
@@ -87,6 +89,43 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         model.delegate = self
         setBadge()
         // Do any additional setup after loading the view.
+        AlertController = UIAlertController(title:"" , message: "اختر الخريطة", preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let Google = UIAlertAction(title: "جوجل ماب", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocationgoogle(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+        let MapKit = UIAlertAction(title: "الخرئط", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocation(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+        
+        let Cancel = UIAlertAction(title: "رجوع", style: UIAlertActionStyle.cancel, handler: { (action) in
+            //
+        })
+        
+        self.AlertController.addAction(Google)
+        self.AlertController.addAction(MapKit)
+        self.AlertController.addAction(Cancel)
+    }
+
+    
+    func openMapsForLocation(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        print(location.coordinate)
+        MKMapView.openMapsWith(location) { (error) in
+            if error != nil {
+                print("Could not open maps" + error!.localizedDescription)
+            }
+        }
+    }
+    func openMapsForLocationgoogle(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+            UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(Lat),\(Lng)&zoom=14&views=traffic&q=\(Lat),\(Lng)")!, options: [:], completionHandler: nil)
+        }
+        else {
+            print("Can't use comgooglemaps://")
+            UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(Lat),\(Lng)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+        }
     }
 
     
@@ -230,6 +269,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         }
         return cell
     }
+    //    change cell text color and background color
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = MyProjectsTableView.dequeueReusableCell(withIdentifier: "NewMyProjectsTableViewCell", for: indexPath) as! NewMyProjectsTableViewCell
@@ -252,19 +292,28 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         }
         let status = myProjects[indexPath.row].ProjectStatusID
         let statusName = myProjects[indexPath.row].ProjectStatusName
+//        if status == "1" &&  statusName == "جاري العمل"
+//        {
+//        cell.backgroundCellView.backgroundColor = UIColor(red: 255/255, green: 215/255, blue: 0/255, alpha: 0.3)
+//        }
         
         if status == "5"{
             cell.StatusNameLabel.text = statusName
             cell.statusImage.backgroundColor = #colorLiteral(red: 0.9921568627, green: 0.4274509804, blue: 0.337254902, alpha: 1)
         }else if status == "4"{
             cell.StatusNameLabel.text = statusName
+        
             cell.statusImage.backgroundColor = #colorLiteral(red: 0.1176470588, green: 0.368627451, blue: 0.4666666667, alpha: 1)
+           
+              cell.StatusRightView.backgroundColor = UIColor(red: 51/255, green: 144/255, blue: 99/255, alpha:1)
         }else if status == "3"{
             cell.StatusNameLabel.text = statusName
             cell.statusImage.backgroundColor = #colorLiteral(red: 0.1764705882, green: 0.4745098039, blue: 0.8862745098, alpha: 1)
         }else if status == "1"{
             cell.StatusNameLabel.text = statusName
             cell.statusImage.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+          
+            cell.StatusRightView.backgroundColor = UIColor(red: 212/255, green: 175/255, blue: 54/255, alpha:1)
         }else if status == "2"{
             cell.StatusNameLabel.text = statusName
             cell.statusImage.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
@@ -274,6 +323,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         }else if status == "7"{
             cell.StatusNameLabel.text = statusName
             cell.statusImage.backgroundColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+               cell.StatusRightView.backgroundColor = UIColor(red: 51/255, green: 144/255, blue: 99/255, alpha:1)
         }else {
             print("error status \(status)")
         }
@@ -407,30 +457,34 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         let index = MyProjectsTableView.indexPathForRow(at: point)?.row
         let dLati = myProjects[index!].LatBranch
         let dLang = myProjects[index!].LngBranch
-        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
-        
-        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
-            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
-                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(dLati),\(dLang)&zoom=14&views=traffic&q=\(dLati),\(dLang)")!, options: [:], completionHandler: nil)
-            } else {
-                print("Can't use comgooglemaps://")
-                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(dLati),\(dLang)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
-            }
-        }))
-        
-        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
-            let location = CLLocation(latitude: dLati, longitude: dLang)
-            print(location.coordinate)
-            MKMapView.openMapsWith(location) { (error) in
-                if error != nil {
-                    print("Could not open maps" + error!.localizedDescription)
-                }
-            }
-        }))
-        
-        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
-        }))
-        self.present(alertAction, animated: true, completion: nil)
+        self.LatBranch = myProjects[index!].LatBranch
+        self.LngBranch = myProjects[index!].LngBranch
+//        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
+//        
+//        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
+//            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+//                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(dLati),\(dLang)&zoom=14&views=traffic&q=\(dLati),\(dLang)")!, options: [:], completionHandler: nil)
+//            } else {
+//                print("Can't use comgooglemaps://")
+//                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(dLati),\(dLang)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+//            }
+//        }))
+//        
+//        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
+//            let location = CLLocation(latitude: dLati, longitude: dLang)
+//            print(location.coordinate)
+//            MKMapView.openMapsWith(location) { (error) in
+//                if error != nil {
+//                    print("Could not open maps" + error!.localizedDescription)
+//                }
+//            }
+//        }))
+//        
+//        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+//        }))
+        DispatchQueue.main.async {
+            UIApplication.shared.keyWindow?.rootViewController?.present(self.AlertController, animated: true, completion: nil)
+        }
     }
 
     @IBAction func CallMe(_ sender: UIButton) {

@@ -168,7 +168,7 @@ class DesignDetailsTableViewController: UITableViewController {
         let parameters: Parameters = [
             "designStagesID": self.DesignStagesID
         ]
-        
+        print(parameters)
         Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetDesignsByDesignStagesID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
@@ -382,7 +382,7 @@ class DesignDetailsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 40
+        return 30
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

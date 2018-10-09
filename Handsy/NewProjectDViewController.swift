@@ -105,6 +105,7 @@ class NewProjectDViewController: UIViewController, ImagePickerDelegate, UICollec
     }    
     @IBAction func sendRequest(_ sender: UIButton) {
         self.UploadImage()
+      
         collectionView.isUserInteractionEnabled = false
         sendBtn.isEnabled = false
         backBtn.isEnabled = false
@@ -232,7 +233,12 @@ class NewProjectDViewController: UIViewController, ImagePickerDelegate, UICollec
     }
     
     func ProjectsDataSave(arrayOfImagesPaths: String) {
-        
+          let sv = UIViewController.displaySpinner(onView: self.view)
+         self.uploadLabel.text = "جاري ارسال الطلب...."
+        let headers: HTTPHeaders = [
+           
+            "Accept": "application/json"
+        ]
         let Parameters: Parameters = [
             "custmoerId": UserDefaults.standard.string(forKey: "CustmoerId")!,
             "userId": UserDefaults.standard.string(forKey: "UserId")!,
@@ -252,7 +258,8 @@ class NewProjectDViewController: UIViewController, ImagePickerDelegate, UICollec
             "images": arrayOfImagesPaths
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/ProjectsDataSave", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
+        print(Parameters)
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/ProjectsDataSave", method: .get, parameters: Parameters, encoding: URLEncoding.default,headers:headers).responseJSON { response in
             debugPrint(response)
             switch response.result {
             case .success:
@@ -280,16 +287,25 @@ class NewProjectDViewController: UIViewController, ImagePickerDelegate, UICollec
                 secondView.Mobile = self.Mobile
                 secondView.EmpImage = self.EmpImage
                 secondView.ProjectId = self.ProjectId
+                
+                
+                
+                
                 self.navigationController?.pushViewController(secondView, animated: true)
+                UIViewController.removeSpinner(spinner: sv)
             case .failure(let error):
+                UIViewController.removeSpinner(spinner: sv)
                 print(error)
                 let alertAction = UIAlertController(title: "خطاء في الاتصال", message: "اعادة المحاولة", preferredStyle: .alert)
                 
                 alertAction.addAction(UIAlertAction(title: "نعم", style: .default, handler: { action in
-                    self.ProjectsDataSave(arrayOfImagesPaths: arrayOfImagesPaths)
+                    self.ProjectsDataSave(arrayOfImagesPaths:arrayOfImagesPaths)
                 }))
                 
                 alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+                    self.collectionView.isUserInteractionEnabled = true
+                    self.sendBtn.isEnabled = true
+                    self.backBtn.isEnabled = true
                 }))
                 
                 self.present(alertAction, animated: true, completion: nil)
@@ -305,68 +321,80 @@ class NewProjectDViewController: UIViewController, ImagePickerDelegate, UICollec
     
     func UploadImage() {
         
+        
+        
+        let url = "http://smusers.promit2030.com/api/ApiService/UploadProjectImage"
+        let trimmedString = url.trimmingCharacters(in: .whitespaces)
         print(Add)
         print(AddItemPhotos)
-        
+        let headers: HTTPHeaders = [
+            /* "Authorization": "your_access_token",  in case you need authorization header */
+          "Content-type": "multipart/form-data"
+        ]
+      
+
         let parameters: Parameters = [
-            "images[]" : AddItemPhotos,
-            "token" : "abdoShabanTok"
+            "Image" : AddItemPhotos,
+          
         ]
         Alamofire.upload(
             multipartFormData: { multipartFormData in
-                
+
                 for (key,value) in parameters {
                     if let value = value as? String {
                         multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
                     }
                 }
-                
+
                 for (index ,image) in self.AddItemPhotos.enumerated() {
                     if  let imageData = UIImageJPEGRepresentation(image, 0.5){
-                        multipartFormData.append(imageData, withName: "images[]", fileName: "images[]\(arc4random_uniform(100))"+"\(index)"+".jpeg", mimeType: "image/jpeg")
+                        multipartFormData.append(imageData, withName: "Image", fileName: "Uploadimage\(arc4random_uniform(100))"+"\(index)"+".jpeg", mimeType: "image/jpeg")
                     }
                 }
         },
             usingThreshold:UInt64.init(),
-            to: "http://handasy.promit2030.com/UploadFile/api.php",
-            method: .post,
+            to:trimmedString,
+            method: .post,headers:headers,
             encodingCompletion: { encodingResult in
                 switch encodingResult {
                 case .success(let upload, _, _):
-                    
+
                     upload.uploadProgress(closure: { (progress) in
                         self.progressView.progress = 0.0
                         self.activityIndicatorView.startAnimating()
                         self.uploadLabel.text = "جاري الرفع...."
                         self.progressView.setProgress(Float(progress.fractionCompleted), animated: true)
                         print(progress)
-                        
-                        //                        self.prog.text = "\(Float(progress.fractionCompleted))"
-                        
+
+                       
+
                     })
-                    
+                   
                     upload.responseJSON { response in
-                        
+                  debugPrint(response)
                         // If the request to get activities is succesfull, store them
                         if response.result.isSuccess{
                             print(response.debugDescription)
-                            
-                            for json in JSON(response.result.value!).arrayValue {
-                                
-                                self.resultArray.append(json["ImageName"].stringValue)
-                                
-                            }
-                            
-                            let stringRepresentation = self.resultArray.joined(separator: ",")
-                            
+ let json = JSON(response.result.value!)
+//                            for json in JSON(response.result.value!).arrayValue {
+//
+//                                self.resultArray.append(json["Image"].stringValue)
+//
+//                            }
+                            print(json)
+
+                            let stringRepresentation = json["Image"].stringValue
+//                                self.resultArray.joined(separator: ",")
+print(stringRepresentation)
                             self.ProjectsDataSave(arrayOfImagesPaths: stringRepresentation)
-                            
+                 
                             // Else throw an error
                         } else {
-                            
+
                             var errorMessage = "ERROR MESSAGE: "
                             if let data = response.data {
-                                // Print message
+                               
+//                                 Print message
                                 let responseJSON = try? JSON(data: data)
                                 let alertController = UIAlertController(title: "خطأ في الاتصال!", message: "لم يتم ارسال الطلب\n برجاء المحاولة مرة اخرى", preferredStyle: .alert)
                                 alertController.addAction(UIAlertAction(title: "اعادة المحاولة", style: .cancel, handler: { action in
@@ -376,17 +404,18 @@ class NewProjectDViewController: UIViewController, ImagePickerDelegate, UICollec
                                     self.backBtn.isEnabled = false
                                 }))
                                 self.present(alertController, animated: true, completion: nil)
-                                
+//
                             }
                             print(errorMessage) //Contains General error message or specific.
                             print(response.debugDescription)
                         }
-                        
-                        
+
+
                     }
                 case .failure(let encodingError):
                     print("FALLE ------------")
                     print(encodingError)
+                  
                     let alertController = UIAlertController(title: "خطأ في الاتصال!", message: "لم يتم ارسال الطلب\n برجاء المحاولة مرة اخرى", preferredStyle: .alert)
                     alertController.addAction(UIAlertAction(title: "اعادة المحاولة", style: .cancel, handler: { action in
                         self.UploadImage()
@@ -398,6 +427,9 @@ class NewProjectDViewController: UIViewController, ImagePickerDelegate, UICollec
                 }
         }
         )
+
+
+        
         
         
     }

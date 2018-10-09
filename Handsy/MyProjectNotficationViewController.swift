@@ -56,13 +56,13 @@ class MyProjectNotficationViewController: UIViewController, UITableViewDelegate,
         companyNameLabel.text = companyName
         companyMobile.setTitle(companyPhone, for: .normal)
         let trimmedString = companyLogo.trimmingCharacters(in: .whitespaces)
-        if let url = URL.init(string: trimmedString) {
-            print(url)
-            companyLogoImg.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
-        } else{
-            print("nil")
-            companyLogoImg.image = #imageLiteral(resourceName: "officePlaceholder")
-        }
+//        if let url = URL.init(string: trimmedString) {
+//            print(url)
+//            companyLogoImg.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
+//        } else{
+//            print("nil")
+//            companyLogoImg.image = #imageLiteral(resourceName: "officePlaceholder")
+//        }
     }
 
     func dataReady() {

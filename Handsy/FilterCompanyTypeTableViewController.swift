@@ -15,7 +15,7 @@ class FilterCompanyTypeTableViewController: UITableViewController {
     var barBtnDelegate: BarBtnDelegate?
     var barBtnMapDelegate: BarBtnMapDelegate?
     var arrayofCompanyType = [CompanyType]()
-    
+    var reate = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         GetCompanyType()
@@ -62,19 +62,22 @@ class FilterCompanyTypeTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if self.barBtnDelegate == nil {
             if indexPath.row == 0 {
-                self.barBtnMapDelegate?.BarBtnSortExpDidChange(SortExp: "-1", companyTypeName: "كل التخصصات")
+              
+                self.barBtnMapDelegate?.BarBtnSortExpDidChange(SortExp: "", companyTypeName: "كل التخصصات",RateNumber: reate)
                 self.dismiss(animated: false, completion: nil)
             }else {
-                self.barBtnMapDelegate?.BarBtnSortExpDidChange(SortExp: arrayofCompanyType[indexPath.row-1].CompanyTypeID, companyTypeName: arrayofCompanyType[indexPath.row-1].CompanyTypeName)
+                  print(reate)
+                   print(arrayofCompanyType[indexPath.row-1].CompanyTypeName)
+                self.barBtnMapDelegate?.BarBtnSortExpDidChange(SortExp: arrayofCompanyType[indexPath.row-1].CompanyTypeID, companyTypeName: arrayofCompanyType[indexPath.row-1].CompanyTypeName, RateNumber:reate)
                 self.dismiss(animated: false, completion: nil)
             }
             
         }else {
             if indexPath.row == 0 {
-                self.barBtnDelegate?.BarBtnSortExpDidChange(SortExp: "-1", companyTypeName: "كل التخصصات")
+                self.barBtnDelegate?.BarBtnSortExpDidChange(SortExp: "", companyTypeName: "كل التخصصات", Rate: reate)
                 self.dismiss(animated: false, completion: nil)
             }else {
-                self.barBtnDelegate?.BarBtnSortExpDidChange(SortExp: arrayofCompanyType[indexPath.row-1].CompanyTypeID, companyTypeName: arrayofCompanyType[indexPath.row-1].CompanyTypeName)
+                self.barBtnDelegate?.BarBtnSortExpDidChange(SortExp: arrayofCompanyType[indexPath.row-1].CompanyTypeID, companyTypeName: arrayofCompanyType[indexPath.row-1].CompanyTypeName, Rate: reate)
                 self.dismiss(animated: false, completion: nil)
             }
         }

@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C1B13622161552B00943D23 /* FloatRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1B13612161552B00943D23 /* FloatRatingView.swift */; };
+		0C2F30F1215B638B003BFCCE /* RateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2F30F0215B638B003BFCCE /* RateTableViewCell.swift */; };
+		0C2F30F4215B69E8003BFCCE /* ب.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2F30F3215B69E8003BFCCE /* ب.swift */; };
+		0C2F30F6215B8C5F003BFCCE /* HttpHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2F30F5215B8C5E003BFCCE /* HttpHelper.swift */; };
+		0C2F30F9215B8CE2003BFCCE /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2F30F8215B8CE1003BFCCE /* Enum.swift */; };
+		0C2F30FB215B9268003BFCCE /* Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2F30FA215B9268003BFCCE /* Loader.swift */; };
+		0C2F30FE215B97D4003BFCCE /* QuestionRateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2F30FD215B97D4003BFCCE /* QuestionRateModel.swift */; };
+		0C2F3100215CFF71003BFCCE /* FilterByRateVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2F30FF215CFF71003BFCCE /* FilterByRateVc.swift */; };
+		0C3FD2C62157CF65007AB8A8 /* RatingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3FD2C42157CF65007AB8A8 /* RatingController.swift */; };
+		0C3FD2CA2157D0AC007AB8A8 /* RateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3FD2C92157D0AC007AB8A8 /* RateVC.swift */; };
+		0C82E5ED213A8FCD00B7A11D /* ShapeUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C82E5EC213A8FCC00B7A11D /* ShapeUIView.swift */; };
 		18F189331FA68B810090EFB3 /* AMCircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F189321FA68B810090EFB3 /* AMCircleImageView.swift */; };
 		C10636AB1FE15FBA006DE3D2 /* TAMapCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10636AA1FE15FBA006DE3D2 /* TAMapCircle.swift */; };
 		C10F2859203314160045EEB3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C10F2858203314150045EEB3 /* GoogleService-Info.plist */; };
@@ -97,7 +108,6 @@
 		C14EBBB41FCEF63400394607 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C14EBBB21FCEF63300394607 /* GoogleMaps.framework */; };
 		C14EBBB71FCEF65500394607 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C14EBBB61FCEF65500394607 /* GoogleMaps.bundle */; };
 		C14F3E0120E7A38000EC935D /* FilterVisitsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14F3E0020E7A38000EC935D /* FilterVisitsViewController.swift */; };
-		C150D51020CEB177005F1682 /* ShapeUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C150D50F20CEB177005F1682 /* ShapeUIView.swift */; };
 		C152DA921F28AC820032C03F /* GalaryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C152DA911F28AC820032C03F /* GalaryCollectionViewCell.swift */; };
 		C152DA941F28B9D20032C03F /* GalaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C152DA931F28B9D20032C03F /* GalaryViewController.swift */; };
 		C157D274203C2DD2007ED59D /* ShowContractViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C157D273203C2DD2007ED59D /* ShowContractViewController.swift */; };
@@ -289,6 +299,17 @@
 
 /* Begin PBXFileReference section */
 		0898DF1D220195D9BC05F9FC /* Pods_Handsy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Handsy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0C1B13612161552B00943D23 /* FloatRatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatRatingView.swift; sourceTree = "<group>"; };
+		0C2F30F0215B638B003BFCCE /* RateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateTableViewCell.swift; sourceTree = "<group>"; };
+		0C2F30F3215B69E8003BFCCE /* ب.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ب.swift"; sourceTree = "<group>"; };
+		0C2F30F5215B8C5E003BFCCE /* HttpHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpHelper.swift; sourceTree = "<group>"; };
+		0C2F30F8215B8CE1003BFCCE /* Enum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enum.swift; sourceTree = "<group>"; };
+		0C2F30FA215B9268003BFCCE /* Loader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loader.swift; sourceTree = "<group>"; };
+		0C2F30FD215B97D4003BFCCE /* QuestionRateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionRateModel.swift; sourceTree = "<group>"; };
+		0C2F30FF215CFF71003BFCCE /* FilterByRateVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterByRateVc.swift; sourceTree = "<group>"; };
+		0C3FD2C42157CF65007AB8A8 /* RatingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingController.swift; sourceTree = "<group>"; };
+		0C3FD2C92157D0AC007AB8A8 /* RateVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateVC.swift; sourceTree = "<group>"; };
+		0C82E5EC213A8FCC00B7A11D /* ShapeUIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShapeUIView.swift; sourceTree = "<group>"; };
 		1606CA20FC4D0BDFA5E5801D /* Pods_HandsyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HandsyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		18F189321FA68B810090EFB3 /* AMCircleImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMCircleImageView.swift; sourceTree = "<group>"; };
 		1F8559B7C6FC92D693DD318F /* Pods-Handsy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Handsy.release.xcconfig"; path = "Pods/Target Support Files/Pods-Handsy/Pods-Handsy.release.xcconfig"; sourceTree = "<group>"; };
@@ -383,7 +404,6 @@
 		C14EBBB21FCEF63300394607 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework; sourceTree = SOURCE_ROOT; };
 		C14EBBB61FCEF65500394607 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle; sourceTree = SOURCE_ROOT; };
 		C14F3E0020E7A38000EC935D /* FilterVisitsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterVisitsViewController.swift; sourceTree = "<group>"; };
-		C150D50F20CEB177005F1682 /* ShapeUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShapeUIView.swift; path = "../../HandsyEngineer/HandsyEngineer/New Group/ShapeUIView.swift"; sourceTree = "<group>"; };
 		C152DA911F28AC820032C03F /* GalaryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalaryCollectionViewCell.swift; sourceTree = "<group>"; };
 		C152DA931F28B9D20032C03F /* GalaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalaryViewController.swift; sourceTree = "<group>"; };
 		C156616C1FAE007C00096801 /* AJannatLTBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AJannatLTBold.ttf; sourceTree = SOURCE_ROOT; };
@@ -597,6 +617,58 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0C2F30F2215B69CF003BFCCE /* HTTP */ = {
+			isa = PBXGroup;
+			children = (
+				0C2F30F5215B8C5E003BFCCE /* HttpHelper.swift */,
+				0C2F30F3215B69E8003BFCCE /* ب.swift */,
+			);
+			name = HTTP;
+			sourceTree = "<group>";
+		};
+		0C2F30F7215B8CD0003BFCCE /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				0C2F30F8215B8CE1003BFCCE /* Enum.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
+		0C2F30FC215B97C9003BFCCE /* model */ = {
+			isa = PBXGroup;
+			children = (
+				0C2F30FD215B97D4003BFCCE /* QuestionRateModel.swift */,
+			);
+			name = model;
+			sourceTree = "<group>";
+		};
+		0C3FD2C22157CF40007AB8A8 /* HelperFile */ = {
+			isa = PBXGroup;
+			children = (
+				0C2F30FA215B9268003BFCCE /* Loader.swift */,
+				0C3FD2C32157CF65007AB8A8 /* StarsRatingClass-master */,
+			);
+			name = HelperFile;
+			sourceTree = "<group>";
+		};
+		0C3FD2C32157CF65007AB8A8 /* StarsRatingClass-master */ = {
+			isa = PBXGroup;
+			children = (
+				0C1B13612161552B00943D23 /* FloatRatingView.swift */,
+				0C3FD2C42157CF65007AB8A8 /* RatingController.swift */,
+			);
+			path = "StarsRatingClass-master";
+			sourceTree = "<group>";
+		};
+		0C3FD2C82157D07C007AB8A8 /* Rate */ = {
+			isa = PBXGroup;
+			children = (
+				0C3FD2C92157D0AC007AB8A8 /* RateVC.swift */,
+				0C2F30F0215B638B003BFCCE /* RateTableViewCell.swift */,
+			);
+			name = Rate;
+			sourceTree = "<group>";
+		};
 		C124E5281F31DEC50027640C /* newProject */ = {
 			isa = PBXGroup;
 			children = (
@@ -628,6 +700,7 @@
 				C1E7C5411FE685F300D67EDB /* OfficesImagesCollectionViewCell.swift */,
 				C10636AA1FE15FBA006DE3D2 /* TAMapCircle.swift */,
 				C1A84BA51FD56B1500385663 /* OfficeFillterViewController.swift */,
+				0C2F30FF215CFF71003BFCCE /* FilterByRateVc.swift */,
 			);
 			name = newProject;
 			sourceTree = "<group>";
@@ -894,6 +967,11 @@
 		C1DB274C1F20D8230038BFA7 /* Handsy */ = {
 			isa = PBXGroup;
 			children = (
+				0C2F30FC215B97C9003BFCCE /* model */,
+				0C2F30F7215B8CD0003BFCCE /* Enums */,
+				0C2F30F2215B69CF003BFCCE /* HTTP */,
+				0C3FD2C82157D07C007AB8A8 /* Rate */,
+				0C3FD2C22157CF40007AB8A8 /* HelperFile */,
 				C15973282054300A00BD5A12 /* FilterCompanyTypeTableViewController.swift */,
 				C159732A2054309800BD5A12 /* FilterCompanyTypeTableViewCell.swift */,
 				C15A29AA1F5D540800832E62 /* Handsy.entitlements */,
@@ -1060,6 +1138,7 @@
 		C1FA0F0C1F3B563200A13132 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				0C82E5EC213A8FCC00B7A11D /* ShapeUIView.swift */,
 				C110F0AA2004DF660040EB2F /* LoadingButton.swift */,
 				C14EBBB61FCEF65500394607 /* GoogleMaps.bundle */,
 				C1FC1B491FEE680800D3939E /* 0.gif */,
@@ -1068,7 +1147,6 @@
 				C1DE247F1F65AEB8004D0771 /* VisubleViewController.swift */,
 				C117F5751F3771A200CEBECF /* Extensions.swift */,
 				C1C8FA951F237E9100C89AE2 /* DesignableUITextField.swift */,
-				C150D50F20CEB177005F1682 /* ShapeUIView.swift */,
 				C13EEF7C1F24BD72001498FC /* StringCheck.swift */,
 				C1C8FA931F236A8A00C89AE2 /* textF.swift */,
 				C1C8FA911F234E1000C89AE2 /* CustomTextField.swift */,
@@ -1402,7 +1480,9 @@
 				C19A1A0320E9028C0091C33D /* MeetingStatus.swift in Sources */,
 				C18361911F6E9F6F007895CC /* NotCollectedMoneyModel.swift in Sources */,
 				C1E7C5441FE6861400D67EDB /* OfficesImagesViewController.swift in Sources */,
+				0C82E5ED213A8FCD00B7A11D /* ShapeUIView.swift in Sources */,
 				C117CB581F265869003C65A7 /* NewProjectATableViewController.swift in Sources */,
+				0C2F30F9215B8CE2003BFCCE /* Enum.swift in Sources */,
 				C147CF331F52D838000DBD02 /* AlertVisitCancelViewController.swift in Sources */,
 				C12FA2921F4DE330006BBF0E /* DesplayImagesCollectionViewCell.swift in Sources */,
 				C19A19FB20E8EA350091C33D /* DesignStatusFilterTableViewController.swift in Sources */,
@@ -1425,6 +1505,7 @@
 				C194D66520EE389300174332 /* SendTextChatTableViewCell.swift in Sources */,
 				C1BEE7811F3A13F2009DCE08 /* OurProjectsCollectionViewCell.swift in Sources */,
 				C1C712D01F488C7D004F42E5 /* VisitsTableViewCell.swift in Sources */,
+				0C3FD2CA2157D0AC007AB8A8 /* RateVC.swift in Sources */,
 				C13F190B1F45CD01002F75A0 /* EditProfileTableViewController.swift in Sources */,
 				C1D34D8D1FD03394000F066D /* EditDImagesCollectionViewCell.swift in Sources */,
 				C1EAA5D21FFA593B008C2249 /* DesignByProjectIdModel.swift in Sources */,
@@ -1444,9 +1525,11 @@
 				C1C8FA921F234E1000C89AE2 /* CustomTextField.swift in Sources */,
 				C1C712D81F48A07E004F42E5 /* ArrayServiceOfCompany.swift in Sources */,
 				C1BEE7851F3A20D3009DCE08 /* TeamWorkCollectionViewController.swift in Sources */,
+				0C3FD2C62157CF65007AB8A8 /* RatingController.swift in Sources */,
 				C1FA0F1A1F3B770E00A13132 /* AMWSegmentController.swift in Sources */,
 				C135B9891F518D1B00BA4C24 /* DisplayImagesEditViewController.swift in Sources */,
 				C16CA9311F4318E90084F9AC /* AlertDesignCancelViewController.swift in Sources */,
+				0C2F30F4215B69E8003BFCCE /* ب.swift in Sources */,
 				C11CDC221F2773BD00AED847 /* NewProjectDViewController.swift in Sources */,
 				C1D34D8B1FD0322A000F066D /* EditProjectsDViewController.swift in Sources */,
 				C14F3E0120E7A38000EC935D /* FilterVisitsViewController.swift in Sources */,
@@ -1462,6 +1545,7 @@
 				C1C8FA941F236A8A00C89AE2 /* textF.swift in Sources */,
 				C12C9F73210FBF1500A0976B /* EditContractViewController.swift in Sources */,
 				C115D84C1FE2B6CC00A5FCE4 /* NeerOfficesViewController.swift in Sources */,
+				0C2F3100215CFF71003BFCCE /* FilterByRateVc.swift in Sources */,
 				C1A681D2206FAB1B006E14AC /* UpdateAlertViewViewController.swift in Sources */,
 				C1FC1B331FEE663E00D3939E /* NewCheckCodeViewController.swift in Sources */,
 				C130AB611F76B68D0054F9D5 /* PanelSectionTableViewCell.swift in Sources */,
@@ -1472,12 +1556,14 @@
 				C189D16D1F3C707E00F4FFB1 /* BranchesContactsModel.swift in Sources */,
 				C1969C5C203F0798001D87BA /* SetLocationOfOfficeViewController.swift in Sources */,
 				C115D84A1FE27D5500A5FCE4 /* DoubleImageButton.swift in Sources */,
+				0C2F30FE215B97D4003BFCCE /* QuestionRateModel.swift in Sources */,
 				C1714CE1201384020070A9EE /* NewProjectAlertViewController.swift in Sources */,
 				C12C6553206CF20B00793E9D /* MyProjectNotficationViewController.swift in Sources */,
 				C12C655C206D1C8600793E9D /* AllNotificationsModel.swift in Sources */,
 				C194D66E20EE61DB00174332 /* AllHomeMessageModel.swift in Sources */,
 				C1F5333020E53F7A00B06E5A /* FilterDesignsViewController.swift in Sources */,
 				C15CEDD91F6FDF74009C4C4A /* CollectedDetialRowTableViewCell.swift in Sources */,
+				0C2F30F1215B638B003BFCCE /* RateTableViewCell.swift in Sources */,
 				C1969C56203EE5C4001D87BA /* OfficeLoginNumTableViewController.swift in Sources */,
 				C1E707351FD8195600A58BAD /* CustomInfoWindow.swift in Sources */,
 				C119A1751F4C498B00FDAECA /* VisitsDetialsTableViewController.swift in Sources */,
@@ -1568,6 +1654,7 @@
 				C1FA0F141F3B57D500A13132 /* TeamWorkModel.swift in Sources */,
 				C11CDC241F277B9600AED847 /* ImageCollectionViewCell.swift in Sources */,
 				C117CB561F263008003C65A7 /* MyTabBarController.swift in Sources */,
+				0C2F30FB215B9268003BFCCE /* Loader.swift in Sources */,
 				C19A19FF20E8EBB60091C33D /* DesignStatusModel.swift in Sources */,
 				C189D1651F3C614600F4FFB1 /* ContactUSTableViewController.swift in Sources */,
 				C1AD08B81F420017007FD648 /* ProjectsContinueTableViewCell.swift in Sources */,
@@ -1587,7 +1674,7 @@
 				C1969C5E203F0BA2001D87BA /* PopUPRegisterViewController.swift in Sources */,
 				C117F5741F373A6F00CEBECF /* AWTabBar.swift in Sources */,
 				C1BEE7831F3A20BC009DCE08 /* TeamWorkCollectionViewCell.swift in Sources */,
-				C150D51020CEB177005F1682 /* ShapeUIView.swift in Sources */,
+				0C1B13622161552B00943D23 /* FloatRatingView.swift in Sources */,
 				C1EAA5D41FFA5A44008C2249 /* DesignByProjectIdArray.swift in Sources */,
 				C130AB671F76B7100054F9D5 /* ProjectPanelTableViewCell.swift in Sources */,
 				C13646821FF2541900C72AE7 /* NewWelcomeScreenViewController.swift in Sources */,
@@ -1600,6 +1687,7 @@
 				C12C655A206D1C5800793E9D /* AllNotifications.swift in Sources */,
 				C1969C58203EE800001D87BA /* OfficeCheckCodeTableViewController.swift in Sources */,
 				C1A84BB51FD58C3900385663 /* GetOfficesArray.swift in Sources */,
+				0C2F30F6215B8C5F003BFCCE /* HttpHelper.swift in Sources */,
 				18F189331FA68B810090EFB3 /* AMCircleImageView.swift in Sources */,
 				C12A7558206BD71B0008F1DD /* AllNotficationTableViewCell.swift in Sources */,
 				C1C8FA961F237E9100C89AE2 /* DesignableUITextField.swift in Sources */,

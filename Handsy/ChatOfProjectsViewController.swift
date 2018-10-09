@@ -601,16 +601,17 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
         let sv = UIViewController.displaySpinner(onView: self.view)
         let UserId = UserDefaults.standard.string(forKey: "UserId")!
         var parameters: Parameters = [:]
-        let data = UIImageJPEGRepresentation(sendImg.image!, 0.5)
+      
         if type != "" {
             if type == "jpeg" {
                 if Message == "jk" {
+                      let data = UIImageJPEGRepresentation(sendImg.image!, 0.5)
                     parameters = [
                         "UserId" : UserId,
                         "ProjectId": ProjectId,
                         "MessageType": MessageType,
                         "Message": "",
-                        "ImagePath": data!,
+                        "ImagePath": "data!",
                         "SenderType": SenderType,
                         "Lat": Lat,
                         "Lng": Lng
@@ -663,6 +664,7 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
                 if type != "" {
                     if type == "jpeg" {
                         if Message == "jk" {
+                            let data = UIImageJPEGRepresentation(self.sendImg.image!, 0.5)
                             multipartFormData.append(data!, withName: "ImagePath", fileName: fileName, mimeType: "image/\(type)")
                         }else {
                             multipartFormData.append(ImagePath, withName: "ImagePath", fileName: fileName, mimeType: "image/\(type)")

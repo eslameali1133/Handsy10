@@ -33,6 +33,7 @@ class GetOfficesArray: NSObject {
     var BranchID = ""
     var Address = ""
     var ProjCount = ""
+    var RateNumber = 0.0
     
     var location: CLLocation {
         return CLLocation(latitude: self.Lat, longitude: self.Long)

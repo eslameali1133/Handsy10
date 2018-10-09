@@ -17,9 +17,14 @@ class DesignsOfProjectTableViewCell: UITableViewCell {
     @IBOutlet weak var nameOfStatus: UILabel!
     @IBOutlet weak var EmpMobile: UIButton!
     
+    @IBOutlet weak var empcal: UIButton!
+    @IBOutlet weak var lbl_Det: UILabel!
+    @IBOutlet weak var De_Txt: UITextView!
+    @IBOutlet weak var TxtDetails: UITextView!
     @IBOutlet weak var BtnOutlet: UIButton!{
         didSet {
             BtnOutlet.layer.cornerRadius = 4.0
+            
         }
     }
     
@@ -51,11 +56,23 @@ class DesignsOfProjectTableViewCell: UITableViewCell {
         // Initialization code
         
     }
+    @IBAction func CallEmp(_ sender: Any) {
+    }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
         // Configure the view for the selected state
+    }
+    private func callNumber(phoneNumber:String) {
+        
+        if let phoneCallURL = URL(string: "tel://\(phoneNumber)") {
+            
+            let application:UIApplication = UIApplication.shared
+            if (application.canOpenURL(phoneCallURL)) {
+                application.open(phoneCallURL, options: [:], completionHandler: nil)
+            }
+        }
     }
     
     

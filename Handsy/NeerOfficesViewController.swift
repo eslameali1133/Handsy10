@@ -13,12 +13,14 @@ import SwiftyJSON
 import GooglePlaces
 
 protocol BarBtnDelegate {
-    func BarBtnSortExpDidChange(SortExp: String, companyTypeName: String)
+    func BarBtnSortExpDidChange(SortExp: String, companyTypeName: String ,Rate: String)
 }
 
-class NeerOfficesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
+class NeerOfficesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate{
     let locationManager = CLLocationManager()
+    // MARK: FloatRatingViewDelegate
     
+   
     @IBOutlet weak var NeerOfficesTableView: UITableView!
     var presentDelegate: PresentDelegate?
     
@@ -30,11 +32,17 @@ class NeerOfficesViewController: UIViewController, UITableViewDelegate, UITableV
     var CompanyAddress = ""
     var CompanyImage = ""
     var branchId = ""
+    var rate_StarValue = ""
+    var Exp_sort = ""
+    var companyNameT = ""
     var newPlace: GMSPlace?
     var SortExp: String?
-    
+    var OfficeRate = 0.0
     var targetMyLocation: CLLocation?
     var resultMyLocation2: CLLocation?
+    
+
+ var RateValue = ""
     
     @IBOutlet weak var OfficeListEmptyLabel: UILabel!
     
@@ -76,7 +84,7 @@ class NeerOfficesViewController: UIViewController, UITableViewDelegate, UITableV
     @IBOutlet weak var filterOfficeTypeOut: UIButton!{
         didSet {
             DispatchQueue.main.async {
-                self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+//                self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
                 self.filterOfficeTypeOut.layer.cornerRadius = 7.0
                 self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
                 self.filterOfficeTypeOut.layer.borderWidth = 1.0
@@ -88,15 +96,38 @@ class NeerOfficesViewController: UIViewController, UITableViewDelegate, UITableV
     @IBOutlet weak var filterOfficeByNeerOut: UIButton!{
         didSet {
             DispatchQueue.main.async {
-                self.filterOfficeByNeerOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+//                self.filterOfficeByNeerOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
                 self.filterOfficeByNeerOut.layer.cornerRadius = 7.0
-                self.filterOfficeByNeerOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.filterOfficeByNeerOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
                 self.filterOfficeByNeerOut.layer.borderWidth = 1.0
                 self.filterOfficeByNeerOut.layer.masksToBounds = true
                 
             }
         }
     }
+    
+    @IBAction func FilterRate(_ sender: Any) {
+        let dvc = self.storyboard!.instantiateViewController(withIdentifier: "FilterByRateVc") as! FilterByRateVc
+        
+        dvc.barBtnDelegate = self
+        dvc.rateSelected = rate_StarValue
+        dvc.Expsort = Exp_sort
+        dvc.CompanyName = companyNameT
+        self.present(dvc, animated: true, completion: nil)
+        
+    }
+    @IBOutlet weak var FilterbyRate: UIButton!{
+        didSet {
+            DispatchQueue.main.async {
+                self.FilterbyRate.layer.cornerRadius = 7.0
+                self.FilterbyRate.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                self.FilterbyRate.layer.borderWidth = 1.0
+                self.FilterbyRate.layer.masksToBounds = true
+                
+            }
+        }
+    }
+    
     var resultsViewController: GMSAutocompleteResultsViewController?
     var searchController: UISearchController?
     var resultView: UITextView?
@@ -107,29 +138,324 @@ class NeerOfficesViewController: UIViewController, UITableViewDelegate, UITableV
     var resultsText = "نتائج البحث : "
     var resultsText1 = ""
     var resultsText2 = ""
-    
+    var IsRsearch = false
+     var IsNear = false
+    var distanceComing = 0.0
+    var searchtext = ""
     override func viewDidLoad() {
         super.viewDidLoad()
-        addBackBarButtonItem()
-        if SortExp == "-1" || SortExp == "" || SortExp == nil{
-            DispatchQueue.main.async {
+        // rate
+        print(SortExp!)
+         print(RateValue)
+        print(IsRsearch)
+        print(IsNear)
+        print(distanceComing)
+         print(searchtext)
+        // near
+        Exp_sort = SortExp!
+        companyNameT = resultsText2
+        if(IsNear == true)
+        {
+          
+            searchController?.searchBar.text = ""
+            resultsText1 = ""
+            
+            print(RateValue)
+            
+                self.filterOfficeByNeerOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+                self.filterOfficeByNeerOut.layer.cornerRadius = 7.0
+                self.filterOfficeByNeerOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.filterOfficeByNeerOut.layer.borderWidth = 1.0
+                self.filterOfficeByNeerOut.layer.masksToBounds = true
+                
+            /// new code
+            if ((SortExp == nil || SortExp == "-1" || SortExp == "") && RateValue == "" )  {
+                GetOfficesByProvincesID(SortBy: "1", SortExp: "", condition: 0.0, sorted: "",Rate: "")
                 self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.FilterbyRate.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
                 self.filterOfficeTypeOut.layer.cornerRadius = 7.0
                 self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
                 self.filterOfficeTypeOut.layer.borderWidth = 1.0
                 self.filterOfficeTypeOut.layer.masksToBounds = true
+            } else if((RateValue == "" || RateValue == nil) && (SortExp != "" || SortExp != nil)) {
+                rate_StarValue = ""
+                
+                GetOfficesByProvincesID(SortBy: "3", SortExp: "", condition: 0.0, sorted: "",Rate: "")
+                self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+                self.FilterbyRate.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.FilterbyRate.layer.cornerRadius = 7.0
+                self.FilterbyRate.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                self.FilterbyRate.layer.borderWidth = 1.0
+                self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+                self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.filterOfficeTypeOut.layer.borderWidth = 1.0
+                self.filterOfficeTypeOut.layer.masksToBounds = true
+                resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2
+                //            Res_Sent = resultsText + ", " + resultsText2
+                Exp_sort = SortExp!
+                //            Rate_Sent = rate_StarValue
             }
-            resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2
-        }else {
-            DispatchQueue.main.async {
+            else if((SortExp == "" || SortExp == nil) && (RateValue != "" || RateValue == nil)) {
+                rate_StarValue = RateValue
+                
+                GetOfficesByProvincesID(SortBy: "6", SortExp: "", condition: 0.0, sorted: "",Rate: RateValue)
+                
+                self.FilterbyRate.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+                self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.FilterbyRate.layer.cornerRadius = 7.0
+                self.FilterbyRate.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.FilterbyRate.layer.borderWidth = 1.0
+                self.FilterbyRate.layer.masksToBounds = true
+                
+                self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+                self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                self.filterOfficeTypeOut.layer.borderWidth = 1.0
+                
+                resaultsLabel.text = resultsText + " تقيم " + RateValue + " نجوم "
+                //            Res_Sent = resultsText + " تقيم " + RateValue + " نجوم "
+                
+            }
+            else
+            {
+                
+                GetOfficesByProvincesID(SortBy: "7", SortExp: SortExp!, condition: 0.0, sorted: "",Rate: RateValue)
+                resaultsLabel.text = resultsText + "" + ", " + resultsText2
+                rate_StarValue = RateValue
+                rate_StarValue =  RateValue
+                self.FilterbyRate.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+                self.FilterbyRate.layer.cornerRadius = 7.0
+                self.FilterbyRate.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.FilterbyRate.layer.borderWidth = 1.0
+                self.FilterbyRate.layer.masksToBounds = true
                 self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
                 self.filterOfficeTypeOut.layer.cornerRadius = 7.0
                 self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
                 self.filterOfficeTypeOut.layer.borderWidth = 1.0
                 self.filterOfficeTypeOut.layer.masksToBounds = true
+                
+                resaultsLabel.text = resultsText + ", " + resultsText2 + " تقيم " +  RateValue  + " نجوم "
+               
+                
             }
-            resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2
+            
+            
+            
         }
+        else if(IsRsearch == true)
+        {
+            /// search
+             searchController?.searchBar.text = searchtext
+             searchController?.searchBar.placeholder = searchtext
+            searchController?.isActive = false
+            // Do something with the selected place.
+            if filterOfficeByNeerOut.backgroundColor == #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1) {
+                self.filterOfficeByNeerOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.filterOfficeByNeerOut.layer.cornerRadius = 7.0
+                self.filterOfficeByNeerOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                self.filterOfficeByNeerOut.layer.borderWidth = 1.0
+                self.filterOfficeByNeerOut.layer.masksToBounds = true
+                
+            }
+            
+            // new code
+            if ((SortExp == nil || SortExp == "-1" || SortExp == "") && RateValue == "" ) {
+                
+                
+                self.GetOfficesByProvincesID(SortBy: "1", SortExp: "", condition: distanceComing, sorted: "1",Rate: "")
+                self.FilterbyRate.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.FilterbyRate.layer.cornerRadius = 7.0
+                self.FilterbyRate.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                self.FilterbyRate.layer.borderWidth = 1.0
+                self.FilterbyRate.layer.masksToBounds = true
+                self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+                self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                self.filterOfficeTypeOut.layer.borderWidth = 1.0
+                self.filterOfficeTypeOut.layer.masksToBounds = true
+                //             Rate_Sent = rate_StarValue
+            } else if((RateValue == "" || RateValue == nil) && (SortExp != "" || SortExp != nil)) {
+                
+                rate_StarValue = ""
+                self.GetOfficesByProvincesID(SortBy: "3", SortExp: SortExp!, condition: distanceComing, sorted: "1",Rate: "")
+                self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+                self.FilterbyRate.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.FilterbyRate.layer.cornerRadius = 7.0
+                self.FilterbyRate.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                self.FilterbyRate.layer.borderWidth = 1.0
+                self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+                self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.filterOfficeTypeOut.layer.borderWidth = 1.0
+                self.filterOfficeTypeOut.layer.masksToBounds = true
+                resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2
+                //            Res_Sent = resultsText + resultsText1 + ", " + resultsText2
+                Exp_sort = SortExp!
+                //            Rate_Sent = rate_StarValue
+            }
+            else if((SortExp == "" || SortExp == nil) && (RateValue != "" || RateValue != nil)) {
+                
+                rate_StarValue = RateValue
+                
+                self.GetOfficesByProvincesID(SortBy: "6", SortExp: SortExp!, condition: distanceComing, sorted: "1",Rate: RateValue)
+                
+                self.FilterbyRate.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+                self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.FilterbyRate.layer.cornerRadius = 7.0
+                self.FilterbyRate.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.FilterbyRate.layer.borderWidth = 1.0
+                self.FilterbyRate.layer.masksToBounds = true
+                
+                self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+                self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                self.filterOfficeTypeOut.layer.borderWidth = 1.0
+                
+                resaultsLabel.text = resultsText + " تقيم " + RateValue + " نجوم "
+                //            Res_Sent = resultsText + " تقيم " + RateValue + " نجوم "
+                //            Rate_Sent = rate_StarValue
+            }
+            else
+            {
+                
+                self.GetOfficesByProvincesID(SortBy: "7", SortExp: SortExp!, condition: distanceComing, sorted: "1",Rate: RateValue)
+                resaultsLabel.text = resultsText + "" + ", " + resultsText2
+                rate_StarValue = RateValue
+                rate_StarValue =  RateValue
+                self.FilterbyRate.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+                self.FilterbyRate.layer.cornerRadius = 7.0
+                self.FilterbyRate.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.FilterbyRate.layer.borderWidth = 1.0
+                self.FilterbyRate.layer.masksToBounds = true
+                self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+                self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+                self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.filterOfficeTypeOut.layer.borderWidth = 1.0
+                self.filterOfficeTypeOut.layer.masksToBounds = true
+                
+                resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2 + " تقيم " +  RateValue  + " نجوم "
+                //            Res_Sent = resultsText + resultsText1 + ", " + resultsText2 + " تقيم " +  RateValue  + " نجوم "
+                //            Rate_Sent = rate_StarValue
+            }
+            
+            
+            
+          
+            
+        }
+            
+        else
+        {
+            //normal filter 
+            
+             searchController?.searchBar.text = ""
+                self.filterOfficeByNeerOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.filterOfficeByNeerOut.layer.cornerRadius = 7.0
+                self.filterOfficeByNeerOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                self.filterOfficeByNeerOut.layer.borderWidth = 1.0
+                self.filterOfficeByNeerOut.layer.masksToBounds = true
+            
+            if SortExp == nil || SortExp == "-1" {
+                GetOfficesByProvincesID(SortBy: "1", SortExp: "", condition: radius, sorted: "1", Rate: "")
+                self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+                self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                self.filterOfficeTypeOut.layer.borderWidth = 1.0
+                self.filterOfficeTypeOut.layer.masksToBounds = true
+                //                resultsText2 = companyTypeName
+                resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2
+                rate_StarValue = ""
+                
+            }else {
+                
+                if(RateValue == "" &&  SortExp != "")
+                {
+                    
+                    GetOfficesByProvincesID(SortBy: "3", SortExp: "", condition: radius, sorted: "1", Rate: RateValue)
+                    
+                    self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+                    self.FilterbyRate.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                    self.FilterbyRate.layer.cornerRadius = 7.0
+                    self.FilterbyRate.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                    self.FilterbyRate.layer.borderWidth = 1.0
+                    self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+                    self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                    self.filterOfficeTypeOut.layer.borderWidth = 1.0
+                    self.filterOfficeTypeOut.layer.masksToBounds = true
+                    rate_StarValue = ""
+                    //                    resultsText2 = companyTypeName
+                    
+                    
+                    resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2
+                    
+                    //                    companyNameT = companyTypeName
+                }
+                else if (RateValue != "" &&  SortExp == "")
+                {
+                    rate_StarValue = RateValue
+                    Exp_sort = ""
+                    GetOfficesByProvincesID(SortBy: "6", SortExp: "", condition: radius, sorted: "1", Rate: RateValue)
+                    
+                    self.FilterbyRate.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+                    self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                    self.FilterbyRate.layer.cornerRadius = 7.0
+                    self.FilterbyRate.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                    self.FilterbyRate.layer.borderWidth = 1.0
+                    self.FilterbyRate.layer.masksToBounds = true
+                    
+                    self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+                    self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                    self.filterOfficeTypeOut.layer.borderWidth = 1.0
+                    //                    resultsText2 = companyTypeName
+                    resaultsLabel.text = resultsText + resultsText1 + ", " + " تقيم " + RateValue + " نجوم "
+                }
+                else
+                {
+                    
+                    
+                    if(SortExp != "" && RateValue != "" )
+                    {
+                        
+                        GetOfficesByProvincesID(SortBy: "7", SortExp: SortExp!, condition: radius, sorted: "1", Rate: RateValue)
+                        
+                        //
+                        rate_StarValue = RateValue
+                        self.FilterbyRate.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+                        self.FilterbyRate.layer.cornerRadius = 7.0
+                        self.FilterbyRate.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                        self.FilterbyRate.layer.borderWidth = 1.0
+                        self.FilterbyRate.layer.masksToBounds = true
+                        self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+                        self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+                        self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                        self.filterOfficeTypeOut.layer.borderWidth = 1.0
+                        self.filterOfficeTypeOut.layer.masksToBounds = true
+                        //
+                        resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2 + " تقيم " + RateValue  + " نجوم "
+                    }
+                    else{
+                        self.FilterbyRate.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                        self.FilterbyRate.layer.cornerRadius = 7.0
+                        self.FilterbyRate.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                        self.FilterbyRate.layer.borderWidth = 1.0
+                        self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                        self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+                        self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                        self.filterOfficeTypeOut.layer.borderWidth = 1.0
+                        GetOfficesByProvincesID(SortBy: "1", SortExp: "", condition: radius, sorted: "1", Rate: "")
+                        resaultsLabel.text = ""
+                        rate_StarValue = ""
+                        Exp_sort = ""
+                        
+                    }
+                    
+                }
+            }
+            
+        }
+       
+    
+        
+        addBackBarButtonItem()
+      
+
         title = "القائمة"
         if #available(iOS 11.0, *) {
             self.navigationController?.navigationBar.prefersLargeTitles = false
@@ -166,30 +492,21 @@ class NeerOfficesViewController: UIViewController, UITableViewDelegate, UITableV
             searchController?.searchBar.placeholder = "بحث عن المهندسين بالمدينة"
             filterByOfficeOut.setTitle("المهندس", for: .normal)
         } else {
-            searchController?.searchBar.placeholder = "بحث عن المكاتب بالمدينة"
+            if(searchtext != "")
+            {
+            searchController?.searchBar.placeholder = searchtext
+                searchController?.searchBar.text = searchtext
             filterByOfficeOut.setTitle("المكتب", for: .normal)
+            }
+            else
+            {
+                searchController?.searchBar.placeholder = "بحث عن المكاتب بالمدينة"
+                filterByOfficeOut.setTitle("المكتب", for: .normal)
+                
+            }
         }
         //        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: (searchController?.searchBar)!)
-        if resultMyLocation2 != nil {
-            if SortExp == "-1" || SortExp == "" || SortExp == nil{
-                self.GetOfficesByProvincesID(SortBy: "1", SortExp: "", condition: radius, sorted: "1")
-            }else {
-                self.GetOfficesByProvincesID(SortBy: "3", SortExp: SortExp!, condition: radius, sorted: "1")
-            }
-            if address == "" {
-                searchController?.searchBar.text = resultsText1
-            }else {
-                searchController?.searchBar.text = address
-            }
-            print("add: \(address)")
-        } else {
-            if SortExp == "-1" || SortExp == "" || SortExp == nil{
-                let myLocation = targetMyLocation!
-                arrayOfResulr = arrayOfResulr.sorted(by: { $0.distance(to: myLocation) < $1.distance(to: myLocation) })
-            }else {
-                self.GetOfficesByProvincesID(SortBy: "3", SortExp: SortExp!, condition: 0.0, sorted: "")
-            }
-        }
+       
         self.navigationItem.titleView = self.searchController?.searchBar
      
         // When UISearchController presents the results view, present it in
@@ -203,7 +520,7 @@ class NeerOfficesViewController: UIViewController, UITableViewDelegate, UITableV
     
     
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
+//        super.viewDidAppear(true)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -244,7 +561,7 @@ class NeerOfficesViewController: UIViewController, UITableViewDelegate, UITableV
         return 115
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return 157
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var offices = GetOfficesArray()
@@ -278,6 +595,11 @@ class NeerOfficesViewController: UIViewController, UITableViewDelegate, UITableV
             cell.chooseBtnOut.setTitle("اختار المكتب", for: .normal)
         }
         
+//          cell.Office_Rate.contentMode = UIViewContentMode.scaleAspectFit
+//          cell.Office_Rate.type = .wholeRatings
+       print( offices.RateNumber)
+        
+        cell.Rate.starsRating = Int(5 - offices.RateNumber)
         
         cell.layer.cornerRadius = 10
         cell.layer.masksToBounds = true
@@ -289,40 +611,118 @@ class NeerOfficesViewController: UIViewController, UITableViewDelegate, UITableV
         return cell
     }
     @IBAction func sortByNeerBtn(_ sender: UIButton) {
+        
+        IsRsearch = false
         searchController?.searchBar.text = ""
-        self.SortExp = nil
+        resultsText1 = ""
+        
         if filterOfficeByNeerOut.backgroundColor == #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1) {
             self.filterOfficeByNeerOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
             self.filterOfficeByNeerOut.layer.cornerRadius = 7.0
             self.filterOfficeByNeerOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
             self.filterOfficeByNeerOut.layer.borderWidth = 1.0
             self.filterOfficeByNeerOut.layer.masksToBounds = true
-            GetOfficesByProvincesID(SortBy: "1", SortExp: "", condition: 0.0, sorted: "")
-        }else {
+              IsNear = false
+            
+        }
+        else
+        {
             self.filterOfficeByNeerOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
             self.filterOfficeByNeerOut.layer.cornerRadius = 7.0
-            self.filterOfficeByNeerOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.filterOfficeByNeerOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
             self.filterOfficeByNeerOut.layer.borderWidth = 1.0
             self.filterOfficeByNeerOut.layer.masksToBounds = true
-            GetOfficesByProvincesID(SortBy: "1", SortExp: "", condition: 0.0, sorted: "1")
+            IsNear = true
         }
-        self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
-        self.filterOfficeTypeOut.layer.cornerRadius = 7.0
-        self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        self.filterOfficeTypeOut.layer.borderWidth = 1.0
-        self.filterOfficeTypeOut.layer.masksToBounds = true
+       
+        
+        print(RateValue)
+        
+      
+        /// new code
+        if ((SortExp == nil || SortExp == "-1" || SortExp == "") && RateValue == "" )  {
+            GetOfficesByProvincesID(SortBy: "1", SortExp: "", condition: 0.0, sorted: "1",Rate: "")
+            self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.filterOfficeTypeOut.layer.borderWidth = 1.0
+            self.filterOfficeTypeOut.layer.masksToBounds = true
+        } else if((RateValue == "" || RateValue == nil) && (SortExp != "" || SortExp != nil)) {
+            rate_StarValue = ""
+            
+            GetOfficesByProvincesID(SortBy: "3", SortExp: "", condition: 0.0, sorted: "",Rate: "")
+            self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            self.FilterbyRate.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.cornerRadius = 7.0
+            self.FilterbyRate.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.FilterbyRate.layer.borderWidth = 1.0
+            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.filterOfficeTypeOut.layer.borderWidth = 1.0
+            self.filterOfficeTypeOut.layer.masksToBounds = true
+            resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2
+            //            Res_Sent = resultsText + ", " + resultsText2
+            Exp_sort = SortExp!
+            //            Rate_Sent = rate_StarValue
+        }
+        else if((SortExp == "" || SortExp == nil) && (RateValue != "" || RateValue == nil)) {
+            rate_StarValue = RateValue
+            
+            GetOfficesByProvincesID(SortBy: "6", SortExp: "", condition: 0.0, sorted: "",Rate: RateValue)
+            
+            self.FilterbyRate.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.cornerRadius = 7.0
+            self.FilterbyRate.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.borderWidth = 1.0
+            self.FilterbyRate.layer.masksToBounds = true
+            
+            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.filterOfficeTypeOut.layer.borderWidth = 1.0
+            
+            resaultsLabel.text = resultsText + " تقيم " + RateValue + " نجوم "
+            //            Res_Sent = resultsText + " تقيم " + RateValue + " نجوم "
+            
+        }
+        else
+        {
+            
+            GetOfficesByProvincesID(SortBy: "7", SortExp: SortExp!, condition: 0.0, sorted: "",Rate: RateValue)
+            resaultsLabel.text = resultsText + "" + ", " + resultsText2
+            rate_StarValue = RateValue
+            rate_StarValue =  RateValue
+            self.FilterbyRate.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            self.FilterbyRate.layer.cornerRadius = 7.0
+            self.FilterbyRate.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.borderWidth = 1.0
+            self.FilterbyRate.layer.masksToBounds = true
+            self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.filterOfficeTypeOut.layer.borderWidth = 1.0
+            self.filterOfficeTypeOut.layer.masksToBounds = true
+            
+            resaultsLabel.text = resultsText + ", " + resultsText2 + " تقيم " +  RateValue  + " نجوم "
+            
+            
+        }
+        
+        
+        
     }
-    
-    func GetOfficesByProvincesID(SortBy: String, SortExp: String, condition: CLLocationDistance, sorted: String){
+    func GetOfficesByProvincesID(SortBy: String, SortExp: String, condition: CLLocationDistance, sorted: String,Rate:String){
         let sv = UIViewController.displaySpinner(onView: self.view)
         self.arrayOfResulr.removeAll()
         let Parameters: Parameters = [
             "isCompany": isCompany,
             "SortBy": SortBy,
-            "SortExp": SortExp
+            "SortExp": SortExp,
+            "Rate": Rate
         ]
-        
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetOffices", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
+        print(Parameters)
+        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetOffices", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             print("disd: \(condition)")
             for json in JSON(response.result.value!).arrayValue {
@@ -351,8 +751,13 @@ class NeerOfficesViewController: UIViewController, UITableViewDelegate, UITableV
                 requestProjectObj.BranchID = json["BranchID"].stringValue
                 requestProjectObj.Address = json["Address"].stringValue
                 requestProjectObj.ProjCount = json["ProjCount"].stringValue
+                print(json["StarsCount"].double!)
+                print(json["StarsCount"].double)
+                requestProjectObj.RateNumber = json["StarsCount"].double!
+                
                 let l = json["Lat"].doubleValue
                 let lng = json["Long"].doubleValue
+               
                 
                 if sorted == "" {
                     
@@ -376,13 +781,8 @@ class NeerOfficesViewController: UIViewController, UITableViewDelegate, UITableV
                 
             }
             
-//            if SortBy == "2" {
-//                self.NeerOfficesTableView.reloadData()
-//            } else {
-//                let myLocation = self.targetMyLocation!
-//                self.arrayOfResulr = self.arrayOfResulr.sorted(by: { $0.distance(to: myLocation) < $1.distance(to: myLocation) })
-//                self.NeerOfficesTableView.reloadData()
-//            }
+
+
             self.NeerOfficesTableView.reloadData()
 
             
@@ -392,19 +792,21 @@ class NeerOfficesViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     @IBAction func backToMapBtn(_ sender: UIButton) {
+    
         if newPlace != nil {
-            self.presentDelegate?.mapValueDidChange(resultMyLocation2: resultMyLocation2!, distance: radius, address: address, newPlace: newPlace!, SortExp: SortExp ?? "", resultsText: resaultsLabel.text!)
+            self.presentDelegate?.mapValueDidChange(resultMyLocation2: resultMyLocation2!, distance: radius, address: address, newPlace: newPlace!, SortExp: SortExp ?? "", resultsText: resaultsLabel.text!,Rate: RateValue,IsNear: IsNear,IsSearch: IsRsearch ,R1:resultsText1,R2:resultsText2)
             self.dismiss(animated: false, completion: nil)
-        }else if SortExp != nil || SortExp != "-1" || SortExp != "" {
+        }else if SortExp != nil || SortExp != "-1" || SortExp != "" || RateValue != "" {
             if resultMyLocation2 != nil && newPlace != nil {
-                self.presentDelegate?.mapValueDidChange(resultMyLocation2: resultMyLocation2!, distance: radius, address: address, newPlace: newPlace!, SortExp: SortExp!, resultsText: resaultsLabel.text!)
+                self.presentDelegate?.mapValueDidChange(resultMyLocation2: resultMyLocation2!, distance: radius, address: address, newPlace: newPlace!, SortExp: SortExp!, resultsText: resaultsLabel.text!,Rate: RateValue,IsNear: IsNear,IsSearch: IsRsearch,R1:resultsText1,R2:resultsText2)
             }else {
-                self.presentDelegate?.newMapValueDidChange(address: address, SortExp: SortExp ?? "", resultsText: resaultsLabel.text!)
+                self.presentDelegate?.newMapValueDidChange(address: address, SortExp: SortExp ?? "", resultsText: resaultsLabel.text!, Rate: RateValue,IsNear: IsNear,IsSearch: IsRsearch,R1:resultsText1,R2:resultsText2)
             }
             self.dismiss(animated: false, completion: nil)
         }else {
             self.dismiss(animated: false, completion: nil)
         }
+        
     }
     
     func addBackBarButtonItem() {
@@ -419,13 +821,13 @@ class NeerOfficesViewController: UIViewController, UITableViewDelegate, UITableV
     
     @objc func backButtonPressed(){
         if newPlace != nil {
-            self.presentDelegate?.mapValueDidChange(resultMyLocation2: resultMyLocation2!, distance: radius, address: address, newPlace: newPlace!, SortExp: SortExp ?? "", resultsText: resaultsLabel.text!)
+            self.presentDelegate?.mapValueDidChange(resultMyLocation2: resultMyLocation2!, distance: radius, address: address, newPlace: newPlace!, SortExp: SortExp ?? "", resultsText: resaultsLabel.text!,Rate: RateValue,IsNear: IsNear,IsSearch: IsRsearch,R1:resultsText1,R2:resultsText2)
             self.dismiss(animated: false, completion: nil)
-        }else if SortExp != nil || SortExp != "-1" || SortExp != "" {
+        }else if SortExp != nil || SortExp != "-1" || SortExp != "" || RateValue != "" {
             if resultMyLocation2 != nil && newPlace != nil {
-                self.presentDelegate?.mapValueDidChange(resultMyLocation2: resultMyLocation2!, distance: radius, address: address, newPlace: newPlace!, SortExp: SortExp!, resultsText: resaultsLabel.text!)
+                self.presentDelegate?.mapValueDidChange(resultMyLocation2: resultMyLocation2!, distance: radius, address: address, newPlace: newPlace!, SortExp: SortExp!, resultsText: resaultsLabel.text!,Rate: RateValue,IsNear: IsNear,IsSearch: IsRsearch,R1:resultsText1,R2:resultsText2)
             }else {
-                self.presentDelegate?.newMapValueDidChange(address: address, SortExp: SortExp ?? "", resultsText: resaultsLabel.text!)
+                self.presentDelegate?.newMapValueDidChange(address: address, SortExp: SortExp ?? "", resultsText: resaultsLabel.text!,Rate: RateValue,IsNear: IsNear,IsSearch: IsRsearch,R1:resultsText1,R2:resultsText2)
             }
             self.dismiss(animated: false, completion: nil)
         }else {
@@ -448,8 +850,9 @@ class NeerOfficesViewController: UIViewController, UITableViewDelegate, UITableV
     
     @IBAction func ExpBtnAction(_ sender: UIButton) {
         let dvc = self.storyboard!.instantiateViewController(withIdentifier: "FilterCompanyTypeTableViewController") as! FilterCompanyTypeTableViewController
-        
+  
         dvc.barBtnDelegate = self
+              dvc.reate = rate_StarValue
         dvc.modalPresentationStyle = .popover
         dvc.popoverPresentationController?.sourceView = sender
         dvc.popoverPresentationController?.sourceRect = CGRect(x: sender.frame.midX-100, y: sender.frame.maxY, width: 0, height: 0)
@@ -590,9 +993,11 @@ class NeerOfficesViewController: UIViewController, UITableViewDelegate, UITableV
 }
 
 extension NeerOfficesViewController: BarBtnDelegate {
-    func BarBtnSortExpDidChange(SortExp: String, companyTypeName: String) {
-        if SortExp == "-1" || SortExp == "" {
-            GetOfficesByProvincesID(SortBy: "1", SortExp: "", condition: radius, sorted: "1")
+   
+    func BarBtnSortExpDidChange(SortExp: String, companyTypeName: String, Rate: String) {
+        RateValue = Rate
+        if SortExp == nil || SortExp == "-1" {
+            GetOfficesByProvincesID(SortBy: "1", SortExp: "", condition: radius, sorted: "1", Rate: "")
             self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
             self.filterOfficeTypeOut.layer.cornerRadius = 7.0
             self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -600,28 +1005,124 @@ extension NeerOfficesViewController: BarBtnDelegate {
             self.filterOfficeTypeOut.layer.masksToBounds = true
             resultsText2 = companyTypeName
             resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2
+            rate_StarValue = ""
+            Exp_sort = SortExp
         }else {
-            GetOfficesByProvincesID(SortBy: "3", SortExp: SortExp, condition: radius, sorted: "1")
-            self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
-            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
-            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
-            self.filterOfficeTypeOut.layer.borderWidth = 1.0
-            self.filterOfficeTypeOut.layer.masksToBounds = true
-            resultsText2 = companyTypeName
-            resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2
+            
+            if(Rate == "" &&  SortExp != "")
+            {
+                
+                GetOfficesByProvincesID(SortBy: "3", SortExp: "", condition: radius, sorted: "1", Rate: rate_StarValue)
+                
+                self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+                self.FilterbyRate.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.FilterbyRate.layer.cornerRadius = 7.0
+                self.FilterbyRate.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                self.FilterbyRate.layer.borderWidth = 1.0
+                self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+                self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.filterOfficeTypeOut.layer.borderWidth = 1.0
+                self.filterOfficeTypeOut.layer.masksToBounds = true
+                rate_StarValue = ""
+                resultsText2 = companyTypeName
+                
+                
+                resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2
+                Exp_sort = SortExp
+                companyNameT = companyTypeName
+            }
+            else if (Rate != "" &&  SortExp == "")
+            {
+                rate_StarValue = Rate
+                Exp_sort = ""
+                GetOfficesByProvincesID(SortBy: "6", SortExp: "", condition: radius, sorted: "1", Rate: Rate)
+                
+                self.FilterbyRate.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+                self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.FilterbyRate.layer.cornerRadius = 7.0
+                self.FilterbyRate.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                self.FilterbyRate.layer.borderWidth = 1.0
+                self.FilterbyRate.layer.masksToBounds = true
+                
+                self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+                self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                self.filterOfficeTypeOut.layer.borderWidth = 1.0
+                resultsText2 = companyTypeName
+                resaultsLabel.text = resultsText + resultsText1 + ", " + " تقيم " + Rate + " نجوم "
+            }
+            else
+            {
+                
+                
+                if(SortExp != "" && Rate != "" )
+                {
+                    
+                    GetOfficesByProvincesID(SortBy: "7", SortExp: SortExp, condition: radius, sorted: "1", Rate: Rate)
+                    Exp_sort = SortExp
+                    companyNameT = companyTypeName
+                    rate_StarValue = Rate
+                    self.FilterbyRate.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+                    self.FilterbyRate.layer.cornerRadius = 7.0
+                    self.FilterbyRate.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                    self.FilterbyRate.layer.borderWidth = 1.0
+                    self.FilterbyRate.layer.masksToBounds = true
+                    self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+                    self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+                    self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                    self.filterOfficeTypeOut.layer.borderWidth = 1.0
+                    self.filterOfficeTypeOut.layer.masksToBounds = true
+                    resultsText2 = companyTypeName
+                    resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2 + " تقيم " + Rate  + " نجوم "
+                }
+                else{
+                    self.FilterbyRate.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                    self.FilterbyRate.layer.cornerRadius = 7.0
+                    self.FilterbyRate.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                    self.FilterbyRate.layer.borderWidth = 1.0
+                    self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                    self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+                    self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                    self.filterOfficeTypeOut.layer.borderWidth = 1.0
+                    GetOfficesByProvincesID(SortBy: "1", SortExp: "", condition: radius, sorted: "1", Rate: "")
+                    resaultsLabel.text = ""
+                    rate_StarValue = ""
+                    Exp_sort = ""
+                    
+                }
+                
+            }
         }
         self.SortExp = SortExp
     }
 }
 
+
 extension NeerOfficesViewController: GMSAutocompleteResultsViewControllerDelegate {
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController, didAutocompleteWith place: GMSPlace) {
+        
+        /// search
+        IsRsearch = true
+         IsNear = false
         searchController?.isActive = false
         // Do something with the selected place.
+        if filterOfficeByNeerOut.backgroundColor == #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1) {
+            self.filterOfficeByNeerOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.filterOfficeByNeerOut.layer.cornerRadius = 7.0
+            self.filterOfficeByNeerOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.filterOfficeByNeerOut.layer.borderWidth = 1.0
+            self.filterOfficeByNeerOut.layer.masksToBounds = true
+           
+           
+        }
+        
+        
         print("Place name: \(place.name)")
         print("Place address: \(place.formattedAddress ?? "")")
         print("Place attributions: \(place.attributions)")
         newPlace = place
+        address = place.formattedAddress!
+        searchController?.searchBar.text = place.formattedAddress
+        resultsText1 = place.name
         
         let g = place.viewport?.northEast
         let targ = CLLocation(latitude: (g?.latitude)!, longitude: (g?.longitude)!)
@@ -632,22 +1133,94 @@ extension NeerOfficesViewController: GMSAutocompleteResultsViewControllerDelegat
         resultMyLocation2 = CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
         if arrayOfResulr.count > 0 {
             arrayOfResulr.removeAll()
-            if SortExp == "-1" || SortExp == "" || SortExp == nil{
-                self.GetOfficesByProvincesID(SortBy: "1", SortExp: "", condition: distance, sorted: "1")
-            }else {
-                self.GetOfficesByProvincesID(SortBy: "3", SortExp: SortExp!, condition: distance, sorted: "1")
-            }
-        } else {
-            if SortExp == "-1" || SortExp == "" || SortExp == nil{
-                self.GetOfficesByProvincesID(SortBy: "1", SortExp: "", condition: distance, sorted: "1")
-            }else {
-                self.GetOfficesByProvincesID(SortBy: "3", SortExp: SortExp!, condition: distance, sorted: "1")
-            }
+            
         }
-        address = place.formattedAddress!
-        searchController?.searchBar.text = place.formattedAddress
-        resultsText1 = place.name
-        resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2
+        
+        
+        
+        // new code
+        if ((SortExp == nil || SortExp == "-1" || SortExp == "") && RateValue == "" ) {
+            
+          
+              self.GetOfficesByProvincesID(SortBy: "1", SortExp: "", condition: distance, sorted: "1",Rate: "")
+            self.FilterbyRate.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.cornerRadius = 7.0
+            self.FilterbyRate.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.FilterbyRate.layer.borderWidth = 1.0
+            self.FilterbyRate.layer.masksToBounds = true
+            self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.filterOfficeTypeOut.layer.borderWidth = 1.0
+            self.filterOfficeTypeOut.layer.masksToBounds = true
+//             Rate_Sent = rate_StarValue
+        } else if((RateValue == "" || RateValue == nil) && (SortExp != "" || SortExp != nil)) {
+            
+            rate_StarValue = ""
+            self.GetOfficesByProvincesID(SortBy: "3", SortExp: SortExp!, condition: distance, sorted: "1",Rate: "")
+            self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            self.FilterbyRate.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.cornerRadius = 7.0
+            self.FilterbyRate.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.FilterbyRate.layer.borderWidth = 1.0
+            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.filterOfficeTypeOut.layer.borderWidth = 1.0
+            self.filterOfficeTypeOut.layer.masksToBounds = true
+            resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2
+//            Res_Sent = resultsText + resultsText1 + ", " + resultsText2
+            Exp_sort = SortExp!
+//            Rate_Sent = rate_StarValue
+        }
+        else if((SortExp == "" || SortExp == nil) && (RateValue != "" || RateValue != nil)) {
+            
+            rate_StarValue = RateValue
+       
+            self.GetOfficesByProvincesID(SortBy: "6", SortExp: SortExp!, condition: distance, sorted: "1",Rate: RateValue)
+            
+            self.FilterbyRate.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.cornerRadius = 7.0
+            self.FilterbyRate.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.borderWidth = 1.0
+            self.FilterbyRate.layer.masksToBounds = true
+            
+            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.filterOfficeTypeOut.layer.borderWidth = 1.0
+            
+            resaultsLabel.text = resultsText + " تقيم " + RateValue + " نجوم "
+//            Res_Sent = resultsText + " تقيم " + RateValue + " نجوم "
+            //            Rate_Sent = rate_StarValue
+        }
+        else
+        {
+           
+             self.GetOfficesByProvincesID(SortBy: "7", SortExp: SortExp!, condition: distance, sorted: "1",Rate: RateValue)
+            resaultsLabel.text = resultsText + "" + ", " + resultsText2
+            rate_StarValue = RateValue
+            rate_StarValue =  RateValue
+            self.FilterbyRate.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            self.FilterbyRate.layer.cornerRadius = 7.0
+            self.FilterbyRate.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.FilterbyRate.layer.borderWidth = 1.0
+            self.FilterbyRate.layer.masksToBounds = true
+            self.filterOfficeTypeOut.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            self.filterOfficeTypeOut.layer.cornerRadius = 7.0
+            self.filterOfficeTypeOut.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            self.filterOfficeTypeOut.layer.borderWidth = 1.0
+            self.filterOfficeTypeOut.layer.masksToBounds = true
+            
+            resaultsLabel.text = resultsText + resultsText1 + ", " + resultsText2 + " تقيم " +  RateValue  + " نجوم "
+//            Res_Sent = resultsText + resultsText1 + ", " + resultsText2 + " تقيم " +  RateValue  + " نجوم "
+            //            Rate_Sent = rate_StarValue
+        }
+
+        
+        
+        PopUpViewOut.isHidden = true
+      
+      
     }
     
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController, didFailAutocompleteWithError error: Error){
@@ -670,4 +1243,16 @@ extension NeerOfficesViewController: UIPopoverPresentationControllerDelegate {
         return .none
     }
 }
-
+extension NeerOfficesViewController: FloatRatingViewDelegate {
+    
+    // MARK: FloatRatingViewDelegate
+    
+    func floatRatingView(_ ratingView: FloatRatingView, isUpdating rating: Double) {
+//        liveLabel.text = String(format: "%.2f", self.floatRatingView.rating)
+    }
+    
+    func floatRatingView(_ ratingView: FloatRatingView, didUpdate rating: Double) {
+//        updatedLabel.text = String(format: "%.2f", self.floatRatingView.rating)
+    }
+    
+}

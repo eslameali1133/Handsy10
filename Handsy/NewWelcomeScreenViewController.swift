@@ -15,6 +15,7 @@ class NewWelcomeScreenViewController: UIViewController {
     @IBOutlet weak var LayerFour: UIImageView!
     @IBOutlet weak var LabelOne: UILabel!
     @IBOutlet weak var LabelTwo: UILabel!
+ var checkProjectsRate = false
     @IBOutlet weak var StartBtnOut: UIButton!{
         didSet {
             DispatchQueue.main.async {
@@ -68,7 +69,11 @@ class NewWelcomeScreenViewController: UIViewController {
         StartBtnOut.isHidden = true
         subscribeBtn.isHidden = true
         aboutUsBtn.isHidden = true
-        if logout != "" {
+       
+        let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")
+         print(CustmoerId)
+         print(logout)
+        if CustmoerId == nil {
             _ = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(checkLogOut), userInfo: nil, repeats: false)
         } else {
             _ = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(resetCount), userInfo: nil, repeats: false)
@@ -76,27 +81,14 @@ class NewWelcomeScreenViewController: UIViewController {
         
         assignbackground()
         // Do any additional setup after loading the view.
+      
     }
     
     @objc func resetCount() {
-        if let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId") {
-            if let UserId = UserDefaults.standard.string(forKey: "UserId") {
-                let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
-                let sub = storyBoard.instantiateViewController(withIdentifier: "NewMain") as! NewTabBarViewController
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                
-                appDelegate.window?.rootViewController = sub
-                print("CustmoerId: \(CustmoerId)&&UserId: \(UserId)")
-            }else{
-                self.StartBtnOut.isHidden = false
-                self.subscribeBtn.isHidden = false
-                self.aboutUsBtn.isHidden = false
-            }
-        }else {
-            self.StartBtnOut.isHidden = false
-            self.subscribeBtn.isHidden = false
-            self.aboutUsBtn.isHidden = false
-        }
+        ChechProRate()
+      print(self.checkProjectsRate)
+ 
+       
     }
     
     @objc func checkLogOut() {
@@ -188,6 +180,59 @@ class NewWelcomeScreenViewController: UIViewController {
         imageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         imageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
         imageView.layoutIfNeeded()
+    }
+    
+    func ChechProRate()
+    {
+        let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")
+        HttpApi.CheckRate(Cus_ID:CustmoerId!) { (error:Error?,success:Bool,check:Bool? ) in
+            if error == nil
+            {
+                print(check)
+                
+                if(check == false)
+                {
+                    if let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId") {
+                        if let UserId = UserDefaults.standard.string(forKey: "UserId") {
+                            let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
+                            let sub = storyBoard.instantiateViewController(withIdentifier: "NewMain") as! NewTabBarViewController
+                            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                            
+                            appDelegate.window?.rootViewController = sub
+                            print("CustmoerId: \(CustmoerId)&&UserId: \(UserId)")
+                        }else{
+                            self.StartBtnOut.isHidden = false
+                            self.subscribeBtn.isHidden = false
+                            self.aboutUsBtn.isHidden = false
+                        }
+                    }else {
+                        self.StartBtnOut.isHidden = false
+                        self.subscribeBtn.isHidden = false
+                        self.aboutUsBtn.isHidden = false
+                    }
+                    
+                }
+                else
+                {
+                    // move to Rate Page
+                    let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
+                    let sub = storyBoard.instantiateViewController(withIdentifier: "RateVC") as! RateVC
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    
+                    appDelegate.window?.rootViewController = sub
+                    
+                }
+                
+                
+                
+                
+                
+                self.checkProjectsRate = check!
+                
+            }
+        }
+        
+       
     }
     
 }

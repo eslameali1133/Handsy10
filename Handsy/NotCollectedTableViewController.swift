@@ -26,6 +26,7 @@ class NotCollectedTableViewController: UIViewController, UITableViewDataSource, 
         }
         tableView.delegate = self
         tableView.dataSource = self
+         tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0.1))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,6 +75,10 @@ class NotCollectedTableViewController: UIViewController, UITableViewDataSource, 
             NothingLabel.isHidden = true
             AlertImage.isHidden = true
         }
+        if(searchResu.count <= 2)
+        {
+            tableView.isScrollEnabled = false;
+        }
         return searchResu.count
     }
     
@@ -83,7 +88,7 @@ class NotCollectedTableViewController: UIViewController, UITableViewDataSource, 
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 250
+        return 190
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -98,9 +103,10 @@ class NotCollectedTableViewController: UIViewController, UITableViewDataSource, 
         let RefranceIdEqual = searchResu[indexPath.section].RefranceId
         cell.numberOfDf3A.text = "دفعة رقم:  \(RefranceIdEqual)"
         if searchResu[indexPath.section].ProjectContract == "1" {
-            cell.contractBtn.isEnabled = true
+             cell.contractBtn.isEnabled = false
         }else {
-            cell.contractBtn.isEnabled = false
+           
+            cell.contractBtn.isEnabled = true
         }
         cell.contentView.backgroundColor = UIColor(red: 58/255.0, green: 59/255.0, blue: 60/255.0, alpha: 1.0)
         cell.layer.borderColor = UIColor(red: 58/255.0, green: 59/255.0, blue: 60/255.0, alpha: 1.0).cgColor // set cell border color here

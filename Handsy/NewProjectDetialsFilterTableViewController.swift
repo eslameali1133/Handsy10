@@ -96,8 +96,9 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     
     @IBOutlet weak var newVisitsCountLabel: UILabel!{
         didSet {
+            
             DispatchQueue.main.async {
-                self.newVisitsCountLabel.layer.cornerRadius = self.newVisitsCountLabel.frame.width/2
+                self.newVisitsCountLabel.layer.cornerRadius =  self.newVisitsCountLabel.frame.width/2
                 self.newVisitsCountLabel.layer.masksToBounds = true
             }
         }
@@ -227,7 +228,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         }
     }
     var timer: Timer?
-    
+     var AlertController: UIAlertController!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBarController?.tabBar.isHidden = false
@@ -285,8 +286,42 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             }
         }
         // Do any additional setup after loading the view.
+        AlertController = UIAlertController(title:"" , message: "اختر الخريطة", preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let Google = UIAlertAction(title: "جوجل ماب", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocationgoogle(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+        let MapKit = UIAlertAction(title: "الخرئط", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocation(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+        
+        let Cancel = UIAlertAction(title: "رجوع", style: UIAlertActionStyle.cancel, handler: { (action) in
+            //
+        })
+        
+        self.AlertController.addAction(Google)
+        self.AlertController.addAction(MapKit)
+        self.AlertController.addAction(Cancel)
     }
-    
+    func openMapsForLocation(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        print(location.coordinate)
+        MKMapView.openMapsWith(location) { (error) in
+            if error != nil {
+                print("Could not open maps" + error!.localizedDescription)
+            }
+        }
+    }
+    func openMapsForLocationgoogle(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+            UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(Lat),\(Lng)&zoom=14&views=traffic&q=\(Lat),\(Lng)")!, options: [:], completionHandler: nil)
+        }
+        else {
+            print("Can't use comgooglemaps://")
+            UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(Lat),\(Lng)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+        }
+    }
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         messageCountLabel.isHidden = true
@@ -526,7 +561,8 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             if newContractOut.isHidden == true {
                 return 0.0
             }else {
-                return 115
+                return 100
+                
             }
         }else {
             return 100
@@ -800,32 +836,10 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     }
     
     @IBAction func directionBtn(_ sender: UIButton) {
-        let dLati = searchResu[index!].LatBranch
-        let dLang = searchResu[index!].LngBranch
-        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
-        
-        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
-            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
-                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(dLati),\(dLang)&zoom=14&views=traffic&q=\(dLati),\(dLang)")!, options: [:], completionHandler: nil)
-            } else {
-                print("Can't use comgooglemaps://")
-                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(dLati),\(dLang)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
-            }
-        }))
-        
-        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
-            let location = CLLocation(latitude: dLati, longitude: dLang)
-            print(location.coordinate)
-            MKMapView.openMapsWith(location) { (error) in
-                if error != nil {
-                    print("Could not open maps" + error!.localizedDescription)
-                }
-            }
-        }))
-        
-        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
-        }))
-        self.present(alertAction, animated: true, completion: nil)
+        LatBranch = searchResu[index!].LatBranch
+        LngBranch = searchResu[index!].LngBranch
+ 
+        self.present(AlertController, animated: true, completion: nil)
     }
     
     func GetProjectByProjectId(){
@@ -1078,7 +1092,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     }
     
     @IBAction func goVisitsViewController(_ sender: UIButton) {
-        let meetingCount = self.ProjectOfResult[0].MeetingNotifiCount
+        let meetingCount = self.ProjectOfResult[0].Meetingcount
         if meetingCount == "" || meetingCount == "0" {
             Toast.long(message: "لا يوجد زيارات لك حالياً")
         }else {

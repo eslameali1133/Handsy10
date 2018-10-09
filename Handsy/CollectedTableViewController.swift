@@ -38,6 +38,7 @@ class CollectedTableViewController: UIViewController, UITableViewDelegate, UITab
             self.NothingLabel.isHidden = true
             self.AlertImage.isHidden = true
         }
+        tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0.1))
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -119,9 +120,14 @@ class CollectedTableViewController: UIViewController, UITableViewDelegate, UITab
             NothingLabel.isHidden = true
             AlertImage.isHidden = true
         }
+        
+        if(searchResu.count <= 1)
+        {
+        tableView.isScrollEnabled = false;
+        }
         return searchResu.count
     }
-    
+   
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 1
@@ -131,7 +137,7 @@ class CollectedTableViewController: UIViewController, UITableViewDelegate, UITab
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return 278
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -151,7 +157,7 @@ class CollectedTableViewController: UIViewController, UITableViewDelegate, UITab
         NewnumberFormatter.numberStyle = NumberFormatter.Style.decimal
         let NewformattedNumber = NewnumberFormatter.string(from: NSNumber(value:NewlargeNumber!))
         cell.PaymentValueLabel.text = NewformattedNumber
-        if searchResu[indexPath.section].ProjectContract == "1" {
+        if searchResu[indexPath.section].ProjectContract != "1" {
             cell.contractBtn.isEnabled = true
         }else {
             cell.contractBtn.isEnabled = false

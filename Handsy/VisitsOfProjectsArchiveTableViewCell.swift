@@ -55,7 +55,7 @@ class VisitsOfProjectsArchiveTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.messageCountLabel.isHidden = true
+//        self.messageCountLabel.isHidden = true
         // Initialization code
         
     }

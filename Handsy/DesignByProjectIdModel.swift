@@ -38,7 +38,7 @@ class DesignByProjectIdModel: NSObject {
             "StatusId": StatusId
             ]
         }
-        
+        print(parameters)
         Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetDesignsByProjectID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             

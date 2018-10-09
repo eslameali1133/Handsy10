@@ -59,11 +59,7 @@ class OfficeFillterViewController: UIViewController {
     
     
     @IBAction func CompanyAction(_ sender: UIButton) {
-//        let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
-//        let secondView = storyBoard.instantiateViewController(withIdentifier: "SearchCitiesViewController") as! SearchCitiesViewController
-//        secondView.isCompany = "1"
-//        let topController = UIApplication.topViewController()
-//        topController?.show(secondView, sender: true)
+//
         let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "OfficesMapViewController") as! OfficesMapViewController
         secondView.isCompany = "1"

@@ -25,6 +25,7 @@ class SearchByOfficeNameViewController: UIViewController, UITableViewDelegate, U
     var CompanyImage = ""
     var branchId = ""
     var type = ""
+    var reate = ""
     var targetMyLocation: CLLocation?
     var resultMyLocation2: CLLocation?
     var searchController = UISearchController(searchResultsController: nil)
@@ -138,7 +139,7 @@ class SearchByOfficeNameViewController: UIViewController, UITableViewDelegate, U
         return 115
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return 160
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var offices = GetOfficesArray()
@@ -177,6 +178,10 @@ class SearchByOfficeNameViewController: UIViewController, UITableViewDelegate, U
             cell.chooseBtnOut.setTitle("اختار المكتب", for: .normal)
         }
         
+        print( offices.RateNumber)
+        
+        cell.Rate_Search.starsRating = Int(5 - offices.RateNumber)
+        
         
         cell.layer.cornerRadius = 10
         cell.layer.masksToBounds = true
@@ -190,10 +195,12 @@ class SearchByOfficeNameViewController: UIViewController, UITableViewDelegate, U
         let Parameters: Parameters = [
             "isCompany": isCompany,
             "SortBy": SortBy,
-            "SortExp": SortExp
+            "SortExp": SortExp,
+            "Rate":""
         ]
+        print(Parameters)
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetOffices", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetOffices", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             for json in JSON(response.result.value!).arrayValue {
@@ -222,6 +229,7 @@ class SearchByOfficeNameViewController: UIViewController, UITableViewDelegate, U
                 requestProjectObj.BranchID = json["BranchID"].stringValue
                 requestProjectObj.Address = json["Address"].stringValue
                 requestProjectObj.ProjCount = json["ProjCount"].stringValue
+                  requestProjectObj.RateNumber = json["StarsCount"].double!
                 if self.targetMyLocation != nil {
                     let myLocation = self.targetMyLocation!
                     self.arrayOfResulr = self.arrayOfResulr.sorted(by: { $0.distance(to: myLocation) < $1.distance(to: myLocation) })
