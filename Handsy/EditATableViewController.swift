@@ -293,7 +293,7 @@ class EditATableViewController: UITableViewController, UITextFieldDelegate, UIPi
             "branchID": BranchID
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetProjecttypes", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetProjecttypes", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             
@@ -320,7 +320,7 @@ class EditATableViewController: UITableViewController, UITextFieldDelegate, UIPi
             "projectId": self.ProjectId
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetProjectByProjectId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetProjectByProjectId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             let json = JSON(response.result.value!)
@@ -393,8 +393,8 @@ class EditATableViewController: UITableViewController, UITextFieldDelegate, UIPi
     func ComapnyNameFunc(ComapnyNameL: String, companyAddres: String, companyLogo: String){
         companyNameLabel.text = ComapnyNameL
         companyAddressLabel.text = companyAddress
-        let trimmedString = companyLogo.trimmingCharacters(in: .whitespaces)
-        if let url = URL.init(string: trimmedString) {
+        let trimmedString = companyLogo.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+        if let url = URL.init(string: trimmedString!) {
             companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
             print("nil")
@@ -409,7 +409,7 @@ class EditATableViewController: UITableViewController, UITextFieldDelegate, UIPi
             "projectId" : ProjectId
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetImageprojectByProjID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetImageprojectByProjID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             let json = JSON(response.result.value!)
             self.ProjectsImagePath = json["ProjectsImagePath"].stringValue
@@ -438,7 +438,7 @@ class EditATableViewController: UITableViewController, UITextFieldDelegate, UIPi
             "companyInfoID": CompanyInfoID
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetOfficeByCompanyInfoID", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetOfficeByCompanyInfoID", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             let json = JSON(response.result.value!)

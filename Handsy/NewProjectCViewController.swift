@@ -34,7 +34,7 @@ class NewProjectCViewController: UIViewController, CLLocationManagerDelegate {
     var latu = ""
     var long = ""
     var zoom = ""
-    
+    var comwithoutlogin = false
     //    var backItemTitle:String?
     
     
@@ -91,9 +91,9 @@ class NewProjectCViewController: UIViewController, CLLocationManagerDelegate {
         
         mapView.delegate = self
         if mapView.mapType == .satellite {
-            mapType.setImage(#imageLiteral(resourceName: "landscape-with-mountains"), for: .normal)
+            MapImageBtn.image = #imageLiteral(resourceName: "Group_1404")
         }else {
-            mapType.setImage(#imageLiteral(resourceName: "google-drive-image copy copy"), for: .normal)
+             MapImageBtn.image = #imageLiteral(resourceName: "Group_1404-1")
         }
     }
     
@@ -147,26 +147,37 @@ class NewProjectCViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var mapType: UIButton!{
         didSet {
             DispatchQueue.main.async {
-                self.mapType.layer.shadowColor = UIColor.black.cgColor
-                self.mapType.layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
-                self.mapType.layer.shadowRadius = 2.0
-                self.mapType.layer.shadowOpacity = 0.5
-                self.mapType.layer.borderColor = UIColor.black.cgColor
-                self.mapType.layer.borderWidth = 0.5
-                self.mapType.layer.cornerRadius = 7.0
-                self.mapType.layer.masksToBounds = false
+//                self.mapType.layer.shadowColor = UIColor.black.cgColor
+//                self.mapType.layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
+//                self.mapType.layer.shadowRadius = 2.0
+//                self.mapType.layer.shadowOpacity = 0.5
+//                self.mapType.layer.borderColor = UIColor.black.cgColor
+//                self.mapType.layer.borderWidth = 0.5
+//                self.mapType.layer.cornerRadius = 7.0
+//                self.mapType.layer.masksToBounds = false
             }
         }
         
     }
     
+    @IBAction func mylocationBtn(_ sender: Any) {
+         let lat = self.mapView.myLocation?.coordinate.latitude
+        print(lat)
+            let lng = self.mapView.myLocation?.coordinate.longitude
+        
+        let camera = GMSCameraPosition.camera(withLatitude: lat! ,longitude: lng! , zoom: 14)
+        self.mapView.animate(to: camera)
+    }
     
+    @IBOutlet weak var MapImageBtn: UIImageView!
     @IBAction func mapTypeAction(_ sender: UIButton) {
         if mapView.mapType == .satellite {
-            mapType.setImage(#imageLiteral(resourceName: "google-drive-image copy copy"), for: .normal)
+            //mapType.setImage(#imageLiteral(resourceName: "google-drive-image copy copy"), for: .normal)
+            MapImageBtn.image = #imageLiteral(resourceName: "Group_1404-1")
             mapView.mapType = .terrain
         }else {
-            mapType.setImage(#imageLiteral(resourceName: "landscape-with-mountains"), for: .normal)
+//            mapType.setImage(#imageLiteral(resourceName: "landscape-with-mountains"), for: .normal)
+             MapImageBtn.image = #imageLiteral(resourceName: "Group_1404")
             mapView.mapType = .satellite
         }
     }
@@ -197,6 +208,7 @@ class NewProjectCViewController: UIViewController, CLLocationManagerDelegate {
         secondView.latu = latu
         secondView.long = long
         secondView.zoom = zoom
+    secondView.comwithoutlogin = comwithoutlogin
         self.navigationController?.pushViewController(secondView, animated: true)
     }
 
@@ -355,7 +367,7 @@ extension NewProjectCViewController: GMSAutocompleteResultsViewControllerDelegat
             // GMSMapView has two features concerning the user’s location: myLocationEnabled draws a light blue dot where the user is located, while myLocationButton, when set to true, adds a button to the map that, when tapped, centers the map on the user’s location.
             
             mapView.isMyLocationEnabled = true
-            mapView.settings.myLocationButton = true
+        //    mapView.settings.myLocationButton = true
             mapView.settings.zoomGestures = true
         }
     }

@@ -34,7 +34,9 @@ class CollectedArray: NSObject, NSCoding {
     var LatBranch: Double = 0.0
     var LngBranch: Double = 0.0
     var isSelected = false
-    init(CustmoerId: String, CustmoerName: String, PaymentBatchStatusID: String, PaymentBatchStatusName: String, PaymentStatus: String, PaymentTypeName: String, PaymentTypeeID: String, PaymentValue: String, ProjectId: String, ProjectContract: String, ProjectTitle: String, ProjectTypeName: String, ProjectsOrdersId: String, ProjectsPaymentsId: String, ProjectsPaymentsNumber: String, RefranceId: String, projectOrderInvoicePhotoPath: String, projectOrderContractPhotoPath: String, PayDate: String, PayDateHijri: String, PayTime: String, ComapnyName: String, LatBranch: Double, LngBranch: Double) {
+    var EmpPhone = ""
+    var EmpName = ""
+    init(CustmoerId: String, CustmoerName: String, PaymentBatchStatusID: String, PaymentBatchStatusName: String, PaymentStatus: String, PaymentTypeName: String, PaymentTypeeID: String, PaymentValue: String, ProjectId: String, ProjectContract: String, ProjectTitle: String, ProjectTypeName: String, ProjectsOrdersId: String, ProjectsPaymentsId: String, ProjectsPaymentsNumber: String, RefranceId: String, projectOrderInvoicePhotoPath: String, projectOrderContractPhotoPath: String, PayDate: String, PayDateHijri: String, PayTime: String, ComapnyName: String, LatBranch: Double, LngBranch: Double , EmpPhone: String , EmpName: String) {
         self.CustmoerId = CustmoerId
         self.CustmoerName = CustmoerName
         self.PaymentBatchStatusID = PaymentBatchStatusID
@@ -59,6 +61,8 @@ class CollectedArray: NSObject, NSCoding {
         self.ComapnyName = ComapnyName
         self.LatBranch = LatBranch
         self.LngBranch = LngBranch
+        self.EmpPhone = EmpPhone
+        self.EmpName = EmpName
     }
     public required init?(coder aDecoder: NSCoder) {
         self.CustmoerId = aDecoder.decodeObject(forKey: "CustmoerId") as! String

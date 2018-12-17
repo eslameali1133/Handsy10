@@ -11,11 +11,25 @@ import Alamofire
 import SwiftyJSON
 import MapKit
 
-class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MoneyMangmentModelDelegate {
+
+
+class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MoneyMangmentModelDelegate,GotoEsal {
+    func GotoEsalView(urlEsla: String) {
+        print(urlEsla)
+        let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle:nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "openPdfViewController") as! openPdfViewController
+        secondView.url = urlEsla
+        secondView.Webtitle = "الايصال"
+        tableView.reloadData()
+        self.navigationController?.pushViewController(secondView, animated: true)
+        
+    }
+    
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var viewMoney: UIView!
     
+    @IBOutlet weak var Saknumber: UILabel!
     let model: MoneyMangmentModel = MoneyMangmentModel()
     var searchResu:[MoneyManaagmentArray] = [MoneyManaagmentArray]()
     let moneyManagmentModel = MoneyManaagmentModel()
@@ -163,20 +177,68 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
     @IBOutlet weak var statusLabelB: UILabel!
     @IBOutlet weak var contractBtn: UIButton!
     @IBOutlet weak var acceptContractBtn: UIButton!
-    
+      @IBOutlet var loderview: UIView!
+   
+    var AlertController: UIAlertController!
     override func viewDidLoad() {
+     
         super.viewDidLoad()
+            CountCustomerNotification()
+        loderview.isHidden = true
+        loderview.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        self.view.addSubview(loderview)
+        
         HeaderMoneyOut.backgroundColor = #colorLiteral(red: 0.2274509804, green: 0.231372549, blue: 0.2352941176, alpha: 1)
         HeaderTypeOut.backgroundColor = #colorLiteral(red: 0.2274509804, green: 0.231372549, blue: 0.2352941176, alpha: 1)
+        AlertController = UIAlertController(title:"" , message: "اختر الخريطة", preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let Google = UIAlertAction(title: "جوجل ماب", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocationgoogle(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+        let MapKit = UIAlertAction(title: "الخرائط", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocation(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+        
+        let Cancel = UIAlertAction(title: "رجوع", style: UIAlertActionStyle.cancel, handler: { (action) in
+            //
+        })
+        
+        self.AlertController.addAction(Google)
+        self.AlertController.addAction(MapKit)
+        self.AlertController.addAction(Cancel)
+    }
+    
+    func openMapsForLocation(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        print(location.coordinate)
+        MKMapView.openMapsWith(location) { (error) in
+            if error != nil {
+                print("Could not open maps" + error!.localizedDescription)
+            }
+        }
+    }
+    func openMapsForLocationgoogle(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+            UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(Lat),\(Lng)&zoom=14&views=traffic&q=\(Lat),\(Lng)")!, options: [:], completionHandler: nil)
+        }
+        else {
+            print("Can't use comgooglemaps://")
+            UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(Lat),\(Lng)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
+         GetProjectByProjectId()
         if pushCond == "" {
             
         }else {
             GetProjectByProjectId()
         }
-        acceptContractBtn.isHidden = false
+        
+        
+        
+        acceptContractBtn.isHidden = true
         if ProjectStatusNum == "1" {
             tableView.isHidden = true
             viewMoney.isHidden = true
@@ -260,6 +322,13 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
             
             //        companyNameLabel.text = ProjectOfResult[0].ComapnyName!
             projectTitleLabel.text = "\(ProjectOfResult[0].ProjectTitle!)"
+            if ProjectOfResult[0].SakNum != ""
+            {
+            Saknumber.text = "\(ProjectOfResult[0].SakNum!)"
+            }else
+            {
+                 Saknumber.text = "\(ProjectOfResult[0].ProjectId!)"
+            }
             
         } else {
             let NotLabel = NotifiCount
@@ -281,13 +350,15 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
         }
     }
     
+     var ContractHistoryCount: String = ""
     func GetProjectByProjectId(){
         let sv = UIViewController.displaySpinner(onView: self.view)
+        self.loderview.isHidden = false
         let parameters: Parameters = [
             "projectId": ProjectId
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetProjectByProjectId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetProjectByProjectId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             let json = JSON(response.result.value!)
@@ -371,17 +442,32 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
             self.MeetingNotifiCount = json["MeetingNotifiCount"].stringValue
             self.DesignNotifiCount = json["DesignNotifiCount"].stringValue
             self.NotifiCount = json["NotifiCount"].intValue
+            self.ContractHistoryCount =  json["ContractHistoryCount"].stringValue
             self.ProjectOfResult.append(requestProjectObj)
             self.test()
             self.setViewContent()
             self.setHeaderDetials()
+           
+            
             self.tableView.reloadData()
             UserDefaults.standard.set(json["CompanyInfoID"].stringValue, forKey: "companyInfoID")
             UIViewController.removeSpinner(spinner: sv)
+             self.loderview.isHidden = true
         }
     }
     
     func setViewContent(){
+        
+        
+        if ContractHistoryCount != "" ||  ContractHistoryCount != "0"
+        {
+            ConntractRecordBtn.isHidden = false
+            
+        }else
+        {
+            ConntractRecordBtn.isHidden = true
+        }
+        
         let largeNumber = Double(ProjectsPaymentsCost) ?? 0.0
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = NumberFormatter.Style.decimal
@@ -420,28 +506,39 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
             statusImageB.image = #imageLiteral(resourceName: "NotActiveGray")
             
         }
-        if ProjectContract == "1" {
+        if ProjectContract == "1" || ProjectContract ==  "4" {
             contractBtn.isEnabled = true
             contractBtn.setImage(#imageLiteral(resourceName: "NewConterct"), for: .normal)
-            acceptContractBtn.isHidden = false
+            acceptContractBtn.isHidden = true
             contractViewOut.isHidden = false
             contractBtnOut.isHidden = false
-        } else if ProjectContract == "2" {
+                  viewMoney.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 465)
+        }
+        else if ProjectContract == "3" {
+            contractBtn.isEnabled = true
+            contractBtn.setImage(#imageLiteral(resourceName: "NewConterct"), for: .normal)
+            acceptContractBtn.isHidden = true
+            contractViewOut.isHidden = true
+            contractBtnOut.isHidden = true
+           viewMoney.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 360)
+            
+        }
+        else if ProjectContract == "2" {
             contractBtn.isEnabled = false
             contractBtn.setImage(#imageLiteral(resourceName: "Subtraction"), for: .disabled)
             acceptContractBtn.isHidden = true
             contractViewOut.isHidden = true
             contractBtnOut.isHidden = true
-            viewMoney.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 331)
+            viewMoney.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 360)
             self.view.setNeedsLayout()
             self.view.layoutIfNeeded()
         } else {
-            contractBtn.isEnabled = true
-            contractBtn.setImage(#imageLiteral(resourceName: "NewConterct"), for: .normal)
+            contractBtn.isEnabled = false
+            contractBtn.setImage(#imageLiteral(resourceName: "Subtraction"), for: .disabled)
             acceptContractBtn.isHidden = true
             contractViewOut.isHidden = true
             contractBtnOut.isHidden = true
-            viewMoney.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 331)
+            viewMoney.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 360)
             self.view.setNeedsLayout()
             self.view.layoutIfNeeded()
         }
@@ -455,7 +552,7 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
     
     @IBAction func downloadContract(_ sender: UIButton) {
         let openContract = projectOrderContractPhotoPath
-        if ProjectContract == "1" {
+        if ProjectContract == "1" || ProjectContract == "4"{
             let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
             let secondView = storyBoard.instantiateViewController(withIdentifier: "ShowContractViewController") as! ShowContractViewController
             secondView.url = openContract
@@ -518,7 +615,8 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
         
         if PaymentBatch == "2" {
             let cell = tableView.dequeueReusableCell(withIdentifier: "CollectedDetialRowTableViewCell", for: indexPath) as! CollectedDetialRowTableViewCell
-            
+            cell.eslaurl = searchResu[indexPath.section].projectOrderInvoicePhotoPath!
+              cell.delegate = self
             cell.PayDate.text = searchResu[indexPath.section].PayDate
             let paydateHijri = searchResu[indexPath.section].PayDateHijri
             let paytime = searchResu[indexPath.section].PayTime
@@ -538,6 +636,7 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
             return cell
         }else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "NotCollectedDetialsTableViewCell") as! NotCollectedDetialsTableViewCell
+            
             let largeNumber = Double(searchResu[indexPath.section].PaymentValue!)
             let numberFormatter = NumberFormatter()
             numberFormatter.numberStyle = NumberFormatter.Style.decimal
@@ -563,6 +662,7 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
     @IBAction func InvoiceAction(_ sender: UIButton) {
         let point = sender.convert(CGPoint.zero, to: tableView)
         let index = tableView.indexPathForRow(at: point)?.row
+        print(point)
         let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle:nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "openPdfViewController") as! openPdfViewController
         secondView.url = searchResu[index!].projectOrderInvoicePhotoPath!
@@ -581,7 +681,7 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
             "projectId": ProjectId
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/AcceptContract", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/AcceptContract", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             switch response.result {
@@ -657,7 +757,7 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
             "companyInfoID": ProjectOfResult[0].CompanyInfoID!
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetOfficeByCompanyInfoID", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetOfficeByCompanyInfoID", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             let json = JSON(response.result.value!)
@@ -705,30 +805,38 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
     }
     
     @IBAction func directionBtn(_ sender: UIButton) {
-        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
-        
-        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
-            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
-                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(self.LatBranch),\(self.LngBranch)&zoom=14&views=traffic&q=\(self.LatBranch),\(self.LngBranch)")!, options: [:], completionHandler: nil)
-            } else {
-                print("Can't use comgooglemaps://")
-                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(self.LatBranch),\(self.LngBranch)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+        if Helper.isDeviceiPad() {
+            
+            if let popoverController = AlertController.popoverPresentationController {
+                popoverController.sourceView = sender
             }
-        }))
+        }
         
-        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
-            let location = CLLocation(latitude: self.LatBranch, longitude: self.LngBranch)
-            print(location.coordinate)
-            MKMapView.openMapsWith(location) { (error) in
-                if error != nil {
-                    print("Could not open maps" + error!.localizedDescription)
-                }
-            }
-        }))
-        
-        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
-        }))
-        self.present(alertAction, animated: true, completion: nil)
+        self.present(AlertController, animated: true, completion: nil)
+//        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
+//
+//        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
+//            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+//                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(self.LatBranch),\(self.LngBranch)&zoom=14&views=traffic&q=\(self.LatBranch),\(self.LngBranch)")!, options: [:], completionHandler: nil)
+//            } else {
+//                print("Can't use comgooglemaps://")
+//                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(self.LatBranch),\(self.LngBranch)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+//            }
+//        }))
+//
+//        alertAction.addAction(UIAlertAction(title: "الخرائط", style: .default, handler: { action in
+//            let location = CLLocation(latitude: self.LatBranch, longitude: self.LngBranch)
+//            print(location.coordinate)
+//            MKMapView.openMapsWith(location) { (error) in
+//                if error != nil {
+//                    print("Could not open maps" + error!.localizedDescription)
+//                }
+//            }
+//        }))
+//
+//        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+//        }))
+//        self.present(alertAction, animated: true, completion: nil)
     }
     
     @IBAction func CallMe(_ sender: UIButton) {
@@ -764,16 +872,81 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
     @IBAction func goToNotfication(_ sender: UIButton) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "MyProjectNotficationViewController") as! MyProjectNotficationViewController
+    
         secondView.projectId = self.ProjectOfResult[0].ProjectId!
+        secondView.projectTitle = self.ProjectOfResult[0].ProjectTitle!
+        secondView.companyName = self.ProjectOfResult[0].ComapnyName!
+        secondView.companyPhone = self.ProjectOfResult[0].EmpMobile!
+        secondView.companyLogo = self.ProjectOfResult[0].Logo!
+        secondView.SakeNammer = self.ProjectOfResult[0].SakNum!
+        secondView.Empname = self.ProjectOfResult[0].EmpName!
         self.navigationController?.pushViewController(secondView, animated: true)
     }
     
+    
+    
+    @IBOutlet weak var ConntractRecordBtn: UIButton!{
+        didSet{
+            self.ConntractRecordBtn.circleView(UIColor.clear, borderWidth: 1.0)
+        }
+    }
+    @IBAction func GotoContractRecord(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
+        let FirstViewController = storyboard.instantiateViewController(withIdentifier: "EditDesigRecordsVC") as! EditDesigRecordsVC
+        
+        
+        FirstViewController.ProjectId = ProjectId
+        FirstViewController.Condition = "Contract"
+        FirstViewController.ProjectTiti = ProjectTitle
+        FirstViewController.EngName = EmpName
+        FirstViewController.companyName = ComapnyName
+        if SakNum != ""
+        {
+            FirstViewController.sakNum = SakNum
+        }
+        else
+        {
+            FirstViewController.sakNum = ProjectId
+        }
+        
+        FirstViewController.mobilestr = EmpMobile
+        
+        FirstViewController.DesignStagesID = ProjectId
+        
+        self.navigationController?.pushViewController(FirstViewController, animated: true)
+        
+    }
+    
+    
+    
+    
+    
+    
+   
+    
+    func setAppBadge() {
+        let count = NotiTotalCount
+        print(count)
+        
+        
+        if count != 0 {
+            let second = tabBarController?.tabBar
+            second?.items![1].badgeValue = "\(count)"
+            second?.items![1].badgeColor = #colorLiteral(red: 0.3058823529, green: 0.5058823529, blue: 0.5333333333, alpha: 1)
+            
+        }else
+        {
+            let second = tabBarController?.tabBar
+            second?.items![1].badgeValue = ""
+            second?.items![1].badgeColor = UIColor.clear
+        }
+    }
     func CountCustomerNotification() {
         let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")!
         let parameters: Parameters = [
             "CustmoerId":CustmoerId
         ]
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json = JSON(response.result.value!)
@@ -798,8 +971,6 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
             }
         }
     }
-    func setAppBadge() {
-        let count = NotiTotalCount
-        applicationl.applicationIconBadgeNumber = count
-    }
 }
+
+

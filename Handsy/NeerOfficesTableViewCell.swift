@@ -11,7 +11,11 @@ import UIKit
 class NeerOfficesTableViewCell: UITableViewCell {
     
     @IBOutlet weak var Rate: RatingController!
+    @IBOutlet weak var AddresheightConstrain: NSLayoutConstraint!
     
+    @IBOutlet weak var StackHeightconstrin: NSLayoutConstraint!
+    @IBOutlet weak var Locationbtn: UIButton!
+    @IBOutlet weak var CallBtn: UIButton!
     @IBOutlet weak var Rate_Search: RatingController!
     @IBOutlet weak var Office_Rate: FloatRatingView!
     @IBOutlet weak var CompanyLogoImage: UIImageView!{

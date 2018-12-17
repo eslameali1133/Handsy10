@@ -26,6 +26,7 @@ class VisitsDetialsTableViewController: UITableViewController {
             }
         }
     }
+    @IBOutlet var loderview: UIView!
     @IBOutlet weak var MessageBtn: UIButton! {
         didSet {
             MessageBtn.layer.borderWidth = 1.0
@@ -74,6 +75,7 @@ class VisitsDetialsTableViewController: UITableViewController {
     var Address = ""
     var ComapnyName = ""
     var Logo = ""
+    var SakNum = ""
     
     @IBOutlet weak var DataStart: UILabel!
     @IBOutlet weak var statusImage: UIImageView!
@@ -87,6 +89,8 @@ class VisitsDetialsTableViewController: UITableViewController {
             OKVisit.layer.cornerRadius = 4.0
         }
     }
+    
+    @IBOutlet weak var Dis_view: AMUIView!
     @IBOutlet weak var CancelVisit: UIButton!{
         didSet {
             CancelVisit.layer.cornerRadius = 4.0
@@ -104,6 +108,7 @@ class VisitsDetialsTableViewController: UITableViewController {
     @IBOutlet weak var endTimeLabel: UILabel!
     @IBOutlet weak var NotesLabel: UILabel!
     
+    @IBOutlet weak var SakNumber: UILabel!
     @IBOutlet weak var ClientReplayView: UIView!
     
     @IBOutlet weak var ClientReplayTF: UITextView!
@@ -135,9 +140,17 @@ class VisitsDetialsTableViewController: UITableViewController {
         }
     }
     
-    
+       var AlertController: UIAlertController!
     override func viewDidLoad() {
         super.viewDidLoad()
+         CountCustomerNotification()
+         discrbtion.textContainerInset = UIEdgeInsetsMake(-3, 0, 0, 0)
+        ClientReplayTF.textContainerInset = UIEdgeInsetsMake(-3, 0, 0, 0)
+        loderview.isHidden = true
+             detialsBtnView.isHidden = true
+        loderview.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        self.view.addSubview(loderview)
+        
         buttonsView.isHidden = true
         self.messageCountLabel.isHidden = true
         //        assignbackground()
@@ -151,9 +164,46 @@ class VisitsDetialsTableViewController: UITableViewController {
             self.tableView.bringSubview(toFront: self.detialsBtnView)
             self.tableView.addSubview(self.detialsBtnView)
         }
+        
+        AlertController = UIAlertController(title:"" , message: "اختر الخريطة", preferredStyle: UIAlertControllerStyle.actionSheet)
+
+        let Google = UIAlertAction(title: "جوجل ماب", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocationgoogle(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+        let MapKit = UIAlertAction(title: "الخرائط", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocation(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+
+        let Cancel = UIAlertAction(title: "رجوع", style: UIAlertActionStyle.cancel, handler: { (action) in
+            //
+        })
+
+        self.AlertController.addAction(Google)
+        self.AlertController.addAction(MapKit)
+        self.AlertController.addAction(Cancel)
+    }
+    func openMapsForLocation(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        print(location.coordinate)
+        MKMapView.openMapsWith(location) { (error) in
+            if error != nil {
+                print("Could not open maps" + error!.localizedDescription)
+            }
+        }
+    }
+    func openMapsForLocationgoogle(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+            UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(Lat),\(Lng)&zoom=14&views=traffic&q=\(Lat),\(Lng)")!, options: [:], completionHandler: nil)
+        }
+        else {
+            print("Can't use comgooglemaps://")
+            UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(Lat),\(Lng)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
+         CountCustomerNotification()
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
@@ -179,11 +229,14 @@ class VisitsDetialsTableViewController: UITableViewController {
     }
     
     func GetMeetingWaitingByMeetingID(){
+        loderview.isHidden = false
+        detialsBtnView.isHidden = true
+           let sv = UIViewController.displaySpinner(onView: view)
         let parameters: Parameters = [
             "meetingID": MeetingID
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetMeetingWaitingByMeetingID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetMeetingWaitingByMeetingID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             let json = JSON(response.result.value!)
@@ -213,11 +266,16 @@ class VisitsDetialsTableViewController: UITableViewController {
             self.ProjectId = json["ProjectId"].stringValue
             self.CompanyInfoID = json["CompanyInfoID"].stringValue
             self.IsCompany = json["IsCompany"].stringValue
+            self.SakNum = json["SakNum"].stringValue
             self.GetCountMessageUnReaded()
             self.visitsDetialsArray.append(requestProjectObj)
             for i in self.visitsDetialsArray {
                 self.visitsDetialsModel.append(i)
             }
+            UIViewController.removeSpinner(spinner: sv)
+            self.loderview.isHidden = true
+            self.detialsBtnView.isHidden = false
+            
             self.ComapnyNameFunc(EmpName: self.EmpName, companyName: self.ComapnyName, companyLogo: self.Logo, JobName: self.JobName)
             self.setDetiales(condition: "online")
         }
@@ -227,13 +285,13 @@ class VisitsDetialsTableViewController: UITableViewController {
     func ComapnyNameFunc(EmpName: String ,companyName: String, companyLogo: String, JobName: String){
         EngNameLabel.text = EmpName
         companyNameLabel.text = companyName
-        JopNameLabel.text = JobName
+//        JopNameLabel.text = JobName
         let trimmedString = companyLogo.trimmingCharacters(in: .whitespaces)
-        if let url = URL.init(string: trimmedString) {
-            companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
-        } else{
-            print("nil")
-        }
+//        if let url = URL.init(string: trimmedString) {
+//            companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
+//        } else{
+//            print("nil")
+//        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -244,9 +302,16 @@ class VisitsDetialsTableViewController: UITableViewController {
     
     func setDetiales(condition: String) {
         if condition == "online" {
+            if (SakNum != "")
+            {
+                 SakNumber.text = SakNum
+            }else
+            {
+            SakNumber.text = ProjectId
+            }
             DataStart.text = Start
             if MeetingStatus == "0"{
-                status.text = "قيد المقابلة"
+                status.text = "انتظار الموافقة"
                StatusView.backgroundColor = #colorLiteral(red: 0.9459478259, green: 0.7699176669, blue: 0.05561546981, alpha: 1)
                 //status.textColor = #colorLiteral(red: 0.9411764706, green: 0.7647058824, blue: 0.1882352941, alpha: 1)
                 OKVisit.isEnabled = true
@@ -290,7 +355,7 @@ class VisitsDetialsTableViewController: UITableViewController {
                 PauseVisit.isEnabled = false
                 buttonsView.isHidden = true
             }else if MeetingStatus == "5"{
-                status.text = "موافقة و قيد المقابلة"
+                status.text = "انتظار المقابلة"
 //                statusImage.image = #imageLiteral(resourceName: "تم الانجاز-1")
                 //status.textColor = #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
                  StatusView.backgroundColor = #colorLiteral(red: 0.1812162697, green: 0.7981202602, blue: 0.4416504204, alpha: 1)
@@ -309,7 +374,16 @@ class VisitsDetialsTableViewController: UITableViewController {
             DataStart.text = Start
             startTimeLabel.text = StartTime
             endTimeLabel.text = EndTime
-            discrbtion.text = Description
+            if Description != "" {
+                Dis_view.isHidden = false
+                discrbtion.text = Description
+            } else {
+                Dis_view.isHidden = true
+            }
+            
+//            discrbtion.text = Description
+            
+            
             adjustUITextViewHeight(arg: discrbtion)
             adjustUITextViewHeight(arg: EngReplay)
             ClientReplayTF.text = ClientReply
@@ -319,6 +393,7 @@ class VisitsDetialsTableViewController: UITableViewController {
             } else {
                 engDetials.isHidden = false
             }
+            print(ClientReply)
             if ClientReply == "" {
                 ClientReplayView.isHidden = true
             }else {
@@ -328,7 +403,7 @@ class VisitsDetialsTableViewController: UITableViewController {
         }else {
             DataStart.text = visitsDetialsArray[0].Start
             if visitsDetialsArray[0].MeetingStatus == "0"{
-                status.text = "قيد المقابلة"
+                status.text = "انتظار الموافقة"
 //                statusImage.image = #imageLiteral(resourceName: "Yellow")
                   StatusView.backgroundColor = #colorLiteral(red: 0.9459478259, green: 0.7699176669, blue: 0.05561546981, alpha: 1)
                 //status.textColor = #colorLiteral(red: 0.9411764706, green: 0.7647058824, blue: 0.1882352941, alpha: 1)
@@ -373,7 +448,7 @@ class VisitsDetialsTableViewController: UITableViewController {
                 PauseVisit.isEnabled = false
                 buttonsView.isHidden = true
             }else if visitsDetialsArray[0].MeetingStatus == "5"{
-                status.text = "موافقة و قيد المقابلة"
+                status.text = "انتظار المقابلة"
 //                statusImage.image = #imageLiteral(resourceName: "تم الانجاز-1")
                   StatusView.backgroundColor =  #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
                 //status.textColor = #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
@@ -398,7 +473,7 @@ class VisitsDetialsTableViewController: UITableViewController {
             } else {
                 discrbtion.isHidden = true
             }
-            
+              SakNumber.text = visitsDetialsArray[0].ProjectId
             adjustUITextViewHeight(arg: discrbtion)
             adjustUITextViewHeight(arg: EngReplay)
             ClientReplayTF.text = visitsDetialsArray[0].ClientReply
@@ -491,31 +566,52 @@ class VisitsDetialsTableViewController: UITableViewController {
     
     @IBAction func directionBtn(_ sender: UIButton) {
         
-        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
         
-        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
-            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
-                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(self.LatBranch),\(self.LngBranch)&zoom=14&views=traffic&q=\(self.LatBranch),\(self.LngBranch)")!, options: [:], completionHandler: nil)
-            } else {
-                print("Can't use comgooglemaps://")
-                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(self.LatBranch),\(self.LngBranch)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+        let dLati = self.LatBranch
+        let dLang = self.LngBranch
+        
+        if Helper.isDeviceiPad() {
+            
+            if let popoverController = AlertController.popoverPresentationController {
+                popoverController.sourceView = sender
             }
-        }))
+        }
         
-        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
-            let location = CLLocation(latitude: self.LatBranch, longitude: self.LngBranch)
-            print(location.coordinate)
-            MKMapView.openMapsWith(location) { (error) in
-                if error != nil {
-                    print("Could not open maps" + error!.localizedDescription)
-                }
-            }
-        }))
+        self.present(AlertController, animated: true, completion: nil)
         
-        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
-        }))
-        self.present(alertAction, animated: true, completion: nil)
+//        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
+//
+//        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
+//            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+//                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(dLati),\(dLang)&zoom=14&views=traffic&q=\(dLati),\(dLang)")!, options: [:], completionHandler: nil)
+//            } else {
+//                print("Can't use comgooglemaps://")
+//                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(dLati),\(dLang)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+//            }
+//        }))
+//
+//        alertAction.addAction(UIAlertAction(title: "الخرائط", style: .default, handler: { action in
+//            self.openMapsForLocation()
+//        }))
+//
+//        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+//        }))
+//        self.present(alertAction, animated: true, completion: nil)
+        
     }
+    
+    func openMapsForLocation() {
+        let dLati = self.LatBranch
+        let dLang = self.LngBranch
+        let location = CLLocation(latitude: dLati, longitude: dLang)
+        print(location.coordinate)
+        MKMapView.openMapsWith(location) { (error) in
+            if error != nil {
+                print("Could not open maps" + error!.localizedDescription)
+            }
+        }
+    }
+    
     @IBAction func openChat(_ sender: UIButton) {
         let storyboard = UIStoryboard(name: "Chat", bundle: nil)
         let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
@@ -528,7 +624,7 @@ class VisitsDetialsTableViewController: UITableViewController {
         
         let parameters: Parameters = ["projectId": ProjectId]
         
-        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetCountMessageUnReaded", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/api/ApiService/GetCountMessageUnReaded", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             let json = JSON(response.result.value!)
             let MessageCount = json["MessageCount"].stringValue
@@ -573,10 +669,65 @@ class VisitsDetialsTableViewController: UITableViewController {
             }
         }
     }
+    
+    var NotiProjectCount = 0
+    var NotiMessageCount = 0
+    var NotiTotalCount = 0
+     let applicationl = UIApplication.shared
+    
+    func setAppBadge() {
+        let count = NotiTotalCount
+        print(count)
+
+        
+        if count != 0 {
+            let second = tabBarController?.tabBar
+            second?.items![1].badgeValue = "\(count)"
+            second?.items![1].badgeColor = #colorLiteral(red: 0.3058823529, green: 0.5058823529, blue: 0.5333333333, alpha: 1)
+
+        }else
+        {
+            let second = tabBarController?.tabBar
+            second?.items![1].badgeValue = ""
+            second?.items![1].badgeColor = UIColor.clear
+        }
+    }
+    func CountCustomerNotification() {
+        let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")!
+        let parameters: Parameters = [
+            "CustmoerId":CustmoerId
+        ]
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+            switch response.result {
+            case .success:
+                let json = JSON(response.result.value!)
+                print(json)
+                self.NotiProjectCount = json["NotiProjectCount"].intValue
+                self.NotiMessageCount = json["NotiMessageCount"].intValue
+                self.NotiTotalCount = json["NotiTotalCount"].intValue
+                self.setAppBadge()
+            case .failure(let error):
+                print(error)
+                let alertAction = UIAlertController(title: "خطاء في الاتصال", message: "اعادة المحاولة", preferredStyle: .alert)
+                
+                alertAction.addAction(UIAlertAction(title: "نعم", style: .default, handler: { action in
+                    self.CountCustomerNotification()
+                }))
+                
+                alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+                }))
+                
+                self.present(alertAction, animated: true, completion: nil)
+                
+            }
+        }
+    }
+    
 }
 extension VisitsDetialsTableViewController: reloadApi {
     func reload() {
         viewWillAppear(false)
+//        viewDidLoad()
     }
 }
 extension VisitsDetialsTableViewController: UIPopoverPresentationControllerDelegate {

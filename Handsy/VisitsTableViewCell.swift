@@ -21,6 +21,7 @@ class VisitsTableViewCell: UITableViewCell {
         }
     }
     
+    @IBOutlet weak var SakNumber: UILabel!
     @IBOutlet weak var titleVisit: UILabel!
     @IBOutlet weak var companyAddress: UILabel!
     @IBOutlet weak var dateOfVisit: UILabel!

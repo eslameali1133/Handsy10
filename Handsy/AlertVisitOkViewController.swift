@@ -48,7 +48,7 @@ class AlertVisitOkViewController: UIViewController {
     @IBAction func dismissBtn(_ sender: UIButton) {
         //        let sub = self.storyboard?.instantiateViewController(withIdentifier: "main") as! MyTabBarController
         //        self.present(sub, animated: true ,completion: nil)
-        self.reloadApi?.reload()
+      //  self.reloadApi?.reload()
         self.dismiss(animated: true, completion: nil)
         
     }
@@ -66,22 +66,28 @@ class AlertVisitOkViewController: UIViewController {
     }
     
     func OKVisit(){
-        
+          let sv = UIViewController.displaySpinner(onView: self.view)
         let parameters: Parameters = [
             "meetingID": MeetingID,
             "clientReply": "موافقه",
             "status": "5"
         ]
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/UpdateVisit", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/UpdateVisit", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             let json = JSON(response.result.value!)
-            if json["result"].stringValue == "Done" {
+            print(json["Result"].boolValue)
+            if json["Result"].boolValue == true || json["Result"].boolValue == false {
+                
+                self.reloadApi?.reload()
+                self.dismiss(animated: true, completion: nil)
+                UIViewController.removeSpinner(spinner: sv)
+                
 //                let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
 //                let secondView = storyBoard.instantiateViewController(withIdentifier: "AlertDoneViewController") as! AlertDoneViewController
 //                secondView.modalPresentationStyle = .custom
 //                self.present(secondView, animated: true)
-                self.alertDoneView.isHidden = false
+//                self.alertDoneView.isHidden = false
             }
         }
     }

@@ -51,6 +51,11 @@ class FilterVisitsViewController: UIViewController {
         MeetingCountByCustmoerId()
         // Do any additional setup after loading the view.
     }
+    override func viewWillAppear(_ animated: Bool) {
+        oldVisitsCountLabel.isHidden = true
+        newVisitssCountLabel.isHidden = true
+        MeetingCountByCustmoerId()
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -86,7 +91,7 @@ class FilterVisitsViewController: UIViewController {
         let parameters: Parameters = [
             "CustmoerId": CustmoerId
         ]
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/MeetingCountByCustmoerId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/MeetingCountByCustmoerId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             let json = JSON(response.result.value!)
             self.FinishMeetingCount = json["FinishMeetingCount"].stringValue

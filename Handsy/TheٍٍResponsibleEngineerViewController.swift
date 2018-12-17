@@ -25,7 +25,12 @@ class TheResponsibleEngineerViewController: UIViewController, GMSMapViewDelegate
     var JobName = ""
     var BranchName = ""
     var zoomOffice = ""
+    var comingfromwithot = false
+    var LatBranch: Double = 0.0
+    var LngBranch: Double = 0.0
+     var AlertController: UIAlertController!
     
+    @IBOutlet weak var imageMaoType: UIImageView!
     @IBOutlet weak var jobTitle: UILabel!
     @IBOutlet weak var emplName: UILabel!
     @IBOutlet weak var empMobile: UILabel!
@@ -52,7 +57,7 @@ class TheResponsibleEngineerViewController: UIViewController, GMSMapViewDelegate
     @IBOutlet weak var directionsOut: UIButton!{
         didSet {
             DispatchQueue.main.async {
-                self.directionsOut.layer.cornerRadius = 7.0
+                self.directionsOut.layer.cornerRadius = 13.0
                 self.directionsOut.layer.masksToBounds = true
             }
         }
@@ -63,13 +68,17 @@ class TheResponsibleEngineerViewController: UIViewController, GMSMapViewDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "المهندس المسؤول"
+        self.navigationItem.title = "تم ارسال المشروع بنجاح"
+        
+//          self.navigationItem.title = json["ComapnyName"].stringValue
         self.navigationItem.hidesBackButton = true
         mapView.delegate = self
         if mapView.mapType == .satellite {
-            mapType.setImage(#imageLiteral(resourceName: "landscape-with-mountains"), for: .normal)
+//            mapType.setImage(#imageLiteral(resourceName: "landscape-with-mountains"), for: .normal)
+            imageMaoType.image = #imageLiteral(resourceName: "Group_1404")
         }else {
-            mapType.setImage(#imageLiteral(resourceName: "google-drive-image copy copy"), for: .normal)
+             imageMaoType.image = #imageLiteral(resourceName: "Group_1404-1")
+//            mapType.setImage(#imageLiteral(resourceName: "google-drive-image copy copy"), for: .normal)
         }
         DispatchQueue.main.async {
             self.callBtn.circleView(UIColor.black, borderWidth: 1.0)
@@ -79,6 +88,41 @@ class TheResponsibleEngineerViewController: UIViewController, GMSMapViewDelegate
 
         
         // Do any additional setup after loading the view.
+        AlertController = UIAlertController(title:"" , message: "اختر الخريطة", preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let Google = UIAlertAction(title: "جوجل ماب", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocationgoogle(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+        let MapKit = UIAlertAction(title: "الخرائط", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocation(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+        
+        let Cancel = UIAlertAction(title: "رجوع", style: UIAlertActionStyle.cancel, handler: { (action) in
+            //
+        })
+        
+        self.AlertController.addAction(Google)
+        self.AlertController.addAction(MapKit)
+        self.AlertController.addAction(Cancel)
+    }
+    func openMapsForLocation(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        print(location.coordinate)
+        MKMapView.openMapsWith(location) { (error) in
+            if error != nil {
+                print("Could not open maps" + error!.localizedDescription)
+            }
+        }
+    }
+    func openMapsForLocationgoogle(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+            UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(Lat),\(Lng)&zoom=14&views=traffic&q=\(Lat),\(Lng)")!, options: [:], completionHandler: nil)
+        }
+        else {
+            print("Can't use comgooglemaps://")
+            UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(Lat),\(Lng)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -107,8 +151,8 @@ class TheResponsibleEngineerViewController: UIViewController, GMSMapViewDelegate
         marker.map = mapView
         
         let img = EmpImage
-        let trimmedString = img.trimmingCharacters(in: .whitespaces)
-        if let url = URL.init(string: trimmedString) {
+        let trimmedString = img.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+        if let url = URL.init(string: trimmedString!) {
             EmpImagePro.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "custlogo"))
         } else{
             print("nil")
@@ -118,14 +162,14 @@ class TheResponsibleEngineerViewController: UIViewController, GMSMapViewDelegate
     @IBOutlet weak var mapType: UIButton!{
         didSet {
             DispatchQueue.main.async {
-                self.mapType.layer.shadowColor = UIColor.black.cgColor
-                self.mapType.layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
-                self.mapType.layer.shadowRadius = 2.0
-                self.mapType.layer.shadowOpacity = 0.5
-                self.mapType.layer.borderColor = UIColor.black.cgColor
-                self.mapType.layer.borderWidth = 0.5
-                self.mapType.layer.cornerRadius = 7.0
-                self.mapType.layer.masksToBounds = false
+//                self.mapType.layer.shadowColor = UIColor.black.cgColor
+//                self.mapType.layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
+//                self.mapType.layer.shadowRadius = 2.0
+//                self.mapType.layer.shadowOpacity = 0.5
+//                self.mapType.layer.borderColor = UIColor.black.cgColor
+//                self.mapType.layer.borderWidth = 0.5
+//                self.mapType.layer.cornerRadius = 7.0
+//                self.mapType.layer.masksToBounds = false
             }
         }
         
@@ -134,10 +178,10 @@ class TheResponsibleEngineerViewController: UIViewController, GMSMapViewDelegate
     
     @IBAction func mapTypeAction(_ sender: UIButton) {
         if mapView.mapType == .satellite {
-            mapType.setImage(#imageLiteral(resourceName: "google-drive-image copy copy"), for: .normal)
+             imageMaoType.image = #imageLiteral(resourceName: "Group_1404-1")
             mapView.mapType = .terrain
         }else {
-            mapType.setImage(#imageLiteral(resourceName: "landscape-with-mountains"), for: .normal)
+           imageMaoType.image = #imageLiteral(resourceName: "Group_1404")
             mapView.mapType = .satellite
         }
     }
@@ -151,35 +195,44 @@ class TheResponsibleEngineerViewController: UIViewController, GMSMapViewDelegate
     
     
     @IBAction func openMyProject(_ sender: UIButton) {
+        if comingfromwithot == true{
+            comingfromwithot = false
+            comingnotification = true
+            ProIDGloable = self.ProjectId
+            trypNotification = "1"
+            let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
+            let sub = storyBoard.instantiateViewController(withIdentifier: "NewMain") as! NewTabBarViewController
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            
+            appDelegate.window?.rootViewController = sub
+            
+        }
+        else
+        {
         let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle: nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectDetialsFilterTableViewController") as! NewProjectDetialsFilterTableViewController
         secondView.ProjectId = self.ProjectId
         secondView.nou = "LOl"
+        secondView.comafterlogin = true
         self.navigationController?.pushViewController(secondView, animated: true)
+        }
     }
     
     
     @IBAction func directionsAction(_ sender: UIButton) {
         let dLati = Double(BranchLat) ?? 0.0
         let dLang = Double(BranchLng) ?? 0.0
-        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
-        
-        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
-            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
-                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(dLati),\(dLang)&zoom=14&views=traffic&q=\(dLati),\(dLang)")!, options: [:], completionHandler: nil)
-            } else {
-                print("Can't use comgooglemaps://")
-                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(dLati),\(dLang)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+        self.LatBranch = dLati
+        self.LngBranch = dLang
+        if Helper.isDeviceiPad() {
+            
+            if let popoverController = AlertController.popoverPresentationController {
+                popoverController.sourceView = sender
             }
-        }))
+        }
         
-        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
-            self.openMapsForLocation()
-        }))
+        self.present(AlertController, animated: true, completion: nil)
         
-        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
-        }))
-        self.present(alertAction, animated: true, completion: nil)
     }
     
     func openMapsForLocation() {

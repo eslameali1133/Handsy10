@@ -7,15 +7,30 @@
 //
 
 import UIKit
-
+import Alamofire
+import SwiftyJSON
 class NewWelcomeScreenViewController: UIViewController {
+    @IBOutlet var viewUpdateVersion: UIView!
     @IBOutlet weak var layerOne: UIImageView!
     @IBOutlet weak var layerTwo: UIImageView!
     @IBOutlet weak var Layerthree: UIImageView!
     @IBOutlet weak var LayerFour: UIImageView!
     @IBOutlet weak var LabelOne: UILabel!
+    
     @IBOutlet weak var LabelTwo: UILabel!
- var checkProjectsRate = false
+    @IBOutlet weak var btn_updateOk: UIButton!
+        {
+        didSet{
+            btn_updateOk.layer.cornerRadius = 4
+        }
+    }
+    @IBOutlet weak var btn_updateCancel: UIButton! {
+        didSet{
+            btn_updateCancel.layer.cornerRadius = 4
+        }
+    }
+    var checkProjectsRate = false
+    var versionneedupdate = false
     @IBOutlet weak var StartBtnOut: UIButton!{
         didSet {
             DispatchQueue.main.async {
@@ -55,97 +70,167 @@ class NewWelcomeScreenViewController: UIViewController {
     }
     
     var logout = ""
-    
+    var NotiProjectCount = 0
+    var NotiMessageCount = 0
+    var NotiTotalCount = 0
+    let applicationl = UIApplication.shared
     var topConstraint: NSLayoutConstraint?
     var topAnimateConstraint: NSLayoutConstraint?
+    var countoprn = 0
+    
+    func isAppAlreadyLaunchedOnce()->Bool{
+        let defaults = UserDefaults.standard
+        if let _ = defaults.string(forKey: "isAppAlreadyLaunchedOnce"){
+            print("App already launched")
+            return true
+        }else{
+            defaults.set(true, forKey: "isAppAlreadyLaunchedOnce")
+            print("App launched first time")
+            return false
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        aboutUsBtn.isHidden = true
-//        self.navigationItem.hidesBackButton = true
-//        self.tabBarController?.tabBar.isHidden = true
-        self.LabelOne.alpha = 0
-        self.LabelTwo.alpha = 0
-        StartBtnOut.isHidden = true
-        subscribeBtn.isHidden = true
-        aboutUsBtn.isHidden = true
-       
-        let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")
-         print(CustmoerId)
-         print(logout)
-        if CustmoerId == nil {
+        
+        if logout == "logout" {
+            logout = ""
             _ = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(checkLogOut), userInfo: nil, repeats: false)
-        } else {
-            _ = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(resetCount), userInfo: nil, repeats: false)
+            
+        }
+        else
+        {
+            
+            let isFirstLaunch = isAppAlreadyLaunchedOnce()
+            
+            let delegate = UIApplication.shared.delegate as! AppDelegate
+            let times = delegate.currentTimesOfOpenApp
+            print(isFirstLaunch)
+            
+            if isFirstLaunch == false
+            {
+                countoprn += 1
+                if(countoprn == 1)
+                {
+                    let storyBoard : UIStoryboard = UIStoryboard(name: "EntroStoryboard", bundle:nil)
+                    let sub = storyBoard.instantiateViewController(withIdentifier: "EntroVC") as! EntroVC
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    
+                    appDelegate.window?.rootViewController = sub
+                }
+            }
+            
+            let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")
+            if CustmoerId != nil
+            {
+                CountCustomerNotification()
+            }
+            viewUpdateVersion.isHidden = true
+            DispatchQueue.main.async {
+                self.viewUpdateVersion.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+                self.viewUpdateVersion.center = self.view.center
+                self.view.addSubview(self.viewUpdateVersion)
+            }
+            
+            checkForUpdate { (isUpdate) in
+                print("Update needed:\(isUpdate)")
+                if isUpdate{
+                    DispatchQueue.main.async {
+                        print("new update Available")
+                        self.viewUpdateVersion.isHidden = false
+                    }
+                }
+                else if (isUpdate == false)
+                {
+                    
+                    let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")
+                    print(CustmoerId)
+                    print(self.logout)
+                    if CustmoerId == nil || CustmoerId == "" {
+                        self.checkLogOut()
+                        
+                    } else {
+                        self.resetCount()
+                        
+                    }
+                    
+                    
+                }
+                
+            }
+            
         }
         
-        assignbackground()
-        // Do any additional setup after loading the view.
-      
+        
     }
     
     @objc func resetCount() {
         ChechProRate()
-      print(self.checkProjectsRate)
- 
-       
+        print(self.checkProjectsRate)
+        
+        
     }
     
     @objc func checkLogOut() {
-        self.StartBtnOut.isHidden = false
-        self.subscribeBtn.isHidden = false
-        self.aboutUsBtn.isHidden = false
+        
+        let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
+        let sub = storyBoard.instantiateViewController(withIdentifier: "MainTabLogot") as! MainTabLogot
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        appDelegate.window?.rootViewController = sub
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         DispatchQueue.main.async {
-            self.layerOne.center.y -= self.view.bounds.height
-            self.layerTwo.center.y -= self.view.bounds.height
-            self.Layerthree.center.y -= self.view.bounds.height
-            self.LayerFour.center.x -= self.view.bounds.width
+                        self.layerOne.center.y -= self.view.bounds.height
+                        self.layerTwo.center.y -= self.view.bounds.height
+                        self.Layerthree.center.y -= self.view.bounds.height
+                        self.LayerFour.center.x -= self.view.bounds.width
         }
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        DispatchQueue.main.async {
-            UIView.animate(withDuration: 0.5) {
-                self.layerOne.center.y += self.view.bounds.height
-            }
-            UIView.animate(withDuration: 0.5, delay: 0.3, options: [],
-                           animations: {
-                            self.layerTwo.center.y += self.view.bounds.height
-            },
-                           completion: nil
-            )
-            UIView.animate(withDuration: 0.5, delay: 0.6, options: [],
-                           animations: {
-                            self.Layerthree.center.y += self.view.bounds.height
-            },
-                           completion: nil
-            )
-            UIImageView.animate(withDuration: 0.5, delay: 0.9, options:  [],
-                                animations: {
-                                    self.LayerFour.center.x += self.view.bounds.width
-            },
-                                completion: nil
-            )
-            
-            UIView.animate(withDuration: 0.5, delay: 1.2, usingSpringWithDamping: 0.6, initialSpringVelocity: 10, options: [.curveEaseOut], animations: {
-                
-                let translation = CGAffineTransform(translationX: 0, y: 0)
-                let scale = CGAffineTransform(scaleX: 1, y: 1)
-                
-                self.LabelOne.transform = translation.concatenating(scale)
-                self.LabelOne.alpha = 1
-                self.LabelTwo.transform = translation.concatenating(scale)
-                self.LabelTwo.alpha = 1
-                
-            }, completion: nil
-            )
-        }
+                        DispatchQueue.main.async {
+                            UIView.animate(withDuration: 0.5) {
+                                self.layerOne.center.y += self.view.bounds.height
+                            }
+                            UIView.animate(withDuration: 0.5, delay: 0.3, options: [],
+                                           animations: {
+                                            self.layerTwo.center.y += self.view.bounds.height
+                            },
+                                           completion: nil
+                            )
+                            UIView.animate(withDuration: 0.5, delay: 0.6, options: [],
+                                           animations: {
+                                            self.Layerthree.center.y += self.view.bounds.height
+                            },
+                                           completion: nil
+                            )
+                            UIImageView.animate(withDuration: 0.5, delay: 0.9, options:  [],
+                                                animations: {
+                                                    self.LayerFour.center.x += self.view.bounds.width
+                            },
+                                                completion: nil
+                            )
+        
+                            UIView.animate(withDuration: 0.5, delay: 1.2, usingSpringWithDamping: 0.6, initialSpringVelocity: 10, options: [.curveEaseOut], animations: {
+        
+                                let translation = CGAffineTransform(translationX: 0, y: 0)
+                                let scale = CGAffineTransform(scaleX: 1, y: 1)
+        
+                                self.LabelOne.transform = translation.concatenating(scale)
+                                self.LabelOne.alpha = 1
+                                self.LabelTwo.transform = translation.concatenating(scale)
+                                self.LabelTwo.alpha = 1
+        
+                            }, completion: nil
+                            )
+                        }
         
         
     }
@@ -155,10 +240,61 @@ class NewWelcomeScreenViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func checkForUpdate(completion:@escaping(Bool)->()){
+        
+        guard let bundleInfo = Bundle.main.infoDictionary,
+            let currentVersion = bundleInfo["CFBundleShortVersionString"] as? String,
+            let identifier = bundleInfo["CFBundleIdentifier"] as? String,
+            let url = URL(string: "http://itunes.apple.com/lookup?bundleId=\(identifier)")
+            else{
+                print("some thing wrong")
+                completion(false)
+                return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) {
+            (data, resopnse, error) in
+            if error != nil{
+                completion(false)
+                print("something went wrong")
+            }else{
+                do{
+                    guard let reponseJson = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String:Any],
+                        let result = (reponseJson["results"] as? [Any])?.first as? [String: Any],
+                        let version = result["version"] as? String
+                        else{
+                            completion(false)
+                            return
+                    }
+                    let cur:Double? = NumberFormatter().number(from: currentVersion)?.doubleValue
+                    let sro:Double? = (version as NSString).doubleValue
+                    
+                    //Int(version)
+                    print("Current Ver:\(currentVersion)")
+                    print("Prev version:\(version)")
+                    if cur != sro {
+                        completion(true)
+                        
+                    }else{
+                        completion(false)
+                    }
+                }
+                catch{
+                    completion(false)
+                    print("Something went wrong")
+                }
+            }
+        }
+        task.resume()
+    }
     @IBAction func StartBtnAction(_ sender: UIButton) {
-        let storyboard = UIStoryboard(name: "NewLogin", bundle: nil)
-        let sub = storyboard.instantiateViewController(withIdentifier: "NewLoginViewController")
-        self.navigationController?.pushViewController(sub, animated: true)
+        
+        let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
+        let sub = storyBoard.instantiateViewController(withIdentifier: "MainTabLogot") as! MainTabLogot
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        appDelegate.window?.rootViewController = sub
+ 
     }
     
     @IBAction func aboutUs(_ sender: UIButton) {
@@ -168,6 +304,40 @@ class NewWelcomeScreenViewController: UIViewController {
         self.present(secondView, animated: true)
     }
     
+    @IBAction func updateversionbtn(_ sender: Any) {
+        
+        //        UIApplication.sharedApplication().openURL(NSURL(string: "itms://itunes.apple.com/de/app/x-gift/id839686104?mt=8&uo=4")!)
+        if let url = URL(string: "https://itunes.apple.com/us/app/%D9%87%D9%86%D8%AF%D8%B3%D9%8A/id1287033751?ls=1&mt=8"),
+            UIApplication.shared.canOpenURL(url){
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+        }
+    }
+    @IBAction func cancelVersionbtn(_ sender: Any) {
+        
+        viewUpdateVersion.isHidden = true
+        
+        
+        
+        let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")
+        if CustmoerId == nil
+        {
+            let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
+            let sub = storyBoard.instantiateViewController(withIdentifier: "MainTabLogot") as! MainTabLogot
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            
+            appDelegate.window?.rootViewController = sub
+        }
+        else
+        {
+            _ = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(self.resetCount), userInfo: nil, repeats: false)
+        }
+        
+        
+    }
     
     func assignbackground(){
         let imageView = UIImageView(image: #imageLiteral(resourceName: "splash"))
@@ -181,10 +351,53 @@ class NewWelcomeScreenViewController: UIViewController {
         imageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
         imageView.layoutIfNeeded()
     }
+    func CountCustomerNotification() {
+        let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")!
+        let parameters: Parameters = [
+            "CustmoerId":CustmoerId
+        ]
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+            switch response.result {
+            case .success:
+                let json = JSON(response.result.value!)
+                print(json)
+                self.NotiProjectCount = json["NotiProjectCount"].intValue
+                self.NotiMessageCount = json["NotiMessageCount"].intValue
+                self.NotiTotalCount = json["NotiTotalCount"].intValue
+                self.setAppBadge()
+            case .failure(let error):
+                print(error)
+                let alertAction = UIAlertController(title: "خطاء في الاتصال", message: "اعادة المحاولة", preferredStyle: .alert)
+                
+                alertAction.addAction(UIAlertAction(title: "نعم", style: .default, handler: { action in
+                    self.CountCustomerNotification()
+                }))
+                
+                alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+                }))
+                
+                self.present(alertAction, animated: true, completion: nil)
+                
+            }
+        }
+    }
     
+    func setAppBadge() {
+        let count = NotiTotalCount
+        let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")!
+        if CustmoerId != nil || CustmoerId != ""
+        {
+            applicationl.applicationIconBadgeNumber = count
+        }else
+        {
+            applicationl.applicationIconBadgeNumber = 0
+        }
+        
+    }
     func ChechProRate()
     {
         let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")
+        print(CustmoerId)
         HttpApi.CheckRate(Cus_ID:CustmoerId!) { (error:Error?,success:Bool,check:Bool? ) in
             if error == nil
             {
@@ -224,15 +437,12 @@ class NewWelcomeScreenViewController: UIViewController {
                 }
                 
                 
-                
-                
-                
                 self.checkProjectsRate = check!
+                
                 
             }
         }
         
-       
+        
     }
-    
 }

@@ -37,7 +37,7 @@ class TeamWorkModel: NSObject {
             CompInfID = companyInfoID
         }
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetAllCompanyGallery", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetAllCompanyGallery", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             

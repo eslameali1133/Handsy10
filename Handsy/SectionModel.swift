@@ -24,7 +24,7 @@ class SectionModel: NSObject {
         let parameters: Parameters = [
             "provincesID": provincesID
         ]
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetSectionsReg", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetSectionsReg", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             var SectionOfResult = [SectionArray]()

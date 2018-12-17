@@ -54,8 +54,8 @@ class OtherViewController: UIViewController, UICollectionViewDelegate, UICollect
         cell.layer.masksToBounds = true
         
         let img = searchResu[indexPath.row].ProjectsImagePath
-        let trimmedString = img.trimmingCharacters(in: .whitespaces)
-        if let url = URL.init(string: img) {
+        let trimmedString = img.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+        if let url = URL.init(string: trimmedString!) {
             cell.imageView.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "custlogo"))
         } else{
             print("nil")

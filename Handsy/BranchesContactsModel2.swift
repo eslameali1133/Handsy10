@@ -23,7 +23,7 @@ class BranchesContactsModel2: NSObject {
         
         
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/BranchesContacts?branchID=2", method: .get, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/BranchesContacts?branchID=2", method: .get, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             

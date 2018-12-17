@@ -259,7 +259,7 @@ class OfficeInfoTableViewController: UITableViewController, UITextFieldDelegate,
         let sv = UIViewController.displaySpinner(onView: self.view)
         self.arrayofCompanyType.removeAll()
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetCompanyType", method: .get, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetCompanyType", method: .get, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             switch response.result {
             case .success:

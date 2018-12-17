@@ -28,7 +28,7 @@ class MoneyMangmentModel: NSObject {
             "projectId": projectId
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/PaymentByCustIDAndProjectId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/PaymentByCustIDAndProjectId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             

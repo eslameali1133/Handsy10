@@ -33,7 +33,7 @@ class GetBranchesModel: NSObject {
                 "companyInfoID": companyInfoID
             ]
         }
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetBranches", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetBranches", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             

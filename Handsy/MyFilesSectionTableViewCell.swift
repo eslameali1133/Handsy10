@@ -12,6 +12,9 @@ class MyFilesSectionTableViewCell: UITableViewCell {
     @IBOutlet weak var projectTitle: UILabel!
     @IBOutlet weak var expandingImage: UIImageView!
     @IBOutlet weak var officeNameLabel: UILabel!
+        @IBOutlet weak var SakNumberLabel: UILabel!
+     @IBOutlet weak var EngnameLabel: UILabel!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()

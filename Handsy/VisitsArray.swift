@@ -29,8 +29,10 @@ class VisitsArray: NSObject, NSCoding {
     var Address: String = ""
     var Logo: String = ""
     var CompanyInfoID: String?
+        var ProjectId: String?
+    var SakNum: String = ""
     var IsCompany: String?
-    init(MeetingID: String, Title: String, MeetingStatus: String, Description: String, Notes: String, Start: String, TimeStartMeeting: String, ProjectBildTypeName: String, Mobile: String, EmpName: String, Replay: String, DateReply: String, StartTime: String, EndTime: String, LatBranch: Double, LngBranch: Double, ComapnyName: String, Address: String, Logo: String, CompanyInfoID: String, IsCompany: String) {
+    init(MeetingID: String, Title: String, MeetingStatus: String, Description: String, Notes: String, Start: String, TimeStartMeeting: String, ProjectBildTypeName: String, Mobile: String, EmpName: String, Replay: String, DateReply: String, StartTime: String, EndTime: String, LatBranch: Double, LngBranch: Double, ComapnyName: String, Address: String, Logo: String, CompanyInfoID: String, IsCompany: String , ProjectId: String , SakNum: String) {
         self.MeetingID = MeetingID
         self.Title = Title
         self.MeetingStatus = MeetingStatus
@@ -52,6 +54,8 @@ class VisitsArray: NSObject, NSCoding {
         self.Logo = Logo
         self.CompanyInfoID = CompanyInfoID
         self.IsCompany = IsCompany
+        self.ProjectId = ProjectId
+        self.SakNum = SakNum
     }
     public required init?(coder aDecoder: NSCoder) {
         self.MeetingID = aDecoder.decodeObject(forKey: "MeetingID") as! String

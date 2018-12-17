@@ -19,22 +19,32 @@ class ServiceOfCompanyModel: NSObject {
     
     var delegate: ServiceOfCompanyModelDelegate?
     
-    func GetServices(view: UIView, VC: UIViewController){
+    func GetServices(view: UIView, VC: UIViewController,CompanyInfoID : String){
+       var CompanyInfoIDSecond = ""
         let sv = UIViewController.displaySpinner(onView: view)
-        let parameters : Parameters = [
-            "CompanyInfoID": UserDefaults.standard.string(forKey: "CompanyInfoID")!
-        ]
+         let parameters: Parameters?
+       
+            CompanyInfoIDSecond = CompanyInfoID
+            parameters = [
+                "CompanyInfoID": CompanyInfoID
+            ]
+           
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetServices", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        
+       print(CompanyInfoIDSecond)
+        
+        print(parameters)
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetServices", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             
             var arrayOfResulr = [ArrayServiceOfCompany]()
-            let CompanyInfoID = UserDefaults.standard.string(forKey: "CompanyInfoID")!
+           
+          
             switch response.result {
             case .success:
                 for json in JSON(response.result.value!).arrayValue {
-                    let requestProjectObj = ArrayServiceOfCompany(serviceName: json["ServiceName"].stringValue, content: json["Content"].stringValue, CompanyInfoID: CompanyInfoID)
+                    let requestProjectObj = ArrayServiceOfCompany(serviceName: json["ServiceName"].stringValue, content: json["Content"].stringValue, CompanyInfoID: CompanyInfoIDSecond)
                     
                     
                     requestProjectObj.serviceName = json["ServiceName"].stringValue
@@ -58,7 +68,7 @@ class ServiceOfCompanyModel: NSObject {
                 let alertAction = UIAlertController(title: "خطاء في الاتصال", message: "اعادة المحاولة", preferredStyle: .alert)
                 
                 alertAction.addAction(UIAlertAction(title: "نعم", style: .default, handler: { action in
-                    self.GetServices(view: view, VC: VC)
+                    self.GetServices(view: view, VC: VC, CompanyInfoID: CompanyInfoID)
                 }))
                 
                 alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in

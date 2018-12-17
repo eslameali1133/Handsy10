@@ -30,13 +30,19 @@ class AboutCompanyTableViewController: UITableViewController, ServiceOfCompanyMo
     let serviceModel = ServiceModel()
     var arrayServiceCompany = [String: ArrayServiceOfCompany]()
     
+   
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+         print("comp: \(CompanyInfoID)")
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
+            print(CompanyInfoID)
             GetAbout()
             model.delegate = self
-            model.GetServices(view: self.view, VC: self)
+            model.GetServices(view: self.view, VC: self, CompanyInfoID: CompanyInfoID)
         }else{
             aboutModel.loadItems()
             if CompanyInfoID == "" {
@@ -77,12 +83,9 @@ class AboutCompanyTableViewController: UITableViewController, ServiceOfCompanyMo
     func dataReady() {
         // Access the video objects that have been downloaded
         self.searchResu = self.model.resultArray
-        if CompanyInfoID == "" {
+       
             self.serviceModel.append(self.model.resultArray, index: CompanyInfoID)
-        }else{
-            let companyInfoID = UserDefaults.standard.string(forKey: "CompanyInfoID")!
-            self.serviceModel.append(self.model.resultArray, index: companyInfoID)
-        }
+       
         
         // Tell the tableview to reload
         tableView.reloadData()
@@ -149,24 +152,20 @@ class AboutCompanyTableViewController: UITableViewController, ServiceOfCompanyMo
 
     func GetAbout() {
         let parameters: Parameters?
-        var CompInfID: String?
-        if CompanyInfoID == "" {
-            parameters = [
-                "CompanyInfoID": UserDefaults.standard.string(forKey: "CompanyInfoID")!
-            ]
-            CompInfID = UserDefaults.standard.string(forKey: "CompanyInfoID")!
-        } else {
+       
+    
             parameters = [
                 "CompanyInfoID": CompanyInfoID
             ]
-            CompInfID = CompanyInfoID
-        }
+      
+       
+        
         let sv = UIViewController.displaySpinner(onView: self.view)
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetAbout", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetAbout", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             let json = JSON(response.result.value!)
             print(json)
-            let aboutArray = AboutArray(AboutTitle: json["AboutTilte"].stringValue, AboutContent: json["AboutContent"].stringValue, ExperTitle: json["ExperienceTitle"].stringValue, ExperContent: json["ExperienceContent"].stringValue, CompanyInfoID: CompInfID!)
+            let aboutArray = AboutArray(AboutTitle: json["AboutTilte"].stringValue, AboutContent: json["AboutContent"].stringValue, ExperTitle: json["ExperienceTitle"].stringValue, ExperContent: json["ExperienceContent"].stringValue, CompanyInfoID: self.CompanyInfoID)
             self.resultAboutArray.append(aboutArray)
             for i in self.resultAboutArray {
                 self.aboutModel.append(i)

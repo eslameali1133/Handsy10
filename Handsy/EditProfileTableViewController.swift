@@ -54,15 +54,20 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
         let rightView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 10.0, height: 2.0))
         userName.rightView = rightView
         userName.rightViewMode = .always
-        
-        mobileNumber.text = UserDefaults.standard.string(forKey: "mobile")
+        var FullMobil : String = UserDefaults.standard.string(forKey: "mobile")!
+         FullMobil.remove(at:(FullMobil.startIndex))
+        FullMobil.remove(at:(FullMobil.startIndex))
+        print(FullMobil)
+//         FullMobil = FullMobil?.remove(at: (FullMobil?.startIndex)!)
+        mobileNumber.text = FullMobil
+            //UserDefaults.standard.string(forKey: "mobile")
 //        Email.text = UserDefaults.standard.string(forKey: "Email")
         
 //        NationalId.text = UserDefaults.standard.string(forKey: "NationalId")
         
         let firstElem = UserDefaults.standard.string(forKey: "CustomerPhoto")!
-        let trimmedString = firstElem.trimmingCharacters(in: .whitespaces)
-        if let url = URL.init(string: trimmedString) {
+        let trimmedString = firstElem.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+        if let url = URL.init(string: trimmedString!) {
             print(url)
             imageProfile.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "custlogo"))
         } else{
@@ -93,11 +98,12 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
         toolBar.isUserInteractionEnabled = true
         mobileNumber.inputAccessoryView = toolBar
         // Do any additional setup after loading the view.
+        GetEmptByMobileNumload()
     }
     
     @objc func donePicker(){
         self.view.endEditing(true)
-        let mobile = mobileNumber.text!
+        let mobile = "05" + mobileNumber.text!
         if mobile.count == 10 {
             if mobile.first! == "0" {
                 if mobile[mobile.index(mobile.startIndex, offsetBy: 1)] == "5" {
@@ -153,7 +159,7 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
         if validatePassword(text: mobileNumber.text!) {
             // correct password
             self.mobileLabel.textColor = UIColor.clear
-            if mobileNumber.text?.count == 10 {
+            if mobileNumber.text?.count == 8 {
                 self.EditWillDone.isEnabled = true
                 self.view.endEditing(true)
             }
@@ -166,21 +172,21 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
     }
     
     func validatePassword(text: String) -> Bool {
-        var result = false
-        if text.count == 1 {
-            // test password
-            if text.first == "0"{
-                result = true
-            }
-        } else {
-            if text.first == "0" {
-                if text[text.index(text.startIndex, offsetBy: 1)] == "5" {
-                    result = true
-                }
-                
-            }
-        }
-        
+        var result = true
+//        if text.count == 1 {
+//            // test password
+//            if text.first == "0"{
+//                result = true
+//            }
+//        } else {
+//            if text.first == "0" {
+//                if text[text.index(text.startIndex, offsetBy: 1)] == "5" {
+//                    result = true
+//                }
+//
+//            }
+//        }
+//
         return result
     }
     
@@ -272,9 +278,10 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
                 }
             }else {
                 if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-                    imageProfile.image = pickedImage
+                    imageProfile.image =  pickedImage
                     print("image: \(pickedImage)")
                     condCamera = "sds"
+                    
                 }
             }
         } else {
@@ -353,7 +360,7 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
     
     func CheckExistUsersData_Update() {
         let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")
-        let mobile = mobileNumber.text!
+        let mobile = "05" + mobileNumber.text!
         let email = ""
         
         let parameters: Parameters = [
@@ -363,7 +370,7 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
             "NationalId": ""
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/CheckExistUsersData_Update", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/CheckExistUsersData_Update", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             let json = JSON(response.result.value!)
@@ -444,7 +451,7 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
                 }
         },
             usingThreshold:UInt64.init(),
-            to: "http://handasy.promit2030.comm/UploadFile/apiEmp.php",
+            to: "http://handasy.promit2030.co/UploadFile/apiEmp.php",
             method: .post,
             encodingCompletion: { encodingResult in
                 switch encodingResult {
@@ -537,7 +544,7 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
     
     func UpdateCustomers(imagePath: String) {
         let mobile = UserDefaults.standard.string(forKey: "mobile")!
-        let NewMobileNumber = mobileNumber.text!
+        let NewMobileNumber = "05" + mobileNumber.text!
         if mobile == NewMobileNumber {
             let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")!
             let UserId = UserDefaults.standard.string(forKey: "UserId")!
@@ -553,7 +560,7 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
                 "CompanyInfoID": "1"
             ]
             
-            Alamofire.request("http://smusers.promit2030.com/Service1.svc/UpdateCustomers", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+            Alamofire.request("http://smusers.promit2030.co/Service1.svc/UpdateCustomers", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
                 debugPrint(response)
                 
                 let json = JSON(response.result.value!)
@@ -575,7 +582,7 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
 //            SendSmsCodeActivation()
             let storyBoard : UIStoryboard = UIStoryboard(name: "NewLogin", bundle:nil)
             let secondView = storyBoard.instantiateViewController(withIdentifier: "NewCheckCodeViewController") as! NewCheckCodeViewController
-            secondView.mobile = self.mobileNumber.text!
+            secondView.mobile = "05" + self.mobileNumber.text!
             secondView.code = self.code
             secondView.UserName = self.userName.text!
             secondView.imagePath = self.imagePath
@@ -586,7 +593,7 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
     }
     
     func SendSmsCodeActivation() {
-        var mobileTest = mobileNumber.text!
+        var mobileTest = "05" + mobileNumber.text!
         
         if mobileTest.count == 10 {
             if mobileTest.first! == "0" {
@@ -596,7 +603,7 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
 //                    mobileTest.insert("6", at: mobileTest.startIndex)
 //                    mobileTest.insert("9", at: mobileTest.startIndex)
                     print(mobileTest)
-                    Alamofire.request("http://smusers.promit2030.com/Service1.svc/SendSmsCodeActivation?mobile=\(mobileTest)", method: .get).responseJSON { response in
+                    Alamofire.request("http://smusers.promit2030.co/Service1.svc/SendSmsCodeActivation?mobile=\(mobileTest)", method: .get).responseJSON { response in
                         debugPrint(response)
                         
                         let json = JSON(response.result.value!)
@@ -609,7 +616,7 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
                         
                         let storyBoard : UIStoryboard = UIStoryboard(name: "NewLogin", bundle:nil)
                         let secondView = storyBoard.instantiateViewController(withIdentifier: "NewCheckCodeViewController") as! NewCheckCodeViewController
-                        secondView.mobile = self.mobileNumber.text!
+                        secondView.mobile = "05" +  self.mobileNumber.text!
                         secondView.code = self.code
                         secondView.UserName = self.userName.text!
                         secondView.imagePath = self.imagePath
@@ -624,7 +631,7 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
     
     func GetEmptByMobileNum() {
         let mobile = UserDefaults.standard.string(forKey: "mobile")!
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetEmptByMobileNum?mobileNum=\(mobile)", method: .get).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetEmptByMobileNum?mobileNum=\(mobile)", method: .get).responseJSON { response in
             debugPrint(response)
             
             let json = JSON(response.result.value!)
@@ -652,6 +659,37 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
         
     }
     
+    func GetEmptByMobileNumload() {
+        let mobile = UserDefaults.standard.string(forKey: "mobile")!
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetEmptByMobileNum?mobileNum=\(mobile)", method: .get).responseJSON { response in
+            debugPrint(response)
+            
+            let json = JSON(response.result.value!)
+            print(json)
+            
+            if json["Mobile"].stringValue == "" {
+                
+                
+                
+            } else {
+                self.PushInsertUpdate()
+                UserDefaults.standard.set(json["UserId"].stringValue, forKey: "UserId")
+                UserDefaults.standard.set(json["CustmoerName"].stringValue, forKey: "CustmoerName")
+                UserDefaults.standard.set(json["Email"].stringValue, forKey: "Email")
+                UserDefaults.standard.set(json["CustomerPhoto"].stringValue, forKey: "CustomerPhoto")
+                UserDefaults.standard.set(json["Mobile"].stringValue, forKey: "mobile")
+                let firstElem = json["CustomerPhoto"].stringValue
+                let trimmedString = firstElem.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+                if let url = URL.init(string: trimmedString!) {
+                    print(url)
+                   self.CustomerPhoto = url
+                }
+              
+            }
+            
+        }
+        
+    }
     func PushInsertUpdate(){
         
         let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")!
@@ -664,7 +702,7 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
             "DeviceID":DeviceID
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/PushInsertUpdate", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/PushInsertUpdate", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             let json = JSON(response.result.value!)
             print(json)
             
@@ -673,16 +711,23 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
     
     func UpdateCustomerProfile() {
         let sv = UIViewController.displaySpinner(onView: self.view)
+       
         let UserId = UserDefaults.standard.string(forKey: "UserId")!
         var parameters: Parameters = [:]
         let mobile = UserDefaults.standard.string(forKey: "mobile")!
-        let NewMobileNumber = mobileNumber.text!
+        let NewMobileNumber = "05" + mobileNumber.text!
+        print(NewMobileNumber)
+           print(mobile)
         if mobile == NewMobileNumber {
             if CustomerPhoto != nil {
+                print(CustomerPhoto!)
+                
+                let data = UIImageJPEGRepresentation(imageProfile.image!, 0.5)
+                
                 parameters = [
                     "UserId" : UserId,
                     "CustmoerName": userName.text!,
-                    "CustomerPhoto": self.CustomerPhoto!,
+                    "CustomerPhoto": data!,
                     "Mobile": NewMobileNumber
                 ]
             }else {
@@ -714,7 +759,8 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
                         }
                     }
                     if self.CustomerPhoto != nil {
-                        multipartFormData.append(self.CustomerPhoto!, withName: "CustomerPhoto", fileName: "CustomerPhoto\(arc4random_uniform(100))"+".jpeg", mimeType: "image/jpeg")
+                        let data = UIImageJPEGRepresentation(self.imageProfile.image!, 0.5)
+                        multipartFormData.append(data!, withName: "CustomerPhoto", fileName: "CustomerPhoto\(arc4random_uniform(100))"+".jpeg", mimeType: "image/jpeg")
                     }else if self.condCamera != "" {
                         if let data = UIImageJPEGRepresentation(self.imageProfile.image!, 0.5) {
                             multipartFormData.append(data, withName: "CustomerPhoto", fileName: "CustomerPhoto\(arc4random_uniform(100))"+".jpeg", mimeType: "image/jpeg")
@@ -776,14 +822,16 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
             )
         }else {
 //            SendSmsCodeActivation()
+             UIViewController.removeSpinner(spinner: sv)
             let storyBoard : UIStoryboard = UIStoryboard(name: "NewLogin", bundle:nil)
             let secondView = storyBoard.instantiateViewController(withIdentifier: "NewCheckCodeViewController") as! NewCheckCodeViewController
-            secondView.mobile = self.mobileNumber.text!
+            secondView.mobile = "05" + self.mobileNumber.text!
             secondView.code = self.code
             secondView.UserName = self.userName.text!
             secondView.CustomerPhotos = self.CustomerPhoto!
             secondView.imagePath = self.imagePath
             secondView.conditionn = "lols"
+            secondView.profileimage.image =  imageProfile.image
             self.navigationController?.pushViewController(secondView, animated: true)
             self.EditWillDone.hideLoading()
         }

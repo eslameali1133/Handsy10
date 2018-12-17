@@ -28,7 +28,7 @@ class NotCollectedMoneyModel: NSObject {
             "paymentStatus":"0"
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetCustomerPaymentByCustID_PaymentStatus", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetCustomerPaymentByCustID_PaymentStatus", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             
@@ -37,7 +37,9 @@ class NotCollectedMoneyModel: NSObject {
             switch response.result {
             case .success:
                 for json in JSON(response.result.value!).arrayValue {
-                    let NotCollectedObject = NotCollectedArray(CustmoerId: json["CustmoerId"].stringValue, CustmoerName: json["CustmoerName"].stringValue, PaymentBatchStatusID: json["PaymentBatchStatusID"].stringValue, PaymentBatchStatusName: json["PaymentBatchStatusName"].stringValue, PaymentStatus: json["PaymentStatus"].stringValue, PaymentTypeName: json["PaymentTypeName"].stringValue, PaymentTypeeID: json["PaymentTypeeID"].stringValue, PaymentValue: json["PaymentValue"].stringValue, ProjectId: json["ProjectId"].stringValue, ProjectContract: json["ProjectContract"].stringValue, ProjectTitle: json["ProjectTitle"].stringValue, ProjectTypeName: json["ProjectTypeName"].stringValue, ProjectsOrdersId: json["ProjectsOrdersId"].stringValue, ProjectsPaymentsId: json["ProjectsPaymentsId"].stringValue, ProjectsPaymentsNumber: json["ProjectsPaymentsNumber"].stringValue, RefranceId: json["RefranceId"].stringValue, projectOrderInvoicePhotoPath: json["projectOrderInvoicePhotoPath"].stringValue, projectOrderContractPhotoPath: json["projectOrderContractPhotoPath"].stringValue, PayDate: json["PayDate"].stringValue, ComapnyName: json["ComapnyName"].stringValue)
+                    let NotCollectedObject = NotCollectedArray(CustmoerId: json["CustmoerId"].stringValue, CustmoerName: json["CustmoerName"].stringValue, PaymentBatchStatusID: json["PaymentBatchStatusID"].stringValue, PaymentBatchStatusName: json["PaymentBatchStatusName"].stringValue, PaymentStatus: json["PaymentStatus"].stringValue, PaymentTypeName: json["PaymentTypeName"].stringValue, PaymentTypeeID: json["PaymentTypeeID"].stringValue, PaymentValue: json["PaymentValue"].stringValue, ProjectId: json["ProjectId"].stringValue, ProjectContract: json["ProjectContract"].stringValue, ProjectTitle: json["ProjectTitle"].stringValue, ProjectTypeName: json["ProjectTypeName"].stringValue, ProjectsOrdersId: json["ProjectsOrdersId"].stringValue, ProjectsPaymentsId: json["ProjectsPaymentsId"].stringValue, ProjectsPaymentsNumber: json["ProjectsPaymentsNumber"].stringValue, RefranceId: json["RefranceId"].stringValue, projectOrderInvoicePhotoPath: json["projectOrderInvoicePhotoPath"].stringValue, projectOrderContractPhotoPath: json["projectOrderContractPhotoPath"].stringValue, PayDate: json["PayDate"].stringValue, ComapnyName: json["ComapnyName"].stringValue,EmpName:json["EmpName"].stringValue ,
+                                                               EmpPhone : json["EmpPhone"].stringValue
+                        )
                     
                     arrayOfResulr.append(NotCollectedObject)
                 }

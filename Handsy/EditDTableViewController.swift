@@ -215,8 +215,8 @@ class EditDTableViewController: UITableViewController, ImagePickerDelegate, UICo
             cell.layer.masksToBounds = true
             
             let img = searchResu[indexPath.row].ProjectsImagePath
-            let trimmedString = img.trimmingCharacters(in: .whitespaces)
-            if let url = URL.init(string: trimmedString) {
+            let trimmedString = img.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+            if let url = URL.init(string: trimmedString!) {
                 cell.imageView.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "custlogo"))
             } else{
                 print("nil")
@@ -299,7 +299,7 @@ class EditDTableViewController: UITableViewController, ImagePickerDelegate, UICo
             "ImagesDelete": ImagesDelete
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/ProjectsDataUpdate", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/ProjectsDataUpdate", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             let json = JSON(response.result.value!)
             print(json)
@@ -359,7 +359,7 @@ class EditDTableViewController: UITableViewController, ImagePickerDelegate, UICo
                 }
         },
             usingThreshold:UInt64.init(),
-            to: "http://handasy.promit2030.com/UploadFile/api.php",
+            to: "http://handasy.promit2030.co/UploadFile/api.php",
             method: .post,
             encodingCompletion: { encodingResult in
                 switch encodingResult {

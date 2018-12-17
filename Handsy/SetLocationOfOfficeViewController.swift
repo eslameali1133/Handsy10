@@ -285,7 +285,7 @@ class SetLocationOfOfficeViewController: UIViewController, CLLocationManagerDele
             "Long": self.long,
             "SectionID": SectionID
         ]
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/RegCompany", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/RegCompany", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             switch response.result {
             case .success:

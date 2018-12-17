@@ -11,6 +11,30 @@ import Alamofire
 import SwiftyJSON
 
 class SignUpNameViewController: UITableViewController, UITextFieldDelegate {
+    
+    var PrjTypeID = ""
+    var BranchID = ""
+    let pickerPlaceLable = UIPickerView()
+    let pikerProjectLable = UIPickerView()
+    var CompanyInfoID2 = ""
+    var CompanyName = ""
+    var CompanyAddress = ""
+    var CompanyImage = ""
+    var IsCompany = ""
+    var LatBranch: Double = 0.0
+    var LngBranch: Double = 0.0
+    var EmpMobile = ""
+    var ZoomBranch = ""
+    var numberOfSak = ""
+    var numberOfGat = ""
+    var numberOfMo = ""
+    var numberOfAl = ""
+    var dateRghsa = ""
+    var dateOfSak = ""
+    var Notes = ""
+    var spacePlace = ""
+    var isComingFromProject = false
+    
     @IBOutlet weak var FirstNameTF: UITextField!
     @IBOutlet weak var LastNameTF: UITextField!
     
@@ -51,7 +75,7 @@ class SignUpNameViewController: UITableViewController, UITextFieldDelegate {
         FirstNameTF.delegate = self
         LastNameTF.delegate = self
     }
-
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return true
@@ -63,22 +87,24 @@ class SignUpNameViewController: UITableViewController, UITextFieldDelegate {
     }
     
     @IBAction func TextFieldAct(_ sender: UITextField) {
-        if validatePassword(text: FirstNameTF.text!) && validatePassword(text: LastNameTF.text!)  {
-                NextBtnOut.isEnabled = true
-            AlertLabel.isHidden = true
-        }else {
-            NextBtnOut.isEnabled = false
-            AlertLabel.text = "فضلا ادخل اسمك"
-            AlertLabel.isHidden = false
-        }
-    }
-    @IBAction func LastNameTxtFAction(_ sender: UITextField) {
-        if validatePassword(text: LastNameTF.text!) && validatePassword(text: FirstNameTF.text!) {
+        if validatePassword(text: FirstNameTF.text!) {
             NextBtnOut.isEnabled = true
             AlertLabel.isHidden = true
         }else {
             NextBtnOut.isEnabled = false
-            AlertLabel.text = "فضلا ادخل اسمك"
+            AlertLabel.text = "ادخل الاسم الاول"
+             AlertLabel.textAlignment = .right
+            AlertLabel.isHidden = false
+        }
+    }
+    @IBAction func LastNameTxtFAction(_ sender: UITextField) {
+        if validatePassword(text: LastNameTF.text!){
+            NextBtnOut.isEnabled = true
+            AlertLabel.isHidden = true
+        }else {
+            NextBtnOut.isEnabled = false
+            AlertLabel.text = "ادخل اسم العائلة"
+            AlertLabel.textAlignment = .left
             AlertLabel.isHidden = false
         }
     }
@@ -112,7 +138,7 @@ class SignUpNameViewController: UITableViewController, UITextFieldDelegate {
             "Mobile": mobile,
             "companyInfoID": "1"
         ]
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/RegCustomers", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/RegCustomers", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             switch response.result {
             case .success:
@@ -150,7 +176,7 @@ class SignUpNameViewController: UITableViewController, UITextFieldDelegate {
     
     func GetEmptByMobileNum() {
         let sv = UIViewController.displaySpinner(onView: view)
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetEmptByMobileNum?mobileNum=\(mobile)", method: .get).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetEmptByMobileNum?mobileNum=\(mobile)", method: .get).responseJSON { response in
             debugPrint(response)
             switch response.result {
             case .success:
@@ -160,8 +186,7 @@ class SignUpNameViewController: UITableViewController, UITextFieldDelegate {
                 if json["Mobile"].stringValue == "" {
                     self.tableView.isUserInteractionEnabled = true
                 } else {
-                    let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
-                    let sub = storyBoard.instantiateViewController(withIdentifier: "NewMain") as! NewTabBarViewController
+                    
                     self.userId = json["UserId"].stringValue
                     self.customerId = json["CustmoerId"].stringValue
                     self.customerName = json["CustmoerName"].stringValue
@@ -198,10 +223,42 @@ class SignUpNameViewController: UITableViewController, UITextFieldDelegate {
                     UserDefaults.standard.set(self.CountryName, forKey: "CountryName")
                     self.PushInsertUpdate()
                     
-                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     
-                    appDelegate.window?.rootViewController = sub
-                    self.NextBtnOut.hideLoading()
+                    
+                    
+                    if self.isComingFromProject == true
+                    {
+                        let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
+                        let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectATableViewController") as! NewProjectATableViewController
+                        secondView.CompanyInfoID = self.CompanyInfoID2
+                        secondView.CompanyName = self.ComapnyName
+                        secondView.CompanyImage = self.CompanyImage
+                        secondView.CompanyAddress = self.CompanyAddress
+                        secondView.BranchID = self.BranchID
+                        secondView.EmpMobile = self.EmpMobile
+                        secondView.IsCompany = self.IsCompany
+                        secondView.LatBranch = self.LatBranch
+                        secondView.LngBranch = self.LngBranch
+                        secondView.ZoomBranch = self.ZoomBranch
+                        secondView.comfrom = true
+                        
+                        
+                        self.navigationController?.pushViewController(secondView, animated: true)
+                        self.tabBarController?.tabBar.isHidden = true
+                        self.NextBtnOut.hideLoading()
+                    }
+                        
+                    else
+                    {
+                        
+                        let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
+                        let sub = storyBoard.instantiateViewController(withIdentifier: "NewMain") as! NewTabBarViewController
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        
+                        appDelegate.window?.rootViewController = sub
+                        self.NextBtnOut.hideLoading()
+                    }
+                    
                 }
                 UIViewController.removeSpinner(spinner: sv)
             case .failure(let error):
@@ -237,7 +294,7 @@ class SignUpNameViewController: UITableViewController, UITextFieldDelegate {
             "DeviceID":DeviceID
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/PushInsertUpdate", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/PushInsertUpdate", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json = JSON(response.result.value!)
@@ -263,4 +320,14 @@ class SignUpNameViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
+}
+extension UITextField{
+    @IBInspectable var placeHolderColor: UIColor? {
+        get {
+            return self.placeHolderColor
+        }
+        set {
+            self.attributedPlaceholder = NSAttributedString(string:self.placeholder != nil ? self.placeholder! : "", attributes:[NSAttributedString.Key.foregroundColor: newValue!])
+        }
+    }
 }

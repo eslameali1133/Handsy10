@@ -18,9 +18,10 @@ class CollectedTableViewController: UIViewController, UITableViewDelegate, UITab
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var NothingLabel: UILabel!
     @IBOutlet weak var AlertImage: UIImageView!
-   
+        @IBOutlet var loderview: UIView!
     
     func dataReady() {
+        loderview.isHidden = false
         // Access the video objects that have been downloaded
         self.searchResu = self.model.resultArray
         collectedMoneyDetialsModel.removeAllItems()
@@ -30,10 +31,14 @@ class CollectedTableViewController: UIViewController, UITableViewDelegate, UITab
         
         // Tell the tableview to reload
         self.tableView.reloadData()
+         loderview.isHidden = true
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        loderview.isHidden = true
+        loderview.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        self.view.addSubview(loderview)
         DispatchQueue.main.async {
             self.NothingLabel.isHidden = true
             self.AlertImage.isHidden = true
@@ -121,7 +126,7 @@ class CollectedTableViewController: UIViewController, UITableViewDelegate, UITab
             AlertImage.isHidden = true
         }
         
-        if(searchResu.count <= 1)
+        if(searchResu.count == 1)
         {
         tableView.isScrollEnabled = false;
         }
@@ -137,13 +142,14 @@ class CollectedTableViewController: UIViewController, UITableViewDelegate, UITab
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 278
+        return 310
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CollectedTableViewCellA", for: indexPath) as! CollectedTableViewCellA
         cell.ProjectTitleB.text = searchResu[indexPath.section].ProjectTitle
-        cell.CompanyNameLabel.text = searchResu[indexPath.section].ComapnyName
+        cell.CompanyNameLabel.setTitle(searchResu[indexPath.section].EmpName, for: .normal)
+        cell.CompanyNAme.text = searchResu[indexPath.section].ComapnyName
         cell.PaymentTypeNameLabel.text = searchResu[indexPath.section].PaymentTypeName
         cell.ProjectsPaymentsNumberLabel.text = searchResu[indexPath.section].ProjectsPaymentsNumber
         cell.PayDate.text = searchResu[indexPath.section].PayDate
@@ -157,11 +163,12 @@ class CollectedTableViewController: UIViewController, UITableViewDelegate, UITab
         NewnumberFormatter.numberStyle = NumberFormatter.Style.decimal
         let NewformattedNumber = NewnumberFormatter.string(from: NSNumber(value:NewlargeNumber!))
         cell.PaymentValueLabel.text = NewformattedNumber
-        if searchResu[indexPath.section].ProjectContract != "1" {
-            cell.contractBtn.isEnabled = true
-        }else {
-            cell.contractBtn.isEnabled = false
-        }
+        print(searchResu[indexPath.section].ProjectContract)
+//        if searchResu[indexPath.section].ProjectContract != "2" {
+//            cell.contractBtn.isHidden = true
+//        }
+        
+    cell.Saknumber.text = searchResu[indexPath.section].ProjectId
         cell.projectDetialOut.tag = indexPath.section
         cell.contentView.backgroundColor = UIColor(red: 58/255.0, green: 59/255.0, blue: 60/255.0, alpha: 1.0)
         cell.layer.borderColor = #colorLiteral(red: 0.0862745098, green: 0.0862745098, blue: 0.0862745098, alpha: 1)
@@ -206,6 +213,44 @@ class CollectedTableViewController: UIViewController, UITableViewDelegate, UITab
         self.navigationController?.pushViewController(secondView, animated: true)
     }
     
+    
+    @IBAction func CallEmp(_ sender: UIButton) {
+        let point = sender.convert(CGPoint.zero, to: tableView)
+        let index = tableView.indexPathForRow(at: point)?.section
+        
+        let mobileNum =  searchResu[index!].EmpPhone
+        var mobile: String = (mobileNum)
+        if mobile.count == 10 {
+            if mobile.first! == "0" {
+                if mobile[mobile.index(mobile.startIndex, offsetBy: 1)] == "5" {
+                    mobile.remove(at: mobile.startIndex)
+                    mobile.insert("6", at: mobile.startIndex)
+                    mobile.insert("6", at: mobile.startIndex)
+                    mobile.insert("9", at: mobile.startIndex)
+                    callNumber(phoneNumber: mobile)
+                } else {
+                    callNumber(phoneNumber: mobile)
+                }
+            } else {
+                callNumber(phoneNumber: mobile)
+            }
+        } else {
+            callNumber(phoneNumber: mobile)
+        }
+        
+        
+    }
+    
+    private func callNumber(phoneNumber:String) {
+        
+        if let phoneCallURL = URL(string: "tel://\(phoneNumber)") {
+            
+            let application:UIApplication = UIApplication.shared
+            if (application.canOpenURL(phoneCallURL)) {
+                application.open(phoneCallURL, options: [:], completionHandler: nil)
+            }
+        }
+    }
     
 }
 

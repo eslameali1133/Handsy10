@@ -22,7 +22,7 @@ class ProvincesModel: NSObject {
     func GetProvincesReg(view: UIView, VC: UIViewController) {
         let sv = UIViewController.displaySpinner(onView: view)
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetProvincesReg", method: .get, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetProvincesReg", method: .get, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             

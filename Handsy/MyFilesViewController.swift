@@ -78,7 +78,7 @@ class MyFilesViewController: UIViewController, UITableViewDelegate, UITableViewD
         return obj.isSelected ? 1 : 0
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 80
+        return 120
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -98,6 +98,15 @@ class MyFilesViewController: UIViewController, UITableViewDelegate, UITableViewD
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyFilesSectionTableViewCell") as! MyFilesSectionTableViewCell
         cell.projectTitle.text = searchResu[section].ProjectTitle
         cell.officeNameLabel.text = searchResu[section].ComapnyName
+        cell.EngnameLabel.text = searchResu[section].EmpName
+        
+        if searchResu[section].SakNum != ""
+        {
+            cell.SakNumberLabel.text = searchResu[section].SakNum
+        }else
+        {
+          cell.SakNumberLabel.text = searchResu[section].ProjectId
+        }
         cell.contentView.backgroundColor = UIColor(red: 58/255.0, green: 59/255.0, blue: 60/255.0, alpha: 1.0)
         cell.layer.cornerRadius = 7
         cell.layer.borderColor = UIColor(red: 58/255.0, green: 59/255.0, blue: 60/255.0, alpha: 1.0).cgColor // set cell border color here
@@ -146,7 +155,7 @@ class MyFilesViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBAction func MyFilesBtn(_ sender: UIButton) {
         let point = sender.convert(CGPoint.zero, to: myFilesTableView)
         let index = myFilesTableView.indexPathForRow(at: point)?.section
-        if searchResu[index!].FileCount == "0" {
+        if searchResu[index!].ProjectFileCount == "0" {
             Toast.long(message: "لايوجد وثائق للارض")
         }else {
             let storyBoard : UIStoryboard = UIStoryboard(name: "MyFilesAndMoney", bundle:nil)
@@ -168,7 +177,7 @@ class MyFilesViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBAction func ProjectFilesBtn(_ sender: UIButton) {
         let point = sender.convert(CGPoint.zero, to: myFilesTableView)
         let index = myFilesTableView.indexPathForRow(at: point)?.section
-        if searchResu[index!].ProjectFileCount == "0" {
+        if searchResu[index!].FileCount == "0" {
             Toast.long(message: "لايوجد ملفات للمشروع")
         }else {
             let storyBoard : UIStoryboard = UIStoryboard(name: "MyFilesAndMoney", bundle:nil)
@@ -187,4 +196,21 @@ class MyFilesViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
   
+    
+    @IBAction func ProjectDetailsBtn(_ sender: UIButton) {
+        let point = sender.convert(CGPoint.zero, to: myFilesTableView)
+        let index = myFilesTableView.indexPathForRow(at: point)?.section
+        
+        let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectDetialsFilterTableViewController") as! NewProjectDetialsFilterTableViewController
+        let proId = searchResu[index!].ProjectId
+        print("pro" + proId)
+        print("ind" + "\(index)")
+        secondView.ProjectId = proId
+        secondView.norma = "Hi"
+        secondView.ProjectTitle = searchResu[index!].ProjectTitle
+        self.navigationController?.pushViewController(secondView, animated: true)
+        
+    }
+    
 }

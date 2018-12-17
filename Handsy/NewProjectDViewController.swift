@@ -17,7 +17,7 @@ class NewProjectDViewController: UIViewController, ImagePickerDelegate, UICollec
     @IBOutlet var progressView: UIProgressView!
     @IBOutlet var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var uploadLabel: UILabel!
-    
+    var comwithoutlogin = false
     var AddItemPhotos: [UIImage] = []
     
     var resultArray: [String] = []
@@ -234,7 +234,7 @@ class NewProjectDViewController: UIViewController, ImagePickerDelegate, UICollec
     
     func ProjectsDataSave(arrayOfImagesPaths: String) {
           let sv = UIViewController.displaySpinner(onView: self.view)
-         self.uploadLabel.text = "جاري ارسال الطلب...."
+         self.uploadLabel.text = "فضلا انتظر جاري ارسال طلب المشروع ...."
         let headers: HTTPHeaders = [
            
             "Accept": "application/json"
@@ -259,7 +259,7 @@ class NewProjectDViewController: UIViewController, ImagePickerDelegate, UICollec
         ]
         
         print(Parameters)
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/ProjectsDataSave", method: .get, parameters: Parameters, encoding: URLEncoding.default,headers:headers).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/ProjectsDataSave", method: .get, parameters: Parameters, encoding: URLEncoding.default,headers:headers).responseJSON { response in
             debugPrint(response)
             switch response.result {
             case .success:
@@ -287,7 +287,7 @@ class NewProjectDViewController: UIViewController, ImagePickerDelegate, UICollec
                 secondView.Mobile = self.Mobile
                 secondView.EmpImage = self.EmpImage
                 secondView.ProjectId = self.ProjectId
-                
+            secondView.comingfromwithot = self.comwithoutlogin
                 
                 
                 
@@ -362,7 +362,7 @@ class NewProjectDViewController: UIViewController, ImagePickerDelegate, UICollec
                     upload.uploadProgress(closure: { (progress) in
                         self.progressView.progress = 0.0
                         self.activityIndicatorView.startAnimating()
-                        self.uploadLabel.text = "جاري الرفع...."
+                        self.uploadLabel.text = "فضلا انتظر جاري رفع المرفقات ...."
                         self.progressView.setProgress(Float(progress.fractionCompleted), animated: true)
                         print(progress)
 
@@ -382,8 +382,9 @@ class NewProjectDViewController: UIViewController, ImagePickerDelegate, UICollec
 //
 //                            }
                             print(json)
-
-                            let stringRepresentation = json["Image"].stringValue
+print(json["Images"].stringValue)
+                            print(json["Images"])
+                            let stringRepresentation = json["Images"].stringValue
 //                                self.resultArray.joined(separator: ",")
 print(stringRepresentation)
                             self.ProjectsDataSave(arrayOfImagesPaths: stringRepresentation)
@@ -446,7 +447,7 @@ print(stringRepresentation)
             "ProjectsImageRotate":"1"
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/UploadImage", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/UploadImage", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             let json = JSON(response.result.value!)
             if json.stringValue == "Done" {

@@ -12,7 +12,7 @@ import SwiftyJSON
 import MapKit
 
 class NewProjectATableViewController: UITableViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
-    
+    var CompanyName1 = ""
     var resultArray = [SelectSection]()
     var resultArray1 = [SelectSection]()
     var PrjTypeID = ""
@@ -36,7 +36,9 @@ class NewProjectATableViewController: UITableViewController, UITextFieldDelegate
     var dateOfSak = ""
     var Notes = ""
     var spacePlace = ""
-    
+   var flag = false
+    var comfrom = false
+   
     
     @IBOutlet weak var nextBtn: UIButton! {
         didSet {
@@ -86,17 +88,17 @@ class NewProjectATableViewController: UITableViewController, UITextFieldDelegate
     @IBOutlet weak var NextView: UIView!
     
     let imageView = UIImageView(image: #imageLiteral(resourceName: "splash"))
-    
+     var AlertController: UIAlertController!
     override func viewDidLoad() {
         super.viewDidLoad()
         GetProjecttypes()
-        self.navigationItem.title = "بيانات الطلب"
+        self.navigationItem.title = "مشروع جديد"
 //        self.navigationItem.hidesBackButton = true
         companyNameLabel.text = CompanyName
         companyAddressLabel.text = CompanyAddress
         let img = CompanyImage
-        let trimmedString = img.trimmingCharacters(in: .whitespaces)
-        if let url = URL.init(string: trimmedString) {
+        let trimmedString = img.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+        if let url = URL.init(string: trimmedString!) {
             officeLogoImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
             print("nil")
@@ -130,6 +132,78 @@ class NewProjectATableViewController: UITableViewController, UITextFieldDelegate
         toolBar.setItems([doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
         descriptionTV.inputAccessoryView = toolBar
+        
+        self.navigationItem.hidesBackButton = true
+        let newBackButton = UIBarButtonItem(title: "رجوع", style: UIBarButtonItemStyle.bordered, target: self, action: #selector(backAction(sender:)))
+        self.navigationItem.leftBarButtonItem = newBackButton
+        
+        
+        
+        AlertController = UIAlertController(title:"" , message: "اختر الخريطة", preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let Google = UIAlertAction(title: "جوجل ماب", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocationgoogle(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+        let MapKit = UIAlertAction(title: "الخرائط", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocation(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+        
+        let Cancel = UIAlertAction(title: "رجوع", style: UIAlertActionStyle.cancel, handler: { (action) in
+            //
+        })
+        
+        self.AlertController.addAction(Google)
+        self.AlertController.addAction(MapKit)
+        self.AlertController.addAction(Cancel)
+        
+    }
+    
+    func openMapsForLocation(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        print(location.coordinate)
+        MKMapView.openMapsWith(location) { (error) in
+            if error != nil {
+                print("Could not open maps" + error!.localizedDescription)
+            }
+        }
+    }
+    func openMapsForLocationgoogle(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+            UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(Lat),\(Lng)&zoom=14&views=traffic&q=\(Lat),\(Lng)")!, options: [:], completionHandler: nil)
+        }
+        else {
+            print("Can't use comgooglemaps://")
+            UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(Lat),\(Lng)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+        }
+    }
+    
+    
+    func backAction(sender: UIBarButtonItem) {
+       
+        if comfrom == true
+        {
+              comfrom = false
+           
+            let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
+            let sub = storyBoard.instantiateViewController(withIdentifier: "NewMain") as! NewTabBarViewController
+ sub.freshLaunch = true
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
+            appDelegate.window?.rootViewController = sub
+//
+         
+//            let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
+//            let secondView = storyBoard.instantiateViewController(withIdentifier: "OfficeFillterViewController") as! OfficeFillterViewController
+//            let topController = UIApplication.topViewController()
+//            topController?.show(secondView, sender: true)
+            //            self.navigationController?.pushViewController(secondView, animated: true)
+           
+        }
+        else
+        {
+        self.navigationController?.popViewController(animated: true)
+        }
     }
     
     @objc func donePicker(){
@@ -158,8 +232,11 @@ class NewProjectATableViewController: UITableViewController, UITextFieldDelegate
                 if row == 0 {
                     chooseProjectLable.text = nil
                 }else {
+                        chooseProjectLable.setBottomBorderGray()
+                    chooseProjectLable.textColor = UIColor.white
                     chooseProjectLable.text = resultArray1[row-1].PrjTypeName
                     self.PrjTypeID = resultArray1[row-1].PrjTypeID
+                    flag = true
                 }
                 
             }
@@ -169,7 +246,8 @@ class NewProjectATableViewController: UITableViewController, UITextFieldDelegate
     
     @IBAction func Next(_ sender: UIButton) {
         let whitespaceSet = CharacterSet.whitespaces
-        if chooseProjectLable.text != "" {
+        print(chooseProjectLable.text!)
+        if (flag == true){
             let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
             let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectCViewController") as! NewProjectCViewController
             let selectProject = PrjTypeID
@@ -184,19 +262,26 @@ class NewProjectATableViewController: UITableViewController, UITextFieldDelegate
             secondView.dateRagh = dateRghsa
             secondView.dateSk = dateOfSak
             secondView.note = descriptionTV.text!
+            secondView.comwithoutlogin = comfrom
             self.navigationController?.pushViewController(secondView, animated: true)
         } else {
             if chooseProjectLable.text == "" {
-                alertProject.isHidden = false
+                chooseProjectLable.text = "من فضلك اختر مشروع"
+                chooseProjectLable.textColor = UIColor.red
+                flag = false
+//                alertProject.isHidden = false
                 chooseProjectLable.setBottomBorderRed()
                 //                tableView.reloadRows(at: [IndexPath.init(row: 2, section: 0)], with: .automatic)
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-                DispatchQueue.main.async {
-                    self.view.sendSubview(toBack: self.imageView)
-                    self.assignbackground()
-                }
+//                DispatchQueue.main.async {
+//                    self.tableView.reloadData()
+//                }
+//
+//                viewDidLoad()
+//                DispatchQueue.main.async {
+//                    self.view.sendSubview(toBack: self.imageView)
+//                    self.assignbackground()
+//                    self.tableView.reloadData()
+//                }
             }
             
         }
@@ -278,7 +363,7 @@ class NewProjectATableViewController: UITableViewController, UITextFieldDelegate
             "branchID": BranchID
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetProjecttypes", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetProjecttypes", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             var arrayOfResulr = [SelectSection]()
@@ -316,6 +401,46 @@ class NewProjectATableViewController: UITableViewController, UITextFieldDelegate
     
     @IBAction func directionBtn(_ sender: UIButton) {
         let location = CLLocation(latitude: LatBranch, longitude: LngBranch)
+       
+        let dLati =  LatBranch
+        let dLang = LngBranch
+        
+        
+//        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
+//
+//        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
+//            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+//                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(dLati),\(dLang)&zoom=14&views=traffic&q=\(dLati),\(dLang)")!, options: [:], completionHandler: nil)
+//            } else {
+//                print("Can't use comgooglemaps://")
+//                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(dLati),\(dLang)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+//            }
+//        }))
+//
+//        alertAction.addAction(UIAlertAction(title: "الخرائط", style: .default, handler: { action in
+//            self.openMapsForLocation()
+//        }))
+//
+//        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+//        }))
+//        self.present(alertAction, animated: true, completion: nil)
+//
+//        self.present(AlertController, animated: true, completion: nil)
+        if Helper.isDeviceiPad() {
+            
+            if let popoverController = AlertController.popoverPresentationController {
+                popoverController.sourceView = sender
+            }
+        }
+        
+        self.present(AlertController, animated: true, completion: nil)
+        
+    }
+    
+    func openMapsForLocation() {
+        let dLati = LatBranch
+        let dLang = LngBranch
+        let location = CLLocation(latitude: dLati, longitude: dLang)
         print(location.coordinate)
         MKMapView.openMapsWith(location) { (error) in
             if error != nil {
@@ -323,7 +448,6 @@ class NewProjectATableViewController: UITableViewController, UITextFieldDelegate
             }
         }
     }
-    
     @IBAction func CallMe(_ sender: UIButton) {
         let mobileNum = EmpMobile
         var mobile: String = (mobileNum)
@@ -357,7 +481,22 @@ class NewProjectATableViewController: UITableViewController, UITextFieldDelegate
     }
     
     @IBAction func chooseOfficeBtn(_ sender: UIButton) {
-        self.navigationController!.popViewController(animated: true)
+        if comfrom == true
+        {
+            comfrom = false
+            
+            let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
+            let sub = storyBoard.instantiateViewController(withIdentifier: "NewMain") as! NewTabBarViewController
+            sub.freshLaunch = true
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            
+            appDelegate.window?.rootViewController = sub
+        }
+        else
+        {
+            self.navigationController?.popViewController(animated: true)
+        }
+        
     }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView){

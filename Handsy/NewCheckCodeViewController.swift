@@ -16,6 +16,30 @@ var clickCount = 0
 var timerl: Timer?
 
 class NewCheckCodeViewController: UITableViewController {
+    // project com
+    var PrjTypeID = ""
+    var BranchID = ""
+    let pickerPlaceLable = UIPickerView()
+    let pikerProjectLable = UIPickerView()
+    var CompanyInfoID2 = ""
+    var CompanyName = ""
+    var CompanyAddress = ""
+    var CompanyImage = ""
+    var IsCompany = ""
+    var LatBranch: Double = 0.0
+    var LngBranch: Double = 0.0
+    var EmpMobile = ""
+    var ZoomBranch = ""
+    var numberOfSak = ""
+    var numberOfGat = ""
+    var numberOfMo = ""
+    var numberOfAl = ""
+    var dateRghsa = ""
+    var dateOfSak = ""
+    var Notes = ""
+    var spacePlace = ""
+    var isComingFromProject = false
+    // end
     
     @IBOutlet weak var digitInput: DigitInputView!
     @IBOutlet weak var NextBtnOut: LoadingButton!{
@@ -52,7 +76,7 @@ class NewCheckCodeViewController: UITableViewController {
     var CountryName = ""
     var condition = ""
     var conditionn = ""
-    
+    var ComapnyName1 = ""
     
     @IBOutlet weak var alertTimeCode: UILabel!
     
@@ -88,7 +112,7 @@ class NewCheckCodeViewController: UITableViewController {
         digitInput.textColor = .white
         digitInput.acceptableCharacters = "0123456789"
         digitInput.keyboardType = .decimalPad
-        digitInput.font = UIFont.monospacedDigitSystemFont(ofSize: 10, weight: UIFont.Weight(rawValue: 1))
+        digitInput.font = UIFont.monospacedDigitSystemFont(ofSize: 10, weight: UIFont.Weight(rawValue: 0))
         digitInput.animationType = .spring
         
         // Let editing end when the view is tapped
@@ -161,7 +185,13 @@ class NewCheckCodeViewController: UITableViewController {
     @objc func backButtonPressed(){
         if conditionn == ""{
             self.navigationController!.popViewController(animated: true)
-        }else {
+        }
+        else if conditionn == "lols"
+        {
+             self.navigationController!.popViewController(animated: true)
+            dismiss(animated: true, completion: nil)
+        }
+        else {
             let storyboard = UIStoryboard(name: "NewHome", bundle: nil)
             let NavController = storyboard.instantiateViewController(withIdentifier: "NewMain") as! UITabBarController
             NavController.selectedIndex = 4
@@ -206,22 +236,43 @@ class NewCheckCodeViewController: UITableViewController {
             UpdateCustomerProfile()
         }
     }
+    
+     let profileimage = UIImageView()
+   
     func UpdateCustomerProfile() {
         let sv = UIViewController.displaySpinner(onView: self.view)
+         profileimage.sizeToFit()
+    profileimage.frame.size = CGSize(width: 100, height: 100)
+        
         let UserId = UserDefaults.standard.string(forKey: "UserId")!
+      print(UserId)
         var parameters: Parameters = [:]
-        if CustomerPhotos != nil {
+        if CustomerPhotos != nil
+        {
+           
+           print(CustomerPhotos!)
+            
+//            profileimage.hnk_setImageFromURL(CustomerPhotos!, placeholder: #imageLiteral(resourceName: "custlogo"))
+             let data = UIImageJPEGRepresentation(profileimage.image!, 0.5)
+            
             parameters = [
                 "UserId" : UserId,
                 "CustmoerName": UserName,
-                "CustomerPhoto": CustomerPhotos!,
+                "CustomerPhoto": data!,
                 "Mobile": mobile
             ]
         }else {
+//            if let url = URL.init(string: imagePath) {
+//               profileimage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "custlogo"))
+//            }
+            
+            let data = UIImageJPEGRepresentation(profileimage.image!, 0.5)
+            
+
             parameters = [
                 "UserId" : UserId,
                 "CustmoerName": UserName,
-                "CustomerPhoto": imagePath,
+                "CustomerPhoto": data! ,
                 "Mobile": mobile
             ]
         }
@@ -234,7 +285,8 @@ class NewCheckCodeViewController: UITableViewController {
                         }
                     }
                     if self.CustomerPhotos != nil {
-                        multipartFormData.append(self.CustomerPhotos!, withName: "CustomerPhoto", fileName: "CustomerPhoto\(arc4random_uniform(100))"+".jpeg", mimeType: "image/jpeg")
+                        let data = UIImageJPEGRepresentation(self.profileimage.image!, 0.5)
+                        multipartFormData.append(data!, withName: "CustomerPhoto", fileName: "CustomerPhoto\(arc4random_uniform(100))"+".jpeg", mimeType: "image/jpeg")
                     }
             },
                 usingThreshold:UInt64.init(),
@@ -254,9 +306,9 @@ class NewCheckCodeViewController: UITableViewController {
                                 
                                 let json = JSON(response.result.value!)
                                 print(json)
-                                if json == "Done" {
+//                                if json == "Done" {
                                     self.GetEmptByMobileNum()
-                                }
+//                                }
                                 
                                 UIViewController.removeSpinner(spinner: sv)
                             } else {
@@ -307,7 +359,7 @@ class NewCheckCodeViewController: UITableViewController {
             "CompanyInfoID": "1"
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/UpdateCustomers", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/UpdateCustomers", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             switch response.result {
@@ -342,7 +394,7 @@ class NewCheckCodeViewController: UITableViewController {
     
     func GetEmptByMobileNum() {
         let sv = UIViewController.displaySpinner(onView: view)
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetEmptByMobileNum?mobileNum=\(mobile)", method: .get).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetEmptByMobileNum?mobileNum=\(mobile)", method: .get).responseJSON { response in
             debugPrint(response)
             switch response.result {
             case .success:
@@ -350,14 +402,82 @@ class NewCheckCodeViewController: UITableViewController {
                 print(json)
                 if json["Mobile"].stringValue == "" {
                     if self.UserName == "" {
+                        
                         let storyBoard : UIStoryboard = UIStoryboard(name: "NewLogin", bundle:nil)
                         let secondView = storyBoard.instantiateViewController(withIdentifier: "SignUpNameViewController") as! SignUpNameViewController
+                        
+                        
                         secondView.mobile = self.mobile
+                        
+                        secondView.isComingFromProject = self.isComingFromProject
+                        secondView.CompanyInfoID2 = self.CompanyInfoID2
+                        secondView.CompanyName = self.CompanyName
+                        secondView.CompanyImage = self.CompanyImage
+                        secondView.CompanyAddress = self.CompanyAddress
+                        secondView.BranchID = self.BranchID
+                        secondView.EmpMobile = self.EmpMobile
+                        secondView.IsCompany = self.IsCompany
+                        secondView.LatBranch = self.LatBranch
+                        secondView.LngBranch = self.LngBranch
+                        secondView.ZoomBranch = self.ZoomBranch
+                        
+                        
+                        
                         self.navigationController?.pushViewController(secondView, animated: true)
                         self.NextBtnOut.hideLoading()
                     }
                 } else {
                     if self.UserName == "" {
+                        
+                        UserDefaults.standard.set(json["UserId"].stringValue, forKey: "UserId")
+                        UserDefaults.standard.set(json["CustmoerId"].stringValue, forKey: "CustmoerId")
+                        UserDefaults.standard.set(self.customerName, forKey: "CustmoerName")
+                        UserDefaults.standard.set(self.mobile,forKey: "mobile")
+                        UserDefaults.standard.set(self.email, forKey: "Email")
+                        UserDefaults.standard.set(self.customerPhoto, forKey: "CustomerPhoto")
+                        UserDefaults.standard.set(self.nationalId, forKey: "NationalId")
+                        UserDefaults.standard.set(self.CompanyInfoID, forKey: "CompanyInfoID")
+                        UserDefaults.standard.set(self.ComapnyName, forKey: "ComapnyName")
+                        UserDefaults.standard.set(self.SectionID, forKey: "SectionID")
+                        UserDefaults.standard.set(self.SectionName,forKey: "SectionName")
+                        UserDefaults.standard.set(self.AreaID, forKey: "AreaID")
+                        UserDefaults.standard.set(self.AreaName, forKey: "AreaName")
+                        UserDefaults.standard.set(self.ProvincesID, forKey: "ProvincesID")
+                        UserDefaults.standard.set(self.ProvincesName, forKey: "ProvincesName")
+                        UserDefaults.standard.set(self.CountryID, forKey: "CountryID")
+                        UserDefaults.standard.set(self.CountryName, forKey: "CountryName")
+                        
+                        if self.isComingFromProject == true
+                        {
+                            UserDefaults.standard.set(json["CustmoerId"].stringValue, forKey: "CustmoerId")
+                            UserDefaults.standard.set(json["UserId"].stringValue, forKey: "UserId")
+                            UserDefaults.standard.set(json["CustmoerName"].stringValue, forKey: "CustmoerName")
+                            UserDefaults.standard.set(json["Email"].stringValue, forKey: "Email")
+                            UserDefaults.standard.set(json["CustomerPhoto"].stringValue, forKey: "CustomerPhoto")
+                            UserDefaults.standard.set(json["Mobile"].stringValue, forKey: "mobile")
+                            
+                            let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
+                            let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectATableViewController") as! NewProjectATableViewController
+                            secondView.CompanyInfoID = self.CompanyInfoID2
+                            print(self.ComapnyName1)
+                            secondView.CompanyName = self.ComapnyName1
+                            secondView.CompanyImage = self.CompanyImage
+                            secondView.CompanyAddress = self.CompanyAddress
+                            secondView.BranchID = self.BranchID
+                            secondView.EmpMobile = self.EmpMobile
+                            secondView.IsCompany = self.IsCompany
+                            secondView.LatBranch = self.LatBranch
+                            secondView.LngBranch = self.LngBranch
+                            secondView.ZoomBranch = self.ZoomBranch
+                            secondView.comfrom = true
+                            self.PushInsertUpdate()
+                            
+                             self.navigationController?.pushViewController(secondView, animated: true)
+                         self.tabBarController?.tabBar.isHidden = true
+                             self.NextBtnOut.hideLoading()
+                        }
+                        else
+                        {
                         let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
                         let sub = storyBoard.instantiateViewController(withIdentifier: "NewMain") as! NewTabBarViewController
                         self.userId = json["UserId"].stringValue
@@ -377,28 +497,13 @@ class NewCheckCodeViewController: UITableViewController {
                         self.ProvincesName = json["ProvincesName"].stringValue
                         self.CountryID = json["CountryID"].stringValue
                         self.CountryName = json["CountryName"].stringValue
-                        UserDefaults.standard.set(self.userId, forKey: "UserId")
-                        UserDefaults.standard.set(json["CustmoerId"].stringValue, forKey: "CustmoerId")
-                        UserDefaults.standard.set(self.customerName, forKey: "CustmoerName")
-                        UserDefaults.standard.set(self.mobile,forKey: "mobile")
-                        UserDefaults.standard.set(self.email, forKey: "Email")
-                        UserDefaults.standard.set(self.customerPhoto, forKey: "CustomerPhoto")
-                        UserDefaults.standard.set(self.nationalId, forKey: "NationalId")
-                        UserDefaults.standard.set(self.CompanyInfoID, forKey: "CompanyInfoID")
-                        UserDefaults.standard.set(self.ComapnyName, forKey: "ComapnyName")
-                        UserDefaults.standard.set(self.SectionID, forKey: "SectionID")
-                        UserDefaults.standard.set(self.SectionName,forKey: "SectionName")
-                        UserDefaults.standard.set(self.AreaID, forKey: "AreaID")
-                        UserDefaults.standard.set(self.AreaName, forKey: "AreaName")
-                        UserDefaults.standard.set(self.ProvincesID, forKey: "ProvincesID")
-                        UserDefaults.standard.set(self.ProvincesName, forKey: "ProvincesName")
-                        UserDefaults.standard.set(self.CountryID, forKey: "CountryID")
-                        UserDefaults.standard.set(self.CountryName, forKey: "CountryName")
+                      
                         self.PushInsertUpdate()
                         let appDelegate = UIApplication.shared.delegate as! AppDelegate
                         
                         appDelegate.window?.rootViewController = sub
                         self.NextBtnOut.hideLoading()
+                        }
                     }else {
                         UserDefaults.standard.set(json["CustmoerId"].stringValue, forKey: "CustmoerId")
                         UserDefaults.standard.set(json["UserId"].stringValue, forKey: "UserId")
@@ -449,7 +554,7 @@ class NewCheckCodeViewController: UITableViewController {
             "DeviceID":DeviceID
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/PushInsertUpdate", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/PushInsertUpdate", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json = JSON(response.result.value!)
@@ -483,7 +588,7 @@ class NewCheckCodeViewController: UITableViewController {
 //        mobileTest.insert("6", at: mobileTest.startIndex)
 //        mobileTest.insert("9", at: mobileTest.startIndex)
         print(mobileTest)
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/SendSmsCodeActivation?mobile=\(mobileTest)", method: .get).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/SendSmsCodeActivation?mobile=\(mobileTest)", method: .get).responseJSON { response in
             debugPrint(response)
             
             switch response.result {

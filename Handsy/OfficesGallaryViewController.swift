@@ -41,8 +41,15 @@ class OfficesGallaryViewController: UIViewController, UICollectionViewDelegate, 
     }
     
     @IBOutlet var PopUpViewOut: UIView!
-    
+       @IBOutlet var LoginVIew: UIView!
     override func viewDidLoad() {
+        
+        LoginVIew.isHidden = true
+        self.LoginVIew.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        self.LoginVIew.center = self.view.center
+        self.view.addSubview(self.LoginVIew)
+        
+        
         super.viewDidLoad()
         if conditionService != "" {
             myView.isHidden = true
@@ -70,7 +77,8 @@ class OfficesGallaryViewController: UIViewController, UICollectionViewDelegate, 
             let size = CGSize(width: width, height: height)
             (self.officesCallaryCollection.collectionViewLayout as! UICollectionViewFlowLayout).itemSize = size
         }
-        if IsCompany == "1" {
+        print(IsCompany)
+        if IsCompany == "True" {
             self.chooseOut.setTitle("اختار المكتب", for: .normal)
         }else {
             self.chooseOut.setTitle("اختار المهندس", for: .normal)
@@ -105,7 +113,7 @@ class OfficesGallaryViewController: UIViewController, UICollectionViewDelegate, 
     }
     
     @objc func shareButtonPressed() {
-        let activityVC = UIActivityViewController(activityItems: ["http://promit2030.com/1"], applicationActivities: nil)
+        let activityVC = UIActivityViewController(activityItems: ["http://promit2030.co/1"], applicationActivities: nil)
         activityVC.popoverPresentationController?.sourceView = self.view
         self.present(activityVC, animated: true, completion: nil)
     }
@@ -147,6 +155,11 @@ class OfficesGallaryViewController: UIViewController, UICollectionViewDelegate, 
             secondView.index = indexPath
             secondView.conditionService = self.conditionService
             secondView.IsCompany = self.IsCompany
+            secondView.EmpMobile = self.EmpMobile
+            secondView.LatBranch = self.LatBranch
+            secondView.LngBranch = self.LngBranch
+            secondView.ZoomBranch = self.ZoomBranch
+            
             self.navigationController?.pushViewController(secondView, animated: true)
         } else {
             let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
@@ -161,6 +174,10 @@ class OfficesGallaryViewController: UIViewController, UICollectionViewDelegate, 
             secondView.index = indexPath
             secondView.conditionService = self.conditionService
             secondView.IsCompany = self.IsCompany
+            secondView.EmpMobile = self.EmpMobile
+            secondView.LatBranch = self.LatBranch
+            secondView.LngBranch = self.LngBranch
+            secondView.ZoomBranch = self.ZoomBranch
             self.navigationController?.pushViewController(secondView, animated: true)
         }
     }
@@ -198,7 +215,37 @@ class OfficesGallaryViewController: UIViewController, UICollectionViewDelegate, 
         self.navigationController?.pushViewController(secondView, animated: true)
     }
     
+    
+    @IBAction func EndLoginView(_ sender: Any) {
+        LoginVIew.isHidden = true
+    }
+    @IBAction func GtoLoginBtn(_ sender: UIButton) {
+        
+        let storyBoard : UIStoryboard = UIStoryboard(name: "NewLogin", bundle:nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "NewLoginViewController") as! NewLoginViewController
+        secondView.isComingFromProject = true
+        secondView.CompanyInfoID = self.CompanyInfoID
+        secondView.CompanyName = self.CompanyName
+        secondView.CompanyAddress = self.CompanyAddress
+        secondView.CompanyImage = self.CompanyImage
+        secondView.BranchID = self.branchId
+        secondView.EmpMobile = self.EmpMobile
+        secondView.IsCompany = self.IsCompany
+        secondView.LatBranch = self.LatBranch
+        secondView.LngBranch = self.LngBranch
+        secondView.ZoomBranch = self.ZoomBranch
+        
+        self.navigationController?.pushViewController(secondView, animated: true)
+        
+    }
     @IBAction func ChooseThisBtn(_ sender: UIButton) {
+        let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")
+        if CustmoerId == nil
+        {
+            LoginVIew.isHidden = false
+        }
+        else
+        {
         let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectATableViewController") as! NewProjectATableViewController
         secondView.CompanyInfoID = self.CompanyInfoID
@@ -212,6 +259,7 @@ class OfficesGallaryViewController: UIViewController, UICollectionViewDelegate, 
         secondView.LngBranch = self.LngBranch
         secondView.ZoomBranch = self.ZoomBranch
         self.navigationController?.pushViewController(secondView, animated: true)
+        }
     }
     
 }

@@ -41,7 +41,8 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
         }
         tableView.delegate = self
         tableView.dataSource = self
-        
+            self.tableView.flashScrollIndicators()
+        tableView.indicatorStyle = UIScrollViewIndicatorStyle.white;
         model.delegate = self
         
         DispatchQueue.main.async {
@@ -52,6 +53,7 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     override func viewWillAppear(_ animated: Bool) {
+     
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
             if condition == "New" {
@@ -68,6 +70,8 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
             self.searchResu = designsModel.designs
             tableView.reloadData()
         }
+        
+        viewDidLoad()
     }
     
     override func didReceiveMemoryWarning() {
@@ -93,6 +97,7 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
         }
         // Tell the tableview to reload
         tableView.reloadData()
+           tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -105,10 +110,11 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 170
+        return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        print(UITableViewAutomaticDimension)
         return UITableViewAutomaticDimension
     }
     
@@ -125,15 +131,33 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
         cell.officeNameLabel.setTitle(searchResu[indexPath.section].ComapnyName, for: .normal)
         cell.CreateDate.text = searchResu[indexPath.section].CreateDate
         cell.StagesDetailsName.text = searchResu[indexPath.section].StagesDetailsName
+        if searchResu[indexPath.section].Details == ""
+        {
+             cell.Details.isHidden = true
+            cell.lbl_desc_Title.isHidden = true
+        }
+        else
+        {
+            cell.Details.isHidden = false
+            cell.lbl_desc_Title.isHidden = false
         cell.Details.text = searchResu[indexPath.section].Details
+        }
+        if searchResu[indexPath.section].SakNum != ""
+        {
+        cell.SakNumber.text =  searchResu[indexPath.section].SakNum
+        }
+        else
+        {
+             cell.SakNumber.text =  searchResu[indexPath.section].projectId
+        }
         cell.companyAddress.text = searchResu[indexPath.section].EmpName
         print(searchResu[indexPath.section].ProjectBildTypeName)
         cell.projectTitle.text = searchResu[indexPath.section].ProjectBildTypeName
         
         cell.companyMobile.setTitle(searchResu[indexPath.section].Mobile, for: .normal)
         let img = searchResu[indexPath.section].Logo
-        let trimmedString = img.trimmingCharacters(in: .whitespaces)
-        if let url = URL.init(string: trimmedString) {
+        let trimmedString = img.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+        if let url = URL.init(string: trimmedString!) {
             cell.CompanyLogoImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
             print("nil")
@@ -155,7 +179,7 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
             cell.nameOfStatus.text = "طلب تعديل"
             cell.PDF.isHidden = false
         }else if status == "5"{
-            cell.Status.backgroundColor = #colorLiteral(red: 0.9019555449, green: 0.4952987432, blue: 0.1308369637, alpha: 1)
+            cell.Status.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
             cell.nameOfStatus.text = "جاري العمل"
             cell.PDF.isHidden = true
         }else {
@@ -177,13 +201,31 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
         let openPdf = searchResu[index!].DesignFile
         let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle:nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "openPdfViewController") as! openPdfViewController
+
+        secondView.CreateDate = searchResu[index!].CreateDate
+        secondView.DesignFile = searchResu[index!].DesignFile
+        designStagesID = searchResu[index!].DesignStagesID
+        secondView.Details = searchResu[index!].Details
+        secondView.EmpName = searchResu[index!].EmpName
+        secondView.mobileStr = searchResu[index!].Mobile
+        secondView.ProjectBildTypeName = searchResu[index!].ProjectBildTypeName
+        secondView.ProjectStatusID = searchResu[index!].ProjectStatusID
+        secondView.SakNum = searchResu[index!].SakNum
+        secondView.StagesDetailsName = searchResu[index!].StagesDetailsName
+        secondView.Status = searchResu[index!].Status
+        secondView.ClientReply = searchResu[index!].ClientReply
+        secondView.EmpReply = searchResu[index!].EmpReply
+        secondView.ComapnyName = searchResu[index!].ComapnyName
+        secondView.Logo = searchResu[index!].Logo
+        secondView.Address = searchResu[index!].Address
+        
         secondView.url = openPdf
         if searchResu[index!].Status == "1" {
             secondView.condBottomButtons = "AcceptAndEdit"
-            secondView.reloadApi = self
+            secondView.reloadApi = self as! AccepEditDesgin
         }else if searchResu[index!].Status == "3" {
             secondView.condBottomButtons = "Edit"
-            secondView.reloadApi = self
+            secondView.reloadApi = self as! AccepEditDesgin
         }else {
             print("error status")
         }
@@ -336,15 +378,17 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
         dvc.filterDesignsDelegate = self
         if condition == "New" {
             dvc.type = "1"
+              dvc.preferredContentSize = CGSize(width: 200, height: 140)
         }else {
             dvc.type = "2"
+              dvc.preferredContentSize = CGSize(width: 200, height: 100)
         }
         dvc.statusId = StatusId
         dvc.modalPresentationStyle = .popover
         dvc.popoverPresentationController?.sourceView = sender
         dvc.popoverPresentationController?.sourceRect = CGRect(x: sender.frame.maxX, y: sender.frame.maxY, width: 0, height: 0)
         dvc.popoverPresentationController?.delegate = self
-        dvc.preferredContentSize = CGSize(width: 200, height: 90)
+      
         dvc.popoverPresentationController?.permittedArrowDirections = [.up]
         self.present(dvc, animated: true, completion: nil)
     }
@@ -363,7 +407,11 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
     
 }
 
-extension ProjectsContinueViewController: FilterDesignsDelegate, reloadApi {
+extension ProjectsContinueViewController: FilterDesignsDelegate, reloadApi,AccepEditDesgin {
+    func refresh() {
+         viewWillAppear(false)
+    }
+    
     func filterDesignsByStatusId(StatusId: String, StatusName: String) {
         model.GetDesignsByCustID(view: self.view, VC: self, condition: "", StatusId: StatusId)
         self.StatusId = StatusId

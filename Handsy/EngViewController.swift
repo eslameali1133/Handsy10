@@ -23,6 +23,7 @@ class EngViewController: UIViewController, GMSMapViewDelegate {
     
     
     @IBOutlet weak var mapView: GMSMapView!
+    @IBOutlet weak var mapImgeBtn: UIImageView!
     
     @IBOutlet weak var namePio: UILabel!
     @IBOutlet weak var nameEmp: UILabel!
@@ -64,9 +65,10 @@ class EngViewController: UIViewController, GMSMapViewDelegate {
         mapView.delegate = self
         
         if mapView.mapType == .satellite {
-            mapType.setImage(#imageLiteral(resourceName: "landscape-with-mountains"), for: .normal)
+          
+            mapImgeBtn.image = #imageLiteral(resourceName: "Group_1404")
         }else {
-            mapType.setImage(#imageLiteral(resourceName: "google-drive-image copy copy"), for: .normal)
+                mapImgeBtn.image = #imageLiteral(resourceName: "Group_1404-1")
         }
         let dLati = BranchLatPass
         let dLang = BranchLngPass
@@ -99,10 +101,10 @@ class EngViewController: UIViewController, GMSMapViewDelegate {
     
     @IBAction func mapTypeAction(_ sender: UIButton) {
         if mapView.mapType == .satellite {
-            mapType.setImage(#imageLiteral(resourceName: "google-drive-image copy copy"), for: .normal)
+          mapImgeBtn.image = #imageLiteral(resourceName: "Group_1404-1")
             mapView.mapType = .terrain
         }else {
-            mapType.setImage(#imageLiteral(resourceName: "landscape-with-mountains"), for: .normal)
+             mapImgeBtn.image = #imageLiteral(resourceName: "Group_1404")
             mapView.mapType = .satellite
         }
     }
@@ -133,7 +135,7 @@ class EngViewController: UIViewController, GMSMapViewDelegate {
             }
         }))
         
-        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
+        alertAction.addAction(UIAlertAction(title: "الخرائط", style: .default, handler: { action in
             self.openMapsForLocation()
         }))
         

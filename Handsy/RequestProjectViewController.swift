@@ -218,8 +218,8 @@ class RequestProjectViewController: UIViewController, UITableViewDelegate, UITab
         }
         
         let emplImage = searchResu[indexPath.section].EmpImage
-        let trimmedString = emplImage.trimmingCharacters(in: .whitespaces)
-        if let url = URL.init(string: trimmedString) {
+        let trimmedString = emplImage.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+        if let url = URL.init(string: trimmedString!) {
             print(url)
             cell.EmpImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "custlogo"))
         } else{
@@ -370,7 +370,7 @@ class RequestProjectViewController: UIViewController, UITableViewDelegate, UITab
                 "projectId" : ProjectId
             ]
             
-            Alamofire.request("http://smusers.promit2030.com/Service1.svc/ProjectCancel", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+            Alamofire.request("http://smusers.promit2030.co/Service1.svc/ProjectCancel", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
                 debugPrint(response)
                 let json = JSON(response.result.value!)
                 

@@ -93,9 +93,11 @@ class OtherViewCollectionViewController: UICollectionViewController, DesplayImag
         cell.layer.masksToBounds = true
         
         let img = searchResu[indexPath.row].ProjectsImagePath
-        let trimmedString = img.trimmingCharacters(in: .whitespaces)
-        if let url = URL.init(string: trimmedString) {
-            cell.imageView.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "custlogo"))
+        
+        let trimmedString = img.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+        print(trimmedString)
+        if let url = URL.init(string: trimmedString!) {
+            cell.imageView.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
             print("nil")
         }

@@ -39,7 +39,21 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
         }
     }
     
-    @IBOutlet weak var lbl_chat: UILabel!
+    @IBOutlet weak var btn_direction: UIButton!{
+        didSet {
+            btn_direction.layer.borderWidth = 1.0
+            btn_direction.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            btn_direction.layer.cornerRadius = 4.0
+        }
+    }
+    @IBOutlet weak var lbl_chat: UILabel!{
+        didSet {
+            DispatchQueue.main.async {
+                self.lbl_chat.layer.cornerRadius = self.lbl_chat.frame.width/2
+                self.lbl_chat.layer.masksToBounds = true
+            }
+        }
+    }
     
     @IBOutlet weak var companyImageOut: UIImageView!{
         didSet {
@@ -50,6 +64,7 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
     }
     @IBOutlet weak var statusName: UILabel!
     @IBOutlet weak var statusImage: UIImageView!
+    @IBOutlet weak var SakNumber: UILabel!
     
     @IBOutlet weak var projectTitleLabel: UILabel!
     @IBOutlet weak var companyNameLabel: UILabel!
@@ -76,9 +91,10 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
     
     @IBOutlet weak var NothingLabel: UILabel!
     @IBOutlet weak var AlertImage: UIImageView!
-    
+      var AlertController: UIAlertController!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         cancelStatusBtn.isHidden = true
        
         DispatchQueue.main.async {
@@ -87,12 +103,59 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
         }
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.indicatorStyle = UIScrollViewIndicatorStyle.white;
+        
+        
+        
+        DispatchQueue.main.async {
+            self.NothingLabel.isHidden = true
+        }
+        // Do any additional setup after loading the view.
+        AlertController = UIAlertController(title:"" , message: "اختر الخريطة", preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let Google = UIAlertAction(title: "جوجل ماب", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocationgoogle(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+        let MapKit = UIAlertAction(title: "الخرائط", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocation(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+        
+        let Cancel = UIAlertAction(title: "رجوع", style: UIAlertActionStyle.cancel, handler: { (action) in
+            //
+        })
+        
+        self.AlertController.addAction(Google)
+        self.AlertController.addAction(MapKit)
+        self.AlertController.addAction(Cancel)
+        
+    }
+    func openMapsForLocation(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        print(location.coordinate)
+        MKMapView.openMapsWith(location) { (error) in
+            if error != nil {
+                print("Could not open maps" + error!.localizedDescription)
+            }
+        }
+    }
+    func openMapsForLocationgoogle(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+            UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(Lat),\(Lng)&zoom=14&views=traffic&q=\(Lat),\(Lng)")!, options: [:], completionHandler: nil)
+        }
+        else {
+            print("Can't use comgooglemaps://")
+            UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(Lat),\(Lng)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+        }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         
         if Reachability.isConnectedToNetwork(){
+            
             GetCountMessageUnReaded()
             model.delegate = self
             model.GetDesignsByProjectID(view: self.view, projectId: ProjectId, type: "1", StatusId: "")
-            
         }else{
             designProjectIdModel.loadItems()
             if designProjectIdModel.returnProjectDetials(at: ProjectId) != nil {
@@ -105,19 +168,19 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
             tableView.reloadData()
         }
         
-        DispatchQueue.main.async {
-            self.NothingLabel.isHidden = true
-        }
-        // Do any additional setup after loading the view.
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        viewDidLoad()
     }
     
     func ComapnyNameFunc(){
         companyNameLabel.text = ProjectOfResult[0].ComapnyName!
         projectTitleLabel.text = ProjectOfResult[0].ProjectTitle
+        if ProjectOfResult[0].SakNum != ""
+        {
+                SakNumber.text = ProjectOfResult[0].SakNum
+        }else
+        {
+        SakNumber.text = ProjectOfResult[0].ProjectId
+        }
 //        addressLabel.text = ProjectOfResult[0].CompanyAddress
         
         if MessageCount == "" || MessageCount == "0" {
@@ -182,7 +245,7 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 6
+        return 1
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -253,8 +316,10 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
         cell.StagesDetailsName.text = searchResu[indexPath.section].StagesDetailsName
         if searchResu[indexPath.section].Details == "" {
             cell.lbl_Det.isHidden = true
+               cell.lbl_descTitle.isHidden = true
         }else {
             cell.lbl_Det.isHidden = false
+            cell.lbl_descTitle.isHidden = false
             cell.lbl_Det.text = searchResu[indexPath.section].Details
         }
         let status = searchResu[indexPath.section].Status
@@ -284,7 +349,7 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
                 cell.BtnOutlet.isHidden = true
             }
         }else if status == "5"{
-            cell.Status.backgroundColor = #colorLiteral(red: 0.9019555449, green: 0.4952987432, blue: 0.1308369637, alpha: 1)
+            cell.Status.backgroundColor =  #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
             cell.nameOfStatus.text = "جاري العمل"
             cell.BtnOutlet.isHidden = true
             if searchResu[indexPath.section].DesignFile == "" {
@@ -316,15 +381,12 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
     
     func GetOfficesByProvincesID(){
         let sv = UIViewController.displaySpinner(onView: self.view)
-        //        let id = UserDefaults.standard.string(forKey: "account_id")!
-        //        let account_type = UserDefaults.standard.string(forKey: "account_type")!
-        
-        
+     
         let Parameters: Parameters = [
             "companyInfoID": CompanyInfoID
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetOfficeByCompanyInfoID", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetOfficeByCompanyInfoID", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             let json = JSON(response.result.value!)
@@ -380,10 +442,10 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
         let secondView = storyBoard.instantiateViewController(withIdentifier: "openPdfViewController") as! openPdfViewController
         if searchResu[index!].Status == "1" {
             secondView.condBottomButtons = "AcceptAndEdit"
-            secondView.reloadApi = self
+            secondView.reloadApi = self as! AccepEditDesgin
         }else if searchResu[index!].Status == "3" {
             secondView.condBottomButtons = "Edit"
-            secondView.reloadApi = self
+            secondView.reloadApi = self as! AccepEditDesgin
         }else {
             print("error status")
         }
@@ -430,7 +492,7 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
         
         let parameters: Parameters = ["projectId": ProjectId]
         
-        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetCountMessageUnReaded", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/api/ApiService/GetCountMessageUnReaded", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             let json = JSON(response.result.value!)
             self.MessageCount = json["MessageCount"].stringValue
@@ -469,6 +531,43 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
    
     @IBAction func directionBtn(_ sender: UIButton) {
         let location = CLLocation(latitude: LatBranch, longitude: LngBranch)
+        
+        let dLati =  LatBranch
+        let dLang = LngBranch
+        
+        
+//        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
+//
+//        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
+//            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+//                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(dLati),\(dLang)&zoom=14&views=traffic&q=\(dLati),\(dLang)")!, options: [:], completionHandler: nil)
+//            } else {
+//                print("Can't use comgooglemaps://")
+//                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(dLati),\(dLang)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+//            }
+//        }))
+//
+//        alertAction.addAction(UIAlertAction(title: "الخرائط", style: .default, handler: { action in
+//            self.openMapsForLocation()
+//        }))
+//
+//        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+//        }))
+//        self.present(alertAction, animated: true, completion: nil)
+//        self.present(AlertController, animated: true, completion: nil)
+        if Helper.isDeviceiPad() {
+            
+            if let popoverController = AlertController.popoverPresentationController {
+                popoverController.sourceView = sender
+            }
+        }
+        
+        self.present(AlertController, animated: true, completion: nil)
+    }
+    func openMapsForLocation() {
+        let dLati = LatBranch
+        let dLang = LngBranch
+        let location = CLLocation(latitude: dLati, longitude: dLang)
         print(location.coordinate)
         MKMapView.openMapsWith(location) { (error) in
             if error != nil {
@@ -476,7 +575,6 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
             }
         }
     }
-    
     @IBAction func CallMe(_ sender: UIButton) {
         
         let mobileNum = searchResu[0].Mobile!
@@ -521,29 +619,32 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
     @IBAction func openDesignDetials(_ sender: UIButton) {
         let point = sender.convert(CGPoint.zero, to: tableView)
         let index = tableView.indexPathForRow(at: point)?.section
-        let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
-        let secondView = storyBoard.instantiateViewController(withIdentifier: "DesignDetailsTableViewController") as! DesignDetailsTableViewController
-        secondView.CreateDate = searchResu[index!].CreateDate!
-        secondView.DesignFile = searchResu[index!].DesignFile!
-        secondView.DesignStagesID = searchResu[index!].DesignStagesID!
-        secondView.Details = searchResu[index!].Details!
-        secondView.EmpName = searchResu[index!].EmpName!
-        secondView.mobileStr = searchResu[index!].Mobile!
-        secondView.ProjectBildTypeName = searchResu[index!].ProjectBildTypeName!
-        secondView.ProjectStatusID = searchResu[index!].ProjectStatusID!
-        secondView.SakNum = searchResu[index!].SakNum!
-        secondView.StagesDetailsName = searchResu[index!].StagesDetailsName!
-        secondView.Status = searchResu[index!].Status!
-        secondView.ClientReply = searchResu[index!].ClientReply!
-        secondView.EmpReply = searchResu[index!].EmpReply!
-        secondView.ComapnyName = searchResu[index!].ComapnyName!
-        secondView.Logo = searchResu[index!].Logo!
-        secondView.Address = searchResu[index!].Address!
-        secondView.LatBranch = LatBranch
-        secondView.LngBranch = LngBranch
-        secondView.CompanyInfoID = CompanyInfoID
-        secondView.ProjectId = ProjectId
-        self.navigationController?.pushViewController(secondView, animated: true)
+        
+        
+        
+        let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle:nil)
+        let cont = storyBoard.instantiateViewController(withIdentifier: "DetailsDesignTableViewController") as! DetailsDesignTableViewController
+        
+        cont.CreateDate = searchResu[index!].CreateDate!
+        cont.DesignFile = searchResu[index!].DesignFile!
+        designStagesID = searchResu[index!].DesignStagesID!
+        cont.Details = searchResu[index!].Details!
+        cont.EmpName = searchResu[index!].EmpName!
+        cont.mobileStr = searchResu[index!].Mobile!
+        cont.ProjectBildTypeName = searchResu[index!].ProjectBildTypeName!
+        cont.ProjectStatusID = searchResu[index!].ProjectStatusID!
+        cont.SakNum = searchResu[index!].SakNum!
+        cont.StagesDetailsName = searchResu[index!].StagesDetailsName!
+        cont.Status = searchResu[index!].Status!
+        cont.ClientReply = searchResu[index!].ClientReply!
+        cont.EmpReply = searchResu[index!].EmpReply!
+        cont.ComapnyName = searchResu[index!].ComapnyName!
+        cont.Logo = searchResu[index!].Logo!
+        cont.Address = searchResu[index!].Address!
+        self.navigationController?.pushViewController(cont, animated: true)
+
+        
+       
     }
     
     
@@ -591,7 +692,11 @@ class DesignsOfProjectViewController: UIViewController, UITableViewDelegate, UIT
         model.GetDesignsByProjectID(view: self.view, projectId: ProjectId, type: "1", StatusId: "")
     }
 }
-extension DesignsOfProjectViewController: FilterDesignsDelegate, reloadApi {
+extension DesignsOfProjectViewController: FilterDesignsDelegate, reloadApi ,AccepEditDesgin{
+    func refresh() {
+         viewDidLoad()
+    }
+    
     func filterDesignsByStatusId(StatusId: String, StatusName: String) {
         model.GetDesignsByProjectID(view: self.view, projectId: ProjectId, type: "2", StatusId: StatusId)
         self.StatusId = StatusId

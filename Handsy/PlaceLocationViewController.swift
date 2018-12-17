@@ -10,7 +10,9 @@ import UIKit
 import MapKit
 
 class PlaceLocationViewController: UIViewController, GMSMapViewDelegate {
-    
+    var LatBranch: Double = 0.0
+    var LngBranch: Double = 0.0
+        var AlertController: UIAlertController!
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var placeLocaton: UILabel!{
         didSet {
@@ -26,18 +28,53 @@ class PlaceLocationViewController: UIViewController, GMSMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        mapView.mapType = .satellite
+        mapView.mapType = .terrain
         mapView.delegate = self
         if mapView.mapType == .satellite {
-            mapType.setImage(#imageLiteral(resourceName: "landscape-with-mountains"), for: .normal)
+            mapType.setImage(#imageLiteral(resourceName: "Group_1404"), for: .normal)
         }else {
-            mapType.setImage(#imageLiteral(resourceName: "google-drive-image copy copy"), for: .normal)
+            mapType.setImage(#imageLiteral(resourceName: "Group_1404-1"), for: .normal)
         }
         
 //        mapView.isMyLocationEnabled = true
         // Do any additional setup after loading the view.
+        AlertController = UIAlertController(title:"" , message: "اختر الخريطة", preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let Google = UIAlertAction(title: "جوجل ماب", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocationgoogle(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+        let MapKit = UIAlertAction(title: "الخرائط", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocation(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+        
+        let Cancel = UIAlertAction(title: "رجوع", style: UIAlertActionStyle.cancel, handler: { (action) in
+            //
+        })
+        
+        self.AlertController.addAction(Google)
+        self.AlertController.addAction(MapKit)
+        self.AlertController.addAction(Cancel)
     }
     
+    func openMapsForLocation(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        print(location.coordinate)
+        MKMapView.openMapsWith(location) { (error) in
+            if error != nil {
+                print("Could not open maps" + error!.localizedDescription)
+            }
+        }
+    }
+    func openMapsForLocationgoogle(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+            UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(Lat),\(Lng)&zoom=14&views=traffic&q=\(Lat),\(Lng)")!, options: [:], completionHandler: nil)
+        }
+        else {
+            print("Can't use comgooglemaps://")
+            UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(Lat),\(Lng)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+        }
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -46,14 +83,9 @@ class PlaceLocationViewController: UIViewController, GMSMapViewDelegate {
     @IBOutlet weak var mapType: UIButton!{
         didSet {
             DispatchQueue.main.async {
-                self.mapType.layer.shadowColor = UIColor.black.cgColor
-                self.mapType.layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
-                self.mapType.layer.shadowRadius = 2.0
-                self.mapType.layer.shadowOpacity = 0.5
-                self.mapType.layer.borderColor = UIColor.black.cgColor
-                self.mapType.layer.borderWidth = 0.5
-                self.mapType.layer.cornerRadius = 7.0
-                self.mapType.layer.masksToBounds = false
+              
+                self.mapType.layer.cornerRadius =  self.mapType.frame.width / 2
+             
                 
             }
         }
@@ -63,10 +95,10 @@ class PlaceLocationViewController: UIViewController, GMSMapViewDelegate {
     
     @IBAction func mapTypeAction(_ sender: UIButton) {
         if mapView.mapType == .satellite {
-            mapType.setImage(#imageLiteral(resourceName: "google-drive-image copy copy"), for: .normal)
+            mapType.setImage(#imageLiteral(resourceName: "Group_1404-1"), for: .normal)
             mapView.mapType = .terrain
         }else {
-            mapType.setImage(#imageLiteral(resourceName: "landscape-with-mountains"), for: .normal)
+            mapType.setImage(#imageLiteral(resourceName: "Group_1404"), for: .normal)
             mapView.mapType = .satellite
         }
     }
@@ -74,33 +106,51 @@ class PlaceLocationViewController: UIViewController, GMSMapViewDelegate {
     @IBOutlet weak var directionsOut: UIButton!{
         didSet {
             DispatchQueue.main.async {
-                self.directionsOut.layer.cornerRadius = 7.0
-                self.directionsOut.layer.masksToBounds = true
+                self.directionsOut.layer.cornerRadius = self.directionsOut.frame.width / 2
+//                self.directionsOut.layer.masksToBounds = true
             }
         }
         
     }
     @IBAction func directionsAction(_ sender: UIButton) {
-        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
+        self.LatBranch = latitudeDer!
+        self.LngBranch = lngitudeDer!
         
-        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
-            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
-                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(self.latitudeDer!),\(self.lngitudeDer!)&zoom=14&views=traffic&q=\(self.latitudeDer!),\(self.lngitudeDer!)")!, options: [:], completionHandler: nil)
-            } else {
-                print("Can't use comgooglemaps://")
-                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(self.latitudeDer!),\(self.lngitudeDer!)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+        let dLati =  LatBranch
+        let dLang = LngBranch
+        
+        if Helper.isDeviceiPad() {
+            
+            if let popoverController = AlertController.popoverPresentationController {
+                popoverController.sourceView = sender
             }
-        }))
+        }
         
-        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
-            self.openMapsForLocation()
-        }))
+        self.present(AlertController, animated: true, completion: nil)
+//        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
+//
+//        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
+//            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+//                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(dLati),\(dLang)&zoom=14&views=traffic&q=\(dLati),\(dLang)")!, options: [:], completionHandler: nil)
+//            } else {
+//                print("Can't use comgooglemaps://")
+//                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(dLati),\(dLang)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+//            }
+//        }))
+//
+//        alertAction.addAction(UIAlertAction(title: "الخرائط", style: .default, handler: { action in
+//            self.openMapsForLocation()
+//        }))
+//
+//        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+//        }))
+//        self.present(alertAction, animated: true, completion: nil)
         
-        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
-        }))
-        self.present(alertAction, animated: true, completion: nil)
+//        self.present(AlertController, animated: true, completion: nil)
+        
+
     }
-    
+   
     func openMapsForLocation() {
         let location = CLLocation(latitude: latitudeDer!, longitude: lngitudeDer!)
         print(location.coordinate)
@@ -131,7 +181,7 @@ class PlaceLocationViewController: UIViewController, GMSMapViewDelegate {
         marker.position = target
         marker.title = "موقع الارض"
         marker.map = mapView
-        mapView.mapType = .satellite
+        mapView.mapType = .terrain
     }
     
     func zoom(zoom: Float){

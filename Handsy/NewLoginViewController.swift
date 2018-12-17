@@ -12,6 +12,32 @@ import SwiftyJSON
 
 
 class NewLoginViewController: UITableViewController, UITextFieldDelegate {
+    
+    // prameter sign up
+    var PrjTypeID = ""
+    var BranchID = ""
+    let pickerPlaceLable = UIPickerView()
+    let pikerProjectLable = UIPickerView()
+    var CompanyInfoID = ""
+    var CompanyName = ""
+    var CompanyAddress = ""
+    var CompanyImage = ""
+    var IsCompany = ""
+    var LatBranch: Double = 0.0
+    var LngBranch: Double = 0.0
+    var EmpMobile = ""
+    var ZoomBranch = ""
+    var numberOfSak = ""
+    var numberOfGat = ""
+    var numberOfMo = ""
+    var numberOfAl = ""
+    var dateRghsa = ""
+    var dateOfSak = ""
+    var Notes = ""
+    var spacePlace = ""
+    var isComingFromProject = false
+
+    //
     @IBOutlet weak var flagImage: UIImageView!
     @IBOutlet weak var NextBtnOut: LoadingButton!{
         didSet {
@@ -61,20 +87,21 @@ class NewLoginViewController: UITableViewController, UITextFieldDelegate {
     @objc func donePicker(){
         self.view.endEditing(true)
         let mobile = TextFNumber.text!
-        if mobile.count == 10 {
-            if mobile.first! == "0" {
-                if mobile[mobile.index(mobile.startIndex, offsetBy: 1)] == "5" {
-                    NextBtnOut.isEnabled = true
-                }else {
-                    NextBtnOut.isEnabled = false
-                    alertCode.text = "من فضلك تأكد من رقم الجوال"
-                    alertCode.isHidden = false
-                }
-            }else {
-                NextBtnOut.isEnabled = false
-                alertCode.text = "من فضلك تأكد من رقم الجوال"
-                alertCode.isHidden = false
-            }
+        if mobile.count == 8 {
+               NextBtnOut.isEnabled = true
+//            if mobile.first! == "0" {
+//                if mobile[mobile.index(mobile.startIndex, offsetBy: 1)] == "5" {
+//                    NextBtnOut.isEnabled = true
+//                }else {
+//                    NextBtnOut.isEnabled = false
+//                    alertCode.text = "من فضلك تأكد من رقم الجوال"
+//                    alertCode.isHidden = false
+//                }
+//            }else {
+//                NextBtnOut.isEnabled = false
+//                alertCode.text = "من فضلك تأكد من رقم الجوال"
+//                alertCode.isHidden = false
+//            }
         }else {
             NextBtnOut.isEnabled = false
             alertCode.text = "من فضلك تأكد من رقم الجوال"
@@ -158,7 +185,7 @@ class NewLoginViewController: UITableViewController, UITextFieldDelegate {
         if validatePassword(text: TextFNumber.text!) {
             // correct password
             alertCode.isHidden = true
-            if TextFNumber.text?.count == 10 {
+            if TextFNumber.text?.count == 8 {
                 NextBtnOut.isEnabled = true
                 self.view.endEditing(true)
             }else {
@@ -182,12 +209,13 @@ class NewLoginViewController: UITableViewController, UITextFieldDelegate {
             if text.first == "0" {
                 if text[text.index(text.startIndex, offsetBy: 1)] == "5" {
                     result = true
+                    
                 }
                 
             }
         }
         
-        return result
+        return true
     }
     
     
@@ -197,8 +225,21 @@ class NewLoginViewController: UITableViewController, UITextFieldDelegate {
         NextBtnOut.isEnabled = false
         let storyBoard : UIStoryboard = UIStoryboard(name: "NewLogin", bundle:nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "NewCheckCodeViewController") as! NewCheckCodeViewController
-        secondView.mobile = self.TextFNumber.text!
+        secondView.mobile = "05\(self.TextFNumber.text!)"
         secondView.code = self.code
+        
+        secondView.isComingFromProject = self.isComingFromProject
+        secondView.CompanyInfoID2 = self.CompanyInfoID
+        secondView.ComapnyName1 = self.CompanyName
+        secondView.CompanyImage = self.CompanyImage
+        secondView.CompanyAddress = self.CompanyAddress
+        secondView.BranchID = self.BranchID
+        secondView.EmpMobile = self.EmpMobile
+        secondView.IsCompany = self.IsCompany
+        secondView.LatBranch = self.LatBranch
+        secondView.LngBranch = self.LngBranch
+        secondView.ZoomBranch = self.ZoomBranch
+        
         self.navigationController?.pushViewController(secondView, animated: true)
         self.NextBtnOut.hideLoading()
     }
@@ -219,7 +260,7 @@ class NewLoginViewController: UITableViewController, UITextFieldDelegate {
 //                    mobileTest.insert("6", at: mobileTest.startIndex)
 //                    mobileTest.insert("9", at: mobileTest.startIndex)
                     print(mobileTest)
-                    Alamofire.request("http://smusers.promit2030.com/Service1.svc/SendSmsCodeActivation?mobile=\(mobileTest)", method: .get).responseJSON { response in
+                    Alamofire.request("http://smusers.promit2030.co/Service1.svc/SendSmsCodeActivation?mobile=\(mobileTest)", method: .get).responseJSON { response in
                         debugPrint(response)
                         
                         let json = JSON(response.result.value!)

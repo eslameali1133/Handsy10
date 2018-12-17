@@ -105,13 +105,17 @@ class AllNotficationViewController: UIViewController, UITableViewDelegate, UITab
         // #warning Incomplete implementation, return the number of rows
         return allNotifications.count
     }
-
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AllNotficationTableViewCell", for: indexPath) as! AllNotficationTableViewCell
         // Configure the cell...
+        
+        cell.SakNumber.text = allNotifications[indexPath.row].ProjectId
         let companyLogo = allNotifications[indexPath.row].CompanyLogo!
-        let trimmedString = companyLogo.trimmingCharacters(in: .whitespaces)
-        if let url = URL.init(string: trimmedString) {
+        let trimmedString = companyLogo.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+        if let url = URL.init(string: trimmedString!) {
             print(url)
             cell.companyLogoImg.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
@@ -146,13 +150,19 @@ class AllNotficationViewController: UIViewController, UITableViewDelegate, UITab
             let second = tabBarController?.tabBar
             second?.items![1].badgeValue = "\(AllNot)"
             second?.items![1].badgeColor = #colorLiteral(red: 0.3058823529, green: 0.5058823529, blue: 0.5333333333, alpha: 1)
+//             applicationl.applicationIconBadgeNumber = AllNot
         } else {
+            let second = tabBarController?.tabBar
+            second?.items![1].badgeValue = ""
+            second?.items![1].badgeColor = UIColor.clear
             
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let notificationID = allNotifications[indexPath.row].NotificationID
         MarkNotifyReadByNotifyID(NotificationID: notificationID!)
+      dataReady()
+        CountCustomerNotification()
         let type = allNotifications[indexPath.row].NotificationTypeID
         if type == "1" {
             let ProjectId = allNotifications[indexPath.row].ProjectId
@@ -194,12 +204,13 @@ class AllNotficationViewController: UIViewController, UITableViewDelegate, UITab
             designStagesID = DesignStagesID!
             let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
             let secondView = storyBoard.instantiateViewController(withIdentifier: "DetailsDesignTableViewController") as! DetailsDesignTableViewController
-            secondView.isScroll = true
+//            secondView.isScroll = false
             self.navigationController?.pushViewController(secondView, animated: true)
         }else if type == "8" {
-            let File = allNotifications[indexPath.row].Other
+            let File = allNotifications[indexPath.row].File
+            print(File)
             let ProjectContract = allNotifications[indexPath.row].ProjectContract
-            if ProjectContract == "1" {
+            if ProjectContract == "1" || ProjectContract == "4"  {
                 let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
                 let secondView = storyBoard.instantiateViewController(withIdentifier: "ShowContractViewController") as! ShowContractViewController
                 secondView.url = File!
@@ -212,6 +223,14 @@ class AllNotficationViewController: UIViewController, UITableViewDelegate, UITab
                 secondView.Webtitle = "العقد"
                 self.navigationController?.pushViewController(secondView, animated: true)
             }
+        }else if type == "10" {
+            let ProjectId = allNotifications[indexPath.row].ProjectId
+            let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle: nil)
+            let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectDetialsFilterTableViewController") as! NewProjectDetialsFilterTableViewController
+            secondView.nou = "LOl"
+            secondView.nour = "loll"
+            secondView.ProjectId = ProjectId!
+            self.navigationController?.pushViewController(secondView, animated: true)
         }else {
             print("type: \(type)")
         }
@@ -221,7 +240,7 @@ class AllNotficationViewController: UIViewController, UITableViewDelegate, UITab
         let parameters: Parameters = [
             "NotificationID": NotificationID
         ]
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/MarkNotifyReadByNotifyID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/MarkNotifyReadByNotifyID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
         }
@@ -247,7 +266,7 @@ class AllNotficationViewController: UIViewController, UITableViewDelegate, UITab
         let parameters: Parameters = [
             "CustmoerId":CustmoerId
         ]
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json = JSON(response.result.value!)
@@ -274,6 +293,15 @@ class AllNotficationViewController: UIViewController, UITableViewDelegate, UITab
     }
     func setAppBadge() {
         let count = NotiTotalCount
-        applicationl.applicationIconBadgeNumber = count
+        print(count)
+        let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")!
+        if CustmoerId != nil || CustmoerId != ""
+        {
+            applicationl.applicationIconBadgeNumber = count
+        }else
+        {
+            applicationl.applicationIconBadgeNumber = 0
+        }
+       
     }
 }

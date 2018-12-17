@@ -20,7 +20,7 @@ class SearchOfOfficesModel: NSObject {
             "Rate": ""
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetOffices", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/api/ApiService/GetOffices", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             var arrayOfResulr = [GetOfficesArray]()

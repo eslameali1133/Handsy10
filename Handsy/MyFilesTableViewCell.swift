@@ -25,7 +25,15 @@ class MyFilesTableViewCell: UITableViewCell {
             }
         }
     }
-    
+   
+    @IBOutlet weak var DetialsBtn: UIButton! {
+        didSet {
+            DispatchQueue.main.async {
+                self.DetialsBtn.layer.cornerRadius = 7.0
+                self.DetialsBtn.layer.masksToBounds = true
+            }
+        }
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

@@ -11,6 +11,7 @@ import UIKit
 public extension UIImageView {
     
     public var hnk_format : Format<UIImage> {
+       
         let viewSize = self.bounds.size
             assert(viewSize.width > 0 && viewSize.height > 0, "[\(Mirror(reflecting: self).description) \(#function)]: UImageView size is zero. Set its frame, call sizeToFit or force layout first.")
             let scaleMode = self.hnk_scaleMode
@@ -18,6 +19,9 @@ public extension UIImageView {
     }
     
     public func hnk_setImageFromURL(_ URL: Foundation.URL, placeholder : UIImage? = nil, format : Format<UIImage>? = nil, failure fail : ((Error?) -> ())? = nil, success succeed : ((UIImage) -> ())? = nil) {
+        
+        
+        
         let fetcher = NetworkFetcher<UIImage>(URL: URL)
         self.hnk_setImage(fromFetcher: fetcher, placeholder: placeholder, format: format, failure: fail, success: succeed)
     }

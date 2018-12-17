@@ -12,6 +12,11 @@ import Alamofire
 import SwiftyJSON
 
 var checkEmpty = 0
+var trypNotification = ""
+var ProIDGloable = ""
+var Filegl = ""
+  var comingnotification = false
+var messageByProjectIdObjgl = MessageByProjectId()
 
 class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, RequestProjectModelDelegate {
     
@@ -62,9 +67,95 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
     var NotiProjectCount = 0
     var NotiMessageCount = 0
     var NotiTotalCount = 0
+  
       var AlertController: UIAlertController!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if comingnotification == true
+        {
+            comingnotification = false
+            
+            if trypNotification == "1" {
+                let ProjectId = ProIDGloable
+                let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle: nil)
+                let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectDetialsFilterTableViewController") as! NewProjectDetialsFilterTableViewController
+                secondView.ProjectId = ProjectId
+                secondView.comafterlogin = true
+                secondView.nou = "LOl"
+                 self.navigationController?.pushViewController(secondView, animated: true)
+            }else if trypNotification == "2" {
+            
+                let storyBoard1 : UIStoryboard = UIStoryboard(name: "VisitsAndDetails", bundle: nil)
+                let secondView = storyBoard1.instantiateViewController(withIdentifier: "VisitsDetialsTableViewController") as! VisitsDetialsTableViewController
+                self.navigationController?.pushViewController(secondView, animated: true)
+                
+            }else if trypNotification == "3" {
+                let ProjectId = ProIDGloable
+                let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle: nil)
+                let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectDetialsFilterTableViewController") as! NewProjectDetialsFilterTableViewController
+                secondView.ProjectId = ProjectId
+                secondView.nou = "LOl"
+                 secondView.comafterlogin = true
+              
+                  self.navigationController?.pushViewController(secondView, animated: true)
+                
+            }else if trypNotification == "4" {
+                let ProjectId = ProIDGloable
+                let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
+                let secondView = storyBoard.instantiateViewController(withIdentifier: "MoneyManagmentDetialsTableViewController") as! MoneyManagmentDetialsTableViewController
+                secondView.ProjectId = ProjectId
+                secondView.pushCond = "LOl"
+                self.navigationController?.pushViewController(secondView, animated: true)
+            }else if trypNotification == "5" {
+                let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
+                let secondView = storyBoard.instantiateViewController(withIdentifier: "DetailsDesignTableViewController") as! DetailsDesignTableViewController
+                   self.navigationController?.pushViewController(secondView, animated: true)
+                
+            }else if trypNotification == "7" {
+                let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
+                let secondView = storyBoard.instantiateViewController(withIdentifier: "DetailsDesignTableViewController") as! DetailsDesignTableViewController
+                secondView.isScroll = true
+                 self.navigationController?.pushViewController(secondView, animated: true)
+            }else if trypNotification == "8" {
+                let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
+                let secondView = storyBoard.instantiateViewController(withIdentifier: "ShowContractViewController") as! ShowContractViewController
+                secondView.url = Filegl
+                secondView.ProjectId = ProIDGloable
+                 self.navigationController?.pushViewController(secondView, animated: true)
+            }
+            else if trypNotification == "10" {
+                  let ProjectId = ProIDGloable
+                // move to Rate Page
+                let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
+                let sub = storyBoard.instantiateViewController(withIdentifier: "RateVC") as! RateVC
+                sub.comfromNotification = true
+                sub.ProjectID = ProjectId
+                
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                appDelegate.window?.rootViewController = sub
+            }
+                
+            else if trypNotification == "9" {
+                let ProjectId = ProIDGloable
+                ReadAllMessageForCust(ProjectId: ProjectId)
+               
+                    let storyboard = UIStoryboard(name: "Chat", bundle: nil)
+                    let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
+                    FirstViewController.ProjectId = ProjectId
+                self.navigationController?.pushViewController(FirstViewController, animated: true)
+                }
+            
+        else {
+                print("type: \(trypNotification)")
+            }
+            
+            
+        }
+            
+           
+        
+        
         messageNotfiCount.isHidden = true
         titleVCLabel.text = "مشاريعي"
         DispatchQueue.main.async {
@@ -90,18 +181,18 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         setBadge()
         // Do any additional setup after loading the view.
         AlertController = UIAlertController(title:"" , message: "اختر الخريطة", preferredStyle: UIAlertControllerStyle.actionSheet)
-        
+
         let Google = UIAlertAction(title: "جوجل ماب", style: UIAlertActionStyle.default, handler: { (action) in
             self.openMapsForLocationgoogle(Lat:self.LatBranch, Lng:self.LngBranch)
         })
-        let MapKit = UIAlertAction(title: "الخرئط", style: UIAlertActionStyle.default, handler: { (action) in
+        let MapKit = UIAlertAction(title: "الخرائط", style: UIAlertActionStyle.default, handler: { (action) in
             self.openMapsForLocation(Lat:self.LatBranch, Lng:self.LngBranch)
         })
-        
+
         let Cancel = UIAlertAction(title: "رجوع", style: UIAlertActionStyle.cancel, handler: { (action) in
             //
         })
-        
+
         self.AlertController.addAction(Google)
         self.AlertController.addAction(MapKit)
         self.AlertController.addAction(Cancel)
@@ -146,7 +237,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         archiveButton.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
         archiveButton.layer.cornerRadius = 4.0
         archiveButton.frame = CGRect.init(x: 0, y: 0, width: 104, height: 30)
-        archiveButton.setTitle("محادثة", for: .normal)
+        archiveButton.setTitle("تحدث معنا", for: .normal)
         archiveButton.titleEdgeInsets.left = 5
         archiveButton.titleEdgeInsets.right = -5
         archiveButton.setImage(UIImage(named: "proMessage"), for: .normal)
@@ -181,6 +272,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         GetEmptByMobileNum()
+       
     }
     
 
@@ -214,7 +306,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         let parameters : Parameters = [
             "TypeID": "2"
         ]
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetMobileUpdate", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetMobileUpdate", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             switch response.result {
             case .success:
@@ -256,7 +348,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 213
+        return 260
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -277,13 +369,25 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         
         let projectTitle = "\(myProjects[indexPath.row].ProjectTitle)"
         cell.projectTitleLabel.text = projectTitle
+        print( myProjects[indexPath.row].DateRegister)
         cell.DateRegisterLabel.text = myProjects[indexPath.row].DateRegister
         cell.companyNameLabel.text = myProjects[indexPath.row].ComapnyName
         cell.EngNameLabel.text = myProjects[indexPath.row].EmpName
+        
+        print(myProjects[indexPath.row].SakNum)
+        if myProjects[indexPath.row].SakNum == ""
+        {
+         cell.SakNumber.text = myProjects[indexPath.row].ProjectId
+        }
+        else
+        {
+        cell.SakNumber.text = myProjects[indexPath.row].SakNum
+        }
+        
         let emplImage = myProjects[indexPath.row].Logo
-        let trimmedString = emplImage.trimmingCharacters(in: .whitespaces)
+        let trimmedString = emplImage.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
         print("url: \(trimmedString)")
-        if let url = URL.init(string: trimmedString) {
+        if let url = URL.init(string: trimmedString!) {
             print(url)
             cell.EmpImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "custlogo"))
         } else{
@@ -291,43 +395,45 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
             cell.EmpImageOut.image = #imageLiteral(resourceName: "custlogo")
         }
         let status = myProjects[indexPath.row].ProjectStatusID
-        let statusName = myProjects[indexPath.row].ProjectStatusName
-//        if status == "1" &&  statusName == "جاري العمل"
-//        {
-//        cell.backgroundCellView.backgroundColor = UIColor(red: 255/255, green: 215/255, blue: 0/255, alpha: 0.3)
-//        }
-        
+        let statusName = myProjects[indexPath.row].ProjectStatusName        
         if status == "5"{
             cell.StatusNameLabel.text = statusName
-            cell.statusImage.backgroundColor = #colorLiteral(red: 0.9921568627, green: 0.4274509804, blue: 0.337254902, alpha: 1)
+            cell.statusview.backgroundColor =  HelperMethod.hexStringToUIColor(hex: myProjects[indexPath.row].ProjectStatusColor)
+            cell.StatusRightView.backgroundColor = HelperMethod.hexStringToUIColor(hex: myProjects[indexPath.row].ProjectStatusColor)
         }else if status == "4"{
             cell.StatusNameLabel.text = statusName
         
-            cell.statusImage.backgroundColor = #colorLiteral(red: 0.1176470588, green: 0.368627451, blue: 0.4666666667, alpha: 1)
+            cell.statusview.backgroundColor = HelperMethod.hexStringToUIColor(hex: myProjects[indexPath.row].ProjectStatusColor)
            
-              cell.StatusRightView.backgroundColor = UIColor(red: 51/255, green: 144/255, blue: 99/255, alpha:1)
+              cell.StatusRightView.backgroundColor = HelperMethod.hexStringToUIColor(hex: myProjects[indexPath.row].ProjectStatusColor)
         }else if status == "3"{
             cell.StatusNameLabel.text = statusName
-            cell.statusImage.backgroundColor = #colorLiteral(red: 0.1764705882, green: 0.4745098039, blue: 0.8862745098, alpha: 1)
+            cell.statusview.backgroundColor = HelperMethod.hexStringToUIColor(hex: myProjects[indexPath.row].ProjectStatusColor)
+            cell.StatusRightView.backgroundColor = HelperMethod.hexStringToUIColor(hex: myProjects[indexPath.row].ProjectStatusColor)
         }else if status == "1"{
             cell.StatusNameLabel.text = statusName
-            cell.statusImage.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
-          
-            cell.StatusRightView.backgroundColor = UIColor(red: 212/255, green: 175/255, blue: 54/255, alpha:1)
+            cell.statusview.backgroundColor = HelperMethod.hexStringToUIColor(hex: myProjects[indexPath.row].ProjectStatusColor)
+       
+            
+            cell.StatusRightView.backgroundColor = HelperMethod.hexStringToUIColor(hex: myProjects[indexPath.row].ProjectStatusColor)
         }else if status == "2"{
             cell.StatusNameLabel.text = statusName
-            cell.statusImage.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
+            cell.statusview.backgroundColor = HelperMethod.hexStringToUIColor(hex: myProjects[indexPath.row].ProjectStatusColor)
+             cell.StatusRightView.backgroundColor = HelperMethod.hexStringToUIColor(hex: myProjects[indexPath.row].ProjectStatusColor)
         }else if status == "6"{
             cell.StatusNameLabel.text = statusName
-            cell.statusImage.backgroundColor = #colorLiteral(red: 0.2588235294, green: 0.8666666667, blue: 0.1764705882, alpha: 1)
+            cell.statusview.backgroundColor = HelperMethod.hexStringToUIColor(hex: myProjects[indexPath.row].ProjectStatusColor)
+            cell.StatusRightView.backgroundColor = HelperMethod.hexStringToUIColor(hex: myProjects[indexPath.row].ProjectStatusColor)
         }else if status == "7"{
             cell.StatusNameLabel.text = statusName
-            cell.statusImage.backgroundColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
-               cell.StatusRightView.backgroundColor = UIColor(red: 51/255, green: 144/255, blue: 99/255, alpha:1)
+            cell.statusview.backgroundColor = HelperMethod.hexStringToUIColor(hex: myProjects[indexPath.row].ProjectStatusColor)
+               cell.StatusRightView.backgroundColor = HelperMethod.hexStringToUIColor(hex: myProjects[indexPath.row].ProjectStatusColor)
         }else {
             print("error status \(status)")
         }
+        let first2Words = myProjects[indexPath.row].ProjectLastComment?.firstWords(3)
         cell.lastStatusLabel.text = myProjects[indexPath.row].ProjectLastComment
+//        "\(first2Words![0]) \(first2Words![1]) \(first2Words![2])"
         let NotLabel = myProjects[indexPath.row].NotifiCount
         
         if NotLabel != 0 {
@@ -342,13 +448,11 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         if MessageCount == "" || MessageCount == "0" {
             cell.messageCountLabel.isHidden = true
         }else {
+            print(MessageCount)
             cell.messageCountLabel.isHidden = false
             cell.messageCountLabel.text = MessageCount
         }
-//        let first = tabBarController?.viewControllers?.first
-//        AllNot += NotLabel
-//        first?.tabBarItem.badgeValue = "\(AllNot)"
-//        first?.tabBarItem.badgeColor = #colorLiteral(red: 0.3063454032, green: 0.5060613751, blue: 0.5319297314, alpha: 1)
+
         
         cell.backgroundCellView.layer.cornerRadius = 4.0
         return cell
@@ -408,7 +512,9 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
             second?.items![1].badgeValue = "\(AllNot)"
             second?.items![1].badgeColor = #colorLiteral(red: 0.3058823529, green: 0.5058823529, blue: 0.5333333333, alpha: 1)
         } else {
-            
+            let second = tabBarController?.tabBar
+            second?.items![1].badgeValue = ""
+            second?.items![1].badgeColor = UIColor.clear
         }
     }
     
@@ -422,6 +528,10 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         secondView.companyName = myProjects[index!].ComapnyName
         secondView.companyPhone = myProjects[index!].EmpMobile
         secondView.companyLogo = myProjects[index!].Logo
+        print(myProjects[index!].EmpName)
+        secondView.Empname = myProjects[index!].EmpName
+         secondView.SakeNammer = myProjects[index!].SakNum
+        
         self.navigationController?.pushViewController(secondView, animated: true)
     }
     
@@ -459,8 +569,9 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         let dLang = myProjects[index!].LngBranch
         self.LatBranch = myProjects[index!].LatBranch
         self.LngBranch = myProjects[index!].LngBranch
+        
 //        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
-//        
+//
 //        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
 //            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
 //                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(dLati),\(dLang)&zoom=14&views=traffic&q=\(dLati),\(dLang)")!, options: [:], completionHandler: nil)
@@ -469,7 +580,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
 //                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(dLati),\(dLang)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
 //            }
 //        }))
-//        
+//
 //        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
 //            let location = CLLocation(latitude: dLati, longitude: dLang)
 //            print(location.coordinate)
@@ -479,12 +590,23 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
 //                }
 //            }
 //        }))
-//        
+//
 //        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
 //        }))
+//         self.present(alertAction, animated: true, completion: nil)
+        
+        
+        if Helper.isDeviceiPad() {
+            
+            if let popoverController = AlertController.popoverPresentationController {
+                popoverController.sourceView = sender
+            }
+        }
+        
         DispatchQueue.main.async {
             UIApplication.shared.keyWindow?.rootViewController?.present(self.AlertController, animated: true, completion: nil)
         }
+
     }
 
     @IBAction func CallMe(_ sender: UIButton) {
@@ -522,12 +644,17 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         }
     }
     
+    func ReadAllMessageForCust(ProjectId: String) {
+        Alamofire.request("http://smusers.promit2030.co/api/ApiService/ReadAllMessageForCust?ProjectId=\(ProjectId)", method: .post, encoding: URLEncoding.default).responseJSON { response in
+            debugPrint(response)
+        }
+    }
     func CountCustomerNotification() {
         let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")!
         let parameters: Parameters = [
             "CustmoerId":CustmoerId
         ]
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json = JSON(response.result.value!)
@@ -554,7 +681,17 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
     }
     func setAppBadge() {
         let count = NotiTotalCount
-        applicationl.applicationIconBadgeNumber = count
+    
+        
+        let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")!
+        if CustmoerId != nil || CustmoerId != ""
+        {
+            applicationl.applicationIconBadgeNumber = count
+        }else
+        {
+            applicationl.applicationIconBadgeNumber = 0
+        }
+        
         if NotiMessageCount == 0 {
             messageNotfiCount.isHidden = true
         }else {
@@ -564,7 +701,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
     }
     func GetEmptByMobileNum() {
         let mobile = UserDefaults.standard.string(forKey: "mobile")!
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetEmptByMobileNum?mobileNum=\(mobile)", method: .get).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetEmptByMobileNum?mobileNum=\(mobile)", method: .get).responseJSON { response in
             debugPrint(response)
             
             switch response.result {
@@ -662,5 +799,28 @@ public class Reachability {
         
         return ret
         
+    }
+}
+extension String {
+    var byWords: [String] {
+        var byWords:[String] = []
+        enumerateSubstrings(in: startIndex..<endIndex, options: .byWords) {
+            guard let word = $0 else { return }
+            print($1,$2,$3)
+            byWords.append(word)
+        }
+        return byWords
+    }
+    func firstWords(_ max: Int) -> [String] {
+        return Array(byWords.prefix(max))
+    }
+    var firstWord: String {
+        return byWords.first ?? ""
+    }
+    func lastWords(_ max: Int) -> [String] {
+        return Array(byWords.suffix(max))
+    }
+    var lastWord: String {
+        return byWords.last ?? ""
     }
 }

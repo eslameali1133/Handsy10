@@ -30,7 +30,7 @@ class NoSignUpViewController: UIViewController {
     }
     
     func GetSocialMedia() {
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetSocialMedia", method: .get, encoding: URLEncoding.default).responseJSON { (response) in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetSocialMedia", method: .get, encoding: URLEncoding.default).responseJSON { (response) in
             debugPrint(response)
             let json = JSON(response.result.value!)
             self.facebookString = json["Facebook"].stringValue

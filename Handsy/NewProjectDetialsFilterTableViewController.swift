@@ -14,8 +14,17 @@ import SwiftyJSON
 
 class NewProjectDetialsFilterTableViewController: UITableViewController {
     
-    @IBOutlet var detialsBtnView: UIView!
     
+    // constian of constrzct status
+    
+    @IBOutlet weak var ContractBoton: NSLayoutConstraint!
+    @IBOutlet weak var Money_botom: NSLayoutConstraint!
+    @IBOutlet weak var ConstrainStackBotton: NSLayoutConstraint!
+    //
+    @IBOutlet var detialsBtnView: UIView!
+  
+    
+    @IBOutlet weak var lbl_pro_number: UILabel!
     @IBOutlet weak var companyNameLabel: UILabel!
     @IBOutlet weak var projectTitleLabel: UILabel!
     @IBOutlet weak var EngNameLabel: UILabel!
@@ -73,7 +82,12 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         }
     }
     
-    @IBOutlet weak var contractAlertLabel: UILabel!
+    @IBOutlet weak var contractAlertLabel: UILabel!{
+        didSet{
+            contractAlertLabel.layer.cornerRadius = 7.0
+            contractAlertLabel?.layer.masksToBounds = true
+        }
+    }
     
     @IBOutlet weak var MoneyDetialsBtnOut: UIButton!{
         didSet {
@@ -112,6 +126,14 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             }
         }
     }
+    
+    
+    @IBOutlet weak var StatusView1: UIView!
+//        {
+//        didSet{
+//             self.StatusView1.roundCorners([.bottomRight], radius: 15)
+//        }
+//    }
     
     @IBOutlet weak var VisitsDetialsBtnOut: UIButton!
     
@@ -194,6 +216,8 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     var MeetingDate = ""
     var MeetingTime = ""
     var DesignCount = ""
+    var FileCount = ""
+    var DocCount = ""
     var DesignNewCount = ""
     var norma = ""
     var ProjectLastComment: String = ""
@@ -206,13 +230,16 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     var DesignNotifiCount: String = ""
     var NotifiCount: Int?
     var ProjectFileCount: String = ""
-    var FileCount: String = ""
+    var ContractHistoryCount: String = ""
+   
     var arrayOfResulr = [GetOfficesArray]()
     var indexi:Int = 0
     var isCompany = ""
     var nou = ""
     var nour = ""
-    
+    var comafterlogin = false
+    var MeetingCountcheck = ""
+     var DesignCountcheck = ""
     
     @IBOutlet weak var statusView: UIView!
     @IBOutlet weak var lastStatusLabel: UILabel!
@@ -227,10 +254,41 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             }
         }
     }
+    
+    @IBOutlet weak var DocCountLabel: UILabel!{
+        didSet {
+            DispatchQueue.main.async {
+                self.DocCountLabel.layer.cornerRadius = self.DocCountLabel.frame.width/2
+                self.DocCountLabel.layer.masksToBounds = true
+            }
+        }
+    }
+    @IBOutlet weak var FileCountLabel: UILabel!{
+        didSet {
+            DispatchQueue.main.async {
+                self.FileCountLabel.layer.cornerRadius = self.FileCountLabel.frame.width/2
+                self.FileCountLabel.layer.masksToBounds = true
+            }
+        }
+    }
+    
     var timer: Timer?
+    
      var AlertController: UIAlertController!
+      @IBOutlet var loderview: UIView!
+    
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
+          super.viewDidLoad()
+      CountCustomerNotification()
+        detialsBtnView.isHidden = true
+        
+        detialsBtnView.isHidden = true
+         loderview.isHidden = true
+        loderview.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        self.view.addSubview(loderview)
+        
+      
         self.tabBarController?.tabBar.isHidden = false
         timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(hideContract), userInfo: nil, repeats: false)
         newVisitsCountLabel.isHidden = true
@@ -291,7 +349,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         let Google = UIAlertAction(title: "جوجل ماب", style: UIAlertActionStyle.default, handler: { (action) in
             self.openMapsForLocationgoogle(Lat:self.LatBranch, Lng:self.LngBranch)
         })
-        let MapKit = UIAlertAction(title: "الخرئط", style: UIAlertActionStyle.default, handler: { (action) in
+        let MapKit = UIAlertAction(title: "الخرائط", style: UIAlertActionStyle.default, handler: { (action) in
             self.openMapsForLocation(Lat:self.LatBranch, Lng:self.LngBranch)
         })
         
@@ -367,10 +425,24 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     }
     
     @objc func backButtonPressed(){
-        let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
-        let NavController = storyBoard.instantiateViewController(withIdentifier: "NewMain") as! NewTabBarViewController
-        NavController.selectedIndex = 0
-        self.present(NavController, animated: false, completion: nil)
+        if comafterlogin == true
+        {
+            comafterlogin = false
+            let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
+            let sub = storyBoard.instantiateViewController(withIdentifier: "NewMain") as! NewTabBarViewController
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            
+            appDelegate.window?.rootViewController = sub
+        }
+        
+//        let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
+//        let NavController = storyBoard.instantiateViewController(withIdentifier: "NewMain") as! NewTabBarViewController
+//        NavController.selectedIndex = 0
+//        self.present(NavController, animated: false, completion: nil)
+        else
+        {
+        dismiss(animated: true, completion: nil)
+        }
     }
     
     
@@ -405,45 +477,68 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         if status == "5"{
             cancelProView.isHidden = true
             statusNameLabel.text = statusName
-            statusImgView.backgroundColor = #colorLiteral(red: 0.9921568627, green: 0.4274509804, blue: 0.337254902, alpha: 1)
+            StatusView1.backgroundColor = HelperMethod.hexStringToUIColor(hex: ProjectOfResult[0].ProjectStatusColor!)
         }else if status == "4"{
             cancelProView.isHidden = false
             statusNameLabel.text = statusName
-            statusImgView.backgroundColor = #colorLiteral(red: 0.1176470588, green: 0.368627451, blue: 0.4666666667, alpha: 1)
+            StatusView1.backgroundColor = HelperMethod.hexStringToUIColor(hex: ProjectOfResult[0].ProjectStatusColor!)
         }else if status == "3"{
             cancelProView.isHidden = true
             statusNameLabel.text = statusName
-            statusImgView.backgroundColor = #colorLiteral(red: 0.1764705882, green: 0.4745098039, blue: 0.8862745098, alpha: 1)
+            StatusView1.backgroundColor = HelperMethod.hexStringToUIColor(hex: ProjectOfResult[0].ProjectStatusColor!)
         }else if status == "1"{
             cancelProView.isHidden = true
             statusNameLabel.text = statusName
-            statusImgView.backgroundColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+            StatusView1.backgroundColor = HelperMethod.hexStringToUIColor(hex: ProjectOfResult[0].ProjectStatusColor!)
         }else if status == "2"{
             cancelProView.isHidden = true
             statusNameLabel.text = statusName
-            statusImgView.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
+            StatusView1.backgroundColor = HelperMethod.hexStringToUIColor(hex: ProjectOfResult[0].ProjectStatusColor!)
         }else if status == "6"{
-            cancelProView.isHidden = false
+            cancelProView.isHidden = true
             statusNameLabel.text = statusName
-            statusImgView.backgroundColor = #colorLiteral(red: 0.2588235294, green: 0.8666666667, blue: 0.1764705882, alpha: 1)
+            StatusView1.backgroundColor = HelperMethod.hexStringToUIColor(hex: ProjectOfResult[0].ProjectStatusColor!)
         }else if status == "7"{
             cancelProView.isHidden = false
             statusNameLabel.text = statusName
-            statusImgView.backgroundColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            StatusView1.backgroundColor = HelperMethod.hexStringToUIColor(hex: ProjectOfResult[0].ProjectStatusColor!)
         }else {
             print("error status \(status)")
         }
         //        companyNameLabel.text = ProjectOfResult[0].ComapnyName!
         projectTitleLabel.text = ProjectOfResult[0].ProjectTitle
+       
+        if ProjectOfResult[0].SakNum == ""
+        {
+        lbl_pro_number.text = ProjectOfResult[0].ProjectId
+        }
+        else
+        {
+               lbl_pro_number.text = ProjectOfResult[0].SakNum
+        }
+        
         EngNameLabel.text = ProjectOfResult[0].EmpName
         engJobName.text = ProjectOfResult[0].JobName
         let img = ProjectOfResult[0].EmpImage!
         let trimmedString = img.trimmingCharacters(in: .whitespaces)
-        if let url = URL.init(string: trimmedString) {
+        
+     let updatedUrl = trimmedString.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+        print(img)
+           print(updatedUrl!)
+        if let url = URL.init(string: updatedUrl!) {
             companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
             print("nil")
             companyImageOut.image = #imageLiteral(resourceName: "officePlaceholder")
+        }
+        
+        if ContractHistoryCount != "" ||  ContractHistoryCount != "0"
+        {
+            ConntractRecordBtn.isHidden = false
+            
+        }else
+        {
+            ConntractRecordBtn.isHidden = true
         }
     }
     
@@ -456,15 +551,50 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         //            MoneyDetialsBtnOut.isHidden = false
         //            contractAlertLabel.isHidden = true
         //        }
-        if ProjectOfResult[0].ProjectContract == "1" {
+        
+        print(ProjectOfResult[0].ProjectContract!)
+        
+        if ProjectOfResult[0].ProjectContract == "1"  {
             contractBtn.isHidden = false
             contractBtn.isEnabled = true
             contractBtn.setImage(#imageLiteral(resourceName: "NewConterct"), for: .normal)
             newContractOut.isHidden = false
             contractBtnOut.isHidden = false
+            MoneyDetialsBtnOut.isHidden = false
+            contractAlertLabel.isHidden = true
+            Money_botom.constant = 10
+            ConstrainStackBotton.constant = -5
+            ContractBoton.constant = 4
+            
+        } else if  ProjectContract == "4"
+        {
+            contractBtn.isHidden = false
+            contractBtn.isEnabled = true
+            contractBtn.setImage(#imageLiteral(resourceName: "NewConterct"), for: .normal)
+            newContractOut.isHidden = false
+            contractBtnOut.isHidden = false
+            MoneyDetialsBtnOut.isHidden = false
+            
+            contractAlertLabel.isHidden = true
+            Money_botom.constant = 10
+            ConstrainStackBotton.constant = -5
+            ContractBoton.constant = 4
+//            contractAlertLabel.text = "جاري العمل علي طلبات التعديل في بنود العقد,وإعاده إرسالة إليكم "
+        }
+        else if  ProjectContract == "2"
+        {
+            contractBtn.isHidden = true
+            contractBtn.isEnabled = true
+            contractBtn.setImage(#imageLiteral(resourceName: "NewConterct"), for: .normal)
+            newContractOut.isHidden = true
+            contractBtnOut.isHidden = true
             MoneyDetialsBtnOut.isHidden = true
             contractAlertLabel.isHidden = false
-        } else if ProjectOfResult[0].ProjectContract == "3" {
+            contractAlertLabel.text = "تم تسجيل طلب المشروع بنجاع"
+//            contractAlertLabel.backgroundColor = UIColor.red
+            ConstrainStackBotton.constant = -45
+        }
+        else if ProjectOfResult[0].ProjectContract == "3" {
             contractBtn.isEnabled = true
             contractBtn.setImage(#imageLiteral(resourceName: "NewConterct"), for: .normal)
             contractBtn.isHidden = false
@@ -472,12 +602,20 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             contractBtnOut.isHidden = true
             MoneyDetialsBtnOut.isHidden = false
             contractAlertLabel.isHidden = true
+            Money_botom.constant = 10
+            ConstrainStackBotton.constant = -5
+            ContractBoton.constant = 4
         } else {
             contractBtn.isHidden = true
+            contractBtn.isEnabled = true
+            contractBtn.setImage(#imageLiteral(resourceName: "NewConterct"), for: .normal)
             newContractOut.isHidden = true
             contractBtnOut.isHidden = true
             MoneyDetialsBtnOut.isHidden = true
             contractAlertLabel.isHidden = false
+            contractAlertLabel.text = "تم تسجيل طلب المشروع بنجاع"
+//            contractAlertLabel.backgroundColor = UIColor.red
+            ConstrainStackBotton.constant = -45
         }
         tableView.reloadData()
         
@@ -516,33 +654,48 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     }
     
     func setThirdSection() {
-        //        DesignStackOut.isHidden = false
-        //        if ProjectOfResult[0].DesignCount != "0" {
-        //            numberOfDesignsLabel.text = "لديك \(ProjectOfResult[0].DesignCount!) تصميم"
-        //            numberOfDesignsLabel.isHidden = false
-        //        } else {
-        //            DesignStackOut.isHidden = true
-        //            tableView.reloadData()
-        //        }
-        //
-        if ProjectOfResult[0].DesignNotifiCount != "0" {
-            print("Design: \(ProjectOfResult[0].DesignNotifiCount!)")
+      
+        print(DesignCount)
+        
+        if DesignCount != "0" {
+            print("Design: \(DesignCountcheck)")
             newDesignsCountLabel.isHidden = false
-            newDesignsCountLabel.text = ProjectOfResult[0].DesignNotifiCount!
+            newDesignsCountLabel.text = DesignCount
         } else {
             newDesignsCountLabel.isHidden = true
         }
+        
+        if FileCount != "0"
+        {
+            FileCountLabel.isHidden = false
+            FileCountLabel.text = FileCount
+        }else
+        {
+             FileCountLabel.isHidden = true
+        }
+        
+        if DocCount != "0"
+        {
+            DocCountLabel.isHidden = false
+            DocCountLabel.text = DocCount
+        }else
+        {
+            DocCountLabel.isHidden = true
+        }
+        
     }
     
     func setFourthSection() {
-        if self.ProjectOfResult[0].Meetingcount != "" {
+        print(self.ProjectOfResult[0].MeetingNotifiCount)
+        print(self.ProjectOfResult[0].Meetingcount)
+        if MeetingCount != "" {
             //            newVisitsCountImage.isHidden = false
-            if self.ProjectOfResult[0].Meetingcount == "0" {
+            if MeetingCount == "0" {
                 newVisitsCountLabel.isHidden = true
             }else {
                 newVisitsCountLabel.isHidden = false
             }
-            newVisitsCountLabel.text = self.ProjectOfResult[0].Meetingcount
+            newVisitsCountLabel.text = MeetingCount
         } else {
             //            newVisitsCountImage.isHidden = true
             newVisitsCountLabel.isHidden = true
@@ -622,7 +775,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             "projectId" : ProjectId
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/ProjectCancel", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/ProjectCancel", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             let json = JSON(response.result.value!)
             
@@ -728,6 +881,8 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     }
     
     func GetOfficesByProvincesID(){
+        loderview.isHidden = false
+         detialsBtnView.isHidden = true
         let sv = UIViewController.displaySpinner(onView: self.view)
         //        let id = UserDefaults.standard.string(forKey: "account_id")!
         //        let account_type = UserDefaults.standard.string(forKey: "account_type")!
@@ -737,7 +892,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             "companyInfoID": CompanyInfoID
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetOfficeByCompanyInfoID", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetOfficeByCompanyInfoID", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             switch response.result {
             case .success:
@@ -769,6 +924,9 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
                 
                 self.arrayOfResulr.append(requestProjectObj)
                 UIViewController.removeSpinner(spinner: sv)
+                self.loderview.isHidden = true
+                
+                self.detialsBtnView.isHidden = false
                 self.goH()
             case .failure(let error):
                 print(error)
@@ -838,11 +996,54 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     @IBAction func directionBtn(_ sender: UIButton) {
         LatBranch = searchResu[index!].LatBranch
         LngBranch = searchResu[index!].LngBranch
+        
+//        let dLati = searchResu[index!].LatBranch
+//        let dLang = searchResu[index!].LngBranch
+//        
+//        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
+//
+//        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
+//            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+//                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(dLati),\(dLang)&zoom=14&views=traffic&q=\(dLati),\(dLang)")!, options: [:], completionHandler: nil)
+//            } else {
+//                print("Can't use comgooglemaps://")
+//                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(dLati),\(dLang)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+//            }
+//        }))
+//
+//        alertAction.addAction(UIAlertAction(title: "الخرائط", style: .default, handler: { action in
+//            self.openMapsForLocation()
+//        }))
+//
+//        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+//        }))
+//        self.present(alertAction, animated: true, completion: nil)
+        
+        if Helper.isDeviceiPad() {
+            
+            if let popoverController = AlertController.popoverPresentationController {
+                popoverController.sourceView = sender
+            }
+        }
  
         self.present(AlertController, animated: true, completion: nil)
     }
+    func openMapsForLocation() {
+        let dLati = searchResu[index!].LatBranch
+        let dLang = searchResu[index!].LngBranch
+        
+        let location = CLLocation(latitude: dLati, longitude: dLang)
+        print(location.coordinate)
+        MKMapView.openMapsWith(location) { (error) in
+            if error != nil {
+                print("Could not open maps" + error!.localizedDescription)
+            }
+        }
+    }
     
     func GetProjectByProjectId(){
+        loderview.isHidden = false
+         detialsBtnView.isHidden = true
         let sv = UIViewController.displaySpinner(onView: self.view)
         let parameters: Parameters?
         if nou == "" && norma == "" {
@@ -859,7 +1060,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             ]
         }
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetProjectByProjectId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetProjectByProjectId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             let json = JSON(response.result.value!)
@@ -943,6 +1144,12 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             self.MeetingNotifiCount = json["MeetingNotifiCount"].stringValue
             self.DesignNotifiCount = json["DesignNotifiCount"].stringValue
             self.NotifiCount = json["NotifiCount"].intValue
+            self.MeetingCountcheck = json["viewMeetingCount"].stringValue
+            self.DesignCountcheck = json["viewDesignsCount"].stringValue
+            self.FileCount = json["FileCount"].stringValue
+            self.DocCount = json["DocCount"].stringValue
+            self.ContractHistoryCount =  json["ContractHistoryCount"].stringValue
+            
             self.ProjectOfResult.append(requestProjectObj)
             for i in self.ProjectOfResult {
                 self.projectsDetialsModel.append(i)
@@ -953,6 +1160,9 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             self.setFourthSection()
             self.BtnSettingFunc()
             UIViewController.removeSpinner(spinner: sv)
+            self.loderview.isHidden = true
+            self.detialsBtnView.isHidden = false
+            
         }
     }
     @IBAction func goToNotfication(_ sender: UIButton) {
@@ -963,6 +1173,8 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         secondView.companyName = self.ProjectOfResult[0].ComapnyName!
         secondView.companyPhone = self.ProjectOfResult[0].EmpMobile!
         secondView.companyLogo = self.ProjectOfResult[0].Logo!
+        secondView.SakeNammer = self.ProjectOfResult[0].SakNum!
+        secondView.Empname = self.ProjectOfResult[0].EmpName!
         self.navigationController?.pushViewController(secondView, animated: true)
     }
     
@@ -983,9 +1195,11 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     @IBAction func VisubleContractAction(_ sender: UIButton) {
         let openContract = self.ProjectOfResult[0].projectOrderContractPhotoPath!
         print(self.ProjectOfResult[0].projectOrderContractPhotoPath!)
-        if ProjectContract == "1" {
+        print(ProjectContract)
+        if ProjectContract == "1" || ProjectContract == "4"{
             let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
             let secondView = storyBoard.instantiateViewController(withIdentifier: "ShowContractViewController") as! ShowContractViewController
+            print(openContract)
             secondView.url = openContract
             secondView.ProjectId = ProjectId
             secondView.Webtitle = "العقد"
@@ -994,6 +1208,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle:nil)
             let secondView = storyBoard.instantiateViewController(withIdentifier: "openPdfViewController") as! openPdfViewController
             secondView.url = openContract
+    
             secondView.Webtitle = "العقد"
             self.navigationController?.pushViewController(secondView, animated: true)
         } else {
@@ -1066,8 +1281,9 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     }
     
     @IBAction func goDesignsViewController(_ sender: UIButton) {
-        let desCount = self.ProjectOfResult[0].DesignCount!
-        if desCount == "" || desCount == "0" {
+        let desCount = DesignCount
+        print(DesignCount)
+        if DesignCount == "" || DesignCount == "0" {
             Toast.long(message: "لا يوجد لك تصاميم حالياً")
         } else {
             let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
@@ -1092,8 +1308,9 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     }
     
     @IBAction func goVisitsViewController(_ sender: UIButton) {
-        let meetingCount = self.ProjectOfResult[0].Meetingcount
-        if meetingCount == "" || meetingCount == "0" {
+        let meetingCount = MeetingCount
+        print(MeetingCount)
+        if MeetingCount == "" || MeetingCount == "0" {
             Toast.long(message: "لا يوجد زيارات لك حالياً")
         }else {
             let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
@@ -1119,13 +1336,15 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     
     
     @IBAction func MyFilesBtn(_ sender: UIButton) {
-        if self.ProjectOfResult[0].FileCount == "0" {
+           print(DocCount)
+        if self.DocCount == "0" {
             Toast.long(message: "لايوجد وثائق للارض")
         }else {
             let storyBoard : UIStoryboard = UIStoryboard(name: "MyFilesAndMoney", bundle:nil)
             let secondView = storyBoard.instantiateViewController(withIdentifier: "ProjectFilesViewController") as! ProjectFilesViewController
             secondView.ProjectId = self.ProjectOfResult[0].ProjectId!
-            secondView.projectTitleView = "(\(self.ProjectOfResult[0].ProjectTitle!)"+" - "+"\(self.ProjectOfResult[0].ProjectTypeName!))"
+            secondView.projectTitleView = self.ProjectOfResult[0].ProjectTitle!
+//                "(\(self.ProjectOfResult[0].ProjectTitle!)"+" - "+"\(self.ProjectOfResult[0].ProjectTypeName!))"
             secondView.type = "1"
             secondView.ProjectFilesTitle = "وثائق الأرض"
             secondView.ComapnyName = self.ProjectOfResult[0].ComapnyName!
@@ -1144,13 +1363,15 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     }
     
     @IBAction func ProjectFilesBtn(_ sender: UIButton) {
-        if self.ProjectOfResult[0].ProjectFileCount == "0" {
+      print(FileCount)
+        if self.FileCount == "0" {
             Toast.long(message: "لايوجد ملفات للمشروع")
         }else {
             let storyBoard : UIStoryboard = UIStoryboard(name: "MyFilesAndMoney", bundle:nil)
             let secondView = storyBoard.instantiateViewController(withIdentifier: "ProjectFilesViewController") as! ProjectFilesViewController
             secondView.ProjectId = self.ProjectOfResult[0].ProjectId!
-            secondView.projectTitleView = "(\(self.ProjectOfResult[0].ProjectTitle!)"+" - "+"\(self.ProjectOfResult[0].ProjectTypeName!))"
+            secondView.projectTitleView = self.ProjectOfResult[0].ProjectTitle!
+            
             secondView.type = "2"
             secondView.ProjectFilesTitle = "ملفات المشروع"
             secondView.ComapnyName = self.ProjectOfResult[0].ComapnyName!
@@ -1195,7 +1416,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             ]
         }
         
-        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetCountMessageUnReaded", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/api/ApiService/GetCountMessageUnReaded", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             let json = JSON(response.result.value!)
             let MessageCount = json["MessageCount"].stringValue
@@ -1209,4 +1430,97 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         }
         
     }
+    
+    
+    
+    
+    var NotiProjectCount = 0
+    var NotiMessageCount = 0
+    var NotiTotalCount = 0
+    let applicationl = UIApplication.shared
+    
+    func setAppBadge() {
+        let count = NotiTotalCount
+        print(count)
+        
+        
+        if count != 0 {
+            let second = tabBarController?.tabBar
+            second?.items![1].badgeValue = "\(count)"
+            second?.items![1].badgeColor = #colorLiteral(red: 0.3058823529, green: 0.5058823529, blue: 0.5333333333, alpha: 1)
+            
+        }else
+        {
+            let second = tabBarController?.tabBar
+            second?.items![1].badgeValue = ""
+            second?.items![1].badgeColor = UIColor.clear
+        }
+    }
+    func CountCustomerNotification() {
+        let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")!
+        let parameters: Parameters = [
+            "CustmoerId":CustmoerId
+        ]
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+            switch response.result {
+            case .success:
+                let json = JSON(response.result.value!)
+                print(json)
+                self.NotiProjectCount = json["NotiProjectCount"].intValue
+                self.NotiMessageCount = json["NotiMessageCount"].intValue
+                self.NotiTotalCount = json["NotiTotalCount"].intValue
+                self.setAppBadge()
+            case .failure(let error):
+                print(error)
+                let alertAction = UIAlertController(title: "خطاء في الاتصال", message: "اعادة المحاولة", preferredStyle: .alert)
+                
+                alertAction.addAction(UIAlertAction(title: "نعم", style: .default, handler: { action in
+                    self.CountCustomerNotification()
+                }))
+                
+                alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+                }))
+                
+                self.present(alertAction, animated: true, completion: nil)
+                
+            }
+        }
+    }
+    
+    
+    
+    @IBOutlet weak var ConntractRecordBtn: UIButton!{
+        didSet{
+            self.ConntractRecordBtn.circleView(UIColor.clear, borderWidth: 1.0)
+        }
+    }
+    @IBAction func GotoContractRecord(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
+        let FirstViewController = storyboard.instantiateViewController(withIdentifier: "EditDesigRecordsVC") as! EditDesigRecordsVC
+        
+        
+        FirstViewController.ProjectId = ProjectId
+        FirstViewController.Condition = "Contract"
+        FirstViewController.ProjectTiti = ProjectTitle
+        FirstViewController.EngName = EmpName
+        FirstViewController.companyName = ComapnyName
+       
+        if SakNum != ""
+        {
+            FirstViewController.sakNum = SakNum
+        }
+        else
+        {
+            FirstViewController.sakNum = ProjectId
+        }
+        FirstViewController.mobilestr = searchResu[index!].EmpMobile
+       
+        FirstViewController.DesignStagesID = ProjectId
+        
+        self.navigationController?.pushViewController(FirstViewController, animated: true)
+        
+    }
+    
+    
+    
 }

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9DY-TS-L1X">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="AJannatLT.otf">
+            <string>AJannatLT</string>
+        </array>
+        <array key="AJannatLTBold.ttf">
+            <string>AJannatLT-Bold</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--مشاريعي-->
+        <scene sceneID="ldA-JX-dtJ">
+            <objects>
+                <viewController title="مشاريعي" id="9DY-TS-L1X" customClass="EntroProjectsNotLoginVC" customModule="Handsy" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="6Zp-v5-ZiD">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Mask_Group_240" translatesAutoresizingMaskIntoConstraints="NO" id="mWq-Ye-wDK">
+                                <rect key="frame" x="157.5" y="165" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="79W-8O-aIK"/>
+                                    <constraint firstAttribute="width" constant="60" id="tvp-EV-WnU"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="مشاريعي" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lzD-Nn-Q7W">
+                                <rect key="frame" x="160.5" y="230" width="54.5" height="26.5"/>
+                                <fontDescription key="fontDescription" name="AJannatLT" family="A Jannat LT" pointSize="14"/>
+                                <color key="textColor" red="0.85911722720000006" green="0.71263681150000002" blue="0.22769420330000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="أهلا بعودتك!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dy6-Np-egZ">
+                                <rect key="frame" x="150" y="266.5" width="75" height="26.5"/>
+                                <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="يمكن الإطلاع علي مشاريعك ومالياتك ، قد تحتاج إلى تسجيل الدخول أو الإشتراك لدى هندسي" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uxy-7I-NPJ">
+                                <rect key="frame" x="25" y="303" width="325" height="52.5"/>
+                                <fontDescription key="fontDescription" name="AJannatLT" family="A Jannat LT" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nF5-3K-uPI">
+                                <rect key="frame" x="25" y="375.5" width="325" height="50"/>
+                                <color key="backgroundColor" red="0.85911722720000006" green="0.71263681150000002" blue="0.22769420330000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="9QW-lG-Jup"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="14"/>
+                                <state key="normal" title="تسجيل الدخول أو اشتراك جديد">
+                                    <color key="titleColor" red="0.086274509803921567" green="0.086274509803921567" blue="0.086274509803921567" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="Gotologin:" destination="9DY-TS-L1X" eventType="touchUpInside" id="6tU-BD-PJa"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.086274509803921567" green="0.086274509803921567" blue="0.086274509803921567" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="nF5-3K-uPI" firstAttribute="centerX" secondItem="htk-V5-fHZ" secondAttribute="centerX" id="Cb8-EU-OeT"/>
+                            <constraint firstItem="Uxy-7I-NPJ" firstAttribute="centerX" secondItem="htk-V5-fHZ" secondAttribute="centerX" id="F7B-9t-EdI"/>
+                            <constraint firstItem="dy6-Np-egZ" firstAttribute="top" secondItem="lzD-Nn-Q7W" secondAttribute="bottom" constant="10" id="HUa-i0-vdu"/>
+                            <constraint firstItem="htk-V5-fHZ" firstAttribute="trailing" secondItem="nF5-3K-uPI" secondAttribute="trailing" constant="25" id="Oeg-xi-hU0"/>
+                            <constraint firstItem="dy6-Np-egZ" firstAttribute="centerX" secondItem="htk-V5-fHZ" secondAttribute="centerX" id="QDf-cc-qdv"/>
+                            <constraint firstItem="Uxy-7I-NPJ" firstAttribute="leading" secondItem="6Zp-v5-ZiD" secondAttribute="leading" constant="25" id="TTN-FA-4bH"/>
+                            <constraint firstItem="lzD-Nn-Q7W" firstAttribute="top" secondItem="mWq-Ye-wDK" secondAttribute="bottom" constant="5" id="ciY-0U-IjY"/>
+                            <constraint firstItem="mWq-Ye-wDK" firstAttribute="centerX" secondItem="6Zp-v5-ZiD" secondAttribute="centerX" id="eCe-qs-qPJ"/>
+                            <constraint firstItem="lzD-Nn-Q7W" firstAttribute="centerX" secondItem="htk-V5-fHZ" secondAttribute="centerX" id="poJ-Vx-Cyn"/>
+                            <constraint firstItem="mWq-Ye-wDK" firstAttribute="top" secondItem="htk-V5-fHZ" secondAttribute="top" constant="145" id="qmj-GX-g4Y"/>
+                            <constraint firstItem="Uxy-7I-NPJ" firstAttribute="top" secondItem="dy6-Np-egZ" secondAttribute="bottom" constant="10" id="sHA-ER-Mux"/>
+                            <constraint firstAttribute="trailing" secondItem="Uxy-7I-NPJ" secondAttribute="trailing" constant="25" id="tYe-gF-vbl"/>
+                            <constraint firstItem="nF5-3K-uPI" firstAttribute="top" secondItem="Uxy-7I-NPJ" secondAttribute="bottom" constant="20" id="xkw-uY-dRS"/>
+                            <constraint firstItem="nF5-3K-uPI" firstAttribute="leading" secondItem="htk-V5-fHZ" secondAttribute="leading" constant="25" id="ys7-8t-EYK"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="htk-V5-fHZ"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="مشاريعي" id="TMJ-YF-4G2"/>
+                    <connections>
+                        <outlet property="GotoLogin" destination="nF5-3K-uPI" id="XfU-7b-lRm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="juT-bk-Tgc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1026.4000000000001" y="48.125937031484263"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Mask_Group_240" width="53" height="53"/>
+    </resources>
+</document>

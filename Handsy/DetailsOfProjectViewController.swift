@@ -74,11 +74,65 @@ class DetailsOfProjectViewController: UIViewController, GMSMapViewDelegate {
     var CompanyAddress: String?
     var Logo: String?
     var norma: String?
+    var flagdown = false
     
+    @IBOutlet weak var ProjectTitleHeaderLabel: UILabel!
     
+    @IBOutlet weak var StackCont_Header: UIStackView!
+    @IBOutlet weak var Constrain_Seg_TOp: NSLayoutConstraint!
+    @IBOutlet weak var HeaderView: UIView!{
+        didSet{
+            HeaderView.layer.cornerRadius = 4
+        }
+    }
+    @IBOutlet weak var UpdownBtnHeader: UIButton!
     @IBOutlet weak var PlaceLocation: UIView!
     @IBOutlet weak var InformationView: UIView!
+    @IBOutlet weak var AllHeaderView: UIView!{
+        didSet{
+            AllHeaderView.layer.cornerRadius = 4
+        }
+    }
+    
+    @IBOutlet weak var StatusView: UIView!
+//        {
+//        didSet{
+////            StatusView.layer.cornerRadius = 7
+//            StatusView.roundCorners([.bottomRight], radius: 20)
+//        }
+//    }
     @IBOutlet weak var OtherView: UIView!
+    
+    @IBAction func DropDownActionBtn(_ sender: Any) {
+        print(self.view.frame.width)
+        if flagdown == false
+        {
+            flagdown = true
+            Constrain_Seg_TOp.constant = self.view.frame.width / 7.6
+            StackCont_Header.isHidden = true
+            UpdownBtnHeader.setImage(#imageLiteral(resourceName: "dropDown"), for: .normal)
+            AllHeaderView.backgroundColor = UIColor.clear
+        }
+        else
+        {
+            flagdown = false
+            if(self.view.frame.width == 414)
+            {
+                Constrain_Seg_TOp.constant = self.view.frame.width / 2.37
+                
+            }
+            else
+            {
+                 Constrain_Seg_TOp.constant = self.view.frame.width / 2.14
+            }
+           
+            StackCont_Header.isHidden = false
+            UpdownBtnHeader.setImage(#imageLiteral(resourceName: "dropUp"), for: .normal)
+           
+                    AllHeaderView.backgroundColor = UIColor(red: 58/255.0, green: 59/255.0, blue: 60/255.0, alpha: 1.0)
+            
+        }
+    }
     @IBAction func Segment(_ sender: AWSegmentController) {
         switch Segm.selectedIndex
         {
@@ -107,9 +161,11 @@ class DetailsOfProjectViewController: UIViewController, GMSMapViewDelegate {
 //    @IBOutlet weak var companyNameLabel: UILabel!
     @IBOutlet weak var projectTitleLabel: UILabel!
     @IBOutlet weak var Emp_NAme: UILabel!
+    @IBOutlet weak var lbl_companyName: UILabel!
     
     @IBOutlet weak var nameOfStatus: UILabel!
     @IBOutlet weak var PhoneNumberEmp: UIButton!
+    @IBOutlet weak var SakNumber: UILabel!
     
     @IBOutlet weak var imageOfStatus: UIImageView!
     //    @IBOutlet weak var EngNameLabel: UILabel!
@@ -121,13 +177,25 @@ class DetailsOfProjectViewController: UIViewController, GMSMapViewDelegate {
 //            }
 //        }
 //    }
-    
+      @IBOutlet var loderview: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        loderview.isHidden = true
+        loderview.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        self.view.addSubview(loderview)
+    
 //        HeaderViewOut.backgroundColor = UIColor(red: 58/255.0, green: 59/255.0, blue: 60/255.0, alpha: 1.0)
 //        HeaderViewOut.layer.cornerRadius = 7
 //        HeaderViewOut.layer.masksToBounds = true
-        
+        if(self.view.frame.width == 414)
+        {
+            Constrain_Seg_TOp.constant = self.view.frame.width /  2.37
+            
+        }
+        else
+        {
+            Constrain_Seg_TOp.constant = self.view.frame.width / 2.14
+        }
         Segm.backgroundColor = UIColor(red: 58/255.0, green: 59/255.0, blue: 60/255.0, alpha: 1.0)
         sv = UIViewController.displaySpinner(onView: view)
         print("proid"+ProjectId!)
@@ -310,30 +378,40 @@ class DetailsOfProjectViewController: UIViewController, GMSMapViewDelegate {
     }
     
     func CompanyNamefunc() {
-        projectTitleLabel.text = ProjectTitle ?? ""
+//        projectTitleLabel.text = ProjectTitle ?? ""
+        ProjectTitleHeaderLabel.text = ProjectTitle ?? ""
         Emp_NAme.text = EmpName
+        if SakNum != ""
+        {
+        SakNumber.text = SakNum
+        }else
+        {
+             SakNumber.text = ProjectId
+        }
+        lbl_companyName.text = ComapnyName
         PhoneNumberEmp.setTitle(EmpMobile, for: .normal)
         if self.ProjectStatusID == "5"{
-            imageOfStatus.image = #imageLiteral(resourceName: "تم الالغاء-1")
-            nameOfStatus.textColor = #colorLiteral(red: 0.1843137255, green: 0.5058823529, blue: 0.7176470588, alpha: 1)
+
+            StatusView.backgroundColor = HelperMethod.hexStringToUIColor(hex: ProjectStatusColor!)
         }else if self.ProjectStatusID == "4"{
-            imageOfStatus.image = #imageLiteral(resourceName: "قيد الالستقبال")
-            nameOfStatus.textColor = #colorLiteral(red: 0.4980392157, green: 0.5490196078, blue: 0.5529411765, alpha: 1)
+//            imageOfStatus.image = #imageLiteral(resourceName: "قيد الالستقبال")
+            StatusView.backgroundColor = HelperMethod.hexStringToUIColor(hex: ProjectStatusColor!)
         }else if self.ProjectStatusID == "3"{
-            imageOfStatus.image = #imageLiteral(resourceName: "تم الانجاز-1")
-            nameOfStatus.textColor = #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
+//            imageOfStatus.image = #imageLiteral(resourceName: "تم الانجاز-1")
+            StatusView.backgroundColor = HelperMethod.hexStringToUIColor(hex: ProjectStatusColor!)
         }else if self.ProjectStatusID == "1"{
-            imageOfStatus.image = #imageLiteral(resourceName: "جاري العمل-1")
-            nameOfStatus.textColor = #colorLiteral(red: 0.8196078431, green: 0.3294117647, blue: 0.09803921569, alpha: 1)
+//            imageOfStatus.image = #imageLiteral(resourceName: "جاري العمل-1")
+            StatusView.backgroundColor = HelperMethod.hexStringToUIColor(hex: ProjectStatusColor!)
+            
         }else if self.ProjectStatusID == "2"{
-            imageOfStatus.image = #imageLiteral(resourceName: "مرفوض-1")
-            nameOfStatus.textColor = #colorLiteral(red: 0.7450980392, green: 0.2274509804, blue: 0.1921568627, alpha: 1)
+//            imageOfStatus.image = #imageLiteral(resourceName: "مرفوض-1")
+           StatusView.backgroundColor = HelperMethod.hexStringToUIColor(hex: ProjectStatusColor!)
         }else if self.ProjectStatusID == "6"{
-            imageOfStatus.image = #imageLiteral(resourceName: "تم الالغاء-1")
-            nameOfStatus.textColor = #colorLiteral(red: 0.1843137255, green: 0.5058823529, blue: 0.7176470588, alpha: 1)
+//            imageOfStatus.image = #imageLiteral(resourceName: "تم الالغاء-1")
+           StatusView.backgroundColor = HelperMethod.hexStringToUIColor(hex: ProjectStatusColor!)
         }else if self.ProjectStatusID == "7"{
-            imageOfStatus.image = #imageLiteral(resourceName: "جاري العمل-1")
-            nameOfStatus.textColor = #colorLiteral(red: 0.8196078431, green: 0.3294117647, blue: 0.09803921569, alpha: 1)
+//            imageOfStatus.image = #imageLiteral(resourceName: "جاري العمل-1")
+            StatusView.backgroundColor = HelperMethod.hexStringToUIColor(hex: ProjectStatusColor!)
         }else {
             print("error status")
         }
@@ -361,11 +439,14 @@ class DetailsOfProjectViewController: UIViewController, GMSMapViewDelegate {
     }
     
     func GetProjectByProjectId(){
+        loderview.isHidden = false
+        
+        let sv = UIViewController.displaySpinner(onView: self.view)
         let parameters: Parameters = [
             "projectId": self.ProjectId!
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetProjectByProjectId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetProjectByProjectId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             let json = JSON(response.result.value!)
@@ -434,6 +515,8 @@ class DetailsOfProjectViewController: UIViewController, GMSMapViewDelegate {
             self.vcConf4()
             self.vcConf5()
             self.CompanyNamefunc()
+            UIViewController.removeSpinner(spinner: sv)
+            self.loderview.isHidden = true
         }
         
     }

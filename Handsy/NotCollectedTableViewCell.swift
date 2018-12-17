@@ -10,11 +10,12 @@ import UIKit
 
 class NotCollectedTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var Saknumber: UILabel!
     @IBOutlet weak var projectTitleLabel: UILabel!
     @IBOutlet weak var numberOfDf3A: UILabel!
     @IBOutlet weak var MoneyOfDf3a: UILabel!
     @IBOutlet weak var CompanyNameLabel: UILabel!
-    
+    @IBOutlet weak var EmpNameLabel: UIButton!
     @IBOutlet weak var projectDetialOut: UIButton!{
         didSet {
             DispatchQueue.main.async {

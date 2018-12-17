@@ -102,8 +102,8 @@ class TheResponsibleEngineerEditViewController: UIViewController, GMSMapViewDele
         marker.map = mapView
         
         let img = EmpImage
-        let trimmedString = img.trimmingCharacters(in: .whitespaces)
-        if let url = URL.init(string: trimmedString) {
+        let trimmedString = img.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+        if let url = URL.init(string: trimmedString!) {
             EmpImagePro.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "custlogo"))
         } else{
             print("nil")
@@ -159,7 +159,7 @@ class TheResponsibleEngineerEditViewController: UIViewController, GMSMapViewDele
             }
         }))
         
-        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
+        alertAction.addAction(UIAlertAction(title: "الخرائط", style: .default, handler: { action in
             self.openMapsForLocation()
         }))
         

@@ -64,8 +64,8 @@ class TeamWorkCollectionViewController: UICollectionViewController, TeamWorkMode
         // Configure the cell
         
         let firstElem = getTeamImagesArr[indexPath.row].CompanyGalleryPath!
-        let trimmedString = firstElem.trimmingCharacters(in: .whitespaces)
-        if let url = URL.init(string: trimmedString) {
+        let trimmedString = firstElem.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+        if let url = URL.init(string: trimmedString!) {
             print(url)
             cell.imageView.hnk_setImageFromURL(url)
         } else{

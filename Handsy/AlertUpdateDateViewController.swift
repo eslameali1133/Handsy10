@@ -33,8 +33,11 @@ class AlertUpdateDateViewController: UIViewController {
     @IBAction func end(_ sender: UIButton) {
         let storyboard = UIStoryboard(name: "NewHome", bundle: nil)
         let TabController = storyboard.instantiateViewController(withIdentifier: "NewMain") as! UITabBarController
-        TabController.selectedIndex = 4
-        self.present(TabController, animated: false, completion: nil)
+//        TabController.selectedIndex = 4
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        appDelegate.window?.rootViewController = TabController
+//        self.present(TabController, animated: false, completion: nil)
     }
     
 }

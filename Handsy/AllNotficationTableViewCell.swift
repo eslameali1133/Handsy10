@@ -23,6 +23,7 @@ class AllNotficationTableViewCell: UITableViewCell {
     @IBOutlet weak var notficationTitleLabel: UILabel!
     @IBOutlet weak var projectNameLabel: UILabel!
     @IBOutlet weak var companyNameLabel: UILabel!
+    @IBOutlet weak var SakNumber: UILabel!
     @IBOutlet weak var notficationTimeLabel: UILabel!
     @IBOutlet weak var newNotficationBtn: UIButton!{
         didSet {

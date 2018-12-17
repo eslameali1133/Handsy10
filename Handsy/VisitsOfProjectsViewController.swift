@@ -19,6 +19,7 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
     
     let visitsModel: VisitsProjectIdModel = VisitsProjectIdModel()
     
+    @IBOutlet weak var FIlterView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
     var ProjectId: String = ""
@@ -93,10 +94,11 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
             companyImageOut.layer.cornerRadius = 14.0
         }
     }
+    @IBOutlet weak var Saknumber: UILabel!
     @IBOutlet weak var projectTitleLabel: UILabel!
     @IBOutlet weak var companyNameLabel: UILabel!
 //    @IBOutlet weak var addressLabel: UILabel!
-    
+    var AlertController: UIAlertController!
     override func viewDidLoad() {
         super.viewDidLoad()
         ComapnyNameFunc()
@@ -111,12 +113,101 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
         model.delegate = self
         
         
+     
         DispatchQueue.main.async {
             self.NothingLabel.isHidden = true
         }
         // Do any additional setup after loading the view.
+        AlertController = UIAlertController(title:"" , message: "اختر الخريطة", preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let Google = UIAlertAction(title: "جوجل ماب", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocationgoogle(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+        let MapKit = UIAlertAction(title: "الخرائط", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocation(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+        
+        let Cancel = UIAlertAction(title: "رجوع", style: UIAlertActionStyle.cancel, handler: { (action) in
+            //
+        })
+        
+        self.AlertController.addAction(Google)
+        self.AlertController.addAction(MapKit)
+        self.AlertController.addAction(Cancel)
     }
-    
+    func openMapsForLocation(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        print(location.coordinate)
+        MKMapView.openMapsWith(location) { (error) in
+            if error != nil {
+                print("Could not open maps" + error!.localizedDescription)
+            }
+        }
+    }
+    func openMapsForLocationgoogle(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+            UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(Lat),\(Lng)&zoom=14&views=traffic&q=\(Lat),\(Lng)")!, options: [:], completionHandler: nil)
+        }
+        else {
+            print("Can't use comgooglemaps://")
+            UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(Lat),\(Lng)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+        }
+    }
+    @IBOutlet weak var btn_direction: UIButton!{
+        didSet {
+            btn_direction.layer.borderWidth = 1.0
+            btn_direction.layer.borderColor = #colorLiteral(red: 0.2, green: 0.5647058824, blue: 0.3882352941, alpha: 1)
+            btn_direction.layer.cornerRadius = 4.0
+        }
+    }
+    @IBAction func directionBtn(_ sender: UIButton) {
+        let location = CLLocation(latitude: LatBranch, longitude: LngBranch)
+        
+        let dLati =  LatBranch
+        let dLang = LngBranch
+        
+        
+//        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
+//
+//        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
+//            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+//                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(dLati),\(dLang)&zoom=14&views=traffic&q=\(dLati),\(dLang)")!, options: [:], completionHandler: nil)
+//            } else {
+//                print("Can't use comgooglemaps://")
+//                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(dLati),\(dLang)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+//            }
+//        }))
+//
+//        alertAction.addAction(UIAlertAction(title: "الخرائط", style: .default, handler: { action in
+//            self.openMapsForLocation()
+//        }))
+//
+//        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+//        }))
+//        self.present(alertAction, animated: true, completion: nil)
+//        self.present(AlertController, animated: true, completion: nil)
+        
+        if Helper.isDeviceiPad() {
+            
+            if let popoverController = AlertController.popoverPresentationController {
+                popoverController.sourceView = sender
+            }
+        }
+        
+        self.present(AlertController, animated: true, completion: nil)
+    }
+    func openMapsForLocation() {
+        let dLati = LatBranch
+        let dLang = LngBranch
+        let location = CLLocation(latitude: dLati, longitude: dLang)
+        print(location.coordinate)
+        MKMapView.openMapsWith(location) { (error) in
+            if error != nil {
+                print("Could not open maps" + error!.localizedDescription)
+            }
+        }
+    }
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         if Reachability.isConnectedToNetwork(){
@@ -139,11 +230,28 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
             }
             tableView.reloadData()
         }
+        
+        viewDidLoad()
     }
+    
+    
+    // function which is triggered when handleTap is called
+  
+    
+    
     
     func ComapnyNameFunc(){
         companyNameLabel.text = ProjectOfResult[0].ComapnyName!
         projectTitleLabel.text = ProjectOfResult[0].ProjectTitle
+        
+        if ProjectOfResult[0].SakNum != ""
+        {
+            Saknumber.text = ProjectOfResult[0].SakNum
+        }else
+        {
+            Saknumber.text = ProjectOfResult[0].ProjectId
+        }
+//        Saknumber.text = ProjectOfResult[0].ProjectId
         
         
         if MessageCount == "" || MessageCount == "0" {
@@ -241,7 +349,7 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
     
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 145
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -269,9 +377,7 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
         cell.circleStatusImage.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         if status == "0"{
             cell.Status.backgroundColor = #colorLiteral(red: 0.9459478259, green: 0.7699176669, blue: 0.05561546981, alpha: 1)
-            cell.statusNameLabel.text = "قيد المقابلة"
-            cell.statusNameLabel.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-            cell.circleStatusImage.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            cell.statusNameLabel.text = "انتظار الموافقة"
         }else if status == "1"{
             cell.Status.backgroundColor = #colorLiteral(red: 0.1812162697, green: 0.7981202602, blue: 0.4416504204, alpha: 1)
             cell.statusNameLabel.text = "تمت المقابلة"
@@ -286,7 +392,7 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
             cell.statusNameLabel.text = "مؤجلة"
         }else if status == "5"{
             cell.Status.backgroundColor = #colorLiteral(red: 0.1521916687, green: 0.6835762858, blue: 0.376893878, alpha: 1)
-            cell.statusNameLabel.text = "موافقة وقيد المقابلة"
+            cell.statusNameLabel.text = "انتظار المقابلة" 
         }else {
             print("error status")
         }
@@ -363,31 +469,29 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
     @IBAction func openVisitDetials(_ sender: UIButton) {
         let point = sender.convert(CGPoint.zero, to: tableView)
         let index = tableView.indexPathForRow(at: point)?.section
-        let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle: nil)
-        let secondView = storyBoard.instantiateViewController(withIdentifier: "VisitsOfProjectsDetialsTableViewController") as! VisitsOfProjectsDetialsTableViewController
-        secondView.visitTitle = visitsByProjectIdArr[index!].Title!
-        secondView.meetingID = visitsByProjectIdArr[index!].MeetingID!
+        let storyBoard : UIStoryboard = UIStoryboard(name: "VisitsAndDetails", bundle:nil)
+        let cont = storyBoard.instantiateViewController(withIdentifier: "VisitsDetialsTableViewController") as! VisitsDetialsTableViewController
+        
+        //let cont = segue.destination as! VisitsDetialsTableViewController
+        cont.visitTitle = visitsByProjectIdArr[index!].Title!
         MeetingID = visitsByProjectIdArr[index!].MeetingID!
-        secondView.Description = visitsByProjectIdArr[index!].Description!
-        secondView.Mobile = visitsByProjectIdArr[index!].Mobile!
-        secondView.EmpName = visitsByProjectIdArr[index!].EmpName!
-        secondView.MeetingStatus = visitsByProjectIdArr[index!].MeetingStatus!
-        secondView.DateReply = visitsByProjectIdArr[index!].DateReply!
-        secondView.Notes = visitsByProjectIdArr[index!].Notes!
-        secondView.ProjectBildTypeName = visitsByProjectIdArr[index!].ProjectBildTypeName!
-        secondView.Replay = visitsByProjectIdArr[index!].Replay!
-        secondView.Start = visitsByProjectIdArr[index!].Start!
-        secondView.TimeStartMeeting = visitsByProjectIdArr[index!].TimeStartMeeting!
-        secondView.StartTime = visitsByProjectIdArr[index!].StartTime!
-        secondView.EndTime = visitsByProjectIdArr[index!].EndTime!
-        secondView.ComapnyName = visitsByProjectIdArr[index!].ComapnyName!
-        secondView.Address = visitsByProjectIdArr[index!].Address!
-        secondView.Logo = visitsByProjectIdArr[index!].Logo!
-        secondView.LatBranch = LatBranch
-        secondView.LngBranch = LngBranch
-        secondView.CompanyInfoID = CompanyInfoID
-        secondView.ProjectId = ProjectId
-        self.navigationController?.pushViewController(secondView, animated: true)
+        cont.Description = visitsByProjectIdArr[index!].Description!
+        cont.Mobile = visitsByProjectIdArr[index!].Mobile!
+        cont.EmpName = visitsByProjectIdArr[index!].EmpName!
+        cont.MeetingStatus = visitsByProjectIdArr[index!].MeetingStatus!
+        cont.DateReply = visitsByProjectIdArr[index!].DateReply!
+        cont.Notes = visitsByProjectIdArr[index!].Notes!
+        cont.ProjectBildTypeName = visitsByProjectIdArr[index!].ProjectBildTypeName!
+        cont.Replay = visitsByProjectIdArr[index!].Replay!
+        cont.Start = visitsByProjectIdArr[index!].Start!
+        cont.TimeStartMeeting = visitsByProjectIdArr[index!].TimeStartMeeting!
+        cont.StartTime = visitsByProjectIdArr[index!].StartTime!
+        cont.EndTime = visitsByProjectIdArr[index!].EndTime!
+        cont.ComapnyName = visitsByProjectIdArr[index!].ComapnyName!
+        cont.Address = visitsByProjectIdArr[index!].Address!
+        cont.Logo = visitsByProjectIdArr[index!].Logo!
+        
+        self.navigationController?.pushViewController(cont, animated: true)
     }
     
     @IBAction func ArchiveBtnAction(_ sender: UIButton) {
@@ -413,16 +517,16 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
         self.navigationController?.pushViewController(secondView, animated: true)
     }
     
-    @IBAction func directionBtn(_ sender: UIButton) {
-        let location = CLLocation(latitude: LatBranch, longitude: LngBranch)
-        print(location.coordinate)
-        MKMapView.openMapsWith(location) { (error) in
-            if error != nil {
-                print("Could not open maps" + error!.localizedDescription)
-            }
-        }
-    }
-    
+//    @IBAction func directionBtn(_ sender: UIButton) {
+//        let location = CLLocation(latitude: LatBranch, longitude: LngBranch)
+//        print(location.coordinate)
+//        MKMapView.openMapsWith(location) { (error) in
+//            if error != nil {
+//                print("Could not open maps" + error!.localizedDescription)
+//            }
+//        }
+//    }
+//
     @IBAction func goOfficeDetials(_ sender: UIButton) {
         GetOfficesByProvincesID()
     }
@@ -437,7 +541,7 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
             "companyInfoID": CompanyInfoID
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetOfficeByCompanyInfoID", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetOfficeByCompanyInfoID", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             let json = JSON(response.result.value!)
@@ -499,7 +603,7 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
         
         let parameters: Parameters = ["projectId": ProjectId]
         
-        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetCountMessageUnReaded", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/api/ApiService/GetCountMessageUnReaded", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             let json = JSON(response.result.value!)
             self.MessageCount = json["MessageCount"].stringValue
@@ -579,17 +683,19 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
         let storyBoard: UIStoryboard = UIStoryboard(name: "VisitsAndDetails", bundle: nil)
         let dvc = storyBoard.instantiateViewController(withIdentifier: "MeetingStatusFilterTableViewController") as! MeetingStatusFilterTableViewController
         dvc.filterVisitsDelegate = self
-        dvc.type = "1"
+        dvc.type = "3"
         dvc.statusId = StatusId
         dvc.modalPresentationStyle = .popover
         dvc.popoverPresentationController?.sourceView = sender
         dvc.popoverPresentationController?.sourceRect = CGRect(x: sender.frame.maxX, y: sender.frame.maxY, width: 0, height: 0)
         dvc.popoverPresentationController?.delegate = self
-        dvc.preferredContentSize = CGSize(width: 200, height: 100)
+        dvc.preferredContentSize = CGSize(width: 200, height: 280)
         dvc.popoverPresentationController?.permittedArrowDirections = [.up]
         self.present(dvc, animated: true, completion: nil)
     }
     
+    
+   
     @IBAction func cancelFilterStatus(_ sender: UIButton) {
         cancelStatusBtn.isHidden = true
         StatusId = ""

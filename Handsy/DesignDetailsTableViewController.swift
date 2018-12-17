@@ -123,7 +123,7 @@ class DesignDetailsTableViewController: UITableViewController {
     
     var designsDetialsOfResult = [DesignsDetialsArray]()
     var designsDetialsModel: DesignsDetialsModel = DesignsDetialsModel()
-    
+     var AlertController: UIAlertController!
     override func viewDidLoad() {
         super.viewDidLoad()
         BtnOutLet.isHidden = true
@@ -157,10 +157,46 @@ class DesignDetailsTableViewController: UITableViewController {
         OK.isHidden = true
         Cancel.isHidden = true
         
+        AlertController = UIAlertController(title:"" , message: "اختر الخريطة", preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let Google = UIAlertAction(title: "جوجل ماب", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocationgoogle(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+        let MapKit = UIAlertAction(title: "الخرائط", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocation(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+        
+        let Cancel2 = UIAlertAction(title: "رجوع", style: UIAlertActionStyle.cancel, handler: { (action) in
+            //
+        })
+        
+        self.AlertController.addAction(Google)
+        self.AlertController.addAction(MapKit)
+        self.AlertController.addAction(Cancel2)
     }
     
+    func openMapsForLocation(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        print(location.coordinate)
+        MKMapView.openMapsWith(location) { (error) in
+            if error != nil {
+                print("Could not open maps" + error!.localizedDescription)
+            }
+        }
+    }
+    func openMapsForLocationgoogle(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+            UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(Lat),\(Lng)&zoom=14&views=traffic&q=\(Lat),\(Lng)")!, options: [:], completionHandler: nil)
+        }
+        else {
+            print("Can't use comgooglemaps://")
+            UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(Lat),\(Lng)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+        }
+    }
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
+        viewDidLoad()
     }
     
     func GetDesignsByDesignStagesID(){
@@ -169,7 +205,7 @@ class DesignDetailsTableViewController: UITableViewController {
             "designStagesID": self.DesignStagesID
         ]
         print(parameters)
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetDesignsByDesignStagesID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetDesignsByDesignStagesID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             let json = JSON(response.result.value!)
@@ -361,8 +397,8 @@ class DesignDetailsTableViewController: UITableViewController {
         EngNameLabel.setTitle(EmpName, for: .normal)
         companyNameLabel.text = companyName
         JopNameLabel.text = JobName
-        let trimmedString = companyLogo.trimmingCharacters(in: .whitespaces)
-        if let url = URL.init(string: trimmedString) {
+        let trimmedString = companyLogo.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+        if let url = URL.init(string: trimmedString!) {
             companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
             print("nil")
@@ -415,10 +451,10 @@ class DesignDetailsTableViewController: UITableViewController {
         let secondView = storyBoard.instantiateViewController(withIdentifier: "openPdfViewController") as! openPdfViewController
         if StatusLa.text == "انتظار الموافقة"{
             secondView.condBottomButtons = "AcceptAndEdit"
-            secondView.reloadApi = self
+            secondView.reloadApi = self as! AccepEditDesgin
         }else if StatusLa.text == "طلب التعديل" {
             secondView.condBottomButtons = "Edit"
-            secondView.reloadApi = self
+            secondView.reloadApi = self as! AccepEditDesgin
         }else {
             print("error status")
         }
@@ -458,7 +494,7 @@ class DesignDetailsTableViewController: UITableViewController {
     @IBAction func designCancel(_ sender: UIButton) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "AlertDetialsDesignCancelViewController") as! AlertDetialsDesignCancelViewController
-        secondView.reloadApi = self
+        secondView.reloadApi = self as! AccepEditDesgin
         secondView.modalPresentationStyle = .custom
         self.present(secondView, animated: true)
     }
@@ -466,37 +502,48 @@ class DesignDetailsTableViewController: UITableViewController {
     @IBAction func designOk(_ sender: UIButton) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "AlertDetialsDesignOKViewController") as! AlertDetialsDesignOKViewController
-        secondView.reloadApi = self
+        secondView.reloadApi = self as! AccepEditDesgin
         secondView.modalPresentationStyle = .custom
         self.present(secondView, animated: true)
     }
     
     @IBAction func directionBtn(_ sender: UIButton) {
         
-        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
         
-        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
-            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
-                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(self.LatBranch),\(self.LngBranch)&zoom=14&views=traffic&q=\(self.LatBranch),\(self.LngBranch)")!, options: [:], completionHandler: nil)
-            } else {
-                print("Can't use comgooglemaps://")
-                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(self.LatBranch),\(self.LngBranch)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+        if Helper.isDeviceiPad() {
+            
+            if let popoverController = AlertController.popoverPresentationController {
+                popoverController.sourceView = sender
             }
-        }))
+        }
         
-        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
-            let location = CLLocation(latitude: self.LatBranch, longitude: self.LngBranch)
-            print(location.coordinate)
-            MKMapView.openMapsWith(location) { (error) in
-                if error != nil {
-                    print("Could not open maps" + error!.localizedDescription)
-                }
-            }
-        }))
+        self.present(AlertController, animated: true, completion: nil)
         
-        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
-        }))
-        self.present(alertAction, animated: true, completion: nil)
+        
+//        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
+//
+//        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
+//            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+//                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(self.LatBranch),\(self.LngBranch)&zoom=14&views=traffic&q=\(self.LatBranch),\(self.LngBranch)")!, options: [:], completionHandler: nil)
+//            } else {
+//                print("Can't use comgooglemaps://")
+//                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(self.LatBranch),\(self.LngBranch)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+//            }
+//        }))
+//
+//        alertAction.addAction(UIAlertAction(title: "الخرائط", style: .default, handler: { action in
+//            let location = CLLocation(latitude: self.LatBranch, longitude: self.LngBranch)
+//            print(location.coordinate)
+//            MKMapView.openMapsWith(location) { (error) in
+//                if error != nil {
+//                    print("Could not open maps" + error!.localizedDescription)
+//                }
+//            }
+//        }))
+//
+//        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+//        }))
+//        self.present(alertAction, animated: true, completion: nil)
     }
     
     @IBAction func goOfficeDetials(_ sender: UIButton) {
@@ -513,7 +560,7 @@ class DesignDetailsTableViewController: UITableViewController {
             "companyInfoID": CompanyInfoID
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetOfficeByCompanyInfoID", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetOfficeByCompanyInfoID", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             let json = JSON(response.result.value!)
@@ -612,7 +659,7 @@ class DesignDetailsTableViewController: UITableViewController {
         
         let parameters: Parameters = ["projectId": ProjectId]
         
-        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetCountMessageUnReaded", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/api/ApiService/GetCountMessageUnReaded", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             let json = JSON(response.result.value!)
             let MessageCount = json["MessageCount"].stringValue
@@ -628,7 +675,11 @@ class DesignDetailsTableViewController: UITableViewController {
     }
 }
 
-extension DesignDetailsTableViewController: reloadApi {
+extension DesignDetailsTableViewController: reloadApi,AccepEditDesgin {
+    func refresh() {
+        viewDidLoad()
+    }
+    
     func reload() {
         viewDidLoad()
     }

@@ -9,6 +9,10 @@
 import UIKit
 
 class DesplayImagesCollectionViewCell: UICollectionViewCell {
-    @IBOutlet var imageView: UIImageView!
+    @IBOutlet var imageView: UIImageView!{
+        didSet{
+            imageView.layer.cornerRadius = 10
+        }
+    }
     
 }

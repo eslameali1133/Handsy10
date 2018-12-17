@@ -68,6 +68,7 @@ class FilterCompanyTypeTableViewController: UITableViewController {
             }else {
                   print(reate)
                    print(arrayofCompanyType[indexPath.row-1].CompanyTypeName)
+                 print(arrayofCompanyType[indexPath.row-1].CompanyTypeID)
                 self.barBtnMapDelegate?.BarBtnSortExpDidChange(SortExp: arrayofCompanyType[indexPath.row-1].CompanyTypeID, companyTypeName: arrayofCompanyType[indexPath.row-1].CompanyTypeName, RateNumber:reate)
                 self.dismiss(animated: false, completion: nil)
             }
@@ -77,6 +78,9 @@ class FilterCompanyTypeTableViewController: UITableViewController {
                 self.barBtnDelegate?.BarBtnSortExpDidChange(SortExp: "", companyTypeName: "كل التخصصات", Rate: reate)
                 self.dismiss(animated: false, completion: nil)
             }else {
+                print(indexPath.row-1)
+                print(arrayofCompanyType[indexPath.row-1].CompanyTypeName)
+                print(arrayofCompanyType[indexPath.row-1].CompanyTypeID)
                 self.barBtnDelegate?.BarBtnSortExpDidChange(SortExp: arrayofCompanyType[indexPath.row-1].CompanyTypeID, companyTypeName: arrayofCompanyType[indexPath.row-1].CompanyTypeName, Rate: reate)
                 self.dismiss(animated: false, completion: nil)
             }
@@ -93,7 +97,7 @@ class FilterCompanyTypeTableViewController: UITableViewController {
         let sv = UIViewController.displaySpinner(onView: self.view)
         self.arrayofCompanyType.removeAll()
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetCompanyType", method: .get, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetCompanyType", method: .get, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             switch response.result {
             case .success:

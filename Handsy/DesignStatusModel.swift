@@ -23,7 +23,7 @@ class DesignStatusModel: NSObject {
         let sv = UIViewController.displaySpinner(onView: view)
         let parameters : Parameters = ["Type": Type]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetDesignsStatus", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetDesignsStatus", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             var arrayOfResulr = [DesignStatus]()

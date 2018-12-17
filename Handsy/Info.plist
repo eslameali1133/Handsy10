@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.15</string>
+	<string>5</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -32,6 +32,13 @@
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>NSExceptionAllowsInsecureHTTPLoads</key>
+			<true/>
+			<key>NSIncludesSubdomains</key>
+			<true/>
+		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>By accessing your camera, you can attach any contracts or any images</string>
@@ -39,12 +46,18 @@
 	<string>$(PRODUCT_NAME) uses locations</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>By accessing your location, this app can find nearby offices and Engineers.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Our application needs permission to write photos...</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>By accessing your photo library, you can attach any contracts or any images</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AJannatLT.otf</string>
 		<string>AJannatLTBold</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

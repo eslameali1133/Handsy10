@@ -9,7 +9,18 @@
 import UIKit
 
 class AboutCompanyTableViewCell: UITableViewCell {
-    @IBOutlet weak var ServiceName: UILabel!
+    @IBOutlet weak var ServiceName: UILabel!{
+        didSet{
+            ServiceName.layer.cornerRadius = 8.0
+            ServiceName.layer.masksToBounds = true
+        }
+    }
+    @IBOutlet weak var ServiceNameUIView: UIView!{
+        didSet{
+            ServiceNameUIView.layer.cornerRadius = 8.0
+            ServiceNameUIView.layer.masksToBounds = true
+        }
+    }
     @IBOutlet weak var Content: UITextView!
 
     override func awakeFromNib() {

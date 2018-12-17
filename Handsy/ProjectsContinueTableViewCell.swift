@@ -16,6 +16,8 @@ class ProjectsContinueTableViewCell: UITableViewCell {
     @IBOutlet weak var StagesDetailsName: UILabel!
     @IBOutlet weak var CreateDate: UILabel!
     
+    @IBOutlet weak var SakNumber: UILabel!
+    @IBOutlet weak var lbl_desc_Title: UILabel!
     @IBOutlet weak var companyAddress: UILabel!
     @IBOutlet weak var Details: UILabel!
     @IBOutlet weak var Status: UIView!

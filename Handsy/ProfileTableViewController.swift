@@ -93,8 +93,8 @@ class ProfileTableViewController: UITableViewController {
         
         let firstElem = UserDefaults.standard.string(forKey: "CustomerPhoto")!
         imagePath = firstElem
-        let trimmedString = firstElem.trimmingCharacters(in: .whitespaces)
-        if let url = URL.init(string: trimmedString) {
+        let trimmedString = firstElem.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+        if let url = URL.init(string: trimmedString!) {
             print(url)
             profileImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "custlogo"))
         } else{
@@ -105,7 +105,7 @@ class ProfileTableViewController: UITableViewController {
     
     func GetEmptByMobileNum() {
         let mobile = UserDefaults.standard.string(forKey: "mobile")!
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetEmptByMobileNum?mobileNum=\(mobile)", method: .get).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetEmptByMobileNum?mobileNum=\(mobile)", method: .get).responseJSON { response in
             debugPrint(response)
             
             switch response.result {
@@ -233,7 +233,7 @@ class ProfileTableViewController: UITableViewController {
             "DeviceID":DeviceID
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/PushInsertUpdate", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/PushInsertUpdate", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             let json = JSON(response.result.value!)
             print(json)
             

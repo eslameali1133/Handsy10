@@ -139,7 +139,7 @@ class FilterByRateVc: UIViewController {
         }else
         {
             select0.isHidden = true
-            r0 = "0,"
+            r0 = ""
         }
     }
     @IBAction func Dismis(_ sender: Any) {

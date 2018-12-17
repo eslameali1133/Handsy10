@@ -9,7 +9,7 @@
 import UIKit
 
 class ProjectsContinue: NSObject, NSCoding {
-    
+    var projectId: String = ""
     var CreateDate: String = ""
     var DesignFile: String = ""
     var DesignStagesID: String = ""
@@ -30,7 +30,7 @@ class ProjectsContinue: NSObject, NSCoding {
     var Logo: String = ""
     var IsCompany: String?
     var CompanyInfoID: String?
-    init(CreateDate: String, DesignFile: String, DesignStagesID: String, Details: String, EmpName: String, Mobile: String, ProjectBildTypeName: String, ProjectStatusID: String, SakNum: String, StagesDetailsName: String, Status: String, ClientReply: String, EmpReply: String, ComapnyName: String, LatBranch: Double, LngBranch: Double, Address: String, Logo: String, CompanyInfoID: String, IsCompany: String) {
+    init(CreateDate: String, DesignFile: String, DesignStagesID: String, Details: String, EmpName: String, Mobile: String, ProjectBildTypeName: String, ProjectStatusID: String, SakNum: String, StagesDetailsName: String, Status: String, ClientReply: String, EmpReply: String, ComapnyName: String, LatBranch: Double, LngBranch: Double, Address: String, Logo: String, CompanyInfoID: String, IsCompany: String,projectId:String) {
         self.CreateDate = CreateDate
         self.DesignFile = DesignFile
         self.DesignStagesID = DesignStagesID
@@ -51,6 +51,7 @@ class ProjectsContinue: NSObject, NSCoding {
         self.Logo = Logo
         self.CompanyInfoID = CompanyInfoID
         self.IsCompany = IsCompany
+        self.projectId = projectId
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -74,6 +75,7 @@ class ProjectsContinue: NSObject, NSCoding {
         self.Logo = aDecoder.decodeObject(forKey: "Logo") as! String
         self.CompanyInfoID = aDecoder.decodeObject(forKey: "CompanyInfoID") as? String
         self.IsCompany = aDecoder.decodeObject(forKey: "IsCompany") as? String
+//        self.projectId = aDecoder.decodeObject(forKey: "ProjectId") as? String
     }
     
     public func encode(with aCoder: NSCoder) {
@@ -97,6 +99,7 @@ class ProjectsContinue: NSObject, NSCoding {
         aCoder.encode(self.Logo, forKey: "Logo")
         aCoder.encode(self.CompanyInfoID, forKey: "CompanyInfoID")
         aCoder.encode(self.IsCompany, forKey: "IsCompany")
+//         aCoder.encode(self.projectId, forKey: "ProjectId")
     }
 }
 

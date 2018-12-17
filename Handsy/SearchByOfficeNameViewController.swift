@@ -14,10 +14,66 @@ import GooglePlaces
 
 class SearchByOfficeNameViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
     
+    
+    @IBOutlet var LoginVIew: UIView!
+    
+    @IBOutlet weak var GtoLogin: UIButton!
+    @IBAction func GtoLoginBtn(_ sender: UIButton) {
+        let point = sender.convert(CGPoint.zero, to: resultsTableView)
+        var index = resultsTableView.indexPathForRow(at: point)?.section
+        
+        if index == nil
+        {
+            index = 0
+        }
+        let storyBoard : UIStoryboard = UIStoryboard(name: "NewLogin", bundle:nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "NewLoginViewController") as! NewLoginViewController
+        secondView.isComingFromProject = true
+        if isFiltering() {
+            self.CompanyInfoID = self.filteredOffices[index!].CompanyInfoID
+            self.CompanyName = self.filteredOffices[index!].ComapnyName
+            self.CompanyAddress = self.filteredOffices[index!].Address
+            self.CompanyImage = self.filteredOffices[index!].Logo
+            self.branchId = self.filteredOffices[index!].BranchID
+            secondView.CompanyInfoID = self.CompanyInfoID
+            secondView.CompanyName = self.CompanyName
+            secondView.CompanyAddress = self.CompanyAddress
+            secondView.CompanyImage = self.CompanyImage
+            secondView.BranchID = self.branchId
+            secondView.EmpMobile = self.filteredOffices[index!].CompanyMobile
+            secondView.IsCompany = self.filteredOffices[index!].IsCompany
+            secondView.LatBranch = self.filteredOffices[index!].Lat
+            secondView.LngBranch = self.filteredOffices[index!].Long
+            secondView.ZoomBranch = self.filteredOffices[index!].Zoom
+        }else{
+            self.CompanyInfoID = self.arrayOfResulr[index!].CompanyInfoID
+            self.CompanyName = self.arrayOfResulr[index!].ComapnyName
+            self.CompanyAddress = self.arrayOfResulr[index!].Address
+            self.CompanyImage = self.arrayOfResulr[index!].Logo
+            self.branchId = self.arrayOfResulr[index!].BranchID
+            secondView.CompanyInfoID = self.CompanyInfoID
+            secondView.CompanyName = self.CompanyName
+            secondView.CompanyAddress = self.CompanyAddress
+            secondView.CompanyImage = self.CompanyImage
+            secondView.BranchID = self.branchId
+            secondView.EmpMobile = self.arrayOfResulr[index!].CompanyMobile
+            secondView.IsCompany = self.arrayOfResulr[index!].IsCompany
+            secondView.LatBranch = self.arrayOfResulr[index!].Lat
+            secondView.LngBranch = self.arrayOfResulr[index!].Long
+            secondView.ZoomBranch = self.arrayOfResulr[index!].Zoom
+        }
+        self.navigationController?.pushViewController(secondView, animated: true)
+        
+    }
+    
+    @IBAction func EndLoginView(_ sender: Any) {
+        LoginVIew.isHidden = true
+    }
+    
     let locationManager = CLLocationManager()
     var arrayOfResulr = [GetOfficesArray]()
     var filteredOffices = [GetOfficesArray]()
-
+    
     var isCompany = ""
     var CompanyInfoID = ""
     var CompanyName = ""
@@ -26,10 +82,12 @@ class SearchByOfficeNameViewController: UIViewController, UITableViewDelegate, U
     var branchId = ""
     var type = ""
     var reate = ""
+    var LatBranch: Double = 0.0
+    var LngBranch: Double = 0.0
     var targetMyLocation: CLLocation?
     var resultMyLocation2: CLLocation?
     var searchController = UISearchController(searchResultsController: nil)
-
+    var AlertController: UIAlertController!
     @IBOutlet weak var resultsTableView: UITableView!
     @IBOutlet weak var OfficeListEmptyLabel: UILabel!
     
@@ -50,6 +108,12 @@ class SearchByOfficeNameViewController: UIViewController, UITableViewDelegate, U
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        LoginVIew.isHidden = true
+        self.LoginVIew.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        self.LoginVIew.center = self.view.center
+        self.view.addSubview(self.LoginVIew)
+        
         addBackBarButtonItem()
         if type == "0" {
             if isCompany == "0" {
@@ -71,32 +135,73 @@ class SearchByOfficeNameViewController: UIViewController, UITableViewDelegate, U
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         if isCompany == "0" {
-            searchController.searchBar.placeholder = "ابحث عن مهندس"
+            searchController.searchBar.placeholder = "ابحث باسم المهندس"
         }else{
-            searchController.searchBar.placeholder = "ابحث عن مكتب"
+            searchController.searchBar.placeholder = "ابحث باسم المكتب"
         }
         
         navigationItem.titleView = searchController.searchBar
-//        if #available(iOS 11.0, *) {
-//            navigationItem.searchController = searchController
-//        } else {
-//            // Fallback on earlier versions
-//            navigationItem.titleView = searchController.searchBar
-//        }
-
+        //        if #available(iOS 11.0, *) {
+        //            navigationItem.searchController = searchController
+        //        } else {
+        //            // Fallback on earlier versions
+        //            navigationItem.titleView = searchController.searchBar
+        //        }
+        
         definesPresentationContext = true
         // Prevent the navigation bar from being hidden when searching.
         searchController.hidesNavigationBarDuringPresentation = false
+        
+        AlertController = UIAlertController(title:"" , message: "اختر الخريطة", preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let Google = UIAlertAction(title: "جوجل ماب", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocationgoogle(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+        let MapKit = UIAlertAction(title: "الخرائط", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocation(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+        
+        let Cancel = UIAlertAction(title: "رجوع", style: UIAlertActionStyle.cancel, handler: { (action) in
+            //
+        })
+        
+        self.AlertController.addAction(Google)
+        self.AlertController.addAction(MapKit)
+        self.AlertController.addAction(Cancel)
+        
     }
-
+    
+    @IBOutlet weak var CallOfficebtn: UIButton!
+    @IBOutlet weak var locationbtn: UIButton!
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    func openMapsForLocation(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        print(location.coordinate)
+        MKMapView.openMapsWith(location) { (error) in
+            if error != nil {
+                print("Could not open maps" + error!.localizedDescription)
+            }
+        }
+    }
+    func openMapsForLocationgoogle(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+            UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(Lat),\(Lng)&zoom=14&views=traffic&q=\(Lat),\(Lng)")!, options: [:], completionHandler: nil)
+        }
+        else {
+            print("Can't use comgooglemaps://")
+            UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(Lat),\(Lng)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+        }
+    }
+    
+    
     func isFiltering() -> Bool {
         return searchController.isActive && !searchBarIsEmpty()
     }
-
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         if arrayOfResulr.count == 0 {
             if isCompany == "0" {
@@ -139,19 +244,32 @@ class SearchByOfficeNameViewController: UIViewController, UITableViewDelegate, U
         return 115
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 160
+        let CustmoerId =    UserDefaults.standard.string(forKey: "CustmoerId")
+        if CustmoerId == nil
+        {
+            return 140
+        }
+        else
+        {
+            return 170
+        }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         var offices = GetOfficesArray()
         let cell = resultsTableView.dequeueReusableCell(withIdentifier: "NeerOfficesTableViewCell", for: indexPath) as! NeerOfficesTableViewCell
+        
+        
+        
+        
         if isFiltering() {
             offices = filteredOffices[indexPath.section]
         } else {
             offices = arrayOfResulr[indexPath.section]
         }
         let img = offices.Logo
-        let trimmedString = img.trimmingCharacters(in: .whitespaces)
-        if let url = URL.init(string: trimmedString) {
+        let trimmedString = img.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+        if let url = URL.init(string: trimmedString!) {
             cell.CompanyLogoImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
             print("nil")
@@ -185,6 +303,15 @@ class SearchByOfficeNameViewController: UIViewController, UITableViewDelegate, U
         
         cell.layer.cornerRadius = 10
         cell.layer.masksToBounds = true
+        let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")
+        if CustmoerId == nil
+        {
+            cell.AddresheightConstrain.constant = 0
+            cell.CallBtn.isHidden = true
+            cell.Locationbtn.isHidden = true
+            cell.AddressLabel.isHidden = true
+            
+        }
         
         return cell
     }
@@ -200,7 +327,7 @@ class SearchByOfficeNameViewController: UIViewController, UITableViewDelegate, U
         ]
         print(Parameters)
         
-        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetOffices", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/api/ApiService/GetOffices", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             for json in JSON(response.result.value!).arrayValue {
@@ -229,7 +356,7 @@ class SearchByOfficeNameViewController: UIViewController, UITableViewDelegate, U
                 requestProjectObj.BranchID = json["BranchID"].stringValue
                 requestProjectObj.Address = json["Address"].stringValue
                 requestProjectObj.ProjCount = json["ProjCount"].stringValue
-                  requestProjectObj.RateNumber = json["StarsCount"].double!
+                requestProjectObj.RateNumber = json["StarsCount"].double!
                 if self.targetMyLocation != nil {
                     let myLocation = self.targetMyLocation!
                     self.arrayOfResulr = self.arrayOfResulr.sorted(by: { $0.distance(to: myLocation) < $1.distance(to: myLocation) })
@@ -240,8 +367,8 @@ class SearchByOfficeNameViewController: UIViewController, UITableViewDelegate, U
             if SortBy == "2" {
                 self.resultsTableView.reloadData()
             } else {
-//                let myLocation = self.targetMyLocation!
-//                self.arrayOfResulr = self.arrayOfResulr.sorted(by: { $0.distance(to: myLocation) < $1.distance(to: myLocation) })
+                //                let myLocation = self.targetMyLocation!
+                //                self.arrayOfResulr = self.arrayOfResulr.sorted(by: { $0.distance(to: myLocation) < $1.distance(to: myLocation) })
                 self.resultsTableView.reloadData()
             }
             
@@ -252,44 +379,59 @@ class SearchByOfficeNameViewController: UIViewController, UITableViewDelegate, U
     
     @IBAction func chooseBtn(_ sender: UIButton) {
         let point = sender.convert(CGPoint.zero, to: resultsTableView)
-        let index = resultsTableView.indexPathForRow(at: point)?.section
-        let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
-        let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectATableViewController") as! NewProjectATableViewController
-        if isFiltering() {
-            self.CompanyInfoID = self.filteredOffices[index!].CompanyInfoID
-            self.CompanyName = self.filteredOffices[index!].ComapnyName
-            self.CompanyAddress = self.filteredOffices[index!].Address
-            self.CompanyImage = self.filteredOffices[index!].Logo
-            self.branchId = self.filteredOffices[index!].BranchID
-            secondView.CompanyInfoID = self.CompanyInfoID
-            secondView.CompanyName = self.CompanyName
-            secondView.CompanyAddress = self.CompanyAddress
-            secondView.CompanyImage = self.CompanyImage
-            secondView.BranchID = self.branchId
-            secondView.EmpMobile = self.filteredOffices[index!].CompanyMobile
-            secondView.IsCompany = self.filteredOffices[index!].IsCompany
-            secondView.LatBranch = self.filteredOffices[index!].Lat
-            secondView.LngBranch = self.filteredOffices[index!].Long
-            secondView.ZoomBranch = self.filteredOffices[index!].Zoom
-        }else{
-            self.CompanyInfoID = self.arrayOfResulr[index!].CompanyInfoID
-            self.CompanyName = self.arrayOfResulr[index!].ComapnyName
-            self.CompanyAddress = self.arrayOfResulr[index!].Address
-            self.CompanyImage = self.arrayOfResulr[index!].Logo
-            self.branchId = self.arrayOfResulr[index!].BranchID
-            secondView.CompanyInfoID = self.CompanyInfoID
-            secondView.CompanyName = self.CompanyName
-            secondView.CompanyAddress = self.CompanyAddress
-            secondView.CompanyImage = self.CompanyImage
-            secondView.BranchID = self.branchId
-            secondView.EmpMobile = self.arrayOfResulr[index!].CompanyMobile
-            secondView.IsCompany = self.arrayOfResulr[index!].IsCompany
-            secondView.LatBranch = self.arrayOfResulr[index!].Lat
-            secondView.LngBranch = self.arrayOfResulr[index!].Long
-            secondView.ZoomBranch = self.arrayOfResulr[index!].Zoom
+        var index = resultsTableView.indexPathForRow(at: point)?.section
+        if index == nil
+        {
+            index = 0
+        }
+        let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")
+        if CustmoerId == nil
+        {
+            LoginVIew.isHidden = false
+        }
+        else
+        {
+            let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
+            let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectATableViewController") as! NewProjectATableViewController
+            
+            if isFiltering() {
+                self.CompanyInfoID = self.filteredOffices[index!].CompanyInfoID
+                self.CompanyName = self.filteredOffices[index!].ComapnyName
+                self.CompanyAddress = self.filteredOffices[index!].Address
+                self.CompanyImage = self.filteredOffices[index!].Logo
+                self.branchId = self.filteredOffices[index!].BranchID
+                secondView.CompanyInfoID = self.CompanyInfoID
+                secondView.CompanyName = self.CompanyName
+                secondView.CompanyAddress = self.CompanyAddress
+                secondView.CompanyImage = self.CompanyImage
+                secondView.BranchID = self.branchId
+                secondView.EmpMobile = self.filteredOffices[index!].CompanyMobile
+                secondView.IsCompany = self.filteredOffices[index!].IsCompany
+                secondView.LatBranch = self.filteredOffices[index!].Lat
+                secondView.LngBranch = self.filteredOffices[index!].Long
+                secondView.ZoomBranch = self.filteredOffices[index!].Zoom
+            }else{
+                self.CompanyInfoID = self.arrayOfResulr[index!].CompanyInfoID
+                self.CompanyName = self.arrayOfResulr[index!].ComapnyName
+                self.CompanyAddress = self.arrayOfResulr[index!].Address
+                self.CompanyImage = self.arrayOfResulr[index!].Logo
+                self.branchId = self.arrayOfResulr[index!].BranchID
+                secondView.CompanyInfoID = self.CompanyInfoID
+                secondView.CompanyName = self.CompanyName
+                secondView.CompanyAddress = self.CompanyAddress
+                secondView.CompanyImage = self.CompanyImage
+                secondView.BranchID = self.branchId
+                secondView.EmpMobile = self.arrayOfResulr[index!].CompanyMobile
+                secondView.IsCompany = self.arrayOfResulr[index!].IsCompany
+                secondView.LatBranch = self.arrayOfResulr[index!].Lat
+                secondView.LngBranch = self.arrayOfResulr[index!].Long
+                secondView.ZoomBranch = self.arrayOfResulr[index!].Zoom
+            }
+            self.navigationController?.pushViewController(secondView, animated: true)
         }
         
-        self.navigationController?.pushViewController(secondView, animated: true)
+        
+        
     }
     
     // MARK: - Private instance methods
@@ -300,9 +442,9 @@ class SearchByOfficeNameViewController: UIViewController, UITableViewDelegate, U
     }
     
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
-//        filteredOffices = arrayOfResulr.filter({( candy : GetOfficesArray) -> Bool in
-//            return candy.ComapnyName.lowercased().contains(searchText.lowercased())
-//        })
+        //        filteredOffices = arrayOfResulr.filter({( candy : GetOfficesArray) -> Bool in
+        //            return candy.ComapnyName.lowercased().contains(searchText.lowercased())
+        //        })
         SearchOfOfficesModel.SearchOffices(text: searchText, SortBy: "4", isCompany: isCompany, view: self.view) { (Results) in
             self.filteredOffices = Results
             self.resultsTableView.reloadData()
@@ -350,22 +492,52 @@ class SearchByOfficeNameViewController: UIViewController, UITableViewDelegate, U
     
     @IBAction func goAboutBtn(_ sender: UIButton) {
         let point = sender.convert(CGPoint.zero, to: resultsTableView)
-        let index = resultsTableView.indexPathForRow(at: point)?.section
-        let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
-        let secondView = storyBoard.instantiateViewController(withIdentifier: "DetailsOfOfficeTableViewController") as! DetailsOfOfficeTableViewController
-        if isFiltering() {
-            secondView.arrayOfResulr = self.filteredOffices
-            secondView.index = index!
-            secondView.CompanyInfoID = self.filteredOffices[index!].CompanyInfoID
-            secondView.isCompany = self.isCompany
-        }else {
-            secondView.arrayOfResulr = self.arrayOfResulr
-            secondView.index = index!
-            secondView.CompanyInfoID = self.arrayOfResulr[index!].CompanyInfoID
-            secondView.isCompany = self.isCompany
+        var index = resultsTableView.indexPathForRow(at: point)?.section
+        if index == nil
+        {
+            index = 0
+        }
+        let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")
+        if CustmoerId == nil
+        {
+            let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
+            let secondView = storyBoard.instantiateViewController(withIdentifier: "DetailsOfOfficeTableViewControllerNot") as! DetailsOfOfficeTableViewControllerNot
+            if isFiltering() {
+                secondView.arrayOfResulr = self.filteredOffices
+                secondView.index = index!
+                secondView.CompanyInfoID = self.filteredOffices[index!].CompanyInfoID
+                secondView.isCompany = self.isCompany
+            }else {
+                secondView.arrayOfResulr = self.arrayOfResulr
+                secondView.index = index!
+                secondView.CompanyInfoID = self.arrayOfResulr[index!].CompanyInfoID
+                secondView.isCompany = self.isCompany
+            }
+            
+            self.navigationController?.pushViewController(secondView, animated: true)
+        }
+        else
+        {
+            let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
+            let secondView = storyBoard.instantiateViewController(withIdentifier: "DetailsOfOfficeTableViewController") as! DetailsOfOfficeTableViewController
+            if isFiltering() {
+                secondView.arrayOfResulr = self.filteredOffices
+                secondView.index = index!
+                secondView.CompanyInfoID = self.filteredOffices[index!].CompanyInfoID
+                secondView.isCompany = self.isCompany
+            }else {
+                secondView.arrayOfResulr = self.arrayOfResulr
+                secondView.index = index!
+                secondView.CompanyInfoID = self.arrayOfResulr[index!].CompanyInfoID
+                secondView.isCompany = self.isCompany
+            }
+            
+            self.navigationController?.pushViewController(secondView, animated: true)
         }
         
-        self.navigationController?.pushViewController(secondView, animated: true)
+        
+        
+    
     }
     
     @IBAction func directionBtn(_ sender: UIButton) {
@@ -374,27 +546,47 @@ class SearchByOfficeNameViewController: UIViewController, UITableViewDelegate, U
         if isFiltering() {
             let dLati = filteredOffices[index!].Lat
             let dLang = filteredOffices[index!].Long
-            let location = CLLocation(latitude: dLati, longitude: dLang)
-            print(location.coordinate)
-            MKMapView.openMapsWith(location) { (error) in
-                if error != nil {
-                    print("Could not open maps" + error!.localizedDescription)
+            self.LatBranch = dLati
+            self.LngBranch = dLang
+            if Helper.isDeviceiPad() {
+                
+                if let popoverController = AlertController.popoverPresentationController {
+                    popoverController.sourceView = sender
                 }
             }
+            
+            self.present(AlertController, animated: true, completion: nil)
+           
         }else{
             let dLati = arrayOfResulr[index!].Lat
             let dLang = arrayOfResulr[index!].Long
-            let location = CLLocation(latitude: dLati, longitude: dLang)
-            print(location.coordinate)
-            MKMapView.openMapsWith(location) { (error) in
-                if error != nil {
-                    print("Could not open maps" + error!.localizedDescription)
+            self.LatBranch = dLati
+            self.LngBranch = dLang
+            
+            if Helper.isDeviceiPad() {
+                
+                if let popoverController = AlertController.popoverPresentationController {
+                    popoverController.sourceView = sender
                 }
             }
+            
+            self.present(AlertController, animated: true, completion: nil)
+           
         }
         
     }
-    func addBackBarButtonItem() {
+    func openMapsForLocation() {
+        let dLati = self.LatBranch
+        let dLang = self.LngBranch
+        let location = CLLocation(latitude: dLati, longitude: dLang)
+        print(location.coordinate)
+        MKMapView.openMapsWith(location) { (error) in
+            if error != nil {
+                print("Could not open maps" + error!.localizedDescription)
+            }
+        }
+    }
+    func addBackBarButtonItem() { 
         let backButton = UIButton(type: .system)
         backButton.setImage(UIImage(named: "BackGray"), for: .normal)
         backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true

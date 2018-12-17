@@ -30,7 +30,7 @@ class MessageByProjectIdModel: NSObject {
 //        let parameters: Parameters = [
 //            "ProjectId": projectId
 //        ]
-        Alamofire.request("http://smusers.promit2030.com/api/ApiService/AllMessageForCust?ProjectId=\(projectId)", method: .post, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/api/ApiService/AllMessageForCust?ProjectId=\(projectId)", method: .post, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             var messageByProjectIdOfResult = [MessageByProjectId]()

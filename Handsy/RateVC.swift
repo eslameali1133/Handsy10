@@ -11,6 +11,20 @@ import Alamofire
 import SwiftyJSON
 
 class RateVC: UIViewController,UITableViewDelegate,UITableViewDataSource,GetRateValue {
+    
+    @IBOutlet weak var title_stak: UIStackView!
+    @IBOutlet weak var empnew: UIView!
+    
+    @IBOutlet weak var bottom_Constrain: NSLayoutConstraint!
+    @IBOutlet weak var sprateview: UIView!
+    @IBOutlet weak var companynew: UIView!
+    
+ 
+    @IBOutlet var DoneView: UIView!
+    
+   
+    
+    
     func getRateValue(info: String, Index: Int) {
         
         QuestionArryRate.remove(at: Index)
@@ -29,12 +43,7 @@ class RateVC: UIViewController,UITableViewDelegate,UITableViewDataSource,GetRate
     
     
     
-    
-    //    func getRateValue(info: [String]) {
-    //        QuestionArryRate = info
-    //        print(QuestionArryRate)
-    //    }
-    
+  
     
     var QuestionCounter = 0
     var http = HttpHelper()
@@ -45,6 +54,7 @@ class RateVC: UIViewController,UITableViewDelegate,UITableViewDataSource,GetRate
     var ratesend = [String]()
     var SumQesWRate = ""
     var Mobile = ""
+    var comfromNotification = false
     
     var QuestionArryRate = [String](repeating: "0" , count: 0 )
     
@@ -69,11 +79,74 @@ class RateVC: UIViewController,UITableViewDelegate,UITableViewDataSource,GetRate
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        DoneView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        view.addSubview(DoneView)
+        DoneView.isHidden = true
+        
         TableviewRate.dataSource = self
         TableviewRate.delegate = self
+        
+        if comfromNotification == true
+        {
+            comfromNotification = false
+            loadQuestionsNotification()
+        }
+        else
+        {
         loadQuestion()
+        }
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.isTranslucent = true
+        toolBar.tintColor = UIColor.black
+        toolBar.sizeToFit()
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.bordered, target: self, action: #selector(RateVC.donePicker))
+        toolBar.setItems([doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        txt_Comm.inputAccessoryView = toolBar
         
     }
+    
+    @objc func donePicker(){
+        title_stak.isHidden = false
+        empnew.isHidden = false
+        companynew.isHidden = false
+        sprateview.isHidden = false
+        bottom_Constrain.constant = 90
+        self.view.endEditing(true)
+    }
+    
+    @IBAction func Startedit(_ sender: Any) {
+        title_stak.isHidden = false
+        empnew.isHidden = false
+        companynew.isHidden = false
+        sprateview.isHidden = false
+         bottom_Constrain.constant = 300
+        
+        
+    }
+  
+    
+    @IBAction func DoneEnd(_ sender: Any) {
+        //move to home
+        if let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId") {
+            if let UserId = UserDefaults.standard.string(forKey: "UserId") {
+                let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
+                let sub = storyBoard.instantiateViewController(withIdentifier: "NewMain") as! NewTabBarViewController
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                
+                appDelegate.window?.rootViewController = sub
+                
+            }}
+        //end
+    }
+    
+    
+    @IBAction func Dissmissdone(_ sender: Any) {
+    }
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         UIApplication.shared.statusBarStyle = .lightContent
@@ -186,7 +259,7 @@ class RateVC: UIViewController,UITableViewDelegate,UITableViewDataSource,GetRate
         
         
         //test
-        let url = "http://smusers.promit2030.com/api/ApiService/AddCusEvaluate"/* your API url */
+        let url = "http://smusers.promit2030.co/api/ApiService/AddCusEvaluate"/* your API url */
         
         let headers: HTTPHeaders = [
             /* "Authorization": "your_access_token",  in case you need authorization header */
@@ -210,17 +283,10 @@ class RateVC: UIViewController,UITableViewDelegate,UITableViewDataSource,GetRate
                     }
                     
                     UIViewController.removeSpinner(spinner: sv)
-                    //move to home
-                    if let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId") {
-                        if let UserId = UserDefaults.standard.string(forKey: "UserId") {
-                            let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
-                            let sub = storyBoard.instantiateViewController(withIdentifier: "NewMain") as! NewTabBarViewController
-                            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                            
-                            appDelegate.window?.rootViewController = sub
-                            
-                        }}
-                    //end
+                    
+                    self.DoneView.isHidden = false
+                    
+                    
                 }
             case .failure(let error):
                 print("Error in upload: \(error.localizedDescription)")
@@ -247,11 +313,12 @@ class RateVC: UIViewController,UITableViewDelegate,UITableViewDataSource,GetRate
     
     
     
+    
     func loadQuestion(){
         let sv = UIViewController.displaySpinner(onView: self.view)
         let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")
         self.QuestionArry.removeAll()
-        Alamofire.request("http://smusers.promit2030.com/api/ApiService/CheckIsAllProjectEvaluated?CustmoerId=\(CustmoerId!)", method: .get, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/api/ApiService/CheckIsAllProjectEvaluated?CustmoerId=\(CustmoerId!)", method: .get, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             switch response.result {
             case .success(let value):
@@ -297,5 +364,62 @@ class RateVC: UIViewController,UITableViewDelegate,UITableViewDataSource,GetRate
             }
         }
         
-    }}
+    }
+    // load fron notiffication
+    
+    func loadQuestionsNotification(){
+        let sv = UIViewController.displaySpinner(onView: self.view)
+        self.QuestionArry.removeAll()
+        Alamofire.request("http://smusers.promit2030.co/api/ApiService/CheckIsProjectEvaluatedById?ProjectId=\(ProjectID)", method: .get, encoding: URLEncoding.default).responseJSON { response in
+            debugPrint(response)
+            switch response.result {
+            case .success(let value):
+                let Alljson = JSON(value)
+                print(Alljson)
+                let count = Alljson.dictionary
+                let projectData = count!["Masterdata"]?.dictionary
+                
+                self.lbl_EmpName.text = projectData!["EmpName"]?.stringValue
+                self.lbl_CompanyName.text = projectData!["BranchName"]?.stringValue
+                self.lbl_ProjectTitle.text = projectData!["ProjectBildTypeName"]?.stringValue
+                self.ProjectID = (projectData!["ProjectId"]?.stringValue)!
+                self.Mobile = (projectData!["Mobile"]?.stringValue)!
+                let QuestiontData = count!["DetailsData"]?.arrayValue
+                for json in QuestiontData! {
+                    let requestProjectObj = QuestionRate()
+                    requestProjectObj.Question = json["EvaluationQuestionsName"].stringValue
+                    requestProjectObj.QuestionID = json["EvaluationQuestionsID"].stringValue
+                    
+                    self.QuestionArry.append(requestProjectObj)
+                    self.QuestionArryID.append(json["EvaluationQuestionsID"].stringValue)
+                }
+                self.TableviewRate.reloadData()
+                self.QuestionArryRate = [String](repeating: "0" , count:  self.QuestionArryID.count )
+                
+                self.SumRateWithId()
+                UIViewController.removeSpinner(spinner: sv)
+            case .failure(let error):
+                print(error)
+                UIViewController.removeSpinner(spinner: sv)
+                let alertAction = UIAlertController(title: "خطاء في الاتصال", message: "اعادة المحاولة", preferredStyle: .alert)
+                
+                alertAction.addAction(UIAlertAction(title: "نعم", style: .default, handler: { action in
+                    self.loadQuestion()
+                }))
+                
+                alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+                    self.navigationController!.popViewController(animated: true)
+                }))
+                
+                self.present(alertAction, animated: true, completion: nil)
+                
+            }
+        }
+        
+    }
+    
+    
+   
+    
+}
 

@@ -29,8 +29,10 @@ class NotCollectedArray: NSObject, NSCoding {
     var projectOrderInvoicePhotoPath = ""
     var projectOrderContractPhotoPath = ""
     var ComapnyName = ""
+     var EmpName = ""
+   var EmpPhone = ""
     
-    init(CustmoerId: String, CustmoerName: String, PaymentBatchStatusID: String, PaymentBatchStatusName: String, PaymentStatus: String, PaymentTypeName: String, PaymentTypeeID: String, PaymentValue: String, ProjectId: String, ProjectContract: String, ProjectTitle: String, ProjectTypeName: String, ProjectsOrdersId: String, ProjectsPaymentsId: String, ProjectsPaymentsNumber: String, RefranceId: String, projectOrderInvoicePhotoPath: String, projectOrderContractPhotoPath: String, PayDate: String, ComapnyName: String) {
+    init(CustmoerId: String, CustmoerName: String, PaymentBatchStatusID: String, PaymentBatchStatusName: String, PaymentStatus: String, PaymentTypeName: String, PaymentTypeeID: String, PaymentValue: String, ProjectId: String, ProjectContract: String, ProjectTitle: String, ProjectTypeName: String, ProjectsOrdersId: String, ProjectsPaymentsId: String, ProjectsPaymentsNumber: String, RefranceId: String, projectOrderInvoicePhotoPath: String, projectOrderContractPhotoPath: String, PayDate: String, ComapnyName: String,EmpName: String , EmpPhone:String) {
         self.CustmoerId = CustmoerId
         self.CustmoerName = CustmoerName
         self.PaymentBatchStatusID = PaymentBatchStatusID
@@ -51,10 +53,13 @@ class NotCollectedArray: NSObject, NSCoding {
         self.projectOrderContractPhotoPath = projectOrderContractPhotoPath
         self.PayDate = PayDate
         self.ComapnyName = ComapnyName
+        self.EmpName = EmpName
+        self.EmpPhone = EmpPhone
     }
     public required init?(coder aDecoder: NSCoder) {
         self.CustmoerId = aDecoder.decodeObject(forKey: "CustmoerId") as! String
         self.CustmoerName = aDecoder.decodeObject(forKey: "CustmoerName") as! String
+//        self.EmpName = aDecoder.decodeObject(forKey: "EmpName") as! String
         self.PaymentBatchStatusID = aDecoder.decodeObject(forKey: "PaymentBatchStatusID") as! String
         self.PaymentBatchStatusName = aDecoder.decodeObject(forKey: "PaymentBatchStatusName") as! String
         self.PaymentStatus = aDecoder.decodeObject(forKey: "PaymentStatus") as! String
@@ -77,6 +82,7 @@ class NotCollectedArray: NSObject, NSCoding {
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(self.CustmoerId, forKey: "CustmoerId")
         aCoder.encode(self.CustmoerName, forKey: "CustmoerName")
+//           aCoder.encode(self.EmpName, forKey: "EmpName")
         aCoder.encode(self.PaymentBatchStatusID, forKey: "PaymentBatchStatusID")
         aCoder.encode(self.PaymentBatchStatusName, forKey: "PaymentBatchStatusName")
         aCoder.encode(self.PaymentStatus, forKey: "PaymentStatus")

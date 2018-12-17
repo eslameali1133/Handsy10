@@ -24,7 +24,7 @@ class DesplayImagesModel: NSObject {
         let sv = UIViewController.displaySpinner(onView: view)
         let para: Parameters = ["projectId": projectID]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetImageprojectByProjID", method: .get, parameters: para, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetImageprojectByProjID", method: .get, parameters: para, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             

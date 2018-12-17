@@ -17,6 +17,7 @@ class DesignsOfProjectTableViewCell: UITableViewCell {
     @IBOutlet weak var nameOfStatus: UILabel!
     @IBOutlet weak var EmpMobile: UIButton!
     
+    @IBOutlet weak var lbl_descTitle: UILabel!
     @IBOutlet weak var empcal: UIButton!
     @IBOutlet weak var lbl_Det: UILabel!
     @IBOutlet weak var De_Txt: UITextView!
@@ -24,7 +25,9 @@ class DesignsOfProjectTableViewCell: UITableViewCell {
     @IBOutlet weak var BtnOutlet: UIButton!{
         didSet {
             BtnOutlet.layer.cornerRadius = 4.0
-            
+//            BtnOutlet.layer.borderWidth = 1.0
+//            BtnOutlet.layer.borderColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
+//            BtnOutlet.layer.cornerRadius = 4.0
         }
     }
     

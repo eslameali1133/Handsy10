@@ -18,7 +18,26 @@
 		0C3FD2C62157CF65007AB8A8 /* RatingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3FD2C42157CF65007AB8A8 /* RatingController.swift */; };
 		0C3FD2CA2157D0AC007AB8A8 /* RateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3FD2C92157D0AC007AB8A8 /* RateVC.swift */; };
 		0C82E5ED213A8FCD00B7A11D /* ShapeUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C82E5EC213A8FCC00B7A11D /* ShapeUIView.swift */; };
+		1814D5AF2181C7D10093964A /* MainTabLogot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1814D5AE2181C7D10093964A /* MainTabLogot.swift */; };
+		1814D5B12181E4930093964A /* AboutHandasy.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1814D5B02181E4930093964A /* AboutHandasy.storyboard */; };
+		181ADB9821AE9498007E1E52 /* MyProjectNotLoginSb.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 181ADB9721AE9498007E1E52 /* MyProjectNotLoginSb.storyboard */; };
+		181ADB9A21AE9BDD007E1E52 /* EntroProjectsNotLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181ADB9921AE9BDD007E1E52 /* EntroProjectsNotLoginVC.swift */; };
+		1857D06721AA995F009ACE23 /* HelperMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1857D06621AA995F009ACE23 /* HelperMethod.swift */; };
+		18733E4421C7847A00125EA2 /* DetailsOfOfficeTableViewControllerNot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18733E4321C7847A00125EA2 /* DetailsOfOfficeTableViewControllerNot.swift */; };
+		18733E4621C79E7900125EA2 /* openLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18733E4521C79E7900125EA2 /* openLocation.swift */; };
+		18B6CA2F21B406430073A64C /* ImageZoomingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B6CA2E21B406430073A64C /* ImageZoomingViewController.swift */; };
+		18B6CA3121B51B470073A64C /* imagecashing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B6CA3021B51B470073A64C /* imagecashing.swift */; };
+		18CBA4DF21BE831300B0B842 /* EditDesigRecordsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CBA4DE21BE831300B0B842 /* EditDesigRecordsVC.swift */; };
+		18CBA4E121BE837000B0B842 /* EditDesignRecordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CBA4E021BE837000B0B842 /* EditDesignRecordCell.swift */; };
+		18CBA4E321BE8EAA00B0B842 /* EditRecoredModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CBA4E221BE8EAA00B0B842 /* EditRecoredModel.swift */; };
+		18CBA4E521BE906800B0B842 /* EditDesignRecordController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CBA4E421BE906800B0B842 /* EditDesignRecordController.swift */; };
+		18E372912178862A0064A8DF /* AWSegmentAbout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E37290217886290064A8DF /* AWSegmentAbout.swift */; };
+		18E37293217888760064A8DF /* aboutHangsyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E37292217888760064A8DF /* aboutHangsyViewController.swift */; };
 		18F189331FA68B810090EFB3 /* AMCircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F189321FA68B810090EFB3 /* AMCircleImageView.swift */; };
+		18FF66052185C958009EC063 /* AboutNotLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FF66042185C958009EC063 /* AboutNotLogin.swift */; };
+		18FF660821873195009EC063 /* EntroStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18FF660721873194009EC063 /* EntroStoryboard.storyboard */; };
+		18FF660A21873E15009EC063 /* EntroVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FF660921873E15009EC063 /* EntroVC.swift */; };
+		18FF660C21873E3F009EC063 /* EntroCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FF660B21873E3F009EC063 /* EntroCell.swift */; };
 		C10636AB1FE15FBA006DE3D2 /* TAMapCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10636AA1FE15FBA006DE3D2 /* TAMapCircle.swift */; };
 		C10F2859203314160045EEB3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C10F2858203314150045EEB3 /* GoogleService-Info.plist */; };
 		C110016D1F308F5500008ADB /* TheٍٍResponsibleEngineerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C110016C1F308F5500008ADB /* TheٍٍResponsibleEngineerViewController.swift */; };
@@ -311,7 +330,26 @@
 		0C3FD2C92157D0AC007AB8A8 /* RateVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateVC.swift; sourceTree = "<group>"; };
 		0C82E5EC213A8FCC00B7A11D /* ShapeUIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShapeUIView.swift; sourceTree = "<group>"; };
 		1606CA20FC4D0BDFA5E5801D /* Pods_HandsyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HandsyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1814D5AE2181C7D10093964A /* MainTabLogot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabLogot.swift; sourceTree = "<group>"; };
+		1814D5B02181E4930093964A /* AboutHandasy.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AboutHandasy.storyboard; sourceTree = "<group>"; };
+		181ADB9721AE9498007E1E52 /* MyProjectNotLoginSb.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MyProjectNotLoginSb.storyboard; sourceTree = "<group>"; };
+		181ADB9921AE9BDD007E1E52 /* EntroProjectsNotLoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntroProjectsNotLoginVC.swift; sourceTree = "<group>"; };
+		1857D06621AA995F009ACE23 /* HelperMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperMethod.swift; sourceTree = "<group>"; };
+		18733E4321C7847A00125EA2 /* DetailsOfOfficeTableViewControllerNot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsOfOfficeTableViewControllerNot.swift; sourceTree = "<group>"; };
+		18733E4521C79E7900125EA2 /* openLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = openLocation.swift; sourceTree = "<group>"; };
+		18B6CA2E21B406430073A64C /* ImageZoomingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageZoomingViewController.swift; sourceTree = "<group>"; };
+		18B6CA3021B51B470073A64C /* imagecashing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = imagecashing.swift; sourceTree = "<group>"; };
+		18CBA4DE21BE831300B0B842 /* EditDesigRecordsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDesigRecordsVC.swift; sourceTree = "<group>"; };
+		18CBA4E021BE837000B0B842 /* EditDesignRecordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDesignRecordCell.swift; sourceTree = "<group>"; };
+		18CBA4E221BE8EAA00B0B842 /* EditRecoredModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRecoredModel.swift; sourceTree = "<group>"; };
+		18CBA4E421BE906800B0B842 /* EditDesignRecordController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDesignRecordController.swift; sourceTree = "<group>"; };
+		18E37290217886290064A8DF /* AWSegmentAbout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AWSegmentAbout.swift; sourceTree = "<group>"; };
+		18E37292217888760064A8DF /* aboutHangsyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = aboutHangsyViewController.swift; sourceTree = "<group>"; };
 		18F189321FA68B810090EFB3 /* AMCircleImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMCircleImageView.swift; sourceTree = "<group>"; };
+		18FF66042185C958009EC063 /* AboutNotLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutNotLogin.swift; sourceTree = "<group>"; };
+		18FF660721873194009EC063 /* EntroStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EntroStoryboard.storyboard; sourceTree = "<group>"; };
+		18FF660921873E15009EC063 /* EntroVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntroVC.swift; sourceTree = "<group>"; };
+		18FF660B21873E3F009EC063 /* EntroCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntroCell.swift; sourceTree = "<group>"; };
 		1F8559B7C6FC92D693DD318F /* Pods-Handsy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Handsy.release.xcconfig"; path = "Pods/Target Support Files/Pods-Handsy/Pods-Handsy.release.xcconfig"; sourceTree = "<group>"; };
 		2BA09A197DB9ECB7925538B2 /* Pods_HandsyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HandsyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50554A2FD4DB1E2C5A5C7625 /* Pods-Handsy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Handsy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Handsy/Pods-Handsy.debug.xcconfig"; sourceTree = "<group>"; };
@@ -645,8 +683,10 @@
 		0C3FD2C22157CF40007AB8A8 /* HelperFile */ = {
 			isa = PBXGroup;
 			children = (
+				18B6CA3021B51B470073A64C /* imagecashing.swift */,
 				0C2F30FA215B9268003BFCCE /* Loader.swift */,
 				0C3FD2C32157CF65007AB8A8 /* StarsRatingClass-master */,
+				18733E4521C79E7900125EA2 /* openLocation.swift */,
 			);
 			name = HelperFile;
 			sourceTree = "<group>";
@@ -667,6 +707,33 @@
 				0C2F30F0215B638B003BFCCE /* RateTableViewCell.swift */,
 			);
 			name = Rate;
+			sourceTree = "<group>";
+		};
+		1814D5AD2181C79C0093964A /* main tab logout */ = {
+			isa = PBXGroup;
+			children = (
+				1814D5AE2181C7D10093964A /* MainTabLogot.swift */,
+			);
+			name = "main tab logout";
+			sourceTree = "<group>";
+		};
+		181ADB9621AE945A007E1E52 /* NewStory */ = {
+			isa = PBXGroup;
+			children = (
+				181ADB9721AE9498007E1E52 /* MyProjectNotLoginSb.storyboard */,
+				181ADB9921AE9BDD007E1E52 /* EntroProjectsNotLoginVC.swift */,
+			);
+			name = NewStory;
+			sourceTree = "<group>";
+		};
+		18FF660621873172009EC063 /* Entro */ = {
+			isa = PBXGroup;
+			children = (
+				18FF660721873194009EC063 /* EntroStoryboard.storyboard */,
+				18FF660921873E15009EC063 /* EntroVC.swift */,
+				18FF660B21873E3F009EC063 /* EntroCell.swift */,
+			);
+			name = Entro;
 			sourceTree = "<group>";
 		};
 		C124E5281F31DEC50027640C /* newProject */ = {
@@ -701,6 +768,7 @@
 				C10636AA1FE15FBA006DE3D2 /* TAMapCircle.swift */,
 				C1A84BA51FD56B1500385663 /* OfficeFillterViewController.swift */,
 				0C2F30FF215CFF71003BFCCE /* FilterByRateVc.swift */,
+				18733E4321C7847A00125EA2 /* DetailsOfOfficeTableViewControllerNot.swift */,
 			);
 			name = newProject;
 			sourceTree = "<group>";
@@ -811,6 +879,7 @@
 				C1E2E0EA1FCEC7D0001AFDB8 /* BranchesViewController.swift */,
 				C1E2E0EC1FCECB8D001AFDB8 /* BranchSectionTableViewCell.swift */,
 				C1E2E0EE1FCECB98001AFDB8 /* BranchTableViewCell.swift */,
+				18E37292217888760064A8DF /* aboutHangsyViewController.swift */,
 			);
 			name = ContactUS;
 			sourceTree = "<group>";
@@ -834,6 +903,7 @@
 				C194D66B20EE61CF00174332 /* AllHomeMessage.swift */,
 				C194D66D20EE61DB00174332 /* AllHomeMessageModel.swift */,
 				C194D66820EE3B0600174332 /* ChatOfProjects */,
+				18B6CA2E21B406430073A64C /* ImageZoomingViewController.swift */,
 			);
 			name = Chat;
 			sourceTree = "<group>";
@@ -900,6 +970,7 @@
 				C190A0EC20595378007A184B /* NewFilter */,
 				C1FC1B3A1FEE66E600D3939E /* MyFilesAndMoney.storyboard */,
 				C136467F1FF253F900C72AE7 /* WelcomeScreen.storyboard */,
+				1814D5B02181E4930093964A /* AboutHandasy.storyboard */,
 				C13646811FF2541900C72AE7 /* NewWelcomeScreenViewController.swift */,
 				C127E75521125798005086F1 /* AboutHandsyViewController.swift */,
 				C1EE01B12074E84C00B83E76 /* ContactUSViewController.swift */,
@@ -938,6 +1009,10 @@
 				C19A19FC20E8EB7A0091C33D /* DesignStatus.swift */,
 				C19A19FE20E8EBB60091C33D /* DesignStatusModel.swift */,
 				C1FC1B351FEE66E500D3939E /* DesignsAndDetails.storyboard */,
+				18CBA4DE21BE831300B0B842 /* EditDesigRecordsVC.swift */,
+				18CBA4E021BE837000B0B842 /* EditDesignRecordCell.swift */,
+				18CBA4E221BE8EAA00B0B842 /* EditRecoredModel.swift */,
+				18CBA4E421BE906800B0B842 /* EditDesignRecordController.swift */,
 			);
 			name = Designs;
 			sourceTree = "<group>";
@@ -967,6 +1042,9 @@
 		C1DB274C1F20D8230038BFA7 /* Handsy */ = {
 			isa = PBXGroup;
 			children = (
+				181ADB9621AE945A007E1E52 /* NewStory */,
+				18FF660621873172009EC063 /* Entro */,
+				1814D5AD2181C79C0093964A /* main tab logout */,
 				0C2F30FC215B97C9003BFCCE /* model */,
 				0C2F30F7215B8CD0003BFCCE /* Enums */,
 				0C2F30F2215B69CF003BFCCE /* HTTP */,
@@ -1138,6 +1216,8 @@
 		C1FA0F0C1F3B563200A13132 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				18E37290217886290064A8DF /* AWSegmentAbout.swift */,
+				18FF66042185C958009EC063 /* AboutNotLogin.swift */,
 				0C82E5EC213A8FCC00B7A11D /* ShapeUIView.swift */,
 				C110F0AA2004DF660040EB2F /* LoadingButton.swift */,
 				C14EBBB61FCEF65500394607 /* GoogleMaps.bundle */,
@@ -1160,6 +1240,7 @@
 				C13582FC1F2DE97F00AD6FF9 /* UIFont+Zeplin.swift */,
 				C1AD08AD1F41CC45007FD648 /* KMPlaceholderTextView.swift */,
 				C115D8491FE27D5500A5FCE4 /* DoubleImageButton.swift */,
+				1857D06621AA995F009ACE23 /* HelperMethod.swift */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -1303,7 +1384,7 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.Push = {
 								enabled = 1;
@@ -1362,6 +1443,8 @@
 				C1E707331FD8193800A58BAD /* CustomInfoWindow.xib in Resources */,
 				C1FC1B3B1FEE66E600D3939E /* DesignsAndDetails.storyboard in Resources */,
 				C1FC1B3D1FEE66E600D3939E /* NewProject.storyboard in Resources */,
+				18FF660821873195009EC063 /* EntroStoryboard.storyboard in Resources */,
+				181ADB9821AE9498007E1E52 /* MyProjectNotLoginSb.storyboard in Resources */,
 				C1FC1B311FEE663E00D3939E /* NewLogin.storyboard in Resources */,
 				C1E897F81FEA92CF007C73EB /* Toast.xib in Resources */,
 				C13646801FF253F900C72AE7 /* WelcomeScreen.storyboard in Resources */,
@@ -1373,6 +1456,7 @@
 				C1FC1B481FEE67EE00D3939E /* LaunchScreen.storyboard in Resources */,
 				C1FC1B3F1FEE66E600D3939E /* ProjectsAndEdit.storyboard in Resources */,
 				C117F274202F482E009410E6 /* SignUpOffice.storyboard in Resources */,
+				1814D5B12181E4930093964A /* AboutHandasy.storyboard in Resources */,
 				C1FC1B3C1FEE66E600D3939E /* Home.storyboard in Resources */,
 				C190A0E720595322007A184B /* NewFilter.storyboard in Resources */,
 			);
@@ -1485,6 +1569,7 @@
 				0C2F30F9215B8CE2003BFCCE /* Enum.swift in Sources */,
 				C147CF331F52D838000DBD02 /* AlertVisitCancelViewController.swift in Sources */,
 				C12FA2921F4DE330006BBF0E /* DesplayImagesCollectionViewCell.swift in Sources */,
+				18E372912178862A0064A8DF /* AWSegmentAbout.swift in Sources */,
 				C19A19FB20E8EA350091C33D /* DesignStatusFilterTableViewController.swift in Sources */,
 				C1C3CA111FF3B43500D5272F /* NewTabBarViewController.swift in Sources */,
 				C1254F451F7FF90700A7BC2A /* MyFilesTableViewCell.swift in Sources */,
@@ -1502,6 +1587,7 @@
 				C15CEDD51F6FDF1F009C4C4A /* MoneyManagmentDetialsTableViewController.swift in Sources */,
 				C180EB5B2014CB650004861D /* NewProjectMapAlertViewController.swift in Sources */,
 				C1E72B1B1FF3A07900F6E888 /* NewMyProjectsTableViewCell.swift in Sources */,
+				18FF66052185C958009EC063 /* AboutNotLogin.swift in Sources */,
 				C194D66520EE389300174332 /* SendTextChatTableViewCell.swift in Sources */,
 				C1BEE7811F3A13F2009DCE08 /* OurProjectsCollectionViewCell.swift in Sources */,
 				C1C712D01F488C7D004F42E5 /* VisitsTableViewCell.swift in Sources */,
@@ -1519,6 +1605,7 @@
 				C1BF00CF1FB4CBE90046CEC7 /* ExperienceTableViewCell.swift in Sources */,
 				C1624D2E204AA7D40094A1DA /* DesignsDetialsArray.swift in Sources */,
 				C1FA0F161F3B622D00A13132 /* GetProjectGallery.swift in Sources */,
+				1814D5AF2181C7D10093964A /* MainTabLogot.swift in Sources */,
 				C110016D1F308F5500008ADB /* TheٍٍResponsibleEngineerViewController.swift in Sources */,
 				C1E897FB1FEA94F6007C73EB /* myView.swift in Sources */,
 				C1E897F71FEA92CF007C73EB /* Toast.swift in Sources */,
@@ -1533,10 +1620,12 @@
 				C11CDC221F2773BD00AED847 /* NewProjectDViewController.swift in Sources */,
 				C1D34D8B1FD0322A000F066D /* EditProjectsDViewController.swift in Sources */,
 				C14F3E0120E7A38000EC935D /* FilterVisitsViewController.swift in Sources */,
+				18FF660A21873E15009EC063 /* EntroVC.swift in Sources */,
 				C194D66220EE389300174332 /* SendFileChatTableViewCell.swift in Sources */,
 				C1714CE320139B580070A9EE /* ProfileImageViewController.swift in Sources */,
 				C119A1731F4C3E5C00FDAECA /* VisitsModel.swift in Sources */,
 				C114F2CC1F6D69880015C761 /* MomeyManagmentViewController.swift in Sources */,
+				18E37293217888760064A8DF /* aboutHangsyViewController.swift in Sources */,
 				C19A1A0520E902D20091C33D /* MeetingStatusModel.swift in Sources */,
 				C1E72B191FF3A06900F6E888 /* NewMyProjectsViewController.swift in Sources */,
 				C167DEC61F79692A00E338AE /* NoSignUpViewController.swift in Sources */,
@@ -1545,16 +1634,21 @@
 				C1C8FA941F236A8A00C89AE2 /* textF.swift in Sources */,
 				C12C9F73210FBF1500A0976B /* EditContractViewController.swift in Sources */,
 				C115D84C1FE2B6CC00A5FCE4 /* NeerOfficesViewController.swift in Sources */,
+				18FF660C21873E3F009EC063 /* EntroCell.swift in Sources */,
 				0C2F3100215CFF71003BFCCE /* FilterByRateVc.swift in Sources */,
+				18CBA4E121BE837000B0B842 /* EditDesignRecordCell.swift in Sources */,
 				C1A681D2206FAB1B006E14AC /* UpdateAlertViewViewController.swift in Sources */,
 				C1FC1B331FEE663E00D3939E /* NewCheckCodeViewController.swift in Sources */,
 				C130AB611F76B68D0054F9D5 /* PanelSectionTableViewCell.swift in Sources */,
 				C1FC1B451FEE678B00D3939E /* InformationViewController.swift in Sources */,
 				C1E2E0EF1FCECB98001AFDB8 /* BranchTableViewCell.swift in Sources */,
 				C1FA0F181F3B628900A13132 /* OurProjectsModel.swift in Sources */,
+				1857D06721AA995F009ACE23 /* HelperMethod.swift in Sources */,
+				18CBA4E321BE8EAA00B0B842 /* EditRecoredModel.swift in Sources */,
 				C157FAAB1F33251F00471560 /* EngViewController.swift in Sources */,
 				C189D16D1F3C707E00F4FFB1 /* BranchesContactsModel.swift in Sources */,
 				C1969C5C203F0798001D87BA /* SetLocationOfOfficeViewController.swift in Sources */,
+				18733E4621C79E7900125EA2 /* openLocation.swift in Sources */,
 				C115D84A1FE27D5500A5FCE4 /* DoubleImageButton.swift in Sources */,
 				0C2F30FE215B97D4003BFCCE /* QuestionRateModel.swift in Sources */,
 				C1714CE1201384020070A9EE /* NewProjectAlertViewController.swift in Sources */,
@@ -1571,8 +1665,10 @@
 				C130AB631F76B6D50054F9D5 /* RequestPanelTableViewCell.swift in Sources */,
 				C1A84BB71FD58C5200385663 /* GetOfficesByPrModel.swift in Sources */,
 				C183618D1F6E9D93007895CC /* NotCollectedTableViewCell.swift in Sources */,
+				18CBA4DF21BE831300B0B842 /* EditDesigRecordsVC.swift in Sources */,
 				C17925472018C630002BF018 /* VisitsOfProjectsArchiveViewController.swift in Sources */,
 				C17865601F29FA56006AA25F /* SelectSection.swift in Sources */,
+				18733E4421C7847A00125EA2 /* DetailsOfOfficeTableViewControllerNot.swift in Sources */,
 				C157D274203C2DD2007ED59D /* ShowContractViewController.swift in Sources */,
 				C1AD08AE1F41CC45007FD648 /* KMPlaceholderTextView.swift in Sources */,
 				C136F14A1F81208800FECF81 /* ProjectFilesModel.swift in Sources */,
@@ -1596,6 +1692,7 @@
 				C1258D031F38698B0006C1BC /* EditATableViewController.swift in Sources */,
 				C1DF42651F2CC687001BAC39 /* RequestProjectViewController.swift in Sources */,
 				C14762B9205E8A6600992E45 /* SearchByOfficeNameViewController.swift in Sources */,
+				18CBA4E521BE906800B0B842 /* EditDesignRecordController.swift in Sources */,
 				C1F6B7491F448B7200A34526 /* DetailsDesignTableViewController.swift in Sources */,
 				C1FC1B421FEE673500D3939E /* OneViewController.swift in Sources */,
 				C1EFB88A1FD6AA6F0092732D /* OfficesMapViewController.swift in Sources */,
@@ -1630,6 +1727,7 @@
 				C124E52C1F31E3480027640C /* RequestTableViewCell.swift in Sources */,
 				C194D66020EE389300174332 /* ReceiveFileChatTableViewCell.swift in Sources */,
 				C1E7C5421FE685F300D67EDB /* OfficesImagesCollectionViewCell.swift in Sources */,
+				18B6CA3121B51B470073A64C /* imagecashing.swift in Sources */,
 				C17925492018C64B002BF018 /* VisitsOfProjectsArchiveTableViewCell.swift in Sources */,
 				C12C6556206D00A000793E9D /* MyProjectNotfications.swift in Sources */,
 				C191ACE41F8BE22E00229971 /* EditDTableViewController.swift in Sources */,
@@ -1698,7 +1796,9 @@
 				C136F1481F810A1400FECF81 /* ProjectFilesTableViewCell.swift in Sources */,
 				C152DA941F28B9D20032C03F /* GalaryViewController.swift in Sources */,
 				C1913B3220614FA000DEB7F6 /* SearchOfOfficesModel.swift in Sources */,
+				181ADB9A21AE9BDD007E1E52 /* EntroProjectsNotLoginVC.swift in Sources */,
 				C16EA0911FF93A3500485C95 /* VisitsOfProjectsTableViewCell.swift in Sources */,
+				18B6CA2F21B406430073A64C /* ImageZoomingViewController.swift in Sources */,
 				C12C6558206D012100793E9D /* MyProjectNotficationsModel.swift in Sources */,
 				C189D1671F3C637D00F4FFB1 /* SectionDmamViewController.swift in Sources */,
 				C147CF351F52D961000DBD02 /* AlertVisitPauseViewController.swift in Sources */,

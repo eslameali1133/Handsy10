@@ -10,9 +10,26 @@ import UIKit
 
 class AboutTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var AboutTit: UILabel!
+    @IBOutlet weak var AboutTit: UILabel!{
+        didSet{
+            AboutTit.layer.cornerRadius = 8
+        }
+    }
+    
+    @IBOutlet weak var titleview: UIView!{
+        didSet{
+            titleview.layer.cornerRadius = 8
+        }
+    }
+    
     @IBOutlet weak var AboutConten: UITextView!
     
+    @IBOutlet weak var Stackone: UIStackView!
+        {
+        didSet{
+            Stackone.layer.cornerRadius = 8
+        }
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

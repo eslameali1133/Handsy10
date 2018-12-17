@@ -15,6 +15,7 @@ class HomeChatOfProjectsTableViewCell: UITableViewCell {
     @IBOutlet weak var dateOfMessageLabel: UILabel!
     @IBOutlet weak var messageCountLabel: UILabel!
     
+    @IBOutlet weak var SakNumber: UILabel!
     @IBOutlet weak var messageCountView: UIView!{
         didSet {
             DispatchQueue.main.async {

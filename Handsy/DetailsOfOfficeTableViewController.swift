@@ -13,6 +13,9 @@ import MapKit
 
 class DetailsOfOfficeTableViewController: UITableViewController, UICollectionViewDelegate, UICollectionViewDataSource, TeamWorkModelDelegate, OurProjectsModelDelegate, CLLocationManagerDelegate {
     
+    @IBOutlet weak var Directbtn: UIButton!
+    @IBOutlet weak var stack_Info: UIStackView!
+    
     @IBOutlet weak var CompanyNAmeLabel: UILabel!
         
     @IBOutlet weak var OurProjectsSlider: UICollectionView!
@@ -35,6 +38,12 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
     @IBOutlet weak var AboutTextView: UILabel!
     
     @IBOutlet weak var TeamWorkSlider: UICollectionView!
+    
+    @IBOutlet var loaderview: UIView!
+    
+    
+    
+    @IBOutlet weak var CellInfo: UITableViewCell!
     
     
     var arrayOfResulr = [GetOfficesArray]()
@@ -87,7 +96,7 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
     
     @IBOutlet weak var myView: UIView!
     @IBOutlet weak var myTitleView: UIView!
-    
+     var AlertController: UIAlertController!
     
     var detialsOfOfficeArray = [DetialsOfOfficeArray]()
     let detialsOfOfficeModel = DetialsOfOfficeModel()
@@ -97,22 +106,97 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
     let teamGalleryModel = TeamGalleryModel()
     let projectGalleryModel = ProjectGalleryModel()
     
+//    func openMapsForLocation(Lat: Double, Lng: Double) {
+//        let location = CLLocation(latitude: Lat, longitude: Lng)
+//        print(location.coordinate)
+//        MKMapView.openMapsWith(location) { (error) in
+//            if error != nil {
+//                print("Could not open maps" + error!.localizedDescription)
+//            }
+//        }
+//    }
+    func openMapsForLocationgoogle(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+            UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(Lat),\(Lng)&zoom=14&views=traffic&q=\(Lat),\(Lng)")!, options: [:], completionHandler: nil)
+        }
+        else {
+            print("Can't use comgooglemaps://")
+            UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(Lat),\(Lng)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+        }
+    }
+    
+    func openMapsForLocation(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        print(location.coordinate)
+        MKMapView.openMapsWith(location) { (error) in
+            if error != nil {
+                print("Could not open maps" + error!.localizedDescription)
+            }
+        }
+    }
+      @IBOutlet var LoginVIew: UIView!
+    
     override func viewDidLoad() {
+        
+        
         super.viewDidLoad()
+        
+        LoginVIew.isHidden = true
+        self.LoginVIew.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        self.LoginVIew.center = self.view.center
+        self.view.addSubview(self.LoginVIew)
+        
+        let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")
+        if CustmoerId == nil
+        {
+//            let indexPath = IndexPath(row: 0, section: 0)
+//             self.tableView.deleteRows(at: [indexPath], with: .automatic)
+//            CellInfo.isHidden = true
+//
+//            Directbtn.isHidden = true
+//            stack_Info.isHidden = true
+//            mapViewImage.isHidden = true
+        }
+        
+  
+
+        AlertController = UIAlertController(title:"" , message: "اختر الخريطة", preferredStyle: UIAlertControllerStyle.actionSheet)
+
+        let Google = UIAlertAction(title: "جوجل ماب", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocationgoogle(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+        let MapKit = UIAlertAction(title: "الخرائط", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocation(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+
+        let Cancel = UIAlertAction(title: "رجوع", style: UIAlertActionStyle.cancel, handler: { (action) in
+            //
+        })
+
+        self.AlertController.addAction(Google)
+        self.AlertController.addAction(MapKit)
+        self.AlertController.addAction(Cancel)
+        
+        loaderview.isHidden = true
+//         self.myTitleView.isHidden = true
+        loaderview.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        self.view.addSubview(loaderview)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         addBackBarButtonItem()
         myView.layer.cornerRadius = 10.0
         DispatchQueue.main.async {
             if #available(iOS 11, *) {
-                self.myTitleView.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 50)
-                self.tableView.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
-                self.tableView.bringSubview(toFront: self.myTitleView)
-                self.tableView.addSubview(self.myTitleView)
+//                self.myTitleView.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 50)
+                self.tableView.contentInset = UIEdgeInsets.init(top: -20, left: 0, bottom: 0, right: 0)
+//                self.tableView.bringSubview(toFront: self.myTitleView)
+//                self.tableView.addSubview(self.myTitleView)
             } else {
-                self.myTitleView.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 50)
-                self.tableView.contentInset = UIEdgeInsets.init(top: 75, left: 0, bottom: 0, right: 0)
+//                self.myTitleView.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: 50)
+                self.tableView.contentInset = UIEdgeInsets.init(top: -20
+                    , left: 0, bottom: 0, right: 0)
                 self.tableView.bringSubview(toFront: self.myTitleView)
-                self.tableView.addSubview(self.myTitleView)
+//                self.tableView.addSubview(self.myTitleView)
             }
             
         }
@@ -172,7 +256,7 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
                 }
                 print("comp: \(arrayOfResulr[index!].CompanyInfoID)")
             }
-            self.CompanyNAmeLabel.text = detialsOfOfficeArray[0].ComapnyName
+//            self.CompanyNAmeLabel.text = detialsOfOfficeArray[0].ComapnyName
             self.addressLabel.text = detialsOfOfficeArray[0].Address
             self.MobileLabel.setTitle("\(detialsOfOfficeArray[0].CompanyMobile ?? "")", for: .normal)
             self.FaxLabel.setTitle("\(detialsOfOfficeArray[0].Fax ?? "")", for: .normal)
@@ -190,34 +274,63 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
             }
             self.AboutTextView.text = resultAboutArray[0].ExperContent
             self.getMapOffline()
-            tableView.reloadData()
+//            tableView.reloadData()
         }
         
         OurProjectsSlider.delegate = self
         OurProjectsSlider.dataSource = self
         TeamWorkSlider.delegate = self
         TeamWorkSlider.dataSource = self
-        
+
+      
         if conditionService != "" {
             myView.isHidden = true
+            if CustmoerId == nil
+            {
             DispatchQueue.main.async {
                 self.myView.frame = CGRect.init(x: 0, y: self.tableView.contentOffset.y + (self.view.frame.height-80), width: self.view.frame.width, height: 0)
                 self.tableView.bringSubview(toFront: self.myView)
                 self.tableView.addSubview(self.myView)
+                }
+                
+            }else
+            {
+                DispatchQueue.main.async {
+                    self.myView.frame = CGRect.init(x: 0, y: self.tableView.contentOffset.y + (self.view.frame.height-80), width: self.view.frame.width, height: 0)
+                    self.tableView.bringSubview(toFront: self.myView)
+                    self.tableView.addSubview(self.myView)
+                }
             }
         }else {
             DispatchQueue.main.async {
-                self.myView.frame = CGRect.init(x: 0, y: self.tableView.contentOffset.y + (self.view.frame.height-80), width: self.view.frame.width, height: 80)
+                if CustmoerId == nil
+                {
+                    DispatchQueue.main.async {
+                        self.myView.frame = CGRect.init(x: 0, y: self.tableView.contentOffset.y + (self.view.frame.height-80), width: self.view.frame.width, height: 80)
+
+                    }
+                    
+                }else
+                {
+                    DispatchQueue.main.async {
+                        self.myView.frame = CGRect.init(x: 0, y: self.tableView.contentOffset.y + (self.view.frame.height-80), width: self.view.frame.width, height: 80)
+
+                    }
+                }
+                
+                
+                
                 if #available(iOS 11, *) {
-                    self.tableView.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 70, right: 0)
+                    self.tableView.contentInset = UIEdgeInsets.init(top: -20, left: 0, bottom: 70, right: 0)
                 }else{
-                    self.tableView.contentInset = UIEdgeInsets.init(top: 75, left: 0, bottom: 70, right: 0)
+                    self.tableView.contentInset = UIEdgeInsets.init(top: -20, left: 0, bottom: 70, right: 0)
                 }
                 self.tableView.bringSubview(toFront: self.myView)
                 self.tableView.addSubview(self.myView)
             }
         }
         
+  
     }
     
     func addBackBarButtonItem() {
@@ -232,6 +345,20 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
     @objc func backButtonPressed(){
         self.navigationController!.popViewController(animated: true)
     }
+    
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section == 1 {
+            let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")
+            if CustmoerId == nil
+            {
+                return 0.0
+            }
+            
+        }
+         return UITableViewAutomaticDimension
+    }
+    
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0  && projectImagesArr.count == 0{
             return 0.0
@@ -242,11 +369,30 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
         if section == 3 && getTeamImagesArr.count == 0{
             return 0.0
         }
+        if section == 1 {
+            let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")
+            if CustmoerId == nil
+            {
+                return 0.0
+            }
+            
+        }
         return UITableViewAutomaticDimension
     }
     
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        if indexPath.section == 1 {
+            let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")
+            if CustmoerId == nil
+            {
+
+                return 0.0
+            }
+
+        }
+        
         if indexPath.section == 0{
             if indexPath.row == 0 && projectImagesArr.count == 0 {
                 return 0.0
@@ -281,10 +427,11 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
         // Tell the collection to reload
         TeamWorkSlider.reloadData()
         OurProjectsSlider.reloadData()
-        tableView.reloadData()
+//        tableView.reloadData()
     }
     
     func GetAbout() {
+        loaderview.isHidden = false
         let sv = UIViewController.displaySpinner(onView: self.view)
         var CompInfID: String?
         let parameters : Parameters?
@@ -303,7 +450,7 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
         }
         
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetAbout", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetAbout", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json = JSON(response.result.value!)
@@ -318,14 +465,18 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
                 let ExperienceTitle = json["ExperienceTitle"].stringValue
                 self.experienceTitleLabel.text = ExperienceTitle
                 self.tableView.reloadData()
+                  self.loaderview.isHidden = true
                 print("Validation Successful")
                 UIViewController.removeSpinner(spinner: sv)
+                
             case .failure(let error):
                 print(error)
                 self.AboutTextView.text = ""
                 self.experienceTitleLabel.text = ""
                 UIViewController.removeSpinner(spinner: sv)
                 self.tableView.reloadData()
+                self.loaderview.isHidden = true
+//                self.myTitleView.isHidden = false
             }
             
             //            self.ExperTitle = json["ExperienceTitle"].stringValue
@@ -402,30 +553,56 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
             UIApplication.shared.openURL(url)
         }
     }
-    
-    @IBAction func diractionBtn(_ sender: UIButton) {
-        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
-        
-        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
-            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
-                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(self.Lat),\(self.Long)&zoom=14&views=traffic&q=\(self.Lat),\(self.Long)")!, options: [:], completionHandler: nil)
-            } else {
-                print("Can't use comgooglemaps://")
-                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(self.Lat),\(self.Long)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+    func openMapsForLocation() {
+        let dLati = LatBranch
+        let dLang = LngBranch
+        let location = CLLocation(latitude: dLati, longitude: dLang)
+        print(location.coordinate)
+        MKMapView.openMapsWith(location) { (error) in
+            if error != nil {
+                print("Could not open maps" + error!.localizedDescription)
             }
-        }))
+        }
+    }
+    @IBAction func diractionBtn(_ sender: UIButton) {
+        let dLati =  LatBranch
+        let dLang = LngBranch
         
-        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
-            self.openMapsForLocation()
-        }))
         
-        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
-        }))
-        self.present(alertAction, animated: true, completion: nil)
+//        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
+//
+//        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
+//            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+//                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(dLati),\(dLang)&zoom=14&views=traffic&q=\(dLati),\(dLang)")!, options: [:], completionHandler: nil)
+//            } else {
+//                print("Can't use comgooglemaps://")
+//                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(dLati),\(dLang)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+//            }
+//        }))
+//
+//        alertAction.addAction(UIAlertAction(title: "الخرائط", style: .default, handler: { action in
+//            self.openMapsForLocations()
+//        }))
+//
+//        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+//        }))
+//        self.present(alertAction, animated: true, completion: nil)
+       
+//        self.present(AlertController, animated: true, completion: nil)
+        
+        if Helper.isDeviceiPad() {
+            
+            if let popoverController = AlertController.popoverPresentationController {
+                popoverController.sourceView = sender
+            }
+        }
+        
+        self.present(AlertController, animated: true, completion: nil)
+        
     }
     
     
-    func openMapsForLocation() {
+    func openMapsForLocations() {
         let dLati = Lat
         let dLang = Long
         let location = CLLocation(latitude: dLati, longitude: dLang)
@@ -440,6 +617,7 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
     
     
     func setContact(){
+        loaderview.isHidden = false
         let sv = UIViewController.displaySpinner(onView: self.view)
         let parameters : Parameters?
         if conditionService != "" {
@@ -452,7 +630,7 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
             ]
         }
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetOfficeByCompanyInfoID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetOfficeByCompanyInfoID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
             let json = JSON(response.result.value!)
@@ -466,6 +644,8 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
             self.BranchFB = json["BranchFB"].stringValue
             self.BranchID = json["BranchID"].stringValue
             self.BranchName = json["BranchName"].stringValue
+//            print(json["ComapnyName"].stringValue)
+                    self.navigationItem.title = json["ComapnyName"].stringValue
             self.ComapnyName = json["ComapnyName"].stringValue
             self.CommercialNumber = json["CommercialNumber"].stringValue
             self.CompanyEmail = json["CompanyEmail"].stringValue
@@ -484,7 +664,9 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
             self.Specialty = json["Specialty"].stringValue
             self.Zoom = json["Zoom"].doubleValue
             UIViewController.removeSpinner(spinner: sv)
-            self.CompanyNAmeLabel.text = self.ComapnyName
+            self.loaderview.isHidden = true
+//             self.myTitleView.isHidden = false
+//            self.CompanyNAmeLabel.text = self.ComapnyName
             self.addressLabel.text = self.Address
             self.MobileLabel.setTitle("\(self.CompanyMobile)", for: .normal)
             self.FaxLabel.setTitle("\(self.Fax)", for: .normal)
@@ -523,20 +705,18 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
     
     func get() {
         
-        //        let dZoom = Float(ZoomPrj) ?? 0.0
-//        mapView.animate(toBearing: 90)
-//        mapView.camera = GMSCameraPosition.camera(withLatitude: Lat, longitude: Long, zoom: 17)
-        //        GMSMapView.map(withFrame: CGRect.zero, camera: mapView.camera)
-//        mapView.isMyLocationEnabled = true
-        
-        // Creates a marker in the center of the map.
-//        marker.position = CLLocationCoordinate2D(latitude: Lat, longitude: Long)
-        let staticMapUrl: String = "http://maps.google.com/maps/api/staticmap?markers=color:red|\(Lat),\(Long)&\("zoom=17&size=\(2 * Int(mapViewImage.frame.size.width))x\(2 * Int(mapViewImage.frame.size.height))")&sensor=true"
-        
+      print(Lat)
+         print(Long)
+        let staticMapUrl: String = "http://maps.google.com/maps/api/staticmap?key=AIzaSyCsqUTyaFGZWyuahXVzjgjT_E3ldB3ECCE&markers=color:red|\(Lat),\(Long)&\("zoom=17&size=\(2 * Int(mapViewImage.frame.size.width))x\(2 * Int(mapViewImage.frame.size.height))")&sensor=true&fbclid=IwAR2rsCS0d9D-aow4D3AWs9-fv3EdiSDsFFUU80Gm6oQ7vCZwlXUaPjUOmU8"
+          let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")
         let urlI = URL(string: staticMapUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)
         if let url = urlI {
             print("map: \(urlI)")
+          
+            if CustmoerId != nil
+            {
             mapViewImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
+            }
         } else{
             print("map: \(urlI)")
             print("nil")
@@ -562,7 +742,7 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
         
         // Creates a marker in the center of the map.
         marker.position = CLLocationCoordinate2D(latitude: detialsOfOfficeArray[0].Lat!, longitude: detialsOfOfficeArray[0].Long!)
-        let staticMapUrl: String = "http://maps.google.com/maps/api/staticmap?markers=color:red|\(detialsOfOfficeArray[0].Lat!),\(detialsOfOfficeArray[0].Long!)&\("zoom=17&size=\(2 * Int(mapViewImage.frame.size.width))x\(2 * Int(mapViewImage.frame.size.height))")&sensor=true"
+        let staticMapUrl: String = "http://maps.google.com/maps/api/staticmap?markers=color:red|\(detialsOfOfficeArray[0].Lat!),\(detialsOfOfficeArray[0].Long!)&\("zoom=17&size=\(2 * Int(mapViewImage.frame.size.width))x\(2 * Int(mapViewImage.frame.size.height))")&sensor=true&fbclid=IwAR2rsCS0d9D-aow4D3AWs9-fv3EdiSDsFFUU80Gm6oQ7vCZwlXUaPjUOmU8"
         let urlI = URL(string: staticMapUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)
         if let url = urlI {
             print("map: \(urlI)")
@@ -613,16 +793,29 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
     override func scrollViewDidScroll(_ scrollView: UIScrollView){
         if scrollView == tableView {
             var frame: CGRect = self.myView.frame
-            frame.origin.y = scrollView.contentOffset.y + self.view.frame.height - 80
-            myView.frame = frame
+           
+              let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")
+            
+            if CustmoerId == nil
+            {
+                frame.origin.y = scrollView.contentOffset.y + self.view.frame.height - 80
+                myView.frame = frame
+                
+            }else
+            {
+                frame.origin.y = scrollView.contentOffset.y + self.view.frame.height - 80
+                myView.frame = frame
+            }
+            
+            
             if #available(iOS 11, *) {
-                var frameTitle: CGRect = self.myTitleView.frame
-                frameTitle.origin.y = scrollView.contentOffset.y + 60
-                myTitleView.frame = frameTitle
+//                var frameTitle: CGRect = self.myTitleView.frame
+//                frameTitle.origin.y = scrollView.contentOffset.y + 60
+//                myTitleView.frame = frameTitle
             }else {
-                var frameTitle: CGRect = self.myTitleView.frame
-                frameTitle.origin.y = scrollView.contentOffset.y + 60
-                myTitleView.frame = frameTitle
+//                var frameTitle: CGRect = self.myTitleView.frame
+//                frameTitle.origin.y = scrollView.contentOffset.y + 60
+//                myTitleView.frame = frameTitle
             }
             
         }
@@ -666,11 +859,12 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
                 cell.ImageView.image = #imageLiteral(resourceName: "officePlaceholder")
             }
             return cell
-        }else {
+        }
+        else {
             let cell = TeamWorkSlider.dequeueReusableCell(withReuseIdentifier: "TeamWorkImagesCollectionViewCell", for: indexPath) as! TeamWorkImagesCollectionViewCell
             let img = getTeamImagesArr[indexPath.row].CompanyGalleryPath!
-            let trimmedString = img.trimmingCharacters(in: .whitespaces)
-            if let url = URL.init(string: trimmedString) {
+            let trimmedString = img.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+            if let url = URL.init(string: trimmedString!) {
                 cell.ImageView.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
             } else{
                 print("nil")
@@ -757,9 +951,43 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
         }
     }
     
+    
+    
+    @IBAction func EndLoginView(_ sender: Any) {
+        LoginVIew.isHidden = true
+    }
+    @IBAction func GtoLoginBtn(_ sender: UIButton) {
+        
+        let storyBoard : UIStoryboard = UIStoryboard(name: "NewLogin", bundle:nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "NewLoginViewController") as! NewLoginViewController
+        secondView.isComingFromProject = true
+        secondView.CompanyInfoID = self.arrayOfResulr[index!].CompanyInfoID
+        secondView.CompanyName = self.arrayOfResulr[index!].ComapnyName
+        secondView.CompanyAddress = self.arrayOfResulr[index!].Address
+        secondView.CompanyImage = self.arrayOfResulr[index!].Logo
+        secondView.BranchID = self.arrayOfResulr[index!].BranchID
+        secondView.EmpMobile = self.arrayOfResulr[index!].CompanyMobile
+        secondView.IsCompany = self.arrayOfResulr[index!].IsCompany
+        secondView.LatBranch = self.arrayOfResulr[index!].Lat
+        secondView.LngBranch = self.arrayOfResulr[index!].Long
+        secondView.ZoomBranch = self.arrayOfResulr[index!].Zoom
+       
+        self.navigationController?.pushViewController(secondView, animated: true)
+        
+    }
+    
     @IBAction func ChooseThisBtn(_ sender: UIButton) {
+        
+        let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")
+        if CustmoerId == nil
+        {
+            LoginVIew.isHidden = false
+        }
+        else
+        {
         let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectATableViewController") as! NewProjectATableViewController
+        
         secondView.CompanyInfoID = self.arrayOfResulr[index!].CompanyInfoID
         secondView.CompanyName = self.arrayOfResulr[index!].ComapnyName
         secondView.CompanyAddress = self.arrayOfResulr[index!].Address
@@ -771,6 +999,7 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
         secondView.LngBranch = self.arrayOfResulr[index!].Long
         secondView.ZoomBranch = self.arrayOfResulr[index!].Zoom
         self.navigationController?.pushViewController(secondView, animated: true)
+        }
     }
     
 }

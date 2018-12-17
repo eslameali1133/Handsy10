@@ -36,7 +36,7 @@ class VisitsByProjectIdModel: NSObject {
                 ]
             }
             
-            Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetMeetingByProjectId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+            Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetMeetingByProjectId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
                 debugPrint(response)
                 
                 
@@ -91,7 +91,7 @@ class VisitsByProjectIdModel: NSObject {
                     "StatusId": StatusId
                 ]
             }
-            Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetMeetingArchiveByProjectId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+            Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetMeetingArchiveByProjectId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
                 debugPrint(response)
                 
                 

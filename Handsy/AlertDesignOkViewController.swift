@@ -85,7 +85,7 @@ class AlertDesignOkViewController: UIViewController, UITextViewDelegate {
             "status": "2"
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/DesignStages", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/DesignStages", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             let json = JSON(response.result.value!)

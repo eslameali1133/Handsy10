@@ -62,8 +62,9 @@ class OfficeLoginNumTableViewController: UITableViewController, UITextFieldDeleg
     
     @objc func donePicker(){
         self.view.endEditing(true)
-        let mobile = TextFNumber.text!
+        let mobile = "05\(TextFNumber.text!)"
         if mobile.count == 10 {
+            
             if mobile.first! == "0" {
                 if mobile[mobile.index(mobile.startIndex, offsetBy: 1)] == "5" {
                     NextBtnOut.isEnabled = true
@@ -160,7 +161,7 @@ class OfficeLoginNumTableViewController: UITableViewController, UITextFieldDeleg
         if validatePassword(text: TextFNumber.text!) {
             // correct password
             alertCode.isHidden = true
-            if TextFNumber.text?.count == 10 {
+            if TextFNumber.text?.count == 8 {
                 NextBtnOut.isEnabled = true
                 self.view.endEditing(true)
             }else {
@@ -189,7 +190,7 @@ class OfficeLoginNumTableViewController: UITableViewController, UITextFieldDeleg
             }
         }
         
-        return result
+        return true
     }
     
     
@@ -207,7 +208,8 @@ class OfficeLoginNumTableViewController: UITableViewController, UITextFieldDeleg
     
     func CheckExistRegCompany() {
         let sv = UIViewController.displaySpinner(onView: view)
-        let mobileTest = TextFNumber.text!
+        let mobileTest = "05\(TextFNumber.text!)"
+        print(mobileTest)
         self.NextBtnOut.isEnabled = false
         if mobileTest.count == 10 {
             if mobileTest.first! == "0" {
@@ -217,7 +219,7 @@ class OfficeLoginNumTableViewController: UITableViewController, UITextFieldDeleg
                     //                    mobileTest.insert("6", at: mobileTest.startIndex)
                     //                    mobileTest.insert("9", at: mobileTest.startIndex)
                     print(mobileTest)
-                    Alamofire.request("http://smusers.promit2030.com/Service1.svc/CheckExistRegCompany?Mobile=\(mobileTest)", method: .get).responseJSON { response in
+                    Alamofire.request("http://smusers.promit2030.co/Service1.svc/CheckExistRegCompany?Mobile=\(mobileTest)", method: .get).responseJSON { response in
                         debugPrint(response)
                         switch response.result {
                         case .success:
@@ -233,7 +235,8 @@ class OfficeLoginNumTableViewController: UITableViewController, UITextFieldDeleg
                             }else {
                                 let storyBoard : UIStoryboard = UIStoryboard(name: "SignUpOffice", bundle:nil)
                                 let secondView = storyBoard.instantiateViewController(withIdentifier: "OfficeCheckCodeTableViewController") as! OfficeCheckCodeTableViewController
-                                secondView.mobile = self.TextFNumber.text!
+                                secondView.mobile =  mobileTest
+//                                "05\(self.TextFNumber.text!)"
                                 secondView.code = self.code
                                 secondView.isCompany = self.isCompany
                                 self.navigationController?.pushViewController(secondView, animated: true)

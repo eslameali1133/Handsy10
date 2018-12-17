@@ -55,8 +55,8 @@ class DisplayImagesEditViewController: UIViewController, UICollectionViewDataSou
         cell.layer.masksToBounds = true
         
         let img = searchResu[indexPath.row].ProjectsImagePath
-        let trimmedString = img.trimmingCharacters(in: .whitespaces)
-        if let url = URL.init(string: trimmedString) {
+        let trimmedString = img.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+        if let url = URL.init(string: trimmedString!) {
             cell.imageView.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "custlogo"))
         } else{
             print("nil")
@@ -92,7 +92,7 @@ class DisplayImagesEditViewController: UIViewController, UICollectionViewDataSou
             "projectsImageID": projectsImageID
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/ImageDelete", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/ImageDelete", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
         }
     }

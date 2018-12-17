@@ -56,8 +56,8 @@ class ProfileImageViewController: UIViewController, UIScrollViewDelegate {
         documentInteractionController.presentOptionsMenu(from: view.frame, in: view, animated: true)
     }
     func configureCell(_ image: String){
-        let trimmedString = image.trimmingCharacters(in: .whitespaces)
-        if let url = URL.init(string: trimmedString) {
+        let trimmedString = image.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+        if let url = URL.init(string: trimmedString!) {
             print(url)
             ProfileImgOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "custlogo"))
         } else{

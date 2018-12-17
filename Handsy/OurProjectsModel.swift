@@ -38,7 +38,7 @@ class OurProjectsModel: NSObject {
             compInfoId = companyInfoID
         }
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetAllProjectGallery", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetAllProjectGallery", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             
@@ -68,7 +68,7 @@ class OurProjectsModel: NSObject {
     
     func GetAllCompanyGallery_All(){
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetAllCompanyGallery_All", method: .get).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetAllCompanyGallery_All", method: .get).responseJSON { response in
             debugPrint(response)
             
             var arrayOfResulr = [GetAllCompanyGallery_AllArray]()

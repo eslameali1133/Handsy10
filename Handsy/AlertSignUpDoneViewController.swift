@@ -18,7 +18,7 @@ class AlertSignUpDoneViewController: UIViewController {
     
     func GetEmptByMobileNum() {
         let mobile = UserDefaults.standard.string(forKey: "mobile")!
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetEmptByMobileNum?mobileNum=\(mobile)", method: .get).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetEmptByMobileNum?mobileNum=\(mobile)", method: .get).responseJSON { response in
             debugPrint(response)
             
             let json = JSON(response.result.value!)

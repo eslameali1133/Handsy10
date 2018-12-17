@@ -11,13 +11,19 @@ import MobileCoreServices
 import Alamofire
 import SwiftyJSON
 import MapKit
+import Haneke
 
 protocol shareLocationDelegate {
     func shareLocationDelegate(lat: String, Long: String)
 }
 
-class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIDocumentMenuDelegate, UIDocumentPickerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, MessageByProjectIdDelegate {
+class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIDocumentMenuDelegate, UIDocumentPickerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, MessageByProjectIdDelegate,UIScrollViewDelegate {
     
+    
+   
+    
+    
+    @IBOutlet weak var uiScrloerview: UIScrollView!
     @IBOutlet weak var navImage: AMCircleImageView!
     @IBOutlet weak var navProjectLabel: UILabel!
     
@@ -79,8 +85,27 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
     let applicationl = UIApplication.shared
     var backCondition = ""
     
+       var AlertController: UIAlertController!
+   
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+      return  self.ImageViewSelecteed
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        uiScrloerview.delegate = self
+        uiScrloerview.maximumZoomScale = 6.0
+            uiScrloerview.minimumZoomScale = 1.0
+         sendBtn.isHidden = true
+        
+        SelectImageView.isHidden = true
+        DispatchQueue.main.async {
+            self.SelectImageView.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+            self.SelectImageView.center = self.view.center
+            self.view.addSubview(self.SelectImageView)
+        }
+        
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         CountCustomerNotification()
         attachesBtns.isHidden = true
@@ -105,9 +130,50 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
         // *** Hide keyboard when tapping outside ***
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureHandler))
         view.addGestureRecognizer(tapGesture)
+        
+        AlertController = UIAlertController(title:"" , message: "اختر الخريطة", preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let Google = UIAlertAction(title: "جوجل ماب", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocationgoogle(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+        let MapKit = UIAlertAction(title: "الخرائط", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openMapsForLocation(Lat:self.LatBranch, Lng:self.LngBranch)
+        })
+        
+        let Cancel = UIAlertAction(title: "رجوع", style: UIAlertActionStyle.cancel, handler: { (action) in
+            //
+        })
+        
+        self.AlertController.addAction(Google)
+        self.AlertController.addAction(MapKit)
+        self.AlertController.addAction(Cancel)
+        
+        
     }
     
+    func openMapsForLocation(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        print(location.coordinate)
+        MKMapView.openMapsWith(location) { (error) in
+            if error != nil {
+                print("Could not open maps" + error!.localizedDescription)
+            }
+        }
+    }
+    func openMapsForLocationgoogle(Lat: Double, Lng: Double) {
+        let location = CLLocation(latitude: Lat, longitude: Lng)
+        if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+            UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(Lat),\(Lng)&zoom=14&views=traffic&q=\(Lat),\(Lng)")!, options: [:], completionHandler: nil)
+        }
+        else {
+            print("Can't use comgooglemaps://")
+            UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(Lat),\(Lng)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+        }
+    }
+    
+    
     override func viewWillAppear(_ animated: Bool) {
+         sendBtn.isHidden = true
         self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
@@ -115,8 +181,8 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
         navProjectLabel.text = ProjectTitle
         navigationItem.title = ProjectTitle
         navCustLabel.text = engName
-        let trimmedString = CompanyLogo.trimmingCharacters(in: .whitespaces)
-        if let url = URL.init(string: trimmedString) {
+        let trimmedString = CompanyLogo.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+        if let url = URL.init(string: trimmedString!) {
             print(url)
             navImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
@@ -177,6 +243,90 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
         //        dismiss(animated: true, completion: nil)
     }
     
+    @IBOutlet weak var ImageViewSelecteed: UIImageView!
+    @IBOutlet var SelectImageView: UIView!
+    
+    var Downloadurlforshare = ""
+    
+    @IBAction func openSelectImage(_ sender: UIButton) {
+        ImageViewSelecteed.image = #imageLiteral(resourceName: "officePlaceholder")
+        SelectImageView.isHidden = false
+        let point = sender.convert(CGPoint.zero, to: chatTableView)
+        let index = chatTableView.indexPathForRow(at: point)?.row
+        let message = messagesList[index!]
+        let messagePic = message.ImagePath
+        Downloadurlforshare =  messagePic!
+
+       
+        let iconFormat = Format<UIImage>(name: "icons", diskCapacity: 1 * 1024 * 1024) { image in
+            return image
+        }
+        
+        if let url = URL.init(string: Downloadurlforshare) {
+            print(url)
+            ImageViewSelecteed.hnk_setImageFromURL(url, format: iconFormat)
+        } else{
+            print("nil")
+        }
+
+       
+        
+
+    }
+    
+    @IBAction func DownloadAndShare(_ sender: UIButton) {
+
+        DownloadandShareSold()
+    
+    }
+    
+    func DownloadandShareSold()
+    {
+        
+        let messagePic = Downloadurlforshare
+        
+        
+        
+        guard let url = URL(string:self.Downloadurlforshare) else { return }
+        print(url)
+        
+        var Filename = ""
+        if let range = messagePic.range(of: "Images/") {
+            Filename = String(messagePic[range.upperBound...])
+            print(Filename.encodeUrl()) // prints "123.456.7891"
+        }
+        
+        let FilenameFinal =  Filename
+        //            Filename.replacingOccurrences(of: "-", with: " ", options: .literal, range: nil)
+        print(FilenameFinal)
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else { return }
+            let tmpURL = FileManager.default.temporaryDirectory
+                .appendingPathComponent(FilenameFinal ?? "Contract.jpeg")
+            do {
+                try data.write(to: tmpURL)
+            } catch { print(error) }
+            DispatchQueue.main.async {
+                self.share(url: tmpURL)
+            }
+            }.resume()
+    }
+    
+      var documentInteractionController = UIDocumentInteractionController()
+    func share(url: URL) {
+        print(url)
+        documentInteractionController.url = url
+        documentInteractionController.uti = url.typeIdentifier ?? "public.data, public.content"
+        documentInteractionController.name = url.localizedName ?? url.lastPathComponent
+        documentInteractionController.presentOptionsMenu(from: view.frame, in: view, animated: true)
+    }
+    
+    @IBAction func CloseSelectedView(_ sender: Any) {
+        SelectImageView.isHidden = true
+    }
+    
+    
     @IBAction func openDcumentPicker(_ sender: UIButton) {
         attachesBtns.isHidden = true
         let pdf = String(kUTTypePDF)
@@ -206,8 +356,8 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
             if message.MessageType == "2" {
                 let cell = chatTableView.dequeueReusableCell(withIdentifier: "SendimageChatTableViewCell", for: indexPath) as! SendimageChatTableViewCell
                 let messagePic = message.ImagePath!
-                let trimmedString = messagePic.trimmingCharacters(in: .whitespaces)
-                if let url = URL.init(string: trimmedString) {
+                let trimmedString = messagePic.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+                if let url = URL.init(string: trimmedString!) {
                     cell.recevierMessageImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
                 } else{
                     print("nil")
@@ -262,7 +412,9 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
                 let Lng = message.Lng!
                 let staticMapUrl: String = "http://maps.google.com/maps/api/staticmap?markers=color:red|\(Lat),\(Lng)&\("zoom=17&size=\(2 * Int(cell.recevierMessageImage.frame.size.width))x\(2 * Int(cell.recevierMessageImage.frame.size.height))")&sensor=true"
                 
-                let urlI = URL(string: staticMapUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)
+                let mapul = "https://maps.google.com/maps/api/staticmap?key=AIzaSyCsqUTyaFGZWyuahXVzjgjT_E3ldB3ECCE&markers=color:red|\(Lat),\(Lng)&\("zoom=17&size=\(2 * Int(cell.recevierMessageImage.frame.size.width))x\(2 * Int(cell.recevierMessageImage.frame.size.height))")&sensor=true&fbclid=IwAR2rsCS0d9D-aow4D3AWs9-fv3EdiSDsFFUU80Gm6oQ7vCZwlXUaPjUOmU8"
+                
+                let urlI = URL(string: mapul.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)
                 if let url = urlI {
                     print("map: \(urlI)")
                     cell.recevierMessageImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
@@ -286,8 +438,8 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
             if message.MessageType == "2" {
                 let cell = chatTableView.dequeueReusableCell(withIdentifier: "ReceiveImageChatTableViewCell", for: indexPath) as! ReceiveImageChatTableViewCell
                 let messagePic = message.ImagePath!
-                let trimmedString = messagePic.trimmingCharacters(in: .whitespaces)
-                if let url = URL.init(string: trimmedString) {
+                let trimmedString = messagePic.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+                if let url = URL.init(string: trimmedString!) {
                     cell.senderMessageImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
                 } else{
                     print("nil")
@@ -344,7 +496,9 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
                 let Lng = message.Lng!
                 let staticMapUrl: String = "http://maps.google.com/maps/api/staticmap?markers=color:red|\(Lat),\(Lng)&\("zoom=17&size=\(2 * Int(cell.senderMessageImage.frame.size.width))x\(2 * Int(cell.senderMessageImage.frame.size.height))")&sensor=true"
                 
-                let urlI = URL(string: staticMapUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)
+                 let mapul = "https://maps.google.com/maps/api/staticmap?key=AIzaSyCsqUTyaFGZWyuahXVzjgjT_E3ldB3ECCE&markers=color:red|\(Lat),\(Lng)&\("zoom=17&size=\(2 * Int(cell.senderMessageImage.frame.size.width))x\(2 * Int(cell.senderMessageImage.frame.size.height))")&sensor=true&fbclid=IwAR2rsCS0d9D-aow4D3AWs9-fv3EdiSDsFFUU80Gm6oQ7vCZwlXUaPjUOmU8"
+                
+                let urlI = URL(string: mapul.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)
                 if let url = urlI {
                     print("map: \(urlI)")
                     cell.senderMessageImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
@@ -384,6 +538,13 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
         self.dismiss(animated: false, completion: nil)
     }
     func textViewDidChange(_ textView: UITextView) {
+        
+        guard let text = textView.text,!text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).isEmpty else {
+              sendBtn.isHidden = true
+               return
+        }
+        sendBtn.isHidden = false
+        
         let sizeThatFitsTextView = textView.sizeThatFits(CGSize(width: textView.frame.size.width, height: textView.frame.size.height))
         if sizeThatFitsTextView.height <= 100.0 {
             messageTVConstriant.constant = sizeThatFitsTextView.height
@@ -393,6 +554,10 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
         
     }
     
+    @IBOutlet weak var Botomconstrian: NSLayoutConstraint!
+    func textViewDidBeginEditing(_ textView: UITextView) {
+//       Botomconstrian.constant = 
+    }
     @objc func tapGestureHandler() {
         view.endEditing(true)
     }
@@ -406,7 +571,7 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
             
             let isKeyboardShowing = notification.name == NSNotification.Name.UIKeyboardWillShow
             
-            chatBottomconst?.constant = isKeyboardShowing ? -keyboardFrame!.height : 0
+            chatBottomconst?.constant = isKeyboardShowing ? -keyboardFrame!.height + 40 : 0
             
             UIView.animate(withDuration: 0, delay: 0, options: UIViewAnimationOptions.curveEaseOut, animations: {
                 
@@ -542,29 +707,54 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
         let point = sender.convert(CGPoint.zero, to: chatTableView)
         let index = chatTableView.indexPathForRow(at: point)?.row
         let message = messagesList[index!]
-        let Lat = Double(message.Lat!)!
-        let Lng = Double(message.Lng!)!
-        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
+         LatBranch = Double(message.Lat!)!
+         LngBranch = Double(message.Lng!)!
+        let dLati =  LatBranch
+        let dLang = LngBranch
         
-        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
-            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
-                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(Lat),\(Lng)&zoom=14&views=traffic&q=\(Lat),\(Lng)")!, options: [:], completionHandler: nil)
-            } else {
-                print("Can't use comgooglemaps://")
-                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(Lat),\(Lng)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+        
+//        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
+//
+//        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
+//            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+//                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(dLati),\(dLang)&zoom=14&views=traffic&q=\(dLati),\(dLang)")!, options: [:], completionHandler: nil)
+//            } else {
+//                print("Can't use comgooglemaps://")
+//                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(dLati),\(dLang)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+//            }
+//        }))
+//
+//        alertAction.addAction(UIAlertAction(title: "الخرائط", style: .default, handler: { action in
+//            self.openMapsForLocation()
+//        }))
+//
+//        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+//        }))
+//        self.present(alertAction, animated: true, completion: nil)
+        
+        if Helper.isDeviceiPad() {
+            
+            if let popoverController = AlertController.popoverPresentationController {
+                popoverController.sourceView = sender
             }
-        }))
+        }
         
-        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
-            self.openMapsForLocation(Lat: Lat, Lng: Lng)
-        }))
+        self.present(AlertController, animated: true, completion: nil)
         
-        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
-        }))
-        self.present(alertAction, animated: true, completion: nil)
-    }    
+    }
+    func openMapsForLocation() {
+        let dLati = LatBranch
+        let dLang = LngBranch
+        let location = CLLocation(latitude: dLati, longitude: dLang)
+        print(location.coordinate)
+        MKMapView.openMapsWith(location) { (error) in
+            if error != nil {
+                print("Could not open maps" + error!.localizedDescription)
+            }
+        }
+    }
     
-    func openMapsForLocation(Lat: Double, Lng: Double) {
+    func openMapsForLocationas(Lat: Double, Lng: Double) {
         let location = CLLocation(latitude: Lat, longitude: Lng)
         print(location.coordinate)
         MKMapView.openMapsWith(location) { (error) in
@@ -591,6 +781,7 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
     
     @IBAction func openAttachBtns(_ sender: UIButton) {
         attachesBtns.isHidden = false
+        view.endEditing(true)
     }
     
     @IBAction func closeAttachBtns(_ sender: UIButton) {
@@ -611,7 +802,7 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
                         "ProjectId": ProjectId,
                         "MessageType": MessageType,
                         "Message": "",
-                        "ImagePath": "data!",
+                        "ImagePath": data!,
                         "SenderType": SenderType,
                         "Lat": Lat,
                         "Lng": Lng
@@ -753,7 +944,7 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
     }
     
     func ReadAllMessageForCust(ProjectId: String) {
-        Alamofire.request("http://smusers.promit2030.com/api/ApiService/ReadAllMessageForCust?ProjectId=\(ProjectId)", method: .post, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/api/ApiService/ReadAllMessageForCust?ProjectId=\(ProjectId)", method: .post, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
         }
     }
@@ -763,7 +954,7 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
         let parameters: Parameters = [
             "CustmoerId":CustmoerId
         ]
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json = JSON(response.result.value!)
@@ -790,7 +981,15 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
     }
     func setAppBadge() {
         let count = NotiTotalCount
-        applicationl.applicationIconBadgeNumber = count
+        let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")!
+        if CustmoerId != nil || CustmoerId != ""
+        {
+            applicationl.applicationIconBadgeNumber = count
+        }else
+        {
+            applicationl.applicationIconBadgeNumber = 0
+        }
+       
     }
     
     @IBAction func DetialsBtnAction(_ sender: UIButton) {

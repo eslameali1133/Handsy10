@@ -26,6 +26,10 @@ class OfficesImagesViewController: UIViewController, UICollectionViewDelegate, U
     var index: IndexPath?
     var conditionService = ""
     var IsCompany = ""
+    var EmpMobile = ""
+    var LatBranch = 0.0
+    var LngBranch = 0.0
+    var ZoomBranch = ""
     
     @IBOutlet weak var dissmisBtnOut: UIButton!
     @IBOutlet weak var confirmBtn: UIButton!{
@@ -38,8 +42,9 @@ class OfficesImagesViewController: UIViewController, UICollectionViewDelegate, U
     }
     
     @IBOutlet var PopUpViewOut: UIView!
-    
+        @IBOutlet var LoginVIew: UIView!
     override func viewDidLoad() {
+       
         super.viewDidLoad()
         if conditionService != "" {
             myView.isHidden = true
@@ -50,6 +55,14 @@ class OfficesImagesViewController: UIViewController, UICollectionViewDelegate, U
             self.PopUpViewOut.center = self.view.center
             self.view.addSubview(self.PopUpViewOut)
         }
+        
+        LoginVIew.isHidden = true
+        DispatchQueue.main.async {
+            self.LoginVIew.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+           
+            self.view.addSubview(self.LoginVIew)
+        }
+        
         if officeType == "" {
             navigationItem.title = "مشاريع المكتب"
         } else {
@@ -66,7 +79,8 @@ class OfficesImagesViewController: UIViewController, UICollectionViewDelegate, U
         DispatchQueue.main.async {
             self.officesImagesCollection.scrollToItem(at: self.index!, at: .centeredHorizontally, animated: false)
         }
-        if IsCompany == "1" {
+    
+        if IsCompany == "True" {
             self.chooseOut.setTitle("اختار المكتب", for: .normal)
         }else {
             self.chooseOut.setTitle("اختار المهندس", for: .normal)
@@ -92,7 +106,7 @@ class OfficesImagesViewController: UIViewController, UICollectionViewDelegate, U
     }
     
     func shareButtonPressed() {
-        let activityVC = UIActivityViewController(activityItems: ["http://promit2030.com/1"], applicationActivities: nil)
+        let activityVC = UIActivityViewController(activityItems: ["http://promit2030.co/1"], applicationActivities: nil)
         activityVC.popoverPresentationController?.sourceView = self.view
         self.present(activityVC, animated: true, completion: nil)
     }
@@ -149,17 +163,57 @@ class OfficesImagesViewController: UIViewController, UICollectionViewDelegate, U
         self.navigationController?.pushViewController(secondView, animated: true)
     }
     
+ 
     @IBAction func ChooseThisBtn(_ sender: UIButton) {
-        let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
-        let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectATableViewController") as! NewProjectATableViewController
+        
+        
+        let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")
+        if CustmoerId == nil
+        {
+            LoginVIew.isHidden = false
+        }
+        else
+        {
+            let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
+            let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectATableViewController") as! NewProjectATableViewController
+            secondView.CompanyInfoID = self.CompanyInfoID
+            secondView.CompanyName = self.CompanyName
+            secondView.CompanyAddress = self.CompanyAddress
+            secondView.CompanyImage = self.CompanyImage
+            secondView.BranchID = self.branchId
+            secondView.EmpMobile = self.EmpMobile
+            secondView.IsCompany = self.IsCompany
+            secondView.LatBranch = self.LatBranch
+            secondView.LngBranch = self.LngBranch
+            secondView.ZoomBranch = self.ZoomBranch
+            self.navigationController?.pushViewController(secondView, animated: true)
+        }
+        
+      
+    }
+    
+    
+    @IBAction func EndLoginView(_ sender: Any) {
+        LoginVIew.isHidden = true
+    }
+    @IBAction func GtoLoginBtn(_ sender: UIButton) {
+        
+        let storyBoard : UIStoryboard = UIStoryboard(name: "NewLogin", bundle:nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "NewLoginViewController") as! NewLoginViewController
+        secondView.isComingFromProject = true
         secondView.CompanyInfoID = self.CompanyInfoID
         secondView.CompanyName = self.CompanyName
         secondView.CompanyAddress = self.CompanyAddress
         secondView.CompanyImage = self.CompanyImage
         secondView.BranchID = self.branchId
+        secondView.EmpMobile = self.EmpMobile
+        secondView.IsCompany = self.IsCompany
+        secondView.LatBranch = self.LatBranch
+        secondView.LngBranch = self.LngBranch
+        secondView.ZoomBranch = self.ZoomBranch
+        
         self.navigationController?.pushViewController(secondView, animated: true)
+        
     }
-    
-    
     
 }

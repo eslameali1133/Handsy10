@@ -20,7 +20,7 @@ class AWSegmentMoney: UIControl {
         }
     }
     
-    var selectedIndex : Int = 1 {
+    var selectedIndex : Int = 1{
         didSet {
             displayNewSelectedIndex()
         }

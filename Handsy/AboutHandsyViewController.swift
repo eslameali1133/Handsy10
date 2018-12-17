@@ -11,12 +11,7 @@ import Alamofire
 import SwiftyJSON
 
 class AboutHandsyViewController: UIViewController {
-    @IBOutlet weak var textViewOut: UIView!{
-        didSet {
-            self.textViewOut.layer.cornerRadius = 6
-        }
-    }
-    @IBOutlet weak var aboutTextView: UITextView!
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,9 +24,15 @@ class AboutHandsyViewController: UIViewController {
     @IBAction func backBtn(_ sender: UIButton) {
         self.dismiss(animated: false, completion: nil)
     }
-
+    
+    @IBOutlet weak var textViewOut: UIView!{
+        didSet {
+            self.textViewOut.layer.cornerRadius = 6
+        }
+    }
+    @IBOutlet weak var aboutTextView: UITextView!
     func aboutHandsy() {
-        Alamofire.request("http://smusers.promit2030.com/api/ApiService/AboutHandasy", method: .get, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/api/ApiService/AboutHandasy", method: .get, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             let sv = UIViewController.displaySpinner(onView: self.view)
             switch response.result {

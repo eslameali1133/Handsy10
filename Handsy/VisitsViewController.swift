@@ -127,7 +127,7 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 249
+        return UITableViewAutomaticDimension
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -148,10 +148,21 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         cell.projectTitle.text = searchResu[indexPath.section].ProjectBildTypeName
         cell.companyMobile.setTitle(searchResu[indexPath.section].Mobile, for: .normal)
         cell.companyAddress.text = searchResu[indexPath.section].EmpName
+      
+        
+        if  searchResu[indexPath.section].SakNum != ""
+        {
+              cell.SakNumber.text = searchResu[indexPath.section].SakNum
+        }else
+        {
+              cell.SakNumber.text = searchResu[indexPath.section].ProjectId
+        }
+    
         
         let img = searchResu[indexPath.section].Logo
-        let trimmedString = img.trimmingCharacters(in: .whitespaces)
-        if let url = URL.init(string: trimmedString) {
+        print(img)
+        let trimmedString = img.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+        if let url = URL.init(string: trimmedString!) {
             cell.companyLogoImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
         } else{
             print("nil")
@@ -163,9 +174,9 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         cell.circleStatusImage.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         if status == "0"{
             cell.statusV.backgroundColor = #colorLiteral(red: 0.9459478259, green: 0.7699176669, blue: 0.05561546981, alpha: 1)
-            cell.statusNameLabel.text = "قيد المقابلة"
-            cell.statusNameLabel.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-            cell.circleStatusImage.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            cell.statusNameLabel.text = "انتظار الموافقة"
+//            cell.statusNameLabel.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+//            cell.circleStatusImage.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         }else if status == "1"{
             cell.statusV.backgroundColor = #colorLiteral(red: 0.1812162697, green: 0.7981202602, blue: 0.4416504204, alpha: 1)
             cell.statusNameLabel.text = "تمت المقابلة"
@@ -180,7 +191,7 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.statusNameLabel.text = "مؤجلة"
         }else if status == "5"{
             cell.statusV.backgroundColor = #colorLiteral(red: 0.1521916687, green: 0.6835762858, blue: 0.376893878, alpha: 1)
-            cell.statusNameLabel.text = "موافقة وقيد المقابلة"
+            cell.statusNameLabel.text = "انتظار المقابلة"
         }else {
             print("error status")
         }
@@ -333,11 +344,11 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let dvc = storyBoard.instantiateViewController(withIdentifier: "MeetingStatusFilterTableViewController") as! MeetingStatusFilterTableViewController
         dvc.filterVisitsDelegate = self
         if condition == "New" {
-            dvc.type = "1"
-            dvc.preferredContentSize = CGSize(width: 200, height: 100)
+            dvc.type = "3"
+            dvc.preferredContentSize = CGSize(width: 200, height: 280)
         }else {
             dvc.type = "2"
-            dvc.preferredContentSize = CGSize(width: 200, height: 200)
+            dvc.preferredContentSize = CGSize(width: 200, height: 190)
         }
         dvc.statusId = StatusId
         dvc.modalPresentationStyle = .popover

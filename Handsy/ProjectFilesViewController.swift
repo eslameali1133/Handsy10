@@ -12,11 +12,14 @@ import SwiftyJSON
 
 class ProjectFilesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ProjectFilesModelDelegate {
     
-    @IBOutlet weak var projectTitle: UILabel!
+   
     @IBOutlet weak var projectFilesTableView: UITableView!
     @IBOutlet weak var HeaderViewOut: UIView!
+    
     @IBOutlet weak var companyNameLabel: UILabel!
-    @IBOutlet weak var EmpNameLabel: UIButton!
+    @IBOutlet weak var EmpNameLabel: UILabel!
+     @IBOutlet weak var projectTitle: UILabel!
+      @IBOutlet weak var Saknumber: UILabel!
     @IBOutlet weak var companyImageOut: UIImageView!{
         didSet {
             DispatchQueue.main.async {
@@ -72,14 +75,8 @@ class ProjectFilesViewController: UIViewController, UITableViewDelegate, UITable
     func ComapnyNameFunc(){
         companyNameLabel.text = ComapnyName
         projectTitle.text = projectTitleView
-        EmpNameLabel.setTitle(EmpName, for: .normal)
-        let trimmedString = Logo.trimmingCharacters(in: .whitespaces)
-        if let url = URL.init(string: trimmedString) {
-            companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
-        } else{
-            print("nil")
-            companyImageOut.image = #imageLiteral(resourceName: "officePlaceholder")
-        }
+        EmpNameLabel.text = EmpName
+       Saknumber.text = ProjectId
     }
     
     override func didReceiveMemoryWarning() {

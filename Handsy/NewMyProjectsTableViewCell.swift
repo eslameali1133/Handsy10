@@ -9,6 +9,8 @@
 import UIKit
 
 class NewMyProjectsTableViewCell: UITableViewCell {
+    
+    @IBOutlet weak var WidthConstrainStatus: NSLayoutConstraint!
     @IBOutlet weak var projectTitleLabel: UILabel!
     @IBOutlet weak var statusImage: UIImageView!
     @IBOutlet weak var StatusNameLabel: UILabel!
@@ -16,6 +18,15 @@ class NewMyProjectsTableViewCell: UITableViewCell {
     @IBOutlet weak var EngNameLabel: UILabel!
     @IBOutlet weak var DateRegisterLabel: UILabel!
     
+    @IBOutlet weak var SakNumber: UILabel!
+    @IBOutlet weak var StatusWidhtConst: NSLayoutConstraint!
+    @IBOutlet weak var statusview: UIView!
+//        {
+//        didSet{
+//           // statusview.layer.cornerRadius = 4
+////            statusview.roundCorners([.bottomRight], radius: 15)
+//        }
+//    }
     @IBOutlet weak var StatusRightView: UIView!{
         didSet {
             

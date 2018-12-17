@@ -37,11 +37,7 @@ extension RateTableViewCell: FloatRatingViewDelegate {
     func floatRatingView(_ ratingView: FloatRatingView, didUpdate rating: Double) {
         let value = String(format: "%.2f", self.RateView.rating)
         print(index)
-//        if(rateArry.count > 0)
-//        {
-//        rateArry.remove(at: index)
-//        }
-//        rateArry.insert(value, at: index)
+
         if delegate != nil {
             delegate?.getRateValue(info: value , Index: index )
         }

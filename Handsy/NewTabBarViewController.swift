@@ -12,11 +12,28 @@ import SwiftyJSON
 import UserNotifications
 
 class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
-    @IBOutlet var buttonsView: UIView!
     
+    @IBOutlet weak var heightConstrianWord: NSLayoutConstraint!
+   
+    @IBOutlet weak var ConstrianHeigthBtn: NSLayoutConstraint!
+    @IBOutlet weak var ConstrinWidhrBtn: NSLayoutConstraint!
+    
+    @IBOutlet var buttonsView: UIView!
+      var freshLaunch = false
+     @IBInspectable var defaultIndex: Int = 2
     @IBOutlet weak var profileBtn: UIButton!{
         didSet {
             self.profileBtn.layer.cornerRadius = self.profileBtn.frame.width / 2
+        }
+    }
+    @IBOutlet weak var AboutHandasy: UIButton!{
+        didSet {
+            self.AboutHandasy.layer.cornerRadius = self.AboutHandasy.frame.width / 2
+        }
+    }
+    @IBOutlet weak var EntroBtn: UIButton!{
+        didSet {
+            self.EntroBtn.layer.cornerRadius = self.EntroBtn.frame.width / 2
         }
     }
     @IBOutlet weak var contactUSBtn: UIButton!{
@@ -48,8 +65,20 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
         super.viewDidLoad()
         self.delegate = self
         // Do any additional setup after loading the view.
+          CountCustomerNotification()
+   
+        
     }
-    
+  
+    override func viewWillAppear(_ animated: Bool) {
+        if freshLaunch == true {
+            freshLaunch = false
+           
+           selectedIndex = defaultIndex
+          
+            
+        }
+    }
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         let vcIndex = tabBarController.viewControllers!.index(of: viewController)!
         if  vcIndex == 4 {
@@ -115,9 +144,29 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
         }
     }
     @IBAction func goFilesArchive(_ sender: UIButton) {
+        if FilesCount == 0 {
+            Toast.long(message: "لا يوجد وثايق و مستندات ")
+        }else {
         buttonsView.removeFromSuperview()
         let storyBoard : UIStoryboard = UIStoryboard(name: "MyFilesAndMoney", bundle: nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "MyFilesViewController") as! MyFilesViewController
+        let topController = UIApplication.topViewController()
+        topController?.show(secondView, sender: true)
+        }
+        
+    }
+    @IBAction func GotoAbout(_ sender: Any) {
+        buttonsView.removeFromSuperview()
+        let storyBoard : UIStoryboard = UIStoryboard(name: "AboutHandasy", bundle: nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "MomeyManagmentViewController") as! aboutHangsyViewController
+        let topController = UIApplication.topViewController()
+        topController?.show(secondView, sender: true)
+    }
+    @IBAction func Gotoproview(_ sender: Any) {
+        buttonsView.removeFromSuperview()
+        let storyBoard : UIStoryboard = UIStoryboard(name: "EntroStoryboard", bundle:nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "EntroVC") as! EntroVC
+       secondView.comingmain = true 
         let topController = UIApplication.topViewController()
         topController?.show(secondView, sender: true)
     }
@@ -145,9 +194,7 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
             _ = UserDefaults.standard.removeObject(forKey: "email")
             _ = UserDefaults.standard.removeObject(forKey: "nationalId")
             _ = UserDefaults.standard.removeObject(forKey: "CustomerPhoto")
-            //            let domain = Bundle.main.bundleIdentifier!
-            //            UserDefaults.standard.removePersistentDomain(forName: domain)
-            //            UserDefaults.standard.synchronize()
+            
             self.applicationl.applicationIconBadgeNumber = 0
             let center = UNUserNotificationCenter.current()
             center.removeAllDeliveredNotifications() // To remove all delivered notifications
@@ -177,7 +224,7 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
             "DeviceID":DeviceID
         ]
         
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/PushInsertUpdate", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/PushInsertUpdate", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json = JSON(response.result.value!)
@@ -208,7 +255,7 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
         let parameters: Parameters = [
             "CustmoerId":CustmoerId
         ]
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json = JSON(response.result.value!)
@@ -235,25 +282,34 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
     }
     func setAppBadge() {
         let count = NotiTotalCount
+          let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")!
+        if CustmoerId != nil || CustmoerId != ""
+        {
         applicationl.applicationIconBadgeNumber = count
+        }else
+        {
+              applicationl.applicationIconBadgeNumber = 0
+        }
     }
     
     
     var DesignsCount = 0
     var MeetingCount = 0
+     var FilesCount = 0
     // func get designs and visits count
     func GetProjectDataCountByCustID() {
         let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")!
         let parameters: Parameters = [
             "custId":CustmoerId
         ]
-        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetProjectDataCountByCustID?custId=\(CustmoerId)", method: .get, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/api/ApiService/GetProjectDataCountByCustID?custId=\(CustmoerId)", method: .get, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json = JSON(response.result.value!)
                 print(json)
                 self.DesignsCount = json["DesignsCount"].intValue
                 self.MeetingCount = json["MeetingCount"].intValue
+                self.FilesCount = json["FileCount"].intValue
             case .failure(let error):
                 print(error)
                 let alertAction = UIAlertController(title: "خطاء في الاتصال", message: "اعادة المحاولة", preferredStyle: .alert)

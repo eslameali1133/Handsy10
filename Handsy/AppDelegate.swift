@@ -26,10 +26,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     let badgeCount: Int = 0
     let applicationl = UIApplication.shared
     var isGrantedNotificationAccess:Bool = true
+    let userDefaults = UserDefaults.standard
+    var currentTimesOfOpenApp:Int = 0
+    var optionallyStoreTheFirstLaunchFlag = false
     
+    func saveTimesOfOpenApp() -> Void {
+        userDefaults.set(currentTimesOfOpenApp, forKey: "timesOfOpenApp")
+    }
+    
+    func getCurrentTimesOfOpenApp() -> Int {
+        return userDefaults.integer(forKey: "timesOfOpenApp") + 1
+    }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
         UITabBar.appearance().unselectedItemTintColor = #colorLiteral(red: 0.831372549, green: 0.6862745098, blue: 0.2117647059, alpha: 1)
         UITabBar.appearance().backgroundColor = #colorLiteral(red: 0.03921568627, green: 0.03921568627, blue: 0.03921568627, alpha: 1)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 10) ], for: .normal)
@@ -68,11 +79,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             navigationController.selectedIndex = 0
             self.window?.rootViewController = navigationController
         }
-//        let center =  UNUserNotificationCenter.current()
-//        center.requestAuthorization(options: [.alert, .sound, .badge]) { (result, error) in
-//            //handle result of request failure
-//            print(result)
-//        }
+        
+        
+        
+        
+        
+        
+        self.currentTimesOfOpenApp = getCurrentTimesOfOpenApp()
+        optionallyStoreTheFirstLaunchFlag = UserDefaults.isFirstLaunch()
+        
+        //        let center =  UNUserNotificationCenter.current()
+        //        center.requestAuthorization(options: [.alert, .sound, .badge]) { (result, error) in
+        //            //handle result of request failure
+        //            print(result)
+        //        }
         //        contentPush(title: " Jurassic Park", body: "Its lunch time at the park, please join us for a dinosaur feeding")
         return true
     }
@@ -130,6 +150,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        saveTimesOfOpenApp()
+        
     }
     
     
@@ -148,404 +170,153 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     //    }
     
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-        // If you are receiving a notification message while your app is in the background,
-        // this callback will not be fired till the user taps on the notification launching the application.
-        // TODO: Handle data of notification
-        
-        // With swizzling disabled you must let Messaging know about the message, for Analytics
-        // Messaging.messaging().appDidReceiveMessage(userInfo)
-//
-        // Print message ID.
-        if let messageID = userInfo["Type"]{
-            print("Message ID: \(messageID)")
-            let type = userInfo["Type"] as? String
-            let notificationID = userInfo["NotificationID"] as? String
-            print("type: \(type)")
-            var titleAlert = ""
-            var bodyAlert = ""
-            if let aps = userInfo["aps"] as? NSDictionary {
-                let alert = aps["alert"] as? NSDictionary
-                let title = alert?["title"] as? String
-                let body = alert?["body"] as? String
-                titleAlert = title!
-                bodyAlert = body!
-            }
-            if type == "1" {
-                MarkNotifyReadByNotifyID(NotificationID: notificationID!)
-                let ProjectId = userInfo["ProjectId"] as? String
-                let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle: nil)
-                let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectDetialsFilterTableViewController") as! NewProjectDetialsFilterTableViewController
-                secondView.ProjectId = ProjectId!
-                secondView.nou = "LOl"
-                let topController = UIApplication.topViewController()
-                topController?.show(secondView, sender: true)
-                
-            }else if type == "2" {
-                MarkNotifyReadByNotifyID(NotificationID: notificationID!)
-                let MeetingId = userInfo["MeetingId"] as? String
-                MeetingID = MeetingId!
-                let storyBoard : UIStoryboard = UIStoryboard(name: "VisitsAndDetails", bundle: nil)
-                let secondView = storyBoard.instantiateViewController(withIdentifier: "VisitsDetialsTableViewController") as! VisitsDetialsTableViewController
-                let topController = UIApplication.topViewController()
-                topController?.show(secondView, sender: true)
-                
-            }else if type == "3" {
-                MarkNotifyReadByNotifyID(NotificationID: notificationID!)
-                let ProjectId = userInfo["ProjectId"] as? String
-                let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle: nil)
-                let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectDetialsFilterTableViewController") as! NewProjectDetialsFilterTableViewController
-                secondView.ProjectId = ProjectId!
-                secondView.nou = "LOl"
-                
-                let topController = UIApplication.topViewController()
-                topController?.show(secondView, sender: true)
-                
-            }else if type == "4" {
-                MarkNotifyReadByNotifyID(NotificationID: notificationID!)
-                let ProjectId = userInfo["ProjectId"] as? String
-                let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
-                let secondView = storyBoard.instantiateViewController(withIdentifier: "MoneyManagmentDetialsTableViewController") as! MoneyManagmentDetialsTableViewController
-                secondView.ProjectId = ProjectId!
-                secondView.pushCond = "LOl"
-                let topController = UIApplication.topViewController()
-                topController?.show(secondView, sender: true)
-                
-            }else if type == "5" {
-                MarkNotifyReadByNotifyID(NotificationID: notificationID!)
-                let DesignStagesID = userInfo["DesignStagesID"] as? String
-                designStagesID = DesignStagesID!
-                let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
-                let secondView = storyBoard.instantiateViewController(withIdentifier: "DetailsDesignTableViewController") as! DetailsDesignTableViewController
-                let topController = UIApplication.topViewController()
-                topController?.show(secondView, sender: true)
-                
-            }else if type == "7" {
-                MarkNotifyReadByNotifyID(NotificationID: notificationID!)
-                let DesignStagesID = userInfo["DesignStagesID"] as? String
-                designStagesID = DesignStagesID!
-                let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
-                let secondView = storyBoard.instantiateViewController(withIdentifier: "DetailsDesignTableViewController") as! DetailsDesignTableViewController
-                secondView.isScroll = true
-                let topController = UIApplication.topViewController()
-                topController?.show(secondView, sender: true)
-                
-            }else if type == "8" {
-                MarkNotifyReadByNotifyID(NotificationID: notificationID!)
-                let File = userInfo["File"] as? String
-                let ProjectId = userInfo["ProjectId"] as? String
-                let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
-                let secondView = storyBoard.instantiateViewController(withIdentifier: "ShowContractViewController") as! ShowContractViewController
-                secondView.url = File!
-                secondView.ProjectId = ProjectId!
-                let topController = UIApplication.topViewController()
-                topController?.show(secondView, sender: true)
-                
-            }else if type == "9" {
-                let ProjectId = userInfo["ProjectId"] as? String
-                if let VC = UIApplication.topViewController() as? ChatOfProjectsViewController {
-                    ReadAllMessageForCust(ProjectId: ProjectId!)
-                    let messageByProjectIdObj = MessageByProjectId()
-                    messageByProjectIdObj.ImageName = userInfo["ImageName"] as? String
-                    messageByProjectIdObj.ImagePath = userInfo["ImagePath"] as? String
-                    messageByProjectIdObj.Message = userInfo["Message"] as? String
-                    messageByProjectIdObj.MessageTime = userInfo["MessageTime"] as? String
-                    messageByProjectIdObj.MessageType = userInfo["MessageType"] as? String
-                    messageByProjectIdObj.SenderId = userInfo["SenderId"] as? String
-                    messageByProjectIdObj.SenderImage = userInfo["SenderImage"] as? String
-                    messageByProjectIdObj.SenderName = userInfo["SenderName"] as? String
-                    messageByProjectIdObj.SenderType = userInfo["SenderType"] as? String
-                    VC.messagesList.append(messageByProjectIdObj)
-                    VC.scrollToBottom()
-                    VC.chatTableView.reloadData()
-                }else {
-                    let storyboard = UIStoryboard(name: "Chat", bundle: nil)
-                    let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
-                    FirstViewController.ProjectId = ProjectId!
-                    let topController = UIApplication.topViewController()
-                    topController?.show(FirstViewController, sender: nil)
-                }
-            }else {
-                print("type: \(type)")
-            }
-            
-        }
-        
-        // Print full message.
-        print(userInfo)
-    }
     func MarkNotifyReadByNotifyID(NotificationID: String) {
         let parameters: Parameters = [
             "NotificationID": NotificationID
         ]
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/MarkNotifyReadByNotifyID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/MarkNotifyReadByNotifyID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
         }
     }
     
     func ReadAllMessageForCust(ProjectId: String) {
-        Alamofire.request("http://smusers.promit2030.com/api/ApiService/ReadAllMessageForCust?ProjectId=\(ProjectId)", method: .post, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/api/ApiService/ReadAllMessageForCust?ProjectId=\(ProjectId)", method: .post, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
         }
     }
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        
-        
-        
-        // Print full message.
-        print(userInfo)
-        // Print message ID.
-        if let messageID = userInfo["Type"]{
-            print("Message ID: \(messageID)")
-            let type = userInfo["Type"] as? String
-            print("type: \(type)")
-            let notificationID = userInfo["NotificationID"] as? String
-            //            var titleAlert = ""
-            //            var bodyAlert = ""
-            //            if let aps = userInfo["aps"] as? NSDictionary {
-            //                let alert = aps["alert"] as? NSDictionary
-            //                let title = alert?["title"] as? String
-            //                let body = alert?["body"] as? String
-            //                titleAlert = title!
-            //                bodyAlert = body!
-            //            }
-            if type == "1" {
-                MarkNotifyReadByNotifyID(NotificationID: notificationID!)
-                let ProjectId = userInfo["ProjectId"] as? String
-                let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle: nil)
-                let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectDetialsFilterTableViewController") as! NewProjectDetialsFilterTableViewController
-                secondView.ProjectId = ProjectId!
-                secondView.nou = "LOl"
-                let topController = UIApplication.topViewController()
-                topController?.show(secondView, sender: true)
-                self.applicationl.applicationIconBadgeNumber = self.badgeCount - 1
-            }else if type == "2" {
-                MarkNotifyReadByNotifyID(NotificationID: notificationID!)
-                let MeetingId = userInfo["MeetingId"] as? String
-                MeetingID = MeetingId!
-                let storyBoard : UIStoryboard = UIStoryboard(name: "VisitsAndDetails", bundle: nil)
-                let secondView = storyBoard.instantiateViewController(withIdentifier: "VisitsDetialsTableViewController") as! VisitsDetialsTableViewController
-                let topController = UIApplication.topViewController()
-                topController?.show(secondView, sender: true)
-                self.applicationl.applicationIconBadgeNumber = self.badgeCount - 1
-            }else if type == "3" {
-                MarkNotifyReadByNotifyID(NotificationID: notificationID!)
-                let ProjectId = userInfo["ProjectId"] as? String
-                let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle: nil)
-                let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectDetialsFilterTableViewController") as! NewProjectDetialsFilterTableViewController
-                secondView.ProjectId = ProjectId!
-                secondView.nou = "LOl"
-                
-                let topController = UIApplication.topViewController()
-                topController?.show(secondView, sender: true)
-                self.applicationl.applicationIconBadgeNumber = self.badgeCount - 1
-            }else if type == "4" {
-                MarkNotifyReadByNotifyID(NotificationID: notificationID!)
-                let ProjectId = userInfo["ProjectId"] as? String
-                let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
-                let secondView = storyBoard.instantiateViewController(withIdentifier: "MoneyManagmentDetialsTableViewController") as! MoneyManagmentDetialsTableViewController
-                secondView.ProjectId = ProjectId!
-                secondView.pushCond = "LOl"
-                let topController = UIApplication.topViewController()
-                topController?.show(secondView, sender: true)
-                self.applicationl.applicationIconBadgeNumber = self.badgeCount - 1
-            }else if type == "5" {
-                MarkNotifyReadByNotifyID(NotificationID: notificationID!)
-                let DesignStagesID = userInfo["DesignStagesID"] as? String
-                designStagesID = DesignStagesID!
-                let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
-                let secondView = storyBoard.instantiateViewController(withIdentifier: "DetailsDesignTableViewController") as! DetailsDesignTableViewController
-                let topController = UIApplication.topViewController()
-                topController?.show(secondView, sender: true)
-                self.applicationl.applicationIconBadgeNumber = self.badgeCount - 1
-            }else if type == "7" {
-                MarkNotifyReadByNotifyID(NotificationID: notificationID!)
-                let DesignStagesID = userInfo["DesignStagesID"] as? String
-                designStagesID = DesignStagesID!
-                let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
-                let secondView = storyBoard.instantiateViewController(withIdentifier: "DetailsDesignTableViewController") as! DetailsDesignTableViewController
-                secondView.isScroll = true
-                let topController = UIApplication.topViewController()
-                topController?.show(secondView, sender: true)
-                self.applicationl.applicationIconBadgeNumber = self.badgeCount - 1
-            }else if type == "8" {
-                MarkNotifyReadByNotifyID(NotificationID: notificationID!)
-                let File = userInfo["File"] as? String
-                let ProjectId = userInfo["ProjectId"] as? String
-                let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
-                let secondView = storyBoard.instantiateViewController(withIdentifier: "ShowContractViewController") as! ShowContractViewController
-                secondView.url = File!
-                secondView.ProjectId = ProjectId!
-                let topController = UIApplication.topViewController()
-                topController?.show(secondView, sender: true)
-                
-            }else if type == "9" {
-                let ProjectId = userInfo["ProjectId"] as? String
-                if let VC = UIApplication.topViewController() as? ChatOfProjectsViewController {
-                    ReadAllMessageForCust(ProjectId: ProjectId!)
-                    let messageByProjectIdObj = MessageByProjectId()
-                    messageByProjectIdObj.ImageName = userInfo["ImageName"] as? String
-                    messageByProjectIdObj.ImagePath = userInfo["ImagePath"] as? String
-                    messageByProjectIdObj.Message = userInfo["Message"] as? String
-                    messageByProjectIdObj.MessageTime = userInfo["MessageTime"] as? String
-                    messageByProjectIdObj.MessageType = userInfo["MessageType"] as? String
-                    messageByProjectIdObj.SenderId = userInfo["SenderId"] as? String
-                    messageByProjectIdObj.SenderImage = userInfo["SenderImage"] as? String
-                    messageByProjectIdObj.SenderName = userInfo["SenderName"] as? String
-                    messageByProjectIdObj.SenderType = userInfo["SenderType"] as? String
-                    VC.messagesList.append(messageByProjectIdObj)
-                    VC.scrollToBottom()
-                    VC.chatTableView.reloadData()
-                }else {
-                    let storyboard = UIStoryboard(name: "Chat", bundle: nil)
-                    let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
-                    FirstViewController.ProjectId = ProjectId!
-                    let topController = UIApplication.topViewController()
-                    topController?.show(FirstViewController, sender: nil)
-                 }
-            }else {
-                print("type: \(type)")
-            }
-            
-        }
-        completionHandler(UIBackgroundFetchResult.newData)
+    //    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    //
+    //        let userInfo:[AnyHashable:Any] =  notification.request.content.userInfo
+    //        let state : UIApplicationState = applicationl.applicationState
+    //
+    //        switch state {
+    //        case UIApplicationState.inactive:
+    //            print("123")
+    //        default:
+    //            print("Run code to download content")
+    //            completionHandler([.alert,.badge,.sound])
+    //        }
+    //
+    //        // Print full message.
+    //        print(userInfo)
+    //    }
+    
+    
+    
+    
+    
+    func movetoHoem()
+    {
+        let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
+        let sub = storyBoard.instantiateViewController(withIdentifier: "NewMain") as! NewTabBarViewController
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.window?.rootViewController = sub
     }
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        let userInfo:[AnyHashable:Any] =  notification.request.content.userInfo
-        let state : UIApplicationState = applicationl.applicationState
-        switch state {
-        case UIApplicationState.active:
-            print("If needed notify user about the message")
-            if let messageID = userInfo["Type"]{
-                print("Message ID: \(messageID)")
-                let type = userInfo["Type"] as? String
-                print("type: \(type)")
-                let notificationID = userInfo["NotificationID"] as? String
-                if type == "9" {
-                    let ProjectId = userInfo["ProjectId"] as? String
-                    if let VC = UIApplication.topViewController() as? ChatOfProjectsViewController {
-                        ReadAllMessageForCust(ProjectId: ProjectId!)
-                        let messageByProjectIdObj = MessageByProjectId()
-                        messageByProjectIdObj.ImageName = userInfo["ImageName"] as? String
-                        messageByProjectIdObj.ImagePath = userInfo["ImagePath"] as? String
-                        messageByProjectIdObj.Message = userInfo["Message"] as? String
-                        messageByProjectIdObj.MessageTime = userInfo["MessageTime"] as? String
-                        messageByProjectIdObj.MessageType = userInfo["MessageType"] as? String
-                        messageByProjectIdObj.SenderId = userInfo["SenderId"] as? String
-                        messageByProjectIdObj.SenderImage = userInfo["SenderImage"] as? String
-                        messageByProjectIdObj.SenderName = userInfo["SenderName"] as? String
-                        messageByProjectIdObj.SenderType = userInfo["SenderType"] as? String
-                        VC.messagesList.append(messageByProjectIdObj)
-                        VC.scrollToBottom()
-                        VC.chatTableView.reloadData()
-                        completionHandler([])
-                    }else {
-                        completionHandler([.alert,.badge])
-                    }
-                }
-            }else {
-                completionHandler([.alert,.badge])
-            }
-
-        default:
-            print("Run code to download content")
-            completionHandler([.alert,.badge,.sound])
-        }
-        
-        // Print full message.
-        print(userInfo)
-    }
+    
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
         // Print message ID.
-        if let messageID = userInfo["Type"]{
+        if let aps = userInfo["aps"] as? NSDictionary {
+            let alert = aps["alert"] as? NSDictionary
+            let title = alert?["title"] as? String
+            let body = alert?["body"] as? String
+            
+        }
+        
+        
+        print(userInfo)
+        
+        if let messageID = userInfo["PushType"]{
             print("Message ID: \(messageID)")
-            let type = userInfo["Type"] as? String
+            let type = userInfo["PushType"] as? String
             print("type: \(type)")
             let notificationID = userInfo["NotificationID"] as? String
-            //            var titleAlert = ""
-            //            var bodyAlert = ""
-            //            if let aps = userInfo["aps"] as? NSDictionary {
-            //                let alert = aps["alert"] as? NSDictionary
-            //                let title = alert?["title"] as? String
-            //                let body = alert?["body"] as? String
-            //                titleAlert = title!
-            //                bodyAlert = body!
-            //            }
+            comingnotification = true
+            trypNotification = type!
             if type == "1" {
                 MarkNotifyReadByNotifyID(NotificationID: notificationID!)
-                let ProjectId = userInfo["ProjectId"] as? String
-                let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle: nil)
-                let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectDetialsFilterTableViewController") as! NewProjectDetialsFilterTableViewController
-                secondView.ProjectId = ProjectId!
-                secondView.nou = "LOl"
-                let topController = UIApplication.topViewController()
-                topController?.show(secondView, sender: true)
+                ProIDGloable = (userInfo["ProjectId"] as? String)!
+                movetoHoem()
                 
-            }else if type == "2" {
+            }else if type == "2"{
                 MarkNotifyReadByNotifyID(NotificationID: notificationID!)
-                let MeetingId = userInfo["MeetingId"] as? String
-                MeetingID = MeetingId!
-                let storyBoard : UIStoryboard = UIStoryboard(name: "VisitsAndDetails", bundle: nil)
-                let secondView = storyBoard.instantiateViewController(withIdentifier: "VisitsDetialsTableViewController") as! VisitsDetialsTableViewController
-                let topController = UIApplication.topViewController()
-                topController?.show(secondView, sender: true)
+              guard let MeetingId = userInfo["MeetingID"] as? String else {
+                    comingnotification = false
+                    movetoHoem()
+                    return
+                }
+                MeetingID = MeetingId
+                movetoHoem()
+                
                 
             }else if type == "3" {
                 MarkNotifyReadByNotifyID(NotificationID: notificationID!)
-                let ProjectId = userInfo["ProjectId"] as? String
-                let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle: nil)
-                let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectDetialsFilterTableViewController") as! NewProjectDetialsFilterTableViewController
-                secondView.ProjectId = ProjectId!
-                secondView.nou = "LOl"
-                let topController = UIApplication.topViewController()
-                topController?.show(secondView, sender: true)
+                ProIDGloable = (userInfo["ProjectId"] as? String)!
+                movetoHoem()
                 
             }else if type == "4" {
+                
                 MarkNotifyReadByNotifyID(NotificationID: notificationID!)
-                let ProjectId = userInfo["ProjectId"] as? String
-                let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
-                let secondView = storyBoard.instantiateViewController(withIdentifier: "MoneyManagmentDetialsTableViewController") as! MoneyManagmentDetialsTableViewController
-                secondView.ProjectId = ProjectId!
-                secondView.pushCond = "LOl"
-                let topController = UIApplication.topViewController()
-                topController?.show(secondView, sender: true)
+                ProIDGloable = (userInfo["ProjectId"] as? String)!
+                movetoHoem()
                 
             }else if type == "5" {
                 MarkNotifyReadByNotifyID(NotificationID: notificationID!)
-                let DesignStagesID = userInfo["DesignStagesID"] as? String
-                designStagesID = DesignStagesID!
-                let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
-                let secondView = storyBoard.instantiateViewController(withIdentifier: "DetailsDesignTableViewController") as! DetailsDesignTableViewController
-                let topController = UIApplication.topViewController()
-                topController?.show(secondView, sender: true)
+             guard  let DesignStagesID = userInfo["DesignStagesID"] as? String else {
+                    comingnotification = false
+                    movetoHoem()
+                    return
+                }
+                designStagesID = DesignStagesID
+                
+                movetoHoem()
                 
             }else if type == "7" {
                 MarkNotifyReadByNotifyID(NotificationID: notificationID!)
-                let DesignStagesID = userInfo["DesignStagesID"] as? String
-                designStagesID = DesignStagesID!
-                let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
-                let secondView = storyBoard.instantiateViewController(withIdentifier: "DetailsDesignTableViewController") as! DetailsDesignTableViewController
-                secondView.isScroll = true
-                let topController = UIApplication.topViewController()
-                topController?.show(secondView, sender: true)
+               guard let DesignStagesID = userInfo["DesignStagesID"] as? String else {
+                    comingnotification = false
+                    movetoHoem()
+                    return
+                }
+                designStagesID = DesignStagesID
+                movetoHoem()
                 
-            }else if type == "8" {
+                
+                
+            }else if type == "6" {
                 MarkNotifyReadByNotifyID(NotificationID: notificationID!)
-                let File = userInfo["File"] as? String
-                let ProjectId = userInfo["ProjectId"] as? String
-                let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
-                let secondView = storyBoard.instantiateViewController(withIdentifier: "ShowContractViewController") as! ShowContractViewController
-                secondView.url = File!
-                secondView.ProjectId = ProjectId!
-                let topController = UIApplication.topViewController()
-                topController?.show(secondView, sender: true)
+                guard let DesignStagesID = userInfo["DesignStagesID"] as? String else {
+                    comingnotification = false
+                    movetoHoem()
+                    return
+                }
+                designStagesID = DesignStagesID
+                movetoHoem()
                 
-            }else if type == "9" {
+                
+                
+            }
+            else if type == "8" {
+                MarkNotifyReadByNotifyID(NotificationID: notificationID!)
+                Filegl = (userInfo["File"] as? String)!
+                ProIDGloable = (userInfo["ProjectId"] as? String)!
+                movetoHoem()
+                
+                
+            }
+            else if type == "10" {
+                MarkNotifyReadByNotifyID(NotificationID: notificationID!)
+                   ProIDGloable = (userInfo["ProjectId"] as? String)!
+                movetoHoem()
+                
+                
+            }
+            else if type == "9" {
                 let ProjectId = userInfo["ProjectId"] as? String
+                ProIDGloable = (userInfo["ProjectId"] as? String)!
                 ReadAllMessageForCust(ProjectId: ProjectId!)
                 if let VC = UIApplication.topViewController() as? ChatOfProjectsViewController {
                     let messageByProjectIdObj = MessageByProjectId()
@@ -558,18 +329,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     messageByProjectIdObj.SenderImage = userInfo["SenderImage"] as? String
                     messageByProjectIdObj.SenderName = userInfo["SenderName"] as? String
                     messageByProjectIdObj.SenderType = userInfo["SenderType"] as? String
+                    messageByProjectIdObjgl = messageByProjectIdObj
                     VC.messagesList.append(messageByProjectIdObj)
                     VC.scrollToBottom()
                     VC.chatTableView.reloadData()
+                    
+                    
                 }else {
-                    let storyboard = UIStoryboard(name: "Chat", bundle: nil)
-                    let FirstViewController = storyboard.instantiateViewController(withIdentifier: "ChatOfProjectsViewController") as! ChatOfProjectsViewController
-                    FirstViewController.ProjectId = ProjectId!
-                    let topController = UIApplication.topViewController()
-                    topController?.show(FirstViewController, sender: nil)
-                 }
+                    
+                    movetoHoem()
+                }
             }else {
-                print("type: \(type)")
+                 comingnotification = false
+                 movetoHoem()
+                
+             
             }
             
         }
@@ -579,4 +353,70 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         completionHandler()
     }
     
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler(.alert)
+        let userInfo:[AnyHashable:Any] =  notification.request.content.userInfo
+        let state : UIApplicationState = applicationl.applicationState
+        var type = ""
+        if let messageID = userInfo["PushType"]{
+            print("Message ID: \(messageID)")
+            type = (userInfo["PushType"] as? String)!
+        }
+//        // new code
+//        if type == "9" {
+        
+            switch state {
+            case UIApplicationState.active:
+                print("If needed notify user about the message")
+                if let messageID = userInfo["PushType"]{
+                    print("Message ID: \(messageID)")
+                    let type = userInfo["PushType"] as? String
+                    print("type: \(type)")
+                    let notificationID = userInfo["NotificationID"] as? String
+                    if type == "9" {
+                        let ProjectId = userInfo["ProjectId"] as? String
+                        if let VC = UIApplication.topViewController() as? ChatOfProjectsViewController {
+                            ReadAllMessageForCust(ProjectId: ProjectId!)
+                            let messageByProjectIdObj = MessageByProjectId()
+                            messageByProjectIdObj.ImageName = userInfo["ImageName"] as? String
+                            messageByProjectIdObj.ImagePath = userInfo["ImagePath"] as? String
+                            messageByProjectIdObj.Message = userInfo["Message"] as? String
+                            messageByProjectIdObj.MessageTime = userInfo["MessageTime"] as? String
+                            messageByProjectIdObj.MessageType = userInfo["MessageType"] as? String
+                            messageByProjectIdObj.SenderId = userInfo["SenderId"] as? String
+                            messageByProjectIdObj.SenderImage = userInfo["SenderImage"] as? String
+                            messageByProjectIdObj.SenderName = userInfo["SenderName"] as? String
+                            messageByProjectIdObj.SenderType = userInfo["SenderType"] as? String
+                            VC.messagesList.append(messageByProjectIdObj)
+                            VC.scrollToBottom()
+                            VC.chatTableView.reloadData()
+                            completionHandler([])
+                        }else {
+                            completionHandler([.alert,.badge])
+                        }
+                    }
+                }else {
+                    completionHandler([.alert,.badge])
+                }
+                
+            default:
+                print("Run code to download content")
+                completionHandler([.alert,.badge,.sound])
+            }
+        }
+       
+//    }
+}
+extension UserDefaults {
+    // check for is first launch - only true on first invocation after app install, false on all further invocations
+    // Note: Store this value in AppDelegate if you have multiple places where you are checking for this flag
+    static func isFirstLaunch() -> Bool {
+        let hasBeenLaunchedBeforeFlag = "hasBeenLaunchedBeforeFlag"
+        let isFirstLaunch = !UserDefaults.standard.bool(forKey: hasBeenLaunchedBeforeFlag)
+        if (isFirstLaunch) {
+            UserDefaults.standard.set(true, forKey: hasBeenLaunchedBeforeFlag)
+            UserDefaults.standard.synchronize()
+        }
+        return isFirstLaunch
+    }
 }

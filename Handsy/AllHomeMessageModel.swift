@@ -21,13 +21,14 @@ class AllHomeMessageModel: NSObject {
     
     func AllMessageListForCust(view: UIView, VC: UIViewController, type: String, projectTitle: String, completion: @escaping (_ results: [AllHomeMessage]) -> () ) {
         let sv = UIViewController.displaySpinner(onView: view)
+       
         let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")!
         print("cust: \(CustmoerId)")
         var url = ""
         if type == "" {
-            url = "http://smusers.promit2030.com/api/ApiService/AllMessageListForCust?CustID=\(CustmoerId)"
+            url = "http://smusers.promit2030.co/api/ApiService/AllMessageListForCust?CustID=\(CustmoerId)"
         }else {
-            url = "http://smusers.promit2030.com/api/ApiService/AllProjectListForCust"
+            url = "http://smusers.promit2030.co/api/ApiService/AllProjectListForCust"
         }
         
         let parameters: Parameters = [
@@ -59,6 +60,7 @@ class AllHomeMessageModel: NSObject {
                     
                     self.allHomeMessage = AllHomeMessageOfResult
                     completion(AllHomeMessageOfResult)
+                 
                     UIViewController.removeSpinner(spinner: sv)
                     //                if self.delegate != nil {
                     //                    self.delegate!.homeMessageData()
@@ -84,7 +86,7 @@ class AllHomeMessageModel: NSObject {
                 
             }
         }else {
-            Alamofire.request("http://smusers.promit2030.com/api/ApiService/AllProjectListForCust", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+            Alamofire.request("http://smusers.promit2030.co/api/ApiService/AllProjectListForCust", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
                 debugPrint(response)
                 
                 var AllHomeMessageOfResult = [AllHomeMessage]()

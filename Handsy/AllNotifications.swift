@@ -23,7 +23,8 @@ class AllNotifications: NSObject {
     var TimeAgo: String?
     var DateCreate: String?
     var ProjectContract: String?
-    init(ComapnyName: String, CompanyLogo: String, Desc: String, DesignStagesID: String, IsRead: String, MeetingID: String, NotificationID: String, NotificationTypeID: String, Other: String, ProjectId: String, ProjectTitle: String, TimeAgo: String, DateCreate: String, ProjectContract: String){
+    var File: String?
+    init(ComapnyName: String, CompanyLogo: String, Desc: String, DesignStagesID: String, IsRead: String, MeetingID: String, NotificationID: String, NotificationTypeID: String, Other: String, ProjectId: String, ProjectTitle: String, TimeAgo: String, DateCreate: String, ProjectContract: String , File: String){
         self.ComapnyName = ComapnyName
         self.CompanyLogo = CompanyLogo
         self.Desc = Desc
@@ -38,5 +39,6 @@ class AllNotifications: NSObject {
         self.TimeAgo = TimeAgo
         self.DateCreate = DateCreate
         self.ProjectContract = ProjectContract
+        self.File = File
     }
 }

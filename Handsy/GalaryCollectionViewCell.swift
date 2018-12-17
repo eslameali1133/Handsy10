@@ -21,8 +21,8 @@ class GalaryCollectionViewCell: UICollectionViewCell, UIScrollViewDelegate {
     }
     
     func configureCell(_ image: String){
-        let trimmedString = image.trimmingCharacters(in: .whitespaces)
-        let url = URL.init(string: trimmedString)
+        let trimmedString = image.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+        let url = URL.init(string: trimmedString!)
         imageView.hnk_setImageFromURL(url!, placeholder: #imageLiteral(resourceName: "custlogo"))
         
         self.scrollView.delegate = self

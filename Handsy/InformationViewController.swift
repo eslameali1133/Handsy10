@@ -72,9 +72,11 @@ class InformationViewController: UIViewController, UITableViewDelegate, UITableV
         }
     }
     
-    
+        @IBOutlet var loderview: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
+       
+        
         informationTableView.delegate = self
         informationTableView.dataSource = self
         self.informationTableView.flashScrollIndicators()
@@ -177,6 +179,7 @@ class InformationViewController: UIViewController, UITableViewDelegate, UITableV
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         switch (indexPath.section) {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "RequestPanelTableViewCell", for: indexPath) as! RequestPanelTableViewCell

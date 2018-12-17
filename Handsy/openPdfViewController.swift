@@ -8,10 +8,26 @@
 
 import UIKit
 import Alamofire
+import SwiftyJSON
 
+protocol DismissDelegate {
+     func Dismisview()
+}
 
+extension openPdfViewController: DismissDelegate{
+    func Dismisview() {
+        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    
+}
 class openPdfViewController: UIViewController, UIWebViewDelegate {
+     var searchResu:[DesignByProjectIdArray] = [DesignByProjectIdArray]()
+    
+      var sv = UIView()
     @IBOutlet weak var WebViewPdf: UIWebView!
+    
     @IBOutlet weak var OK: UIButton!{
         didSet {
             OK.layer.cornerRadius = 4.0
@@ -24,15 +40,54 @@ class openPdfViewController: UIViewController, UIWebViewDelegate {
     }
     @IBOutlet weak var BtnOutLet: UIStackView!
     
-    var reloadApi: reloadApi?
+    var reloadApi: AccepEditDesgin?
+   
     var url: String = ""
     var Webtitle: String = "التصميم المقترح"
     var condBottomButtons = ""
     var documentInteractionController = UIDocumentInteractionController()
     
+    var CreateDate: String = ""
+    var DesignFile: String = ""
+    var DesignStagesID: String = ""
+    var Details: String = ""
+    var EmpName: String = ""
+    var mobileStr: String = ""
+    var ProjectBildTypeName: String = ""
+    var ProjectStatusID: String = ""
+    var SakNum: String = ""
+    var StagesDetailsName: String = ""
+    var Status: String = ""
+    var ClientReply: String = ""
+    var EmpReply: String = ""
+    var ComapnyName: String = ""
+    var LatBranch: Double = 0.0
+    var LngBranch: Double = 0.0
+    var JobName = ""
+    var Address = ""
+    var Logo = ""
+    var designsDetialsOfResult = [DesignsDetialsArray]()
+    var designsDetialsModel: DesignsDetialsModel = DesignsDetialsModel()
+    var isScroll = false
+    var ProjectId = ""
+    var CompanyInfoID = ""
+    var IsCompany = ""
+    
+    
+    
+    
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+    
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+            CountCustomerNotification()
         self.navigationItem.title = Webtitle
+   
         WebViewPdf.delegate = self
         if condBottomButtons == "AcceptAndEdit" {
             BtnOutLet.isHidden = false
@@ -47,13 +102,35 @@ class openPdfViewController: UIViewController, UIWebViewDelegate {
             OK.isHidden = true
             Cancel.isHidden = true
         }
-        if let urlPdf = URL(string: url) {
+        print(url.encodeUrl())
+         sv = UIViewController.displaySpinner(onView: self.view)
+        view.bringSubview(toFront: sv)
+        if let urlPdf = URL(string: url.encodeUrl()) {
+            
             let request = URLRequest(url: urlPdf)
             WebViewPdf.loadRequest(request)
         }
+
+       
+     
         
        downloadPdf()
+       
     }
+
+    func webViewDidFinishLoad(_ webView: UIWebView) {
+      
+        if webView.isLoading {
+            // still loading
+           
+            return
+        }
+         UIViewController.removeSpinner(spinner: sv)
+        print("finished")
+        // finish and do something here
+    }
+
+    
     func downloadPdf()  {
         let download = UIButton(type: .custom)
         download.setImage(UIImage (named: "download-button-1"), for: .normal)
@@ -67,13 +144,33 @@ class openPdfViewController: UIViewController, UIWebViewDelegate {
         barButtonItem2.tintColor = UIColor.white
         self.navigationItem.rightBarButtonItems = [ barButtonItem2]
     }
-    
+//    response?.suggestedFilename ?? "Contract.pdf"
     @objc func downloadPdfButton(sender: UIButton) {
-        guard let url = URL(string: url) else { return }
+        guard let url = URL(string: url.encodeUrl()) else { return }
+        print(url)
+      
+        var Filename = ""
+        if let range = self.url.range(of: "Designs/") {
+            Filename = String(self.url[range.upperBound...])
+            print(Filename.encodeUrl()) // prints "123.456.7891"
+        }
+        
+        if Filename == ""
+        {
+            if let range = self.url.range(of: "photo/") {
+                Filename = String(self.url[range.upperBound...])
+                print(Filename.encodeUrl()) // prints "123.456.7891"
+            }
+            
+        }
+        
+        let FilenameFinal = Filename.replacingOccurrences(of: "-", with: " ", options: .literal, range: nil)
+        print(FilenameFinal)
+        
         URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data, error == nil else { return }
             let tmpURL = FileManager.default.temporaryDirectory
-                .appendingPathComponent(response?.suggestedFilename ?? "Contract.pdf")
+                .appendingPathComponent(FilenameFinal ?? "Contract.pdf")
             do {
                 try data.write(to: tmpURL)
             } catch { print(error) }
@@ -86,7 +183,10 @@ class openPdfViewController: UIViewController, UIWebViewDelegate {
     @IBAction func designCancel(_ sender: UIButton) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "AlertDetialsDesignCancelViewController") as! AlertDetialsDesignCancelViewController
+        secondView.searchResu = self.searchResu
         secondView.reloadApi = reloadApi!
+    secondView.dismiss = self
+        secondView.comefrom = 3
         secondView.modalPresentationStyle = .custom
         self.present(secondView, animated: true)
     }
@@ -95,6 +195,7 @@ class openPdfViewController: UIViewController, UIWebViewDelegate {
         let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "AlertDetialsDesignOKViewController") as! AlertDetialsDesignOKViewController
         secondView.reloadApi = reloadApi!
+        secondView.dismiss = self
         secondView.modalPresentationStyle = .custom
         self.present(secondView, animated: true)
     }
@@ -151,6 +252,64 @@ class openPdfViewController: UIViewController, UIWebViewDelegate {
             }
             }.resume()
     }
+    
+    
+    
+    
+    var NotiProjectCount = 0
+    var NotiMessageCount = 0
+    var NotiTotalCount = 0
+    let applicationl = UIApplication.shared
+    
+    func setAppBadge() {
+        let count = NotiTotalCount
+        print(count)
+        
+        
+        if count != 0 {
+            let second = tabBarController?.tabBar
+            second?.items![1].badgeValue = "\(count)"
+            second?.items![1].badgeColor = #colorLiteral(red: 0.3058823529, green: 0.5058823529, blue: 0.5333333333, alpha: 1)
+            
+        }else
+        {
+            let second = tabBarController?.tabBar
+            second?.items![1].badgeValue = ""
+            second?.items![1].badgeColor = UIColor.clear
+        }
+    }
+    func CountCustomerNotification() {
+        let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")!
+        let parameters: Parameters = [
+            "CustmoerId":CustmoerId
+        ]
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+            switch response.result {
+            case .success:
+                let json = JSON(response.result.value!)
+                print(json)
+                self.NotiProjectCount = json["NotiProjectCount"].intValue
+                self.NotiMessageCount = json["NotiMessageCount"].intValue
+                self.NotiTotalCount = json["NotiTotalCount"].intValue
+                self.setAppBadge()
+            case .failure(let error):
+                print(error)
+                let alertAction = UIAlertController(title: "خطاء في الاتصال", message: "اعادة المحاولة", preferredStyle: .alert)
+                
+                alertAction.addAction(UIAlertAction(title: "نعم", style: .default, handler: { action in
+                    self.CountCustomerNotification()
+                }))
+                
+                alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+                }))
+                
+                self.present(alertAction, animated: true, completion: nil)
+                
+            }
+        }
+    }
+    
+    
 }
 
 extension URL {
@@ -161,4 +320,15 @@ extension URL {
         return (try? resourceValues(forKeys: [.localizedNameKey]))?.localizedName
     }
 }
-
+extension String
+{
+    func encodeUrl() -> String
+    {
+        return self.addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed)!
+    }
+    func decodeUrl() -> String
+    {
+        return self.removingPercentEncoding!
+    }
+    
+}

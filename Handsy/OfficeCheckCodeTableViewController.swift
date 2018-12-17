@@ -215,7 +215,7 @@ class OfficeCheckCodeTableViewController: UITableViewController {
         //        mobileTest.insert("6", at: mobileTest.startIndex)
         //        mobileTest.insert("9", at: mobileTest.startIndex)
         print(mobileTest)
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/SendSmsCodeActivation?mobile=\(mobileTest)", method: .get).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/SendSmsCodeActivation?mobile=\(mobileTest)", method: .get).responseJSON { response in
             debugPrint(response)
             switch response.result {
             case .success:

@@ -53,7 +53,11 @@ class FilterDesignsViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        oldDesignsCountLabel.isHidden = true
+        newDesignsCountLabel.isHidden = true
+        DesignsCountByCustmoerId()
+    }
 
     @IBAction func goNewDesigns(_ sender: UIButton) {
         if condition == "" {
@@ -103,7 +107,8 @@ class FilterDesignsViewController: UIViewController {
         let parameters: Parameters = [
             "CustmoerId": CustmoerId
         ]
-        Alamofire.request("http://smusers.promit2030.com/Service1.svc/DesignsCountByCustmoerId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+    print(parameters)
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/DesignsCountByCustmoerId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             let json = JSON(response.result.value!)
             self.FinishDesignsCount = json["FinishDesignsCount"].stringValue
