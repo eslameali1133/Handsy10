@@ -20,7 +20,8 @@ protocol shareLocationDelegate {
 class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIDocumentMenuDelegate, UIDocumentPickerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, MessageByProjectIdDelegate,UIScrollViewDelegate {
     
     
-   
+    
+    var dictionaryImages = [Int:UIImage]()
     
     
     @IBOutlet weak var uiScrloerview: UIScrollView!
@@ -243,35 +244,25 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
         //        dismiss(animated: true, completion: nil)
     }
     
-    @IBOutlet weak var ImageViewSelecteed: UIImageView!
+    @IBOutlet weak var ImageViewSelecteed: customImageView!
     @IBOutlet var SelectImageView: UIView!
     
     var Downloadurlforshare = ""
+  
     
     @IBAction func openSelectImage(_ sender: UIButton) {
         ImageViewSelecteed.image = #imageLiteral(resourceName: "officePlaceholder")
+    
         SelectImageView.isHidden = false
         let point = sender.convert(CGPoint.zero, to: chatTableView)
         let index = chatTableView.indexPathForRow(at: point)?.row
         let message = messagesList[index!]
         let messagePic = message.ImagePath
         Downloadurlforshare =  messagePic!
-
-       
-        let iconFormat = Format<UIImage>(name: "icons", diskCapacity: 1 * 1024 * 1024) { image in
-            return image
-        }
         
-        if let url = URL.init(string: Downloadurlforshare) {
-            print(url)
-            ImageViewSelecteed.hnk_setImageFromURL(url, format: iconFormat)
-        } else{
-            print("nil")
-        }
-
-       
+    ImageViewSelecteed.loadimageUsingUrlString(url: Downloadurlforshare)
         
-
+    
     }
     
     @IBAction func DownloadAndShare(_ sender: UIButton) {
@@ -285,32 +276,44 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
         
         let messagePic = Downloadurlforshare
         
+        // image to share
+        let image =   ImageViewSelecteed.image
         
+        // set up activity view controller
+        let imageToShare = [image]
+        let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
         
-        guard let url = URL(string:self.Downloadurlforshare) else { return }
-        print(url)
+        // exclude some activity types from the list (optional)
+        activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
         
-        var Filename = ""
-        if let range = messagePic.range(of: "Images/") {
-            Filename = String(messagePic[range.upperBound...])
-            print(Filename.encodeUrl()) // prints "123.456.7891"
-        }
+        // present the view controller
+        self.present(activityViewController, animated: true, completion: nil)
         
-        let FilenameFinal =  Filename
-        //            Filename.replacingOccurrences(of: "-", with: " ", options: .literal, range: nil)
-        print(FilenameFinal)
-        
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data, error == nil else { return }
-            let tmpURL = FileManager.default.temporaryDirectory
-                .appendingPathComponent(FilenameFinal ?? "Contract.jpeg")
-            do {
-                try data.write(to: tmpURL)
-            } catch { print(error) }
-            DispatchQueue.main.async {
-                self.share(url: tmpURL)
-            }
-            }.resume()
+//        guard let url = URL(string:self.Downloadurlforshare) else { return }
+//        print(url)
+//
+//        var Filename = ""
+//        if let range = messagePic.range(of: "Images/") {
+//            Filename = String(messagePic[range.upperBound...])
+//            print(Filename.encodeUrl()) // prints "123.456.7891"
+//        }
+//
+//        let FilenameFinal =  Filename
+//        //            Filename.replacingOccurrences(of: "-", with: " ", options: .literal, range: nil)
+//        print(FilenameFinal)
+//
+//        URLSession.shared.dataTask(with: url) { data, response, error in
+//            guard let data = data, error == nil else { return }
+//            let tmpURL = FileManager.default.temporaryDirectory
+//                .appendingPathComponent(FilenameFinal ?? "Contract.jpeg")
+//            do {
+//                try data.write(to: tmpURL)
+//            } catch { print(error) }
+//            DispatchQueue.main.async {
+//                self.share(url: tmpURL)
+//            }
+//            }.resume()
     }
     
       var documentInteractionController = UIDocumentInteractionController()
@@ -350,6 +353,7 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
         return messagesList.count
     }
     
+  
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let message = messagesList[indexPath.row]
         if message.SenderType == "1" {
@@ -357,8 +361,11 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
                 let cell = chatTableView.dequeueReusableCell(withIdentifier: "SendimageChatTableViewCell", for: indexPath) as! SendimageChatTableViewCell
                 let messagePic = message.ImagePath!
                 let trimmedString = messagePic.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+                  cell.recevierMessageImage.image = #imageLiteral(resourceName: "officePlaceholder")
                 if let url = URL.init(string: trimmedString!) {
-                    cell.recevierMessageImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
+                    cell.recevierMessageImage.loadimageUsingUrlString(url: trimmedString!)
+                   
+                 
                 } else{
                     print("nil")
                 }
@@ -439,8 +446,9 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
                 let cell = chatTableView.dequeueReusableCell(withIdentifier: "ReceiveImageChatTableViewCell", for: indexPath) as! ReceiveImageChatTableViewCell
                 let messagePic = message.ImagePath!
                 let trimmedString = messagePic.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+                 cell.senderMessageImage.image = #imageLiteral(resourceName: "officePlaceholder")
                 if let url = URL.init(string: trimmedString!) {
-                    cell.senderMessageImage.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
+                    cell.senderMessageImage.loadimageUsingUrlString(url: trimmedString!)
                 } else{
                     print("nil")
                 }

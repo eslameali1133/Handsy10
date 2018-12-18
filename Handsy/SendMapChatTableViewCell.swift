@@ -16,7 +16,7 @@ class SendMapChatTableViewCell: UITableViewCell {
             }
         }
     }
-    @IBOutlet weak var recevierMessageImage: UIImageView!
+    @IBOutlet weak var recevierMessageImage: customImageView!
     @IBOutlet weak var messageTimeLabel: UILabel!
     
     override func awakeFromNib() {

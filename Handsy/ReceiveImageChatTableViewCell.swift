@@ -16,7 +16,7 @@ class ReceiveImageChatTableViewCell: UITableViewCell {
             }
         }
     }
-    @IBOutlet weak var senderMessageImage: UIImageView!
+    @IBOutlet weak var senderMessageImage: customImageView!
     @IBOutlet weak var messageTimeLabel: UILabel!
 
     @IBOutlet weak var senderNameLabel: UILabel!

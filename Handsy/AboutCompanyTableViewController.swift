@@ -23,6 +23,7 @@ class AboutCompanyTableViewController: UITableViewController, ServiceOfCompanyMo
     
     var CompanyInfoID = ""
     var isCompany = ""
+    var companyTitle = ""
     
     var resultAboutArray = [AboutArray]()
     let aboutModel = AboutModel()
@@ -37,6 +38,7 @@ class AboutCompanyTableViewController: UITableViewController, ServiceOfCompanyMo
     override func viewDidLoad() {
         super.viewDidLoad()
          print("comp: \(CompanyInfoID)")
+       addBackBarButtonItem()
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
             print(CompanyInfoID)
@@ -71,13 +73,25 @@ class AboutCompanyTableViewController: UITableViewController, ServiceOfCompanyMo
         if isCompany == "0" {
             navigationItem.title = "عن المهندس"
         }else {
-            navigationItem.title = "عن المكتب"
+            navigationItem.title = companyTitle
         }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    func addBackBarButtonItem() {
+        let shareButton = UIButton(type: .system)
+        shareButton.setTitle("عودة", for: .normal)
+        shareButton.setImage(UIImage(named: "DBackBtn"), for: .normal)
+        shareButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+        shareButton.sizeToFit()
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: shareButton)
+    }
+    
+    @objc func backButtonPressed(){
+        self.navigationController!.popViewController(animated: true)
     }
     
     func dataReady() {
@@ -115,10 +129,12 @@ class AboutCompanyTableViewController: UITableViewController, ServiceOfCompanyMo
             let cell = tableView.dequeueReusableCell(withIdentifier: "AboutTableViewCell", for: indexPath) as! AboutTableViewCell
             if Reachability.isConnectedToNetwork(){
                 print("Internet Connection Available!")
-                cell.AboutTit.text = AboutTitle
+                cell.AboutTit.text = companyTitle
+//                AboutTitle
                 cell.AboutConten.text = AboutContent
             }else{
-                cell.AboutTit.text = resultAboutArray[indexPath.row].AboutTitle
+                cell.AboutTit.text = companyTitle
+//                    resultAboutArray[indexPath.row].AboutTitle
                 cell.AboutConten.text = resultAboutArray[indexPath.row].AboutContent
             }
             return cell

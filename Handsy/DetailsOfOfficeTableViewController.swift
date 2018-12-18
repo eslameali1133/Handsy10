@@ -274,7 +274,7 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
             }
             self.AboutTextView.text = resultAboutArray[0].ExperContent
             self.getMapOffline()
-//            tableView.reloadData()
+            tableView.reloadData()
         }
         
         OurProjectsSlider.delegate = self
@@ -427,7 +427,7 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
         // Tell the collection to reload
         TeamWorkSlider.reloadData()
         OurProjectsSlider.reloadData()
-//        tableView.reloadData()
+        tableView.reloadData()
     }
     
     func GetAbout() {
@@ -787,6 +787,7 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
         }
         
         secondView.isCompany = isCompany
+        secondView.companyTitle = ComapnyName
         self.navigationController?.pushViewController(secondView, animated: true)
     }
     

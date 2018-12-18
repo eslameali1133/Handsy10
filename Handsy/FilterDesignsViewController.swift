@@ -92,7 +92,7 @@ class FilterDesignsViewController: UIViewController {
             
         }else {
             if FinishDesignsCount == "0" {
-                Toast.long(message: "لا يوجد تصاميم منتهية حالياً")
+                Toast.long(message: "لا يوجد تصاميم المعتمدة حالياً")
             }else{
                 let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
                 let secondView = storyBoard.instantiateViewController(withIdentifier: "ProjectsContinueViewController") as! ProjectsContinueViewController

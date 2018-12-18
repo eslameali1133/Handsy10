@@ -755,6 +755,7 @@ class DetailsOfOfficeTableViewControllerNot: UITableViewController, UICollection
         }
         
         secondView.isCompany = isCompany
+           secondView.companyTitle = ComapnyName
         self.navigationController?.pushViewController(secondView, animated: true)
     }
     

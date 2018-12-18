@@ -473,7 +473,7 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wCd-Fr-toV">
                                                     <rect key="frame" x="23" y="5" width="271" height="230"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="46711415_1052035414968632_7325898637018398720_n" translatesAutoresizingMaskIntoConstraints="NO" id="PHR-ep-thW">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="46711415_1052035414968632_7325898637018398720_n" translatesAutoresizingMaskIntoConstraints="NO" id="PHR-ep-thW" customClass="customImageView" customModule="Handsy">
                                                             <rect key="frame" x="10" y="40" width="251" height="162"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="162" id="g9l-an-4Fo"/>
@@ -649,7 +649,7 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gT4-f1-hxZ">
                                                     <rect key="frame" x="120" y="5" width="282" height="200"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="46711415_1052035414968632_7325898637018398720_n" translatesAutoresizingMaskIntoConstraints="NO" id="iH4-kf-wxJ">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="46711415_1052035414968632_7325898637018398720_n" translatesAutoresizingMaskIntoConstraints="NO" id="iH4-kf-wxJ" customClass="customImageView" customModule="Handsy" customModuleProvider="target">
                                                             <rect key="frame" x="10" y="10" width="262" height="162"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="162" id="Ak1-Fm-Isz"/>
@@ -1430,7 +1430,7 @@
                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hTc-s2-7jT">
                             <rect key="frame" x="0.0" y="70" width="400" height="585"/>
                             <subviews>
-                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="46711415_1052035414968632_7325898637018398720_n" translatesAutoresizingMaskIntoConstraints="NO" id="a0N-Vu-auJ">
+                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="46711415_1052035414968632_7325898637018398720_n" translatesAutoresizingMaskIntoConstraints="NO" id="a0N-Vu-auJ" customClass="customImageView" customModule="Handsy">
                                     <rect key="frame" x="0.0" y="0.0" width="400" height="585"/>
                                 </imageView>
                             </subviews>

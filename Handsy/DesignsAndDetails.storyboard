@@ -513,6 +513,9 @@
                     <navigationItem key="navigationItem" title="التصاميم" id="LNl-sW-MVy"/>
                     <connections>
                         <outlet property="AlertImage" destination="GDt-zC-62H" id="TFs-4E-fqB"/>
+                        <outlet property="FilterHeightConstrain" destination="oiz-eB-dCX" id="naD-mX-oB0"/>
+                        <outlet property="FilterView" destination="Coi-W7-V03" id="Qye-eM-JK5"/>
+                        <outlet property="Filterbottum_Constrain" destination="ipv-Ef-gD9" id="BDa-ps-5bX"/>
                         <outlet property="NothingLabel" destination="iXa-Bs-5p7" id="ucK-vY-2z0"/>
                         <outlet property="cancelStatusBtn" destination="Yxj-NI-gX1" id="I1P-0C-5XG"/>
                         <outlet property="statusNameBtn" destination="0KW-B3-CoW" id="en8-lH-cod"/>
@@ -2704,7 +2707,7 @@
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="التصاميم الجديدة" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Kk5-q4-Y2N">
-                                                        <rect key="frame" x="17.5" y="92" width="97.5" height="43"/>
+                                                        <rect key="frame" x="11" y="92" width="110" height="43"/>
                                                         <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="16"/>
                                                         <color key="textColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.20392156859999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -2756,8 +2759,8 @@
                                                             <constraint firstAttribute="width" secondItem="fwA-dm-bfB" secondAttribute="height" multiplier="147:97" id="vsC-hv-rNv"/>
                                                         </constraints>
                                                     </imageView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="التصاميم المنتهية" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="QGZ-N2-PwR">
-                                                        <rect key="frame" x="20" y="92" width="92.5" height="43"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="التصاميم المعتمدة" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="QGZ-N2-PwR">
+                                                        <rect key="frame" x="4.5" y="92" width="123" height="43"/>
                                                         <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="16"/>
                                                         <color key="textColor" red="0.83137254900000002" green="0.68627450980000004" blue="0.20392156859999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>

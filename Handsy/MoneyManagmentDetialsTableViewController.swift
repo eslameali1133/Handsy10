@@ -259,9 +259,9 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
         DispatchQueue.main.async {
             self.detialsBtnView.frame = CGRect.init(x: 0, y: self.tableView.contentOffset.y + (self.view.frame.height-57), width: self.view.frame.width, height: 57)
             if #available(iOS 11, *) {
-                self.tableView.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 47, right: 0)
+                self.tableView.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 20, right: 0)
             }else{
-                self.tableView.contentInset = UIEdgeInsets.init(top: 52, left: 0, bottom: 47, right: 0)
+                self.tableView.contentInset = UIEdgeInsets.init(top: 52, left: 0, bottom: 20, right: 0)
             }
             self.tableView.bringSubview(toFront: self.detialsBtnView)
             self.tableView.addSubview(self.detialsBtnView)

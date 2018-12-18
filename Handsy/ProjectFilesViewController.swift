@@ -38,6 +38,7 @@ class ProjectFilesViewController: UIViewController, UITableViewDelegate, UITable
     var EmpMobile = ""
     var Address = ""
     var Logo = ""
+       var Snumber = ""
     var LatBranch: Double = 0.0
     var LngBranch: Double = 0.0
     var searchResu:[ProjectFilesArray] = [ProjectFilesArray]()
@@ -76,7 +77,7 @@ class ProjectFilesViewController: UIViewController, UITableViewDelegate, UITable
         companyNameLabel.text = ComapnyName
         projectTitle.text = projectTitleView
         EmpNameLabel.text = EmpName
-       Saknumber.text = ProjectId
+       Saknumber.text = Snumber
     }
     
     override func didReceiveMemoryWarning() {

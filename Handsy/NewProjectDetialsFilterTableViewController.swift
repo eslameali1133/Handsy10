@@ -285,7 +285,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         
         detialsBtnView.isHidden = true
          loderview.isHidden = true
-        loderview.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        loderview.frame = CGRect(x: 0, y: 0, width: self.tableView.frame.width, height: self.tableView.frame.height)
         self.view.addSubview(loderview)
         
       
@@ -882,6 +882,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     
     func GetOfficesByProvincesID(){
         loderview.isHidden = false
+        tableView.isHidden = true
          detialsBtnView.isHidden = true
         let sv = UIViewController.displaySpinner(onView: self.view)
         //        let id = UserDefaults.standard.string(forKey: "account_id")!
@@ -924,9 +925,11 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
                 
                 self.arrayOfResulr.append(requestProjectObj)
                 UIViewController.removeSpinner(spinner: sv)
-                self.loderview.isHidden = true
+               
                 
                 self.detialsBtnView.isHidden = false
+                     self.tableView.isHidden =  false
+                 self.loderview.isHidden = true
                 self.goH()
             case .failure(let error):
                 print(error)
@@ -1044,6 +1047,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     func GetProjectByProjectId(){
         loderview.isHidden = false
          detialsBtnView.isHidden = true
+         tableView.isHidden = true
         let sv = UIViewController.displaySpinner(onView: self.view)
         let parameters: Parameters?
         if nou == "" && norma == "" {
@@ -1160,8 +1164,10 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             self.setFourthSection()
             self.BtnSettingFunc()
             UIViewController.removeSpinner(spinner: sv)
-            self.loderview.isHidden = true
+           
             self.detialsBtnView.isHidden = false
+            self.tableView.isHidden = false
+             self.loderview.isHidden = true
             
         }
     }
@@ -1344,7 +1350,15 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             let secondView = storyBoard.instantiateViewController(withIdentifier: "ProjectFilesViewController") as! ProjectFilesViewController
             secondView.ProjectId = self.ProjectOfResult[0].ProjectId!
             secondView.projectTitleView = self.ProjectOfResult[0].ProjectTitle!
-//                "(\(self.ProjectOfResult[0].ProjectTitle!)"+" - "+"\(self.ProjectOfResult[0].ProjectTypeName!))"
+            if ProjectOfResult[0].SakNum == ""
+            {
+          secondView.Snumber = ProjectOfResult[0].ProjectId!
+            }
+            else
+            {
+                secondView.Snumber = ProjectOfResult[0].SakNum!
+            }
+
             secondView.type = "1"
             secondView.ProjectFilesTitle = "وثائق الأرض"
             secondView.ComapnyName = self.ProjectOfResult[0].ComapnyName!
@@ -1385,6 +1399,14 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             secondView.EmpName = self.ProjectOfResult[0].EmpName!
             secondView.LatBranch = LatBranch
             secondView.LngBranch = LngBranch
+            if ProjectOfResult[0].SakNum == ""
+            {
+                secondView.Snumber = ProjectOfResult[0].ProjectId!
+            }
+            else
+            {
+                secondView.Snumber = ProjectOfResult[0].SakNum!
+            }
             self.navigationController?.pushViewController(secondView, animated: true)
         }
         

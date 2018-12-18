@@ -892,7 +892,7 @@
                   moduleName = "Handsy"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Desktop/work/Handasy%20Apps/H/Handsy%D9%A9/Handsy/EntroVC.swift"
-                  timestampString = "566751678.263903"
+                  timestampString = "566837700.7658"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "139"
@@ -907,7 +907,7 @@
                   moduleName = "Handsy"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Desktop/work/Handasy%20Apps/H/Handsy%D9%A9/Handsy/EntroVC.swift"
-                  timestampString = "566751678.268824"
+                  timestampString = "566837700.773515"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "140"
@@ -1068,7 +1068,7 @@
                   moduleName = "Handsy"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Desktop/work/Handasy%20Apps/H/Handsy%D9%A9/Handsy/EditProfileTableViewController.swift"
-                  timestampString = "566751678.371568"
+                  timestampString = "566837700.896338"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "460"
@@ -1083,7 +1083,7 @@
                   moduleName = "Handsy"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Desktop/work/Handasy%20Apps/H/Handsy%D9%A9/Handsy/EditProfileTableViewController.swift"
-                  timestampString = "566751678.37565"
+                  timestampString = "566837700.900852"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "461"
@@ -1388,7 +1388,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Handsy/MoneyManagmentDetialsTableViewController.swift"
-            timestampString = "566742980.115697"
+            timestampString = "566837700.11094"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "665"
@@ -1420,12 +1420,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Handsy/DetailsOfOfficeTableViewController.swift"
-            timestampString = "566742980.115898"
+            timestampString = "566837700.111306"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "745"
             endingLineNumber = "745"
-            landmarkName = "get()"
+            landmarkName = "getMapOffline()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1436,7 +1436,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Handsy/MoneyManagmentDetialsTableViewController.swift"
-            timestampString = "566742980.116017"
+            timestampString = "566837700.111473"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "555"
@@ -1522,54 +1522,6 @@
             startingLineNumber = "279"
             endingLineNumber = "279"
             landmarkName = "SendrateApi()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Handsy/OfficeFillterViewController.swift"
-            timestampString = "566751674.556874"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "249"
-            endingLineNumber = "249"
-            landmarkName = "setAppBadge()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Handsy/OfficeFillterViewController.swift"
-            timestampString = "566751674.557062"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Handsy/OfficeFillterViewController.swift"
-            timestampString = "566751674.557158"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "219"
-            endingLineNumber = "219"
-            landmarkName = "CountCustomerNotification()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

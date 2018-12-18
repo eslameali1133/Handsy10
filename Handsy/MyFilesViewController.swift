@@ -169,6 +169,14 @@ class MyFilesViewController: UIViewController, UITableViewDelegate, UITableViewD
             secondView.EmpName = searchResu[index!].EmpName
             secondView.EmpMobile = searchResu[index!].EmpMobile
             secondView.Logo = searchResu[index!].Logo
+            if  searchResu[index!].SakNum == ""
+            {
+                secondView.Snumber =  searchResu[index!].ProjectId
+            }
+            else
+            {
+                secondView.Snumber = searchResu[index!].SakNum
+            }
             myFilesTableView.reloadData()
             self.navigationController?.pushViewController(secondView, animated: true)
         }
@@ -192,6 +200,14 @@ class MyFilesViewController: UIViewController, UITableViewDelegate, UITableViewD
             secondView.EmpMobile = searchResu[index!].EmpMobile
             secondView.Logo = searchResu[index!].Logo
             myFilesTableView.reloadData()
+            if  searchResu[index!].SakNum == ""
+            {
+                secondView.Snumber =  searchResu[index!].ProjectId
+            }
+            else
+            {
+                secondView.Snumber = searchResu[index!].SakNum
+            }
             self.navigationController?.pushViewController(secondView, animated: true)
         }
     }

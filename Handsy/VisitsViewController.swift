@@ -344,8 +344,8 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let dvc = storyBoard.instantiateViewController(withIdentifier: "MeetingStatusFilterTableViewController") as! MeetingStatusFilterTableViewController
         dvc.filterVisitsDelegate = self
         if condition == "New" {
-            dvc.type = "3"
-            dvc.preferredContentSize = CGSize(width: 200, height: 280)
+            dvc.type = "1"
+            dvc.preferredContentSize = CGSize(width: 200, height: 90)
         }else {
             dvc.type = "2"
             dvc.preferredContentSize = CGSize(width: 200, height: 190)

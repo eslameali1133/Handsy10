@@ -17,6 +17,11 @@ protocol FilterDesignsDelegate {
 
 class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ProjectsContinueModelDelegate {
     
+    @IBOutlet weak var FilterHeightConstrain: NSLayoutConstraint!
+    
+    @IBOutlet weak var Filterbottum_Constrain: NSLayoutConstraint!
+   
+     @IBOutlet weak var FilterView: UIView!
     var searchResu:[ProjectsContinue] = [ProjectsContinue]()
     
     let model: ProjectsContinueModel = ProjectsContinueModel()
@@ -35,8 +40,15 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
         cancelStatusBtn.isHidden = true
         if condition == "New" {
             navigationItem.title = "التصاميم الجديدة"
+            FilterView.isHidden = false
+            FilterHeightConstrain.constant = 35
+            Filterbottum_Constrain.constant = 10
         }else if condition == "Other" {
-            navigationItem.title = "التصاميم المنتهية"
+            navigationItem.title = "التصاميم المعتمدة"
+            FilterView.isHidden = true
+            FilterHeightConstrain.constant = 0
+            Filterbottum_Constrain.constant = 0
+            
         }else {
         }
         tableView.delegate = self

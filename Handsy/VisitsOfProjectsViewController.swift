@@ -615,7 +615,7 @@ class VisitsOfProjectsViewController: UIViewController, UITableViewDelegate, UIT
     @IBAction func CallMe(_ sender: UIButton) {
         let point = sender.convert(CGPoint.zero, to: tableView)
         let index = tableView.indexPathForRow(at: point)?.section
-        var mobile: String = visitsByProjectIdArr[index!].Mobile!
+        var mobile: String = EmpMobile
         if mobile.count == 10 {
             if mobile.first! == "0" {
                 if mobile[mobile.index(mobile.startIndex, offsetBy: 1)] == "5" {
