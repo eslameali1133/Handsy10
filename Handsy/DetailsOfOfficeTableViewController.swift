@@ -644,7 +644,7 @@ class DetailsOfOfficeTableViewController: UITableViewController, UICollectionVie
             self.BranchFB = json["BranchFB"].stringValue
             self.BranchID = json["BranchID"].stringValue
             self.BranchName = json["BranchName"].stringValue
-//            print(json["ComapnyName"].stringValue)
+
                     self.navigationItem.title = json["ComapnyName"].stringValue
             self.ComapnyName = json["ComapnyName"].stringValue
             self.CommercialNumber = json["CommercialNumber"].stringValue

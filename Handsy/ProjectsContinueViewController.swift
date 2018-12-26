@@ -44,7 +44,7 @@ class ProjectsContinueViewController: UIViewController, UITableViewDelegate, UIT
             FilterHeightConstrain.constant = 35
             Filterbottum_Constrain.constant = 10
         }else if condition == "Other" {
-            navigationItem.title = "التصاميم المعتمدة"
+            navigationItem.title = "التصاميم المُعتمدة"
             FilterView.isHidden = true
             FilterHeightConstrain.constant = 0
             Filterbottum_Constrain.constant = 0

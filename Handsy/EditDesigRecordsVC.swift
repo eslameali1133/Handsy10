@@ -205,29 +205,13 @@ class EditDesigRecordsVC: UIViewController, UITableViewDelegate, UITableViewData
             }else
             {
                 openPdf = searchResuContr[index!].ContractHistoryPath
-                let  ProjectContract =  searchResuContr[index!].ContractHistoryStatus
-                
-                if ProjectContract == "1" || ProjectContract == "4"{
-                    let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
-                    let secondView = storyBoard.instantiateViewController(withIdentifier: "ShowContractViewController") as! ShowContractViewController
-                    secondView.url = openPdf
-                    secondView.ProjectId = ProjectId
-                    secondView.Webtitle = "العقد"
-                    self.navigationController?.pushViewController(secondView, animated: true)
-                } else if ProjectContract == "2" {
                     let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle:nil)
                     let secondView = storyBoard.instantiateViewController(withIdentifier: "openPdfViewController") as! openPdfViewController
                     secondView.url = openPdf
                     secondView.Webtitle = "العقد"
+                    secondView.condBottomButtons = "dqwdeq"
                     self.navigationController?.pushViewController(secondView, animated: true)
-                } else {
-                    let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle:nil)
-                    let secondView = storyBoard.instantiateViewController(withIdentifier: "openPdfViewController") as! openPdfViewController
-                    secondView.url = openPdf
-                    secondView.Webtitle = "العقد"
-                    self.navigationController?.pushViewController(secondView, animated: true)
-                }
-                
+               
             }
             
         }

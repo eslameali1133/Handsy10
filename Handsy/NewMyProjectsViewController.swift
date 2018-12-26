@@ -1,27 +1,25 @@
 //
 //  NewMyProjectsViewController.swift
 //  Handsy
-//
 //  Created by Ahmed Wahdan on 12/27/17.
 //  Copyright © 2017 Ahmed Wahdan. All rights reserved.
-//
+
 
 import UIKit
 import MapKit
 import Alamofire
 import SwiftyJSON
-
+import UserNotifications
 var checkEmpty = 0
 var trypNotification = ""
 var ProIDGloable = ""
 var Filegl = ""
-  var comingnotification = false
+var comingnotification = false
 var messageByProjectIdObjgl = MessageByProjectId()
 
 class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, RequestProjectModelDelegate {
     
     @IBOutlet var navViewOut: UIView!
-    
     @IBOutlet weak var callBtn: UIButton!{
         didSet {
             callBtn.layer.borderWidth = 1.0
@@ -31,7 +29,6 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     @IBOutlet weak var titleVCLabel: UILabel!
-    
     @IBOutlet weak var archiveBtn: UIButton!{
         didSet {
             archiveBtn.layer.borderWidth = 1.0
@@ -39,7 +36,6 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
             archiveBtn.layer.cornerRadius = 4.0
         }
     }
-    
     @IBOutlet weak var messageNotfiCount: UILabel!{
         didSet {
             DispatchQueue.main.async {
@@ -51,7 +47,6 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
     
     
     @IBOutlet weak var MyProjectsTableView: UITableView!
-    
     var myProjects:[GetProjectEngCustByCustID] = [GetProjectEngCustByCustID]()
     
     let model: RequestProjectModel = RequestProjectModel()
@@ -115,7 +110,6 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
             }else if trypNotification == "7" {
                 let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
                 let secondView = storyBoard.instantiateViewController(withIdentifier: "DetailsDesignTableViewController") as! DetailsDesignTableViewController
-                secondView.isScroll = true
                  self.navigationController?.pushViewController(secondView, animated: true)
             }else if trypNotification == "8" {
                 let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
@@ -155,7 +149,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
             
            
         
-        
+//
         messageNotfiCount.isHidden = true
         titleVCLabel.text = "مشاريعي"
         DispatchQueue.main.async {
@@ -196,6 +190,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         self.AlertController.addAction(Google)
         self.AlertController.addAction(MapKit)
         self.AlertController.addAction(Cancel)
+     
     }
 
     
@@ -285,21 +280,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectAlertViewController") as! NewProjectAlertViewController
         secondView.modalPresentationStyle = .custom
         self.present(secondView, animated: false)
-//        tabBarController?.tabBar.isUserInteractionEnabled = false
-//        AlertNewProjectView.alpha = 0
-//        AlertNewProjectView.isHidden = false
-//        UIView.animate(withDuration: 3) {
-//            self.AlertNewProjectView.alpha = 1
-//        }
-//        // swift:
-//        UIView.animate(withDuration: 6, animations: {
-//            self.AlertNewProjectView.alpha = 0
-//        }) { (finished) in
-//            self.AlertNewProjectView.isHidden = finished
-//            self.tabBarController?.tabBar.isUserInteractionEnabled = true
-//        }
-        
-        //        UserDefaults.standard.set("1", forKey: "alert")
+
     }
     
     func GetMobileUpdate() {
@@ -672,6 +653,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
                 }))
                 
                 alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+                    self.PushInsertUpdate()
                 }))
                 
                 self.present(alertAction, animated: true, completion: nil)
@@ -699,6 +681,47 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
             messageNotfiCount.isHidden = false
         }
     }
+    
+    func PushInsertUpdate(){
+        let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")!
+        print("cus: \(CustmoerId)")
+        let DeviceToken = ""
+        let DeviceID = UserDefaults.standard.string(forKey: "udidKey")!
+        let parameters: Parameters = [
+            "CustmoerId": CustmoerId,
+            "DeviceToken":DeviceToken,
+            "TypeDevice":"1",
+            "DeviceID":DeviceID
+        ]
+        
+        Alamofire.request("http://smusers.promit2030.co/Service1.svc/PushInsertUpdate", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+            let json = JSON(response.result.value!)
+            print(json)
+            if json == "Deleted"
+            {
+                _ = UserDefaults.standard.removeObject(forKey: "CustmoerId")
+                _ = UserDefaults.standard.removeObject(forKey: "UserId")
+                _ = UserDefaults.standard.removeObject(forKey: "name")
+                _ = UserDefaults.standard.removeObject(forKey: "mobile")
+                _ = UserDefaults.standard.removeObject(forKey: "email")
+                _ = UserDefaults.standard.removeObject(forKey: "nationalId")
+                _ = UserDefaults.standard.removeObject(forKey: "CustomerPhoto")
+                
+                self.applicationl.applicationIconBadgeNumber = 0
+                let center = UNUserNotificationCenter.current()
+                center.removeAllDeliveredNotifications() // To remove all delivered notifications
+                center.removeAllPendingNotificationRequests()
+                
+                let storyboard = UIStoryboard(name: "WelcomeScreen", bundle: nil)
+                let NavController = storyboard.instantiateViewController(withIdentifier: "NewWelcome") as! UINavigationController
+                let FirstViewController = NavController.viewControllers.first as! NewWelcomeScreenViewController
+                FirstViewController.logout = "logout"
+                self.present(NavController, animated: false, completion: nil)
+            }
+            
+        }
+    }
+    
     func GetEmptByMobileNum() {
         let mobile = UserDefaults.standard.string(forKey: "mobile")!
         Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetEmptByMobileNum?mobileNum=\(mobile)", method: .get).responseJSON { response in
@@ -754,6 +777,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
                 }))
                 
                 alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+                     self.PushInsertUpdate()
                 }))
                 
                 self.present(alertAction, animated: true, completion: nil)

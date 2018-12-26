@@ -110,6 +110,8 @@ class SetLocationOfOfficeViewController: UIViewController, CLLocationManagerDele
     func HideFunc() {
         let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle: nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "NewProjectMapAlertViewController") as! NewProjectMapAlertViewController
+        secondView.comecontion = "singup"
+        secondView.isCompany = isCompany
         secondView.modalPresentationStyle = .custom
         self.present(secondView, animated: false)
     }
@@ -186,14 +188,7 @@ class SetLocationOfOfficeViewController: UIViewController, CLLocationManagerDele
         }
     }
     
-    //    override func willMove(toParentViewController parent: UIViewController?) {
-    //        super.willMove(toParentViewController: parent)
-    //        if parent == nil {
-    //
-    //            //restore the orignal title
-    //            navigationController?.navigationBar.backItem?.title = backItemTitle
-    //        }
-    //    }
+   
     
     @IBAction func Next(_ sender: UIButton) {
         RegCompany()

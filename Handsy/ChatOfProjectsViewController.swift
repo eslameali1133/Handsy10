@@ -13,6 +13,7 @@ import SwiftyJSON
 import MapKit
 import Haneke
 
+var chatRoomProjectId = ""
 protocol shareLocationDelegate {
     func shareLocationDelegate(lat: String, Long: String)
 }
@@ -122,6 +123,7 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
         messageTV.delegate = self
         messagesModel.delegate = self
         messagesModel.messageByProjectId(view: self.view, VC: self, projectId: ProjectId)
+        chatRoomProjectId = ProjectId
         chatTableView.delegate = self
         chatTableView.dataSource = self
         //        NotificationCenter.default.addObserver(self, selector: #selector(setToPeru(notification:)), name: .peru, object: nil)
@@ -290,30 +292,8 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
         // present the view controller
         self.present(activityViewController, animated: true, completion: nil)
         
-//        guard let url = URL(string:self.Downloadurlforshare) else { return }
-//        print(url)
-//
-//        var Filename = ""
-//        if let range = messagePic.range(of: "Images/") {
-//            Filename = String(messagePic[range.upperBound...])
-//            print(Filename.encodeUrl()) // prints "123.456.7891"
-//        }
-//
-//        let FilenameFinal =  Filename
-//        //            Filename.replacingOccurrences(of: "-", with: " ", options: .literal, range: nil)
-//        print(FilenameFinal)
-//
-//        URLSession.shared.dataTask(with: url) { data, response, error in
-//            guard let data = data, error == nil else { return }
-//            let tmpURL = FileManager.default.temporaryDirectory
-//                .appendingPathComponent(FilenameFinal ?? "Contract.jpeg")
-//            do {
-//                try data.write(to: tmpURL)
-//            } catch { print(error) }
-//            DispatchQueue.main.async {
-//                self.share(url: tmpURL)
-//            }
-//            }.resume()
+
+        
     }
     
       var documentInteractionController = UIDocumentInteractionController()
@@ -630,11 +610,42 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
         guard let url = URL(string: messagesList[index!].ImagePath!) else {
             return //be safe
         }
-        if #available(iOS 10.0, *) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        } else {
-            UIApplication.shared.openURL(url)
+        
+        let openPdf = messagesList[index!].ImagePath!
+        let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle:nil)
+        let secondView = storyBoard.instantiateViewController(withIdentifier: "openPdfViewController") as! openPdfViewController
+        secondView.ProjectId = ProjectId
+        secondView.url = openPdf
+        secondView.condBottomButtons = "chat"
+        print(openPdf)
+        var Filename = ""
+        if let range = openPdf.range(of: "Designs/") {
+            Filename = String(openPdf[range.upperBound...])
+            print(Filename.encodeUrl()) // prints "123.456.7891"
         }
+        
+        if Filename == ""
+        {
+            if let range = openPdf.range(of: "Images/") {
+                Filename = String(openPdf[range.upperBound...])
+                print(Filename.encodeUrl()) // prints "123.456.7891"
+            }
+            
+        }
+        
+        let FilenameFinal = Filename.replacingOccurrences(of: "-", with: " ", options: .literal, range: nil)
+        print(FilenameFinal)
+        
+      secondView.Webtitle = ""
+        
+        if backCondition == "" {
+            self.navigationController?.pushViewController(secondView, animated: true)
+        }else {
+            self.show(secondView, sender: nil)
+        }
+        
+        
+
     }
     
     @IBAction func openGalleryImagePicker(_ sender: UIButton) {
@@ -804,7 +815,7 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
         if type != "" {
             if type == "jpeg" {
                 if Message == "jk" {
-                      let data = UIImageJPEGRepresentation(sendImg.image!, 0.5)
+                      let data = UIImageJPEGRepresentation(sendImg.image!, 0.1)
                     parameters = [
                         "UserId" : UserId,
                         "ProjectId": ProjectId,
@@ -863,7 +874,9 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
                 if type != "" {
                     if type == "jpeg" {
                         if Message == "jk" {
-                            let data = UIImageJPEGRepresentation(self.sendImg.image!, 0.5)
+                            let data = self.sendImg.image?.jpeg(.low)
+                            print(data!.count)
+//                                UIImageJPEGRepresentation(self.sendImg.image!, 0.1)
                             multipartFormData.append(data!, withName: "ImagePath", fileName: fileName, mimeType: "image/\(type)")
                         }else {
                             multipartFormData.append(ImagePath, withName: "ImagePath", fileName: fileName, mimeType: "image/\(type)")
@@ -881,6 +894,7 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
                 case .success(let upload, _, _):
                     
                     upload.uploadProgress(closure: { (progress) in
+                         self.progressUpload.isHidden = false
                         self.progressUpload.progress = 0.0
                         self.progressUpload.setProgress(Float(progress.fractionCompleted), animated: true)
                         print(progress)
@@ -917,6 +931,7 @@ class ChatOfProjectsViewController: UIViewController, UITableViewDelegate, UITab
                                 }))
                                 self.present(alertController, animated: true, completion: nil)
                             }
+                             self.progressUpload.isHidden = true
                             UIViewController.removeSpinner(spinner: sv)
                         } else {
                             var errorMessage = "ERROR MESSAGE: "

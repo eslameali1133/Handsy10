@@ -84,7 +84,7 @@ class OfficeCheckCodeTableViewController: UITableViewController {
         digitInput.textColor = .white
         digitInput.acceptableCharacters = "0123456789"
         digitInput.keyboardType = .decimalPad
-        digitInput.font = UIFont.monospacedDigitSystemFont(ofSize: 10, weight: UIFont.Weight(rawValue: 1))
+        digitInput.font = UIFont.monospacedDigitSystemFont(ofSize: 10, weight: UIFont.Weight(rawValue: 0))
         digitInput.animationType = .spring
         
         // Let editing end when the view is tapped

@@ -26,17 +26,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="الآن يمكنك الإنضمام إلى المكاتب والمهندسين المعتمدين لدى تطبيق هندسي " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XR9-S1-jxt">
-                                <rect key="frame" x="30" y="129" width="315" height="65"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="65" id="wgX-89-IaY"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name=".ArabicUIText-Regular" family=".Arabic UI Text" pointSize="18"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="الآن يمكنك الإنضمام إلى المكاتب والمهندسين " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XR9-S1-jxt">
+                                <rect key="frame" x="10" y="187.5" width="355" height="21.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="الإشتراك كمكتب مُعتمد أم مهندس حُر ؟" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gO9-2l-UGX">
-                                <rect key="frame" x="10" y="199" width="355" height="21.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  المعتمدين لدى تطبيق هندسي" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gO9-2l-UGX">
+                                <rect key="frame" x="10" y="219" width="355" height="21.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -131,11 +128,11 @@
                             <constraint firstItem="wRl-il-ilX" firstAttribute="centerY" secondItem="Xa1-Hl-Q8g" secondAttribute="centerY" id="AG0-XA-8ja"/>
                             <constraint firstItem="wRl-il-ilX" firstAttribute="centerX" secondItem="Xa1-Hl-Q8g" secondAttribute="centerX" id="Kcn-8S-X2R"/>
                             <constraint firstItem="Xa1-Hl-Q8g" firstAttribute="trailing" secondItem="gO9-2l-UGX" secondAttribute="trailing" constant="10" id="RRv-RG-UxU"/>
-                            <constraint firstItem="gO9-2l-UGX" firstAttribute="top" secondItem="XR9-S1-jxt" secondAttribute="bottom" constant="5" id="c7U-Jc-c2U"/>
-                            <constraint firstItem="wRl-il-ilX" firstAttribute="top" secondItem="gO9-2l-UGX" secondAttribute="bottom" constant="30" id="cKy-xH-ppS"/>
-                            <constraint firstAttribute="trailing" secondItem="XR9-S1-jxt" secondAttribute="trailing" constant="30" id="mGp-od-qLv"/>
+                            <constraint firstItem="gO9-2l-UGX" firstAttribute="top" secondItem="XR9-S1-jxt" secondAttribute="bottom" constant="10" id="c7U-Jc-c2U"/>
+                            <constraint firstItem="wRl-il-ilX" firstAttribute="top" secondItem="gO9-2l-UGX" secondAttribute="bottom" constant="10" id="cKy-xH-ppS"/>
+                            <constraint firstAttribute="trailing" secondItem="XR9-S1-jxt" secondAttribute="trailing" constant="10" id="mGp-od-qLv"/>
                             <constraint firstItem="gO9-2l-UGX" firstAttribute="leading" secondItem="Xa1-Hl-Q8g" secondAttribute="leading" constant="10" id="oRl-Hb-OlH"/>
-                            <constraint firstItem="XR9-S1-jxt" firstAttribute="leading" secondItem="9Lt-m1-kCh" secondAttribute="leading" constant="30" id="ulM-GH-04b"/>
+                            <constraint firstItem="XR9-S1-jxt" firstAttribute="leading" secondItem="9Lt-m1-kCh" secondAttribute="leading" constant="10" id="ulM-GH-04b"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Xa1-Hl-Q8g"/>
                     </view>
@@ -1163,7 +1160,7 @@
                                             <constraint firstAttribute="height" constant="50" id="d9a-mn-2Vz"/>
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
-                                        <state key="normal" title="تسجيل" image="officeDone">
+                                        <state key="normal" title="ارسال" image="officeDone">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
                                         <connections>

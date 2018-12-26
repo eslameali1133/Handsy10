@@ -184,7 +184,7 @@
                                                 <constraint firstAttribute="width" id="lpU-3G-BQT"/>
                                             </constraints>
                                         </view>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="التطبيق يحتاج إلي التحديث" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="wdS-yd-Ewd">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="التطبيق يحتاج إلى التحديث" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="wdS-yd-Ewd">
                                             <rect key="frame" x="0.0" y="0.0" width="176" height="50"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.55294117649999996" green="0.2666666667" blue="0.28235294119999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

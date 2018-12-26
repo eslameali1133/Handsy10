@@ -656,9 +656,9 @@ dvc.Expsort = Exp_sort
                     if l != 0.0 && lng != 0.0 {
                         markers.position = target
                         if self.isCompany == "0" {
-                            markers.icon = self.imageWithImage(image: #imageLiteral(resourceName: "Group_1398"), scaledToSize: CGSize(width: 10, height: 10))
+                            markers.icon = self.imageWithImage(image: #imageLiteral(resourceName: "Group_1398"), scaledToSize: CGSize(width: 30, height: 35))
                         } else {
-                            markers.icon = self.imageWithImage(image: #imageLiteral(resourceName: "Group_869"), scaledToSize: CGSize(width: 20, height: 20))
+                            markers.icon = self.imageWithImage(image: #imageLiteral(resourceName: "Group_869"), scaledToSize: CGSize(width: 30, height: 35))
                         }
                         markers.appearAnimation = .pop
                         markers.accessibilityLabel = "\(i)"
@@ -681,9 +681,9 @@ dvc.Expsort = Exp_sort
                             //                        print("ds: \(self.radius!)")
                             markers.position = target
                             if self.isCompany == "0" {
-                                markers.icon = self.imageWithImage(image: #imageLiteral(resourceName: "Group_1398"), scaledToSize: CGSize(width: 35, height: 40))
+                                markers.icon = self.imageWithImage(image: #imageLiteral(resourceName: "Group_1398"), scaledToSize: CGSize(width: 30, height: 35))
                             } else {
-                                markers.icon = self.imageWithImage(image: #imageLiteral(resourceName: "Group_869"), scaledToSize: CGSize(width: 35, height: 40))
+                                markers.icon = self.imageWithImage(image: #imageLiteral(resourceName: "Group_869"), scaledToSize: CGSize(width: 30, height: 35))
                             }
                             markers.appearAnimation = .pop
                             markers.accessibilityLabel = "\(i)"
@@ -907,9 +907,9 @@ dvc.Expsort = Exp_sort
     @IBAction func endPopViewBtn(_ sender: UIButton) {
         if let selectedMarker = mapView.selectedMarker {
             if self.isCompany == "0" {
-                selectedMarker.icon = self.imageWithImage(image: #imageLiteral(resourceName: "Group_1398"), scaledToSize: CGSize(width: 35, height: 40))
+                selectedMarker.icon = self.imageWithImage(image: #imageLiteral(resourceName: "Group_1398"), scaledToSize: CGSize(width: 30, height: 35))
             } else {
-                selectedMarker.icon = self.imageWithImage(image: #imageLiteral(resourceName: "Group_869"), scaledToSize: CGSize(width: 35, height: 40))
+                selectedMarker.icon = self.imageWithImage(image: #imageLiteral(resourceName: "Group_869"), scaledToSize: CGSize(width: 30, height: 35))
             }
             cirlce.map = nil
         }
@@ -1206,7 +1206,7 @@ dvc.Expsort = Exp_sort
         let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")
         if CustmoerId == nil
         {
-            LoginVIew .isHidden = false
+            LoginVIew.isHidden = false
            
         }
         else {
@@ -1317,9 +1317,9 @@ extension OfficesMapViewController: GMSAutocompleteResultsViewControllerDelegate
             // remove color from currently selected marker
             if let selectedMarker = mapView.selectedMarker {
                 if self.isCompany == "0" {
-                    selectedMarker.icon = self.imageWithImage(image: #imageLiteral(resourceName: "Group_1398"), scaledToSize: CGSize(width: 35, height: 40))
+                    selectedMarker.icon = self.imageWithImage(image: #imageLiteral(resourceName: "Group_1398"), scaledToSize: CGSize(width: 30, height: 35))
                 } else {
-                    selectedMarker.icon = self.imageWithImage(image: #imageLiteral(resourceName: "Group_869"), scaledToSize: CGSize(width: 35, height: 40))
+                    selectedMarker.icon = self.imageWithImage(image: #imageLiteral(resourceName: "Group_869"), scaledToSize: CGSize(width: 30, height: 35))
                 }
                 selectedMarker.appearAnimation = .pop
                 cirlce.map = nil
@@ -1328,9 +1328,9 @@ extension OfficesMapViewController: GMSAutocompleteResultsViewControllerDelegate
             // select new marker and make green
             mapView.selectedMarker = marker
             if self.isCompany == "0" {
-                marker.icon =  self.imageWithImage(image: #imageLiteral(resourceName: "Group_1413"), scaledToSize: CGSize(width: 50, height: 60))
+                marker.icon =  self.imageWithImage(image: #imageLiteral(resourceName: "Group_1413"), scaledToSize: CGSize(width: 30, height: 35))
             } else {
-                marker.icon = self.imageWithImage(image:  #imageLiteral(resourceName: "Group_1414"), scaledToSize: CGSize(width: 50, height: 60))
+                marker.icon = self.imageWithImage(image:  #imageLiteral(resourceName: "Group_1414"), scaledToSize: CGSize(width: 30, height: 35))
             }
             marker.appearAnimation = .pop
             if camera.zoom <= 10 {

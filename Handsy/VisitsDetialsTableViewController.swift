@@ -267,7 +267,11 @@ class VisitsDetialsTableViewController: UITableViewController {
             self.CompanyInfoID = json["CompanyInfoID"].stringValue
             self.IsCompany = json["IsCompany"].stringValue
             self.SakNum = json["SakNum"].stringValue
-            self.GetCountMessageUnReaded()
+            if self.ProjectId != ""
+            {
+                 self.GetCountMessageUnReaded()
+            }
+           
             self.visitsDetialsArray.append(requestProjectObj)
             for i in self.visitsDetialsArray {
                 self.visitsDetialsModel.append(i)

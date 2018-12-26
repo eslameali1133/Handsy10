@@ -9,9 +9,21 @@
 import UIKit
 
 class NewProjectMapAlertViewController: UIViewController {
-
+var comecontion = ""
+    var isCompany = ""
+    
+    @IBOutlet weak var lbl_text: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if comecontion == "singup"
+        {
+            if isCompany == "1" {
+               lbl_text.text = "لتحديد موقع المكتب"
+            }else {
+                lbl_text.text = "لتحديد موقعك ان وجد"
+            }
+        }
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapDismiss(_:)))
         view.addGestureRecognizer(tap)
     }

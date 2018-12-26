@@ -821,12 +821,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="1000"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.086274509803921567" green="0.086274509803921567" blue="0.086274509803921567" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="bv9-Wn-7UE">
+                        <view key="tableHeaderView" contentMode="scaleToFill" misplaced="YES" id="bv9-Wn-7UE">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="89"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k2I-1f-27j">
-                                    <rect key="frame" x="8" y="58" width="398" height="31"/>
+                                    <rect key="frame" x="8" y="391" width="398" height="31"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0w3-VI-a67">
                                             <rect key="frame" x="384" y="0.0" width="0.0" height="31"/>
@@ -909,10 +909,10 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dkW-1j-lrF">
-                                    <rect key="frame" x="20" y="6" width="35" height="44"/>
+                                    <rect key="frame" x="20" y="6" width="35" height="377"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3pd-ev-0DH">
-                                            <rect key="frame" x="0.0" y="4.5" width="35" height="35"/>
+                                            <rect key="frame" x="0.0" y="171" width="35" height="35"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="35" id="a5w-VG-BWl"/>
                                                 <constraint firstAttribute="width" constant="35" id="gab-fH-KpH"/>
@@ -3075,10 +3075,10 @@
             </objects>
             <point key="canvasLocation" x="4684.8000000000002" y="-425.48725637181411"/>
         </scene>
-        <!--التصاميم-->
+        <!--تصاميم المشروع-->
         <scene sceneID="8Pn-J6-aZg">
             <objects>
-                <viewController storyboardIdentifier="DesignsOfProjectViewController" title="التصاميم" useStoryboardIdentifierAsRestorationIdentifier="YES" id="0tA-yN-m7H" customClass="DesignsOfProjectViewController" customModule="Handsy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DesignsOfProjectViewController" title="تصاميم المشروع" useStoryboardIdentifierAsRestorationIdentifier="YES" id="0tA-yN-m7H" customClass="DesignsOfProjectViewController" customModule="Handsy" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="PP2-gM-tq3"/>
                         <viewControllerLayoutGuide type="bottom" id="vWa-Ta-BBY"/>
@@ -3635,10 +3635,10 @@
             </objects>
             <point key="canvasLocation" x="3984.8000000000002" y="-425.03748125937034"/>
         </scene>
-        <!-- انتظار المقابلة-->
+        <!--زيارات المشروع-->
         <scene sceneID="DwC-C8-E5D">
             <objects>
-                <viewController storyboardIdentifier="VisitsOfProjectsViewController" title=" انتظار المقابلة" useStoryboardIdentifierAsRestorationIdentifier="YES" id="3nE-kg-vOY" customClass="VisitsOfProjectsViewController" customModule="Handsy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="VisitsOfProjectsViewController" title="زيارات المشروع" wantsFullScreenLayout="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="3nE-kg-vOY" customClass="VisitsOfProjectsViewController" customModule="Handsy" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dei-p8-Req"/>
                         <viewControllerLayoutGuide type="bottom" id="3ay-EF-awH"/>
@@ -5665,10 +5665,10 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OSG-4n-iAO" customClass="AMUIView" customModule="Handsy" customModuleProvider="target">
-                            <rect key="frame" x="38.5" y="140" width="337" height="476"/>
+                            <rect key="frame" x="38.5" y="190" width="337" height="396"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SvX-Js-bew">
-                                    <rect key="frame" x="75" y="401" width="187" height="53"/>
+                                    <rect key="frame" x="75" y="321" width="187" height="53"/>
                                     <color key="backgroundColor" red="0.83137254900000002" green="0.68671125170000002" blue="0.20569747690000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="22"/>
                                     <state key="normal" title="موافق">
@@ -5679,36 +5679,28 @@
                                     </connections>
                                 </button>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Path_4225" translatesAutoresizingMaskIntoConstraints="NO" id="dQK-9j-7hK">
-                                    <rect key="frame" x="48.5" y="100" width="240" height="128"/>
+                                    <rect key="frame" x="48.5" y="80" width="240" height="128"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="128" id="Y9w-CA-sbR"/>
                                     </constraints>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="تم التقييم بنجاح" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YNU-Ms-jXm">
-                                    <rect key="frame" x="102.5" y="267" width="132" height="38"/>
+                                    <rect key="frame" x="102.5" y="243" width="132" height="38"/>
                                     <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="20"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="نشكرك علي التجربه ونتمني عودتك مره اخري" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4QQ-Or-gxm">
-                                    <rect key="frame" x="32.5" y="330" width="272" height="28"/>
-                                    <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="15"/>
-                                    <color key="textColor" red="0.46274509803921571" green="0.46274509803921571" blue="0.46274509803921571" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
                             <color key="backgroundColor" red="0.18431372549019609" green="0.1803921568627451" blue="0.17254901960784313" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
-                                <constraint firstItem="YNU-Ms-jXm" firstAttribute="top" secondItem="dQK-9j-7hK" secondAttribute="bottom" constant="39" id="02g-ME-t56"/>
-                                <constraint firstItem="4QQ-Or-gxm" firstAttribute="top" secondItem="YNU-Ms-jXm" secondAttribute="bottom" constant="25" id="3dU-dW-1ne"/>
+                                <constraint firstItem="YNU-Ms-jXm" firstAttribute="top" secondItem="dQK-9j-7hK" secondAttribute="bottom" constant="35" id="02g-ME-t56"/>
                                 <constraint firstItem="YNU-Ms-jXm" firstAttribute="centerX" secondItem="OSG-4n-iAO" secondAttribute="centerX" id="6rM-rT-GBX"/>
                                 <constraint firstAttribute="trailing" secondItem="SvX-Js-bew" secondAttribute="trailing" constant="75" id="I42-dD-fYF"/>
                                 <constraint firstItem="SvX-Js-bew" firstAttribute="leading" secondItem="OSG-4n-iAO" secondAttribute="leading" constant="75" id="TD1-tI-5yT"/>
                                 <constraint firstItem="dQK-9j-7hK" firstAttribute="centerX" secondItem="OSG-4n-iAO" secondAttribute="centerX" id="VKD-QJ-17d"/>
                                 <constraint firstItem="dQK-9j-7hK" firstAttribute="leading" secondItem="OSG-4n-iAO" secondAttribute="leading" constant="48.5" id="h5d-Sj-OZ3"/>
                                 <constraint firstAttribute="width" constant="337" id="jj9-ST-RY2"/>
-                                <constraint firstItem="4QQ-Or-gxm" firstAttribute="centerX" secondItem="OSG-4n-iAO" secondAttribute="centerX" id="td9-SS-ut8"/>
-                                <constraint firstItem="dQK-9j-7hK" firstAttribute="top" secondItem="OSG-4n-iAO" secondAttribute="top" constant="100" id="uzg-Gd-NtA"/>
+                                <constraint firstItem="dQK-9j-7hK" firstAttribute="top" secondItem="OSG-4n-iAO" secondAttribute="top" constant="80" id="uzg-Gd-NtA"/>
                                 <constraint firstAttribute="bottom" secondItem="SvX-Js-bew" secondAttribute="bottom" constant="22" id="v7r-Lm-P2Y"/>
                                 <constraint firstAttribute="trailing" secondItem="dQK-9j-7hK" secondAttribute="trailing" constant="48.5" id="ybf-Zj-gG3"/>
                             </constraints>
@@ -5724,9 +5716,9 @@
                     <constraints>
                         <constraint firstItem="OSG-4n-iAO" firstAttribute="leading" secondItem="2TS-Mk-hFw" secondAttribute="leading" constant="38.5" id="4ik-JD-tKK"/>
                         <constraint firstItem="OSG-4n-iAO" firstAttribute="centerX" secondItem="luw-Hr-VYq" secondAttribute="centerX" id="PLI-FY-1ls"/>
-                        <constraint firstItem="OSG-4n-iAO" firstAttribute="top" secondItem="2TS-Mk-hFw" secondAttribute="top" constant="120" id="Yts-Wu-1aF"/>
+                        <constraint firstItem="OSG-4n-iAO" firstAttribute="top" secondItem="2TS-Mk-hFw" secondAttribute="top" constant="170" id="Yts-Wu-1aF"/>
                         <constraint firstItem="2TS-Mk-hFw" firstAttribute="trailing" secondItem="OSG-4n-iAO" secondAttribute="trailing" constant="38.5" id="fhe-UX-b2y"/>
-                        <constraint firstItem="2TS-Mk-hFw" firstAttribute="bottom" secondItem="OSG-4n-iAO" secondAttribute="bottom" constant="120" id="lw4-iX-1Ja"/>
+                        <constraint firstItem="2TS-Mk-hFw" firstAttribute="bottom" secondItem="OSG-4n-iAO" secondAttribute="bottom" constant="150" id="lw4-iX-1Ja"/>
                     </constraints>
                     <viewLayoutGuide key="safeArea" id="2TS-Mk-hFw"/>
                 </view>
@@ -5904,11 +5896,11 @@
                                                     </label>
                                                 </subviews>
                                             </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hLg-WM-Z11">
-                                                <rect key="frame" x="233" y="75" width="117" height="20"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="hLg-WM-Z11">
+                                                <rect key="frame" x="140" y="75" width="210" height="20"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aXz-ye-h3D">
-                                                        <rect key="frame" x="0.0" y="0.0" width="16" height="20"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aXz-ye-h3D">
+                                                        <rect key="frame" x="0.0" y="0.0" width="74" height="20"/>
                                                         <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="12"/>
                                                         <state key="normal" image="NewProCallBtn">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -5918,14 +5910,14 @@
                                                             <action selector="CallMe:" destination="YL2-sd-zM8" eventType="touchUpInside" id="gTz-7O-kcb"/>
                                                         </connections>
                                                     </button>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="احمد" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jpG-yR-UZD">
-                                                        <rect key="frame" x="16" y="0.0" width="39" height="20"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  احمد احمد " textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jpG-yR-UZD">
+                                                        <rect key="frame" x="77" y="0.0" width="68" height="20"/>
                                                         <fontDescription key="fontDescription" name="AJannatLT-Bold" family="A Jannat LT" pointSize="14"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="المهندس :" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="daT-qC-8VU">
-                                                        <rect key="frame" x="55" y="0.0" width="62" height="20"/>
+                                                        <rect key="frame" x="148" y="0.0" width="62" height="20"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="62" id="bzq-Vc-l5b"/>
                                                         </constraints>

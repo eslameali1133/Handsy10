@@ -15,6 +15,7 @@ class ShowContractViewController: UIViewController, UIWebViewDelegate {
      var documentInteractionController = UIDocumentInteractionController()
     
     @IBOutlet var viewConfimAccept: UIView!
+    var tmpURL:URL?
     
     @IBAction func ConfirmYes(_ sender: Any) {
          AcceptContract()
@@ -56,6 +57,7 @@ class ShowContractViewController: UIViewController, UIWebViewDelegate {
            viewConfimAccept.isHidden = true
         self.navigationItem.title = Webtitle
         WebViewContract.delegate = self
+         customDownload()
         print(url)
         print(url.encodeUrl())
           sv = UIViewController.displaySpinner(onView: self.view)
@@ -78,25 +80,13 @@ class ShowContractViewController: UIViewController, UIWebViewDelegate {
             return
         }
          UIViewController.removeSpinner(spinner: sv)
+         download.isHidden = false
         print("finished")
         // finish and do something here
     }
 
-    func downloadPdf()  {
-        let download = UIButton(type: .custom)
-        download.setImage(UIImage (named: "download-button-1"), for: .normal)
-        
-        download.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        download.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        download.frame = CGRect(x: 0.0, y: 0.0, width: 35.0, height: 35.0)
-        download.addTarget(self, action:#selector(downloadPdfButton), for: .touchUpInside)
-        
-        let barButtonItem2 = UIBarButtonItem(customView: download)
-        barButtonItem2.tintColor = UIColor.white
-        self.navigationItem.rightBarButtonItems = [ barButtonItem2]
-    }
-    //    response?.suggestedFilename ?? "Contract.pdf"
-    @objc func downloadPdfButton(sender: UIButton) {
+    func customDownload()
+    {
         guard let url = URL(string: url.encodeUrl()) else { return }
         print(url)
         
@@ -115,29 +105,114 @@ class ShowContractViewController: UIViewController, UIWebViewDelegate {
             
         }
         
+        if Filename == ""
+        {
+            if let range = self.url.range(of: "images/") {
+                Filename = String(self.url[range.upperBound...])
+                print(Filename.encodeUrl()) // prints "123.456.7891"
+            }
+            
+        }
+        
         let FilenameFinal = Filename.replacingOccurrences(of: "-", with: " ", options: .literal, range: nil)
         print(FilenameFinal)
         
         URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data, error == nil else { return }
-            let tmpURL = FileManager.default.temporaryDirectory
+            self.tmpURL = FileManager.default.temporaryDirectory
                 .appendingPathComponent(FilenameFinal ?? "Contract.pdf")
             do {
-                try data.write(to: tmpURL)
+                try data.write(to: self.tmpURL!)
             } catch { print(error) }
-            DispatchQueue.main.async {
-                self.share(url: tmpURL)
-            }
+            
             }.resume()
+        
+    }
+    
+     let download = UIButton(type: .custom)
+    func downloadPdf()  {
+       
+        download.setImage(UIImage (named: "download-button-1"), for: .normal)
+        download.isHidden = true
+        download.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        download.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        download.frame = CGRect(x: 0.0, y: 0.0, width: 35.0, height: 35.0)
+        download.addTarget(self, action:#selector(downloadPdfButton), for: .touchUpInside)
+        
+        let barButtonItem2 = UIBarButtonItem(customView: download)
+        barButtonItem2.tintColor = UIColor.white
+        self.navigationItem.rightBarButtonItems = [ barButtonItem2]
+    }
+    //    response?.suggestedFilename ?? "Contract.pdf"
+    @objc func downloadPdfButton(sender: UIButton) {
+//        guard let url = URL(string: url.encodeUrl()) else { return }
+//        print(url)
+//
+//        var Filename = ""
+//        if let range = self.url.range(of: "Designs/") {
+//            Filename = String(self.url[range.upperBound...])
+//            print(Filename.encodeUrl()) // prints "123.456.7891"
+//        }
+//
+//        if Filename == ""
+//        {
+//            if let range = self.url.range(of: "photo/") {
+//                Filename = String(self.url[range.upperBound...])
+//                print(Filename.encodeUrl()) // prints "123.456.7891"
+//            }
+//
+//        }
+//
+//        let FilenameFinal = Filename.replacingOccurrences(of: "-", with: " ", options: .literal, range: nil)
+//        print(FilenameFinal)
+//
+//        URLSession.shared.dataTask(with: url) { data, response, error in
+//            guard let data = data, error == nil else { return }
+//            let tmpURL = FileManager.default.temporaryDirectory
+//                .appendingPathComponent(FilenameFinal ?? "Contract.pdf")
+//            do {
+//                try data.write(to: tmpURL)
+//            } catch { print(error) }
+            DispatchQueue.main.async {
+                self.share(url: self.tmpURL!)
+            }
+//            }.resume()
     }
     
 
     
     @IBAction func goEditContactAction(_ sender: UIButton) {
+        print(url)
+        guard let url = URL(string: url.encodeUrl()) else { return }
+        print(url)
+        var Filename = ""
+        if let range = self.url.range(of: "Designs/") {
+            Filename = String(self.url[range.upperBound...])
+            print(Filename.encodeUrl()) // prints "123.456.7891"
+        }
         
-          guard let urlpath = URL(string: url) else { return }
+        if Filename == ""
+        {
+            if let range = self.url.range(of: "photo/") {
+                Filename = String(self.url[range.upperBound...])
+                print(Filename.encodeUrl()) // prints "123.456.7891"
+            }
+            
+        }
         
-        let fileName = urlpath.lastPathComponent
+        if Filename == ""
+        {
+            if let range = self.url.range(of: "images/") {
+                Filename = String(self.url[range.upperBound...])
+                print(Filename.encodeUrl()) // prints "123.456.7891"
+            }
+            
+        }
+        
+        let FilenameFinal = Filename.replacingOccurrences(of: "-", with: " ", options: .literal, range: nil)
+        print(FilenameFinal)
+        
+        let fileName = FilenameFinal
         
         print(fileName)
         

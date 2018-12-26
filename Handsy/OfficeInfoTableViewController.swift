@@ -47,6 +47,13 @@ class OfficeInfoTableViewController: UITableViewController, UITextFieldDelegate,
     
     override func viewDidLoad() {
         super.viewDidLoad()
+          self.navigationController?.setNavigationBarHidden(false, animated: true)
+//        self.navigationController?.title = "طلب انضمام مكتب هندسي"
+//        self.navigationController?.navigationBar.topItem!.title = "some title"
+//        self.title = "eslam"
+//         self.navigationItem.title = "Your Textssss"
+//         addBackBarButtonItem()
+//         self.navigationItem.title = "طلب انضمام مكتب هندسي"
         GetCompanyType()
         self.nextBtn.isEnabled = false
         nameOFOfficeTF.setBottomBorderGray()
@@ -81,7 +88,22 @@ class OfficeInfoTableViewController: UITableViewController, UITextFieldDelegate,
         model.delegate = self
         model.GetProvincesReg(view: self.view, VC: self)
         sectionModel.delegate = self
+        
     }
+    
+    func addBackBarButtonItem() {
+        let shareButton = UIButton(type: .system)
+        shareButton.setTitle("عودة", for: .normal)
+        shareButton.setImage(UIImage(named: "DBackBtn"), for: .normal)
+        shareButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+        shareButton.sizeToFit()
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: shareButton)
+    }
+    
+    @objc func backButtonPressed(){
+        self.navigationController!.popViewController(animated: true)
+    }
+    
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if isCompany == "1" {

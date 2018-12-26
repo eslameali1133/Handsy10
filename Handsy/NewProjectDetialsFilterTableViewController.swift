@@ -285,14 +285,11 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         
         detialsBtnView.isHidden = true
          loderview.isHidden = true
-        loderview.frame = CGRect(x: 0, y: 0, width: self.tableView.frame.width, height: self.tableView.frame.height)
+        loderview.frame = CGRect(x: 0, y: 0, width: self.tableView.frame.width, height: 1200)
         self.view.addSubview(loderview)
-        
-      
         self.tabBarController?.tabBar.isHidden = false
         timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(hideContract), userInfo: nil, repeats: false)
         newVisitsCountLabel.isHidden = true
-        //        newVisitsCountImage.isHidden = true
         cancelProView.isHidden = true
         MoneyDetialsBtnOut.isHidden = true
         contractAlertLabel.isHidden = true
@@ -882,7 +879,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     
     func GetOfficesByProvincesID(){
         loderview.isHidden = false
-        tableView.isHidden = true
+//        tableView.isHidden = true
          detialsBtnView.isHidden = true
         let sv = UIViewController.displaySpinner(onView: self.view)
         //        let id = UserDefaults.standard.string(forKey: "account_id")!
@@ -928,7 +925,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
                
                 
                 self.detialsBtnView.isHidden = false
-                     self.tableView.isHidden =  false
+//                     self.tableView.isHidden =  false
                  self.loderview.isHidden = true
                 self.goH()
             case .failure(let error):
@@ -1047,7 +1044,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     func GetProjectByProjectId(){
         loderview.isHidden = false
          detialsBtnView.isHidden = true
-         tableView.isHidden = true
+//         tableView.isHidden = true
         let sv = UIViewController.displaySpinner(onView: self.view)
         let parameters: Parameters?
         if nou == "" && norma == "" {
@@ -1166,7 +1163,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             UIViewController.removeSpinner(spinner: sv)
            
             self.detialsBtnView.isHidden = false
-            self.tableView.isHidden = false
+//            self.tableView.isHidden = false
              self.loderview.isHidden = true
             
         }
@@ -1535,7 +1532,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         {
             FirstViewController.sakNum = ProjectId
         }
-        FirstViewController.mobilestr = searchResu[index!].EmpMobile
+        FirstViewController.mobilestr = EmpMobile
        
         FirstViewController.DesignStagesID = ProjectId
         

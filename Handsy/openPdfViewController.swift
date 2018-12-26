@@ -73,14 +73,22 @@ class openPdfViewController: UIViewController, UIWebViewDelegate {
     var CompanyInfoID = ""
     var IsCompany = ""
     
-    
+    var tmpURL:URL?
     
     
     
     
     override func viewWillAppear(_ animated: Bool) {
         
-    
+        customDownload()
+        print(url.encodeUrl())
+        sv = UIViewController.displaySpinner(onView: self.view)
+        view.bringSubview(toFront: sv)
+        if let urlPdf = URL(string: url.encodeUrl()) {
+            
+            let request = URLRequest(url: urlPdf)
+            WebViewPdf.loadRequest(request)
+        }
         
     }
     override func viewDidLoad() {
@@ -97,27 +105,41 @@ class openPdfViewController: UIViewController, UIWebViewDelegate {
             BtnOutLet.isHidden = false
             OK.isHidden = true
             Cancel.isHidden = false
-        }else {
+        }else if condBottomButtons == "chat" {
+            BtnOutLet.isHidden = true
+            OK.isHidden = true
+            Cancel.isHidden = true
+            self.navigationController?.setNavigationBarHidden(false, animated: true)
+            addBackBarButtonItem()
+           
+        }
+        else {
             BtnOutLet.isHidden = true
             OK.isHidden = true
             Cancel.isHidden = true
         }
-        print(url.encodeUrl())
-         sv = UIViewController.displaySpinner(onView: self.view)
-        view.bringSubview(toFront: sv)
-        if let urlPdf = URL(string: url.encodeUrl()) {
-            
-            let request = URLRequest(url: urlPdf)
-            WebViewPdf.loadRequest(request)
-        }
-
-       
-     
         
+        
+        
+
        downloadPdf()
        
     }
 
+    
+    func addBackBarButtonItem() {
+        let shareButton = UIButton(type: .system)
+        shareButton.setTitle("عودة", for: .normal)
+        shareButton.setImage(UIImage(named: "DBackBtn"), for: .normal)
+        shareButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+        shareButton.sizeToFit()
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: shareButton)
+    }
+    
+    @objc func backButtonPressed(){
+        self.navigationController!.popViewController(animated: true)
+    }
+    
     func webViewDidFinishLoad(_ webView: UIWebView) {
       
         if webView.isLoading {
@@ -126,58 +148,70 @@ class openPdfViewController: UIViewController, UIWebViewDelegate {
             return
         }
          UIViewController.removeSpinner(spinner: sv)
+         download.isHidden = false
         print("finished")
         // finish and do something here
     }
-
+func customDownload()
+{
+    guard let url = URL(string: url.encodeUrl()) else { return }
+    print(url)
     
+    var Filename = ""
+    if let range = self.url.range(of: "Designs/") {
+        Filename = String(self.url[range.upperBound...])
+        print(Filename.encodeUrl()) // prints "123.456.7891"
+    }
+    
+    if Filename == ""
+    {
+        if let range = self.url.range(of: "photo/") {
+            Filename = String(self.url[range.upperBound...])
+            print(Filename.encodeUrl()) // prints "123.456.7891"
+        }
+        
+    }
+    if condBottomButtons == "chat" {
+        if let range = self.url.range(of: "Images/") {
+            Filename = String(self.url[range.upperBound...])
+            print(Filename.encodeUrl()) // prints "123.456.7891"
+        }
+    }
+    
+    let FilenameFinal = Filename.replacingOccurrences(of: "-", with: " ", options: .literal, range: nil)
+    print(FilenameFinal)
+    
+    URLSession.shared.dataTask(with: url) { data, response, error in
+        guard let data = data, error == nil else { return }
+        self.tmpURL = FileManager.default.temporaryDirectory
+            .appendingPathComponent(FilenameFinal ?? "Contract.pdf")
+        do {
+            try data.write(to: self.tmpURL!)
+        } catch { print(error) }
+       
+        }.resume()
+    
+}
+       let download = UIButton(type: .custom)
     func downloadPdf()  {
-        let download = UIButton(type: .custom)
+     
         download.setImage(UIImage (named: "download-button-1"), for: .normal)
         
         download.widthAnchor.constraint(equalToConstant: 30).isActive = true
         download.heightAnchor.constraint(equalToConstant: 30).isActive = true
         download.frame = CGRect(x: 0.0, y: 0.0, width: 35.0, height: 35.0)
+        download.isHidden = true
         download.addTarget(self, action:#selector(downloadPdfButton), for: .touchUpInside)
         
         let barButtonItem2 = UIBarButtonItem(customView: download)
         barButtonItem2.tintColor = UIColor.white
         self.navigationItem.rightBarButtonItems = [ barButtonItem2]
     }
-//    response?.suggestedFilename ?? "Contract.pdf"
+
     @objc func downloadPdfButton(sender: UIButton) {
-        guard let url = URL(string: url.encodeUrl()) else { return }
-        print(url)
-      
-        var Filename = ""
-        if let range = self.url.range(of: "Designs/") {
-            Filename = String(self.url[range.upperBound...])
-            print(Filename.encodeUrl()) // prints "123.456.7891"
+        DispatchQueue.main.async {
+            self.share(url: self.tmpURL!)
         }
-        
-        if Filename == ""
-        {
-            if let range = self.url.range(of: "photo/") {
-                Filename = String(self.url[range.upperBound...])
-                print(Filename.encodeUrl()) // prints "123.456.7891"
-            }
-            
-        }
-        
-        let FilenameFinal = Filename.replacingOccurrences(of: "-", with: " ", options: .literal, range: nil)
-        print(FilenameFinal)
-        
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data, error == nil else { return }
-            let tmpURL = FileManager.default.temporaryDirectory
-                .appendingPathComponent(FilenameFinal ?? "Contract.pdf")
-            do {
-                try data.write(to: tmpURL)
-            } catch { print(error) }
-            DispatchQueue.main.async {
-                self.share(url: tmpURL)
-            }
-            }.resume()
     }
     
     @IBAction func designCancel(_ sender: UIButton) {

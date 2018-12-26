@@ -11,11 +11,11 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="AJannatLT.otf">
-            <string>AJannatLT</string>
-        </array>
-        <array key="AJannatLTBold.ttf">
+        <array key="A.Jannat.LT.Bold.ttf">
             <string>AJannatLT-Bold</string>
+        </array>
+        <array key="A.Jannat.LT.Regular.ttf">
+            <string>AJannatLT</string>
         </array>
     </customFonts>
     <scenes>
@@ -3230,6 +3230,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Rt2-o6-El7"/>
                     </view>
+                    <connections>
+                        <outlet property="lbl_text" destination="R3X-BP-6Ba" id="aAV-SC-eA5"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EOD-9M-fvC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

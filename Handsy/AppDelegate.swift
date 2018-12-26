@@ -29,6 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     let userDefaults = UserDefaults.standard
     var currentTimesOfOpenApp:Int = 0
     var optionallyStoreTheFirstLaunchFlag = false
+    var anothoerroom = false
     
     func saveTimesOfOpenApp() -> Void {
         userDefaults.set(currentTimesOfOpenApp, forKey: "timesOfOpenApp")
@@ -318,6 +319,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 let ProjectId = userInfo["ProjectId"] as? String
                 ProIDGloable = (userInfo["ProjectId"] as? String)!
                 ReadAllMessageForCust(ProjectId: ProjectId!)
+              if anothoerroom == true
+                {
+                    anothoerroom = false
+                      movetoHoem()
+                }
+                else
+              {
                 if let VC = UIApplication.topViewController() as? ChatOfProjectsViewController {
                     let messageByProjectIdObj = MessageByProjectId()
                     messageByProjectIdObj.ImageName = userInfo["ImageName"] as? String
@@ -329,15 +337,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     messageByProjectIdObj.SenderImage = userInfo["SenderImage"] as? String
                     messageByProjectIdObj.SenderName = userInfo["SenderName"] as? String
                     messageByProjectIdObj.SenderType = userInfo["SenderType"] as? String
+                    messageByProjectIdObj.Lat = userInfo["Lat"] as? String
+                    messageByProjectIdObj.Lng = userInfo["Lng"] as? String
                     messageByProjectIdObjgl = messageByProjectIdObj
                     VC.messagesList.append(messageByProjectIdObj)
                     VC.scrollToBottom()
                     VC.chatTableView.reloadData()
-                    
-                    
+                   
                 }else {
                     
                     movetoHoem()
+                }
                 }
             }else {
                  comingnotification = false
@@ -354,7 +364,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler(.alert)
+//
         let userInfo:[AnyHashable:Any] =  notification.request.content.userInfo
         let state : UIApplicationState = applicationl.applicationState
         var type = ""
@@ -362,50 +372,73 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             print("Message ID: \(messageID)")
             type = (userInfo["PushType"] as? String)!
         }
-//        // new code
-//        if type == "9" {
+        print(userInfo)
+          let ProjectId = userInfo["ProjectId"] as? String
         
-            switch state {
-            case UIApplicationState.active:
-                print("If needed notify user about the message")
-                if let messageID = userInfo["PushType"]{
-                    print("Message ID: \(messageID)")
-                    let type = userInfo["PushType"] as? String
-                    print("type: \(type)")
-                    let notificationID = userInfo["NotificationID"] as? String
-                    if type == "9" {
-                        let ProjectId = userInfo["ProjectId"] as? String
-                        if let VC = UIApplication.topViewController() as? ChatOfProjectsViewController {
-                            ReadAllMessageForCust(ProjectId: ProjectId!)
-                            let messageByProjectIdObj = MessageByProjectId()
-                            messageByProjectIdObj.ImageName = userInfo["ImageName"] as? String
-                            messageByProjectIdObj.ImagePath = userInfo["ImagePath"] as? String
-                            messageByProjectIdObj.Message = userInfo["Message"] as? String
-                            messageByProjectIdObj.MessageTime = userInfo["MessageTime"] as? String
-                            messageByProjectIdObj.MessageType = userInfo["MessageType"] as? String
-                            messageByProjectIdObj.SenderId = userInfo["SenderId"] as? String
-                            messageByProjectIdObj.SenderImage = userInfo["SenderImage"] as? String
-                            messageByProjectIdObj.SenderName = userInfo["SenderName"] as? String
-                            messageByProjectIdObj.SenderType = userInfo["SenderType"] as? String
-                            VC.messagesList.append(messageByProjectIdObj)
-                            VC.scrollToBottom()
-                            VC.chatTableView.reloadData()
-                            completionHandler([])
-                        }else {
-                            completionHandler([.alert,.badge])
-                        }
-                    }
-                }else {
-                    completionHandler([.alert,.badge])
-                }
+     
+         if type == "9" {
+            if(ProjectId == chatRoomProjectId)
+            {
                 
-            default:
-                print("Run code to download content")
-                completionHandler([.alert,.badge,.sound])
+                switch state {
+                case UIApplicationState.active:
+                    print("If needed notify user about the message")
+                    if let messageID = userInfo["PushType"]{
+                        print("Message ID: \(messageID)")
+                        let type = userInfo["PushType"] as? String
+                        print("type: \(type)")
+                        let notificationID = userInfo["NotificationID"] as? String
+                        if type == "9" {
+                            let ProjectId = userInfo["ProjectId"] as? String
+                            if let VC = UIApplication.topViewController() as? ChatOfProjectsViewController {
+                                ReadAllMessageForCust(ProjectId: ProjectId!)
+                                let messageByProjectIdObj = MessageByProjectId()
+                                messageByProjectIdObj.ImageName = userInfo["ImageName"] as? String
+                                messageByProjectIdObj.ImagePath = userInfo["ImagePath"] as? String
+                                messageByProjectIdObj.Message = userInfo["Message"] as? String
+                                messageByProjectIdObj.MessageTime = userInfo["MessageTime"] as? String
+                                messageByProjectIdObj.MessageType = userInfo["MessageType"] as? String
+                                messageByProjectIdObj.SenderId = userInfo["SenderId"] as? String
+                                messageByProjectIdObj.SenderImage = userInfo["SenderImage"] as? String
+                                messageByProjectIdObj.SenderName = userInfo["SenderName"] as? String
+                                messageByProjectIdObj.SenderType = userInfo["SenderType"] as? String
+                                messageByProjectIdObj.Lat = userInfo["Lat"] as? String
+                                messageByProjectIdObj.Lng = userInfo["Lng"] as? String
+                                VC.messagesList.append(messageByProjectIdObj)
+                                VC.scrollToBottom()
+                                VC.chatTableView.reloadData()
+                                completionHandler([])
+                            }else {
+                                completionHandler([.alert,.badge])
+                            }
+                        }
+                    }else {
+                        completionHandler([.alert,.badge])
+                    }
+                    
+                default:
+                    print("Run code to download content")
+                    completionHandler([.alert,.badge,.sound])
+                }
             }
+                // not same project
+            else
+            {
+                anothoerroom = true
+                chatRoomProjectId = ProjectId!
+                completionHandler(.alert)
+                
+            }
+            
         }
-       
-//    }
+        else{
+            completionHandler([.alert,.badge])
+        }
+        
+        
+        
+   
+        }
 }
 extension UserDefaults {
     // check for is first launch - only true on first invocation after app install, false on all further invocations

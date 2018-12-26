@@ -11,11 +11,11 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="AJannatLT.otf">
-            <string>AJannatLT</string>
-        </array>
-        <array key="AJannatLTBold.ttf">
+        <array key="A.Jannat.LT.Bold.ttf">
             <string>AJannatLT-Bold</string>
+        </array>
+        <array key="A.Jannat.LT.Regular.ttf">
+            <string>AJannatLT</string>
         </array>
     </customFonts>
     <scenes>
@@ -1457,7 +1457,7 @@
                     <viewLayoutGuide key="safeArea" id="CD7-8M-C9I"/>
                 </view>
             </objects>
-            <point key="canvasLocation" x="3210.144927536232" y="299.18478260869568"/>
+            <point key="canvasLocation" x="1628" y="434"/>
         </scene>
         <!--إختيار الموقع-->
         <scene sceneID="beg-sr-cnN">
@@ -1550,19 +1550,40 @@
                                     <constraint firstAttribute="height" constant="80" id="liK-aV-miP"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S5f-sN-ud5">
+                                <rect key="frame" x="353" y="379.66666666666669" width="41" height="41"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" image="Group_1404"/>
+                                <connections>
+                                    <action selector="mapTypeAction:" destination="xzu-IQ-wFF" eventType="touchUpInside" id="i3K-93-FYf"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lIw-TK-wJX">
+                                <rect key="frame" x="353" y="429.66666666666669" width="41" height="41"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" image="Group_1406"/>
+                                <connections>
+                                    <action selector="mylocationBtn:" destination="xzu-IQ-wFF" eventType="touchUpInside" id="ShQ-l4-ZHr"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="S5f-sN-ud5" firstAttribute="centerY" secondItem="uRc-fs-CCb" secondAttribute="centerY" id="0fO-R6-fbF"/>
                             <constraint firstItem="n6y-HS-snu" firstAttribute="leading" secondItem="uRc-fs-CCb" secondAttribute="leading" id="1Uu-WX-iQQ"/>
+                            <constraint firstItem="uRc-fs-CCb" firstAttribute="trailing" secondItem="S5f-sN-ud5" secondAttribute="trailing" constant="20" id="1Xq-iU-M7G"/>
                             <constraint firstItem="uRc-fs-CCb" firstAttribute="trailing" secondItem="uVc-5d-myC" secondAttribute="trailing" constant="15" id="29o-LR-omD"/>
                             <constraint firstItem="Uqp-pd-1ZQ" firstAttribute="top" secondItem="uVc-5d-myC" secondAttribute="bottom" constant="10" id="5ap-NJ-o85"/>
                             <constraint firstItem="uVc-5d-myC" firstAttribute="top" secondItem="uRc-fs-CCb" secondAttribute="top" constant="10" id="7w3-KG-IAK"/>
+                            <constraint firstItem="lIw-TK-wJX" firstAttribute="trailing" secondItem="S5f-sN-ud5" secondAttribute="trailing" id="Bpa-nk-4OG"/>
                             <constraint firstItem="uRc-fs-CCb" firstAttribute="trailing" secondItem="Uqp-pd-1ZQ" secondAttribute="trailing" id="STg-To-SGS"/>
                             <constraint firstItem="uVc-5d-myC" firstAttribute="leading" secondItem="uRc-fs-CCb" secondAttribute="leading" constant="15" id="YGI-hf-NST"/>
+                            <constraint firstItem="lIw-TK-wJX" firstAttribute="leading" secondItem="S5f-sN-ud5" secondAttribute="leading" id="YKd-Zc-uad"/>
                             <constraint firstItem="uRc-fs-CCb" firstAttribute="trailing" secondItem="n6y-HS-snu" secondAttribute="trailing" id="Ys7-4E-8Hf"/>
                             <constraint firstAttribute="bottom" secondItem="n6y-HS-snu" secondAttribute="bottom" id="gdp-gI-SlW"/>
                             <constraint firstItem="Uqp-pd-1ZQ" firstAttribute="leading" secondItem="gQk-gy-Vza" secondAttribute="leading" id="hKO-UH-CFl"/>
                             <constraint firstItem="n6y-HS-snu" firstAttribute="top" secondItem="Uqp-pd-1ZQ" secondAttribute="bottom" id="lNj-VR-86j"/>
+                            <constraint firstItem="lIw-TK-wJX" firstAttribute="bottom" secondItem="S5f-sN-ud5" secondAttribute="bottom" constant="50" id="psq-Vi-OKC"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="uRc-fs-CCb"/>
                     </view>
@@ -1574,6 +1595,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="BtnmapType" destination="S5f-sN-ud5" id="o9C-by-O4W"/>
                         <outlet property="confirmBtn" destination="9G3-HP-BcB" id="3oy-HZ-JRb"/>
                         <outlet property="confirmSearchBtn" destination="20h-ZA-9Qk" id="v4a-vf-sIT"/>
                         <outlet property="mapView" destination="Uqp-pd-1ZQ" id="cA5-oN-Fqt"/>
@@ -1610,6 +1632,8 @@
     </scenes>
     <resources>
         <image name="46711415_1052035414968632_7325898637018398720_n" width="720" height="960"/>
+        <image name="Group_1404" width="41" height="41"/>
+        <image name="Group_1406" width="41" height="41"/>
         <image name="Search" width="25" height="25"/>
         <image name="ShareBtn" width="24" height="24"/>
         <image name="XBtn" width="24" height="24"/>

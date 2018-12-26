@@ -261,7 +261,7 @@ class MoneyManagmentDetialsTableViewController: UIViewController, UITableViewDel
             if #available(iOS 11, *) {
                 self.tableView.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 20, right: 0)
             }else{
-                self.tableView.contentInset = UIEdgeInsets.init(top: 52, left: 0, bottom: 20, right: 0)
+                self.tableView.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 20, right: 0)
             }
             self.tableView.bringSubview(toFront: self.detialsBtnView)
             self.tableView.addSubview(self.detialsBtnView)

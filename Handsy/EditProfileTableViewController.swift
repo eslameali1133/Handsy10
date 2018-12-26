@@ -99,6 +99,55 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
         mobileNumber.inputAccessoryView = toolBar
         // Do any additional setup after loading the view.
         GetEmptByMobileNumload()
+        
+        
+//        let alert = UIAlertController(title: "اختر صورة شخصية", message: "", preferredStyle: .alert)
+//        alert.addAction(UIAlertAction(title: "الكاميرا", style: .default, handler: { action in
+//            picker.sourceType = .camera
+//            picker.modalPresentationStyle = .fullScreen
+//            self.present(picker, animated: true)
+//        }))
+//        alert.addAction(UIAlertAction(title: "معرض الصور", style: .default, handler: { action in
+//            picker.sourceType = .photoLibrary
+//            picker.modalPresentationStyle = .fullScreen
+//            self.present(picker, animated: true)
+//        }))
+//        alert.addAction(UIAlertAction(title: "غلق", style: .destructive, handler: { action in
+//
+//        }))
+        
+        
+        
+        
+        AlertController = UIAlertController(title:"" , message: "اختر صورة شخصية", preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let Cam = UIAlertAction(title: "الكاميرا", style: UIAlertActionStyle.default, handler: { (action) in
+            self.openCame()
+        })
+        let Gerall = UIAlertAction(title: "معرض الصور", style: UIAlertActionStyle.default, handler: { (action) in
+            self.opengelar()
+        })
+        
+        let Cancel = UIAlertAction(title: "غلق", style: UIAlertActionStyle.cancel, handler: { (action) in
+            //
+        })
+        
+        self.AlertController.addAction(Cam)
+        self.AlertController.addAction(Gerall)
+        self.AlertController.addAction(Cancel)
+
+    }
+    
+    func openCame(){
+        picker.sourceType = .camera
+        picker.modalPresentationStyle = .fullScreen
+        self.present(picker, animated: true)
+    }
+    
+    func opengelar(){
+        picker.sourceType = .photoLibrary
+        picker.modalPresentationStyle = .fullScreen
+        self.present(picker, animated: true)
     }
     
     @objc func donePicker(){
@@ -222,27 +271,24 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
         return 4
     }
     
+     var AlertController: UIAlertController!
+      let picker = UIImagePickerController()
     @IBAction func UpdateImage(_ sender: UIButton) {
         
-        let picker = UIImagePickerController()
+      
         picker.delegate = self
         picker.allowsEditing = false
-        let alert = UIAlertController(title: "اختر صورة شخصية", message: "", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "الكاميرا", style: .default, handler: { action in
-            picker.sourceType = .camera
-            picker.modalPresentationStyle = .fullScreen
-            self.present(picker, animated: true)
-        }))
-        alert.addAction(UIAlertAction(title: "معرض الصور", style: .default, handler: { action in
-            picker.sourceType = .photoLibrary
-            picker.modalPresentationStyle = .fullScreen
-            self.present(picker, animated: true)
-        }))
-        alert.addAction(UIAlertAction(title: "غلق", style: .destructive, handler: { action in
-            
-        }))
         
-        self.present(alert, animated: true, completion: nil)
+        if Helper.isDeviceiPad() {
+            
+            if let popoverController = AlertController.popoverPresentationController {
+                popoverController.sourceView = sender
+            }
+        }
+        
+        self.present(AlertController, animated: true, completion: nil)
+//
+//        self.present(alert, animated: true, completion: nil)
         //        if UIImagePickerController.isSourceTypeAvailable(.camera) {
         //            picker.sourceType = .camera
         //        } else {

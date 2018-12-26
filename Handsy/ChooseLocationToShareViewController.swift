@@ -12,6 +12,7 @@ import GooglePlacePicker
 import GoogleMaps
 
 class ChooseLocationToShareViewController: UIViewController, CLLocationManagerDelegate {
+    @IBOutlet weak var BtnmapType: UIButton!
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var searchViewOut: UIView!{
         didSet {
@@ -51,9 +52,34 @@ class ChooseLocationToShareViewController: UIViewController, CLLocationManagerDe
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
+      mapView.mapType = .satellite
+        if mapView.mapType == .satellite {
+            BtnmapType.setImage(#imageLiteral(resourceName: "Group_1404"), for: .normal)
+         
+        }else {
+          
+              BtnmapType.setImage(#imageLiteral(resourceName: "Group_1404-1"), for: .normal)
+        }
     }
     
+    @IBAction func mylocationBtn(_ sender: Any) {
+        let lat = self.mapView.myLocation?.coordinate.latitude
+        let lng = self.mapView.myLocation?.coordinate.longitude
+        let camera = GMSCameraPosition.camera(withLatitude: lat! ,longitude: lng! , zoom: 14)
+        self.mapView.animate(to: camera)
+    }
     
+    @IBAction func mapTypeAction(_ sender: UIButton) {
+        if mapView.mapType == .satellite {
+          
+         BtnmapType.setImage(#imageLiteral(resourceName: "Group_1404-1"), for: .normal)
+            mapView.mapType = .terrain
+        }else {
+           
+           BtnmapType.setImage(#imageLiteral(resourceName: "Group_1404"), for: .normal)
+            mapView.mapType = .satellite
+        }
+    }
 
     @IBAction func autocompleteClicked(_ sender: UIButton) {
         let autocompleteController = GMSAutocompleteViewController()
@@ -71,9 +97,6 @@ class ChooseLocationToShareViewController: UIViewController, CLLocationManagerDe
         //        // Zoom in one zoom level
         //        zoom = "\(zoomCamera)"
         //        print(zoom + "zoom")
-        
-        
-        
         if self.marker == nil {
             self.marker = GMSMarker(position: coordinate)
         } else {
@@ -206,7 +229,7 @@ extension ChooseLocationToShareViewController: GMSAutocompleteViewControllerDele
             // GMSMapView has two features concerning the user’s location: myLocationEnabled draws a light blue dot where the user is located, while myLocationButton, when set to true, adds a button to the map that, when tapped, centers the map on the user’s location.
             
             mapView.isMyLocationEnabled = true
-            mapView.settings.myLocationButton = true
+//            mapView.settings.myLocationButton = true
             mapView.settings.zoomGestures = true
         }
     }
