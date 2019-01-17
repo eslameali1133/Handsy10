@@ -962,7 +962,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     }
     
     @IBAction func CallMe(_ sender: UIButton) {
-        let mobileNum = searchResu[index!].EmpMobile
+        let mobileNum = self.EmpMobile
         var mobile: String = (mobileNum)
         if mobile.count == 10 {
             if mobile.first! == "0" {
@@ -994,8 +994,14 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     }
     
     @IBAction func directionBtn(_ sender: UIButton) {
-        LatBranch = searchResu[index!].LatBranch
-        LngBranch = searchResu[index!].LngBranch
+        print(LatBranch,LngBranch)
+        if self.LatBranch == 0.0
+        {
+            LatBranch = searchResu[0].LatBranch
+            LngBranch = searchResu[0].LngBranch
+        }
+//        LatBranch = searchResu[0].LatBranch
+//        LngBranch = searchResu[0].LngBranch
         
 //        let dLati = searchResu[index!].LatBranch
 //        let dLang = searchResu[index!].LngBranch
@@ -1513,6 +1519,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             self.ConntractRecordBtn.circleView(UIColor.clear, borderWidth: 1.0)
         }
     }
+    
     @IBAction func GotoContractRecord(_ sender: Any) {
         let storyboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
         let FirstViewController = storyboard.instantiateViewController(withIdentifier: "EditDesigRecordsVC") as! EditDesigRecordsVC

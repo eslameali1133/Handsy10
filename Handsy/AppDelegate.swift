@@ -30,6 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     var currentTimesOfOpenApp:Int = 0
     var optionallyStoreTheFirstLaunchFlag = false
     var anothoerroom = false
+     var countoprn = 0
     
     func saveTimesOfOpenApp() -> Void {
         userDefaults.set(currentTimesOfOpenApp, forKey: "timesOfOpenApp")
@@ -95,7 +96,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         //            print(result)
         //        }
         //        contentPush(title: " Jurassic Park", body: "Its lunch time at the park, please join us for a dinosaur feeding")
+        
+          let isFirstLaunch = isAppAlreadyLaunchedOnce()
+        
+        if isFirstLaunch == false
+        {
+            countoprn += 1
+            if(countoprn == 1)
+            {
+                let storyBoard : UIStoryboard = UIStoryboard(name: "EntroStoryboard", bundle:nil)
+                let sub = storyBoard.instantiateViewController(withIdentifier: "EntroVC") as! EntroVC
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                
+                appDelegate.window?.rootViewController = sub
+            }
+        }else
+        {
+            let storyBoard : UIStoryboard = UIStoryboard(name: "WelcomeScreen", bundle:nil)
+            let sub = storyBoard.instantiateViewController(withIdentifier: "NewWelcome") 
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            
+            appDelegate.window?.rootViewController = sub
+        }
+        
+        
         return true
+    }
+    
+    func isAppAlreadyLaunchedOnce()->Bool{
+        let defaults = UserDefaults.standard
+        if let _ = defaults.string(forKey: "isAppAlreadyLaunchedOnce"){
+            print("App already launched")
+            return true
+        }else{
+            defaults.set(true, forKey: "isAppAlreadyLaunchedOnce")
+            print("App launched first time")
+            return false
+        }
     }
     
     func contentPush(title: String, body: String, userInfo: [AnyHashable: Any]) {

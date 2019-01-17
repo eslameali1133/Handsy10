@@ -130,7 +130,7 @@ class openPdfViewController: UIViewController, UIWebViewDelegate {
     func addBackBarButtonItem() {
         let shareButton = UIButton(type: .system)
         shareButton.setTitle("عودة", for: .normal)
-        shareButton.setImage(UIImage(named: "DBackBtn"), for: .normal)
+ shareButton.setImage(UIImage(named: "DBackBtn"), for: .normal)
         shareButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         shareButton.sizeToFit()
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: shareButton)
@@ -195,7 +195,7 @@ func customDownload()
        let download = UIButton(type: .custom)
     func downloadPdf()  {
      
-        download.setImage(UIImage (named: "download-button-1"), for: .normal)
+        download.setImage(UIImage (named: "ShareBtn"), for: .normal)
         
         download.widthAnchor.constraint(equalToConstant: 30).isActive = true
         download.heightAnchor.constraint(equalToConstant: 30).isActive = true

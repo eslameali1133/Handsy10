@@ -737,8 +737,6 @@ detialsBtnView.isHidden = true
         
         let storyboard = UIStoryboard(name: "DesignsAndDetails", bundle: nil)
         let FirstViewController = storyboard.instantiateViewController(withIdentifier: "EditDesigRecordsVC") as! EditDesigRecordsVC
-
-        
          FirstViewController.ProjectId = ProjectId
         FirstViewController.Condition = "Design"
           FirstViewController.ProjectTiti = ProjectBildTypeName

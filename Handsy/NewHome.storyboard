@@ -821,12 +821,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="1000"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.086274509803921567" green="0.086274509803921567" blue="0.086274509803921567" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" misplaced="YES" id="bv9-Wn-7UE">
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="bv9-Wn-7UE">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="89"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k2I-1f-27j">
-                                    <rect key="frame" x="8" y="391" width="398" height="31"/>
+                                    <rect key="frame" x="8" y="58" width="398" height="31"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0w3-VI-a67">
                                             <rect key="frame" x="384" y="0.0" width="0.0" height="31"/>
@@ -909,10 +909,10 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dkW-1j-lrF">
-                                    <rect key="frame" x="20" y="6" width="35" height="377"/>
+                                    <rect key="frame" x="20" y="6" width="35" height="44"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3pd-ev-0DH">
-                                            <rect key="frame" x="0.0" y="171" width="35" height="35"/>
+                                            <rect key="frame" x="0.0" y="4.5" width="35" height="35"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="35" id="a5w-VG-BWl"/>
                                                 <constraint firstAttribute="width" constant="35" id="gab-fH-KpH"/>

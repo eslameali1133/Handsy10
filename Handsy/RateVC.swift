@@ -251,12 +251,9 @@ class RateVC: UIViewController,UITableViewDelegate,UITableViewDataSource,GetRate
                           "EvaluationMasterComment":comment,
                           "QuestionsArray":SumQesWRate
         ]
-        //        let headers: HTTPHeaders = [
-        //            /* "Authorization": "your_access_token",  in case you need authorization header */
-        //            "Content-type": "multipart/form-data"
-        //        ]
+      
+       
         let sv = UIViewController.displaySpinner(onView: self.view)
-        
         
         //test
         let url = "http://smusers.promit2030.co/api/ApiService/AddCusEvaluate"/* your API url */

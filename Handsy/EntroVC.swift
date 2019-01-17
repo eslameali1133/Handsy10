@@ -28,6 +28,7 @@ class EntroVC: UIViewController,UICollectionViewDataSource,UICollectionViewDeleg
     var flag = false
     var flagPre = false
     var flagfirsttimeTa5te = true
+    var countTa5 = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +39,10 @@ class EntroVC: UIViewController,UICollectionViewDataSource,UICollectionViewDeleg
         CollectView?.isPagingEnabled = true
         // Do any additional setup after loading the view.
     }
-    
+
+    override func viewWillAppear(_ animated: Bool) {
+        viewDidLoad()
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -48,6 +52,7 @@ class EntroVC: UIViewController,UICollectionViewDataSource,UICollectionViewDeleg
 var count = 0
 var countnext = 0
     @IBAction func Next(_ sender: UIButton) {
+        flagfirsttimeTa5te = false
         countnext = 0
     flagPre = false
         if (count == 0)
@@ -154,7 +159,7 @@ var countnext = 0
         flagfirsttimeTa5te = false
         if (Int(x / view.frame.width) == 0)
         {
-            
+            flagfirsttimeTa5te = true
              PreBtn.setTitle("تخطى", for: .normal)
             NextBtn.setTitle("التالي", for: .normal)
         }

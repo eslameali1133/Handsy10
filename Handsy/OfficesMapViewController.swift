@@ -481,6 +481,20 @@ dvc.Expsort = Exp_sort
     }
     
     
+    var flagSelectedOppice = 0
+    func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
+        let zoom = mapView.camera.zoom
+      
+//        if flagSelectedOppice == true
+//        {
+//            flagSelectedOppice = false
+//           PopUpView.isHidden = true
+//        }
+        
+        
+    }
+    
+    
 //    func openMapsForLocationgoogle(Lat: Double, Lng: Double) {
 //        let location = CLLocation(latitude: Lat, longitude: Lng)
 //        if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
@@ -1255,8 +1269,10 @@ extension OfficesMapViewController: GMSAutocompleteResultsViewControllerDelegate
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         let index:Int! = Int(marker.accessibilityLabel!)
-        let camera = GMSCameraPosition.camera(withTarget: marker.position, zoom: 12)
-//        Float(cam)
+
+        print(self.mapView.camera.zoom)
+        let camera = GMSCameraPosition.camera(withTarget: marker.position, zoom: self.mapView.camera.zoom)
+
         self.mapView.animate(to: camera)
         indexi = index
         
@@ -1328,9 +1344,9 @@ extension OfficesMapViewController: GMSAutocompleteResultsViewControllerDelegate
             // select new marker and make green
             mapView.selectedMarker = marker
             if self.isCompany == "0" {
-                marker.icon =  self.imageWithImage(image: #imageLiteral(resourceName: "Group_1413"), scaledToSize: CGSize(width: 30, height: 35))
+                marker.icon =  self.imageWithImage(image: #imageLiteral(resourceName: "Group_1413"), scaledToSize: CGSize(width: 45, height: 55))
             } else {
-                marker.icon = self.imageWithImage(image:  #imageLiteral(resourceName: "Group_1414"), scaledToSize: CGSize(width: 30, height: 35))
+                marker.icon = self.imageWithImage(image:  #imageLiteral(resourceName: "Group_1414"), scaledToSize: CGSize(width: 45, height: 55))
             }
             marker.appearAnimation = .pop
             if camera.zoom <= 10 {
@@ -1344,13 +1360,39 @@ extension OfficesMapViewController: GMSAutocompleteResultsViewControllerDelegate
                 cirlce = GMSCircle(position: (mapView.selectedMarker?.position)!, radius: (100))
             }
             
-            cirlce.fillColor = UIColor.green.withAlphaComponent(0.2)
-            cirlce.strokeColor = UIColor.green.withAlphaComponent(0.3)
-            cirlce.strokeWidth = 1
-            cirlce.map = mapView
+//            cirlce.fillColor = UIColor.green.withAlphaComponent(0.2)
+//            cirlce.strokeColor = UIColor.green.withAlphaComponent(0.3)
+//            cirlce.strokeWidth = 1
+//            cirlce.map = mapView
             PopUpView.isHidden = false
+            flagSelectedOppice = 1
         }
         return true
+    }
+    
+    func mapView(_ mapView: GMSMapView, willMove gesture: Bool) {
+        if flagSelectedOppice == 1
+        {
+            flagSelectedOppice = 0
+            PopUpView.isHidden = false
+        }
+           
+       else
+        {
+            
+        flagSelectedOppice = 0
+        PopUpView.isHidden = true
+            
+            if let selectedMarker = mapView.selectedMarker {
+                if self.isCompany == "0" {
+                    selectedMarker.icon = self.imageWithImage(image: #imageLiteral(resourceName: "Group_1398"), scaledToSize: CGSize(width: 30, height: 35))
+                } else {
+                    selectedMarker.icon = self.imageWithImage(image: #imageLiteral(resourceName: "Group_869"), scaledToSize: CGSize(width: 30, height: 35))
+                }
+                cirlce.map = nil
+            }
+            
+        }
     }
     
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {

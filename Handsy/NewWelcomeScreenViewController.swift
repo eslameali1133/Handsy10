@@ -95,31 +95,17 @@ class NewWelcomeScreenViewController: UIViewController {
         
         if logout == "logout" {
             logout = ""
-            _ = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(checkLogOut), userInfo: nil, repeats: false)
+            
+              DispatchQueue.main.async {
+                _ = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(self.checkLogOut), userInfo: nil, repeats: false)
+            }
             
         }
         else
         {
-            
-            let isFirstLaunch = isAppAlreadyLaunchedOnce()
-            
             let delegate = UIApplication.shared.delegate as! AppDelegate
             let times = delegate.currentTimesOfOpenApp
-            print(isFirstLaunch)
-            
-            if isFirstLaunch == false
-            {
-                countoprn += 1
-                if(countoprn == 1)
-                {
-                    let storyBoard : UIStoryboard = UIStoryboard(name: "EntroStoryboard", bundle:nil)
-                    let sub = storyBoard.instantiateViewController(withIdentifier: "EntroVC") as! EntroVC
-                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    
-                    appDelegate.window?.rootViewController = sub
-                }
-            }
-            
+           
             let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")
             if CustmoerId != nil
             {

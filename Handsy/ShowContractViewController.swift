@@ -132,7 +132,7 @@ class ShowContractViewController: UIViewController, UIWebViewDelegate {
      let download = UIButton(type: .custom)
     func downloadPdf()  {
        
-        download.setImage(UIImage (named: "download-button-1"), for: .normal)
+        download.setImage(UIImage (named: "ShareBtn"), for: .normal)
         download.isHidden = true
         download.widthAnchor.constraint(equalToConstant: 30).isActive = true
         download.heightAnchor.constraint(equalToConstant: 30).isActive = true
