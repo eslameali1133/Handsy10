@@ -1,7 +1,6 @@
 //
 //  AppDelegate.swift
-//  Handsy
-//
+//  Handsd
 //  Created by Ahmed Wahdan on 7/20/17.
 //  Copyright © 2017 Ahmed Wahdan. All rights reserved.
 //
@@ -212,14 +211,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let parameters: Parameters = [
             "NotificationID": NotificationID
         ]
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/MarkNotifyReadByNotifyID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/MarkNotifyReadByNotifyID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
         }
     }
     
     func ReadAllMessageForCust(ProjectId: String) {
-        Alamofire.request("http://smusers.promit2030.co/api/ApiService/ReadAllMessageForCust?ProjectId=\(ProjectId)", method: .post, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/api/ApiService/ReadAllMessageForCust?ProjectId=\(ProjectId)", method: .post, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
         }
     }
@@ -350,6 +349,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                    ProIDGloable = (userInfo["ProjectId"] as? String)!
                 movetoHoem()
                 
+                
+            }
+            else if type == "11" {
+                MarkNotifyReadByNotifyID(NotificationID: notificationID!)
+                Filegl = (userInfo["File"] as? String)!
+                print(Filegl)
+                movetoHoem()
                 
             }
             else if type == "9" {

@@ -46,9 +46,9 @@ class ShowContractViewController: UIViewController, UIWebViewDelegate {
     var url: String = ""
     var Webtitle: String = "العقد المقترح"
     var ProjectId: String = ""
-    
+     var condition = ""
     override func viewDidLoad() {
-       
+       AcceptViewOut.isHidden = true
         super.viewDidLoad()
             CountCustomerNotification()
      
@@ -57,7 +57,11 @@ class ShowContractViewController: UIViewController, UIWebViewDelegate {
            viewConfimAccept.isHidden = true
         self.navigationItem.title = Webtitle
         WebViewContract.delegate = self
-         customDownload()
+        if condition == ""
+        {
+            AcceptViewOut.isHidden = false
+            customDownload()
+        }
         print(url)
         print(url.encodeUrl())
           sv = UIViewController.displaySpinner(onView: self.view)
@@ -80,7 +84,13 @@ class ShowContractViewController: UIViewController, UIWebViewDelegate {
             return
         }
          UIViewController.removeSpinner(spinner: sv)
-         download.isHidden = false
+        if condition == ""
+        {
+            download.isHidden = false
+        }else
+        {
+            download.isHidden = true
+        }
         print("finished")
         // finish and do something here
     }
@@ -236,7 +246,7 @@ class ShowContractViewController: UIViewController, UIWebViewDelegate {
             "projectId": ProjectId
         ]
         
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/AcceptContract", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/AcceptContract", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             switch response.result {
@@ -300,7 +310,7 @@ class ShowContractViewController: UIViewController, UIWebViewDelegate {
         let parameters: Parameters = [
             "CustmoerId":CustmoerId
         ]
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json = JSON(response.result.value!)

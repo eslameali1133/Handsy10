@@ -138,7 +138,7 @@ class SignUpNameViewController: UITableViewController, UITextFieldDelegate {
             "Mobile": mobile,
             "companyInfoID": "1"
         ]
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/RegCustomers", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/RegCustomers", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             switch response.result {
             case .success:
@@ -147,11 +147,16 @@ class SignUpNameViewController: UITableViewController, UITextFieldDelegate {
                 let result = json["result"].stringValue
                 let CustmoerId = json["CustmoerId"].stringValue
                 let CompanyInfoID = json["CompanyInfoID"].stringValue
+                 let Status = json["Status"].stringValue
                 if result == "Done"{
                     print("Done")
                     UserDefaults.standard.set(CustmoerId, forKey: "CustmoerId")
                     UserDefaults.standard.set(CompanyInfoID, forKey: "CompanyInfoID")
                     self.GetEmptByMobileNum()
+                }
+                else if(result == "Exist" && Status == "false")
+                {
+                    Toast.long(message:"رقم الجوال مسجل بالفعل")
                 }
                 UIViewController.removeSpinner(spinner: sv)
             case .failure(let error):
@@ -176,7 +181,7 @@ class SignUpNameViewController: UITableViewController, UITextFieldDelegate {
     
     func GetEmptByMobileNum() {
         let sv = UIViewController.displaySpinner(onView: view)
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetEmptByMobileNum?mobileNum=\(mobile)", method: .get).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetEmptByMobileNum?mobileNum=\(mobile)", method: .get).responseJSON { response in
             debugPrint(response)
             switch response.result {
             case .success:
@@ -294,7 +299,7 @@ class SignUpNameViewController: UITableViewController, UITextFieldDelegate {
             "DeviceID":DeviceID
         ]
         
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/PushInsertUpdate", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/PushInsertUpdate", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json = JSON(response.result.value!)

@@ -20,6 +20,8 @@
 		0C82E5ED213A8FCD00B7A11D /* ShapeUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C82E5EC213A8FCC00B7A11D /* ShapeUIView.swift */; };
 		1814D5AF2181C7D10093964A /* MainTabLogot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1814D5AE2181C7D10093964A /* MainTabLogot.swift */; };
 		1814D5B12181E4930093964A /* AboutHandasy.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1814D5B02181E4930093964A /* AboutHandasy.storyboard */; };
+		1818BC8621F7159A00FAB044 /* GetProjectDataCountByCustIDMainTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1818BC8521F7159A00FAB044 /* GetProjectDataCountByCustIDMainTab.swift */; };
+		1818BC8821F72B0200FAB044 /* MeetingCountByCustmoerId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1818BC8721F72B0200FAB044 /* MeetingCountByCustmoerId.swift */; };
 		181ADB9821AE9498007E1E52 /* MyProjectNotLoginSb.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 181ADB9721AE9498007E1E52 /* MyProjectNotLoginSb.storyboard */; };
 		181ADB9A21AE9BDD007E1E52 /* EntroProjectsNotLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181ADB9921AE9BDD007E1E52 /* EntroProjectsNotLoginVC.swift */; };
 		1857D06721AA995F009ACE23 /* HelperMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1857D06621AA995F009ACE23 /* HelperMethod.swift */; };
@@ -31,6 +33,7 @@
 		18CBA4E121BE837000B0B842 /* EditDesignRecordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CBA4E021BE837000B0B842 /* EditDesignRecordCell.swift */; };
 		18CBA4E321BE8EAA00B0B842 /* EditRecoredModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CBA4E221BE8EAA00B0B842 /* EditRecoredModel.swift */; };
 		18CBA4E521BE906800B0B842 /* EditDesignRecordController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CBA4E421BE906800B0B842 /* EditDesignRecordController.swift */; };
+		18D7292721F4BEF300959586 /* DesignsCountByCustmoerId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D7292621F4BEF300959586 /* DesignsCountByCustmoerId.swift */; };
 		18E372912178862A0064A8DF /* AWSegmentAbout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E37290217886290064A8DF /* AWSegmentAbout.swift */; };
 		18E37293217888760064A8DF /* aboutHangsyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E37292217888760064A8DF /* aboutHangsyViewController.swift */; };
 		18F189331FA68B810090EFB3 /* AMCircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F189321FA68B810090EFB3 /* AMCircleImageView.swift */; };
@@ -332,6 +335,8 @@
 		1606CA20FC4D0BDFA5E5801D /* Pods_HandsyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HandsyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1814D5AE2181C7D10093964A /* MainTabLogot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabLogot.swift; sourceTree = "<group>"; };
 		1814D5B02181E4930093964A /* AboutHandasy.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AboutHandasy.storyboard; sourceTree = "<group>"; };
+		1818BC8521F7159A00FAB044 /* GetProjectDataCountByCustIDMainTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetProjectDataCountByCustIDMainTab.swift; sourceTree = "<group>"; };
+		1818BC8721F72B0200FAB044 /* MeetingCountByCustmoerId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCountByCustmoerId.swift; sourceTree = "<group>"; };
 		181ADB9721AE9498007E1E52 /* MyProjectNotLoginSb.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MyProjectNotLoginSb.storyboard; sourceTree = "<group>"; };
 		181ADB9921AE9BDD007E1E52 /* EntroProjectsNotLoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntroProjectsNotLoginVC.swift; sourceTree = "<group>"; };
 		1857D06621AA995F009ACE23 /* HelperMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperMethod.swift; sourceTree = "<group>"; };
@@ -343,6 +348,7 @@
 		18CBA4E021BE837000B0B842 /* EditDesignRecordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDesignRecordCell.swift; sourceTree = "<group>"; };
 		18CBA4E221BE8EAA00B0B842 /* EditRecoredModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRecoredModel.swift; sourceTree = "<group>"; };
 		18CBA4E421BE906800B0B842 /* EditDesignRecordController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDesignRecordController.swift; sourceTree = "<group>"; };
+		18D7292621F4BEF300959586 /* DesignsCountByCustmoerId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignsCountByCustmoerId.swift; sourceTree = "<group>"; };
 		18E37290217886290064A8DF /* AWSegmentAbout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AWSegmentAbout.swift; sourceTree = "<group>"; };
 		18E37292217888760064A8DF /* aboutHangsyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = aboutHangsyViewController.swift; sourceTree = "<group>"; };
 		18F189321FA68B810090EFB3 /* AMCircleImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMCircleImageView.swift; sourceTree = "<group>"; };
@@ -676,6 +682,9 @@
 			isa = PBXGroup;
 			children = (
 				0C2F30FD215B97D4003BFCCE /* QuestionRateModel.swift */,
+				18D7292621F4BEF300959586 /* DesignsCountByCustmoerId.swift */,
+				1818BC8521F7159A00FAB044 /* GetProjectDataCountByCustIDMainTab.swift */,
+				1818BC8721F72B0200FAB044 /* MeetingCountByCustmoerId.swift */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -1650,6 +1659,7 @@
 				C1969C5C203F0798001D87BA /* SetLocationOfOfficeViewController.swift in Sources */,
 				18733E4621C79E7900125EA2 /* openLocation.swift in Sources */,
 				C115D84A1FE27D5500A5FCE4 /* DoubleImageButton.swift in Sources */,
+				1818BC8621F7159A00FAB044 /* GetProjectDataCountByCustIDMainTab.swift in Sources */,
 				0C2F30FE215B97D4003BFCCE /* QuestionRateModel.swift in Sources */,
 				C1714CE1201384020070A9EE /* NewProjectAlertViewController.swift in Sources */,
 				C12C6553206CF20B00793E9D /* MyProjectNotficationViewController.swift in Sources */,
@@ -1694,6 +1704,7 @@
 				C14762B9205E8A6600992E45 /* SearchByOfficeNameViewController.swift in Sources */,
 				18CBA4E521BE906800B0B842 /* EditDesignRecordController.swift in Sources */,
 				C1F6B7491F448B7200A34526 /* DetailsDesignTableViewController.swift in Sources */,
+				1818BC8821F72B0200FAB044 /* MeetingCountByCustmoerId.swift in Sources */,
 				C1FC1B421FEE673500D3939E /* OneViewController.swift in Sources */,
 				C1EFB88A1FD6AA6F0092732D /* OfficesMapViewController.swift in Sources */,
 				C194D66C20EE61CF00174332 /* AllHomeMessage.swift in Sources */,
@@ -1793,6 +1804,7 @@
 				C1C712CE1F488B45004F42E5 /* VisitsViewController.swift in Sources */,
 				C1969C52203EE02A001D87BA /* NewOfficeFillterViewController.swift in Sources */,
 				C148407820F247EF00678AEC /* MessageByProjectIdModel.swift in Sources */,
+				18D7292721F4BEF300959586 /* DesignsCountByCustmoerId.swift in Sources */,
 				C136F1481F810A1400FECF81 /* ProjectFilesTableViewCell.swift in Sources */,
 				C152DA941F28B9D20032C03F /* GalaryViewController.swift in Sources */,
 				C1913B3220614FA000DEB7F6 /* SearchOfOfficesModel.swift in Sources */,

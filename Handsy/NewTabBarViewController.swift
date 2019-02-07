@@ -13,6 +13,9 @@ import UserNotifications
 
 class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
     
+    var CounterProjectArr: [GetProjectDataCountByCustIDMainTab] = [GetProjectDataCountByCustIDMainTab]()
+    var ProjectDataCountByCustIDMainTabdModel: GetProjectDataCountByCustIDMainTabdModel = GetProjectDataCountByCustIDMainTabdModel()
+    
     @IBOutlet weak var heightConstrianWord: NSLayoutConstraint!
    
     @IBOutlet weak var ConstrianHeigthBtn: NSLayoutConstraint!
@@ -65,8 +68,21 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
         super.viewDidLoad()
         self.delegate = self
         // Do any additional setup after loading the view.
-          CountCustomerNotification()
+         
+       
    
+        if Reachability.isConnectedToNetwork(){
+            print("Internet Connection Available!")
+            GetProjectDataCountByCustID()
+              CountCustomerNotification()
+        }
+        else
+        {
+            ProjectDataCountByCustIDMainTabdModel.loadItems()
+            self.CounterProjectArr = [ProjectDataCountByCustIDMainTabdModel.returnCountByCustmoerId()!]
+        
+        }
+        
         
     }
   
@@ -82,8 +98,7 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         let vcIndex = tabBarController.viewControllers!.index(of: viewController)!
         if  vcIndex == 4 {
-            GetProjectDataCountByCustID()
-            CountCustomerNotification()
+           
             let currentView = tabBarController.selectedViewController!.view!
             DispatchQueue.main.async {
                 self.buttonsView.frame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
@@ -119,7 +134,7 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     @IBAction func goVisitsArchive(_ sender: UIButton) {
-        if MeetingCount == 0 {
+        if CounterProjectArr[0].MeetingCount == 0 {
             Toast.long(message: "لا يوجد زيارات")
         }else {
             buttonsView.removeFromSuperview()
@@ -132,7 +147,7 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     @IBAction func goDesignsArchive(_ sender: UIButton) {
-        if DesignsCount == 0 {
+        if CounterProjectArr[0].DesignsCount == 0 {
             Toast.long(message: "لايوجد تصاميم")
         }else {
             buttonsView.removeFromSuperview()
@@ -144,7 +159,7 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
         }
     }
     @IBAction func goFilesArchive(_ sender: UIButton) {
-        if FilesCount == 0 {
+        if CounterProjectArr[0].FileCount == 0 {
             Toast.long(message: "لا يوجد وثايق و مستندات ")
         }else {
         buttonsView.removeFromSuperview()
@@ -224,7 +239,7 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
             "DeviceID":DeviceID
         ]
         
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/PushInsertUpdate", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/PushInsertUpdate", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json = JSON(response.result.value!)
@@ -255,7 +270,7 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
         let parameters: Parameters = [
             "CustmoerId":CustmoerId
         ]
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json = JSON(response.result.value!)
@@ -263,6 +278,8 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
                 self.NotiProjectCount = json["NotiProjectCount"].intValue
                 self.NotiMessageCount = json["NotiMessageCount"].intValue
                 self.NotiTotalCount = json["NotiTotalCount"].intValue
+                
+                
                 self.setAppBadge()
             case .failure(let error):
                 print(error)
@@ -296,13 +313,14 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
     var DesignsCount = 0
     var MeetingCount = 0
      var FilesCount = 0
+    
     // func get designs and visits count
     func GetProjectDataCountByCustID() {
         let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")!
         let parameters: Parameters = [
             "custId":CustmoerId
         ]
-        Alamofire.request("http://smusers.promit2030.co/api/ApiService/GetProjectDataCountByCustID?custId=\(CustmoerId)", method: .get, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetProjectDataCountByCustID?custId=\(CustmoerId)", method: .get, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json = JSON(response.result.value!)
@@ -310,6 +328,15 @@ class NewTabBarViewController: UITabBarController, UITabBarControllerDelegate {
                 self.DesignsCount = json["DesignsCount"].intValue
                 self.MeetingCount = json["MeetingCount"].intValue
                 self.FilesCount = json["FileCount"].intValue
+                
+                let objectCount = GetProjectDataCountByCustIDMainTab(DesignsCount: json["DesignsCount"].intValue, MeetingCount: json["MeetingCount"].intValue, FileCount: json["FileCount"].intValue)
+                
+                self.CounterProjectArr.append(objectCount)
+                self.ProjectDataCountByCustIDMainTabdModel.removeAllItems()
+                for i in self.CounterProjectArr {
+                    self.ProjectDataCountByCustIDMainTabdModel.append(i)
+                }
+                
             case .failure(let error):
                 print(error)
                 let alertAction = UIAlertController(title: "خطاء في الاتصال", message: "اعادة المحاولة", preferredStyle: .alert)

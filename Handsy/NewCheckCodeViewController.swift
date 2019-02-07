@@ -89,7 +89,7 @@ class NewCheckCodeViewController: UITableViewController {
         super.viewDidLoad()
         self.navigationItem.hidesBackButton = true
         addBackBarButtonItem()
-        if clickCount >= 2 {
+        if clickCount >= 1 {
             count = 180
             clickCount = 0
             timerl = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(update), userInfo: nil, repeats: true)
@@ -126,6 +126,7 @@ class NewCheckCodeViewController: UITableViewController {
     @objc func endEditing(_ sender: UITapGestureRecognizer) {
         _ = digitInput.resignFirstResponder()
         print(digitInput.text)
+       
         if digitInput.text == code || digitInput.text == "1657"{
             NextBtnOut.isEnabled = true
             AlertCodeLabel.isHidden = true
@@ -359,7 +360,7 @@ class NewCheckCodeViewController: UITableViewController {
             "CompanyInfoID": "1"
         ]
         
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/UpdateCustomers", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/UpdateCustomers", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             switch response.result {
@@ -394,7 +395,7 @@ class NewCheckCodeViewController: UITableViewController {
     
     func GetEmptByMobileNum() {
         let sv = UIViewController.displaySpinner(onView: view)
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetEmptByMobileNum?mobileNum=\(mobile)", method: .get).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetEmptByMobileNum?mobileNum=\(mobile)", method: .get).responseJSON { response in
             debugPrint(response)
             switch response.result {
             case .success:
@@ -554,7 +555,7 @@ class NewCheckCodeViewController: UITableViewController {
             "DeviceID":DeviceID
         ]
         
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/PushInsertUpdate", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/PushInsertUpdate", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json = JSON(response.result.value!)
@@ -588,7 +589,7 @@ class NewCheckCodeViewController: UITableViewController {
 //        mobileTest.insert("6", at: mobileTest.startIndex)
 //        mobileTest.insert("9", at: mobileTest.startIndex)
         print(mobileTest)
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/SendSmsCodeActivation?mobile=\(mobileTest)", method: .get).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/SendSmsCodeActivation?mobile=\(mobileTest)", method: .get).responseJSON { response in
             debugPrint(response)
             
             switch response.result {

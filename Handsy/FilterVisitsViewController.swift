@@ -11,6 +11,10 @@ import Alamofire
 import SwiftyJSON
 
 class FilterVisitsViewController: UIViewController {
+    
+   var meetingArr: [MeetingCountByCustmoerIdclass] = [MeetingCountByCustmoerIdclass]()
+    var meetingCountByCustmoerIdModel: MeetingCountByCustmoerIdModel = MeetingCountByCustmoerIdModel()
+    
     @IBOutlet weak var newVisitssCountLabel: UILabel!{
         didSet {
             DispatchQueue.main.async {
@@ -48,13 +52,24 @@ class FilterVisitsViewController: UIViewController {
         super.viewDidLoad()
         oldVisitsCountLabel.isHidden = true
         newVisitssCountLabel.isHidden = true
-        MeetingCountByCustmoerId()
+//        MeetingCountByCustmoerId()
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
         oldVisitsCountLabel.isHidden = true
         newVisitssCountLabel.isHidden = true
-        MeetingCountByCustmoerId()
+       
+        
+        if Reachability.isConnectedToNetwork(){
+            print("Internet Connection Available!")
+            MeetingCountByCustmoerId()
+        }
+        else
+        {
+            meetingCountByCustmoerIdModel.loadItems()
+            self.meetingArr = [meetingCountByCustmoerIdModel.returnmeetingsCountByCustmoerId()!]
+            self.SetuplabrlCount()
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -75,7 +90,21 @@ class FilterVisitsViewController: UIViewController {
         }
     }
     
-    
+    func SetuplabrlCount(){
+        
+        if self.meetingArr[0].FinishMeetingCount == "0" || self.meetingArr[0].FinishMeetingCount == ""{
+            self.oldVisitsCountLabel.isHidden = true
+        }else {
+            self.oldVisitsCountLabel.isHidden = false
+            self.oldVisitsCountLabel.text = self.meetingArr[0].FinishMeetingCount
+        }
+        if self.meetingArr[0].NewMeetingCount == "0" || self.meetingArr[0].NewMeetingCount == ""{
+            self.newVisitssCountLabel.isHidden = true
+        }else {
+            self.newVisitssCountLabel.isHidden = false
+            self.newVisitssCountLabel.text = self.meetingArr[0].NewMeetingCount
+        }
+    }
     @IBAction func goOldVisits(_ sender: UIButton) {
         if FinishMeetingCount == "0" {
             Toast.long(message: "لايوجد زيارات منتهية حالياً")
@@ -91,23 +120,20 @@ class FilterVisitsViewController: UIViewController {
         let parameters: Parameters = [
             "CustmoerId": CustmoerId
         ]
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/MeetingCountByCustmoerId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/MeetingCountByCustmoerId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             let json = JSON(response.result.value!)
             self.FinishMeetingCount = json["FinishMeetingCount"].stringValue
             self.NewMeetingCount = json["NewMeetingCount"].stringValue
-            if self.FinishMeetingCount == "0" || self.FinishMeetingCount == ""{
-                self.oldVisitsCountLabel.isHidden = true
-            }else {
-                self.oldVisitsCountLabel.isHidden = false
-                self.oldVisitsCountLabel.text = self.FinishMeetingCount
+             let  proDesignsCountByCustmoerId = MeetingCountByCustmoerIdclass(FinishMeetingCount: json["FinishMeetingCount"].stringValue, NewMeetingCount: json["NewMeetingCount"].stringValue)
+            self.meetingArr.append(proDesignsCountByCustmoerId)
+            self.meetingCountByCustmoerIdModel.removeAllItems()
+            for i in self.meetingArr {
+                self.meetingCountByCustmoerIdModel.append(i)
             }
-            if self.NewMeetingCount == "0" || self.NewMeetingCount == ""{
-                self.newVisitssCountLabel.isHidden = true
-            }else {
-                self.newVisitssCountLabel.isHidden = false
-                self.newVisitssCountLabel.text = self.NewMeetingCount
-            }
+            self.SetuplabrlCount()
+            
+           
         }
     }
 }

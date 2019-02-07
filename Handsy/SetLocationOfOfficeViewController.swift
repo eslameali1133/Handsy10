@@ -101,9 +101,9 @@ class SetLocationOfOfficeViewController: UIViewController, CLLocationManagerDele
         
         mapView.delegate = self
         if mapView.mapType == .satellite {
-            mapType.setImage(#imageLiteral(resourceName: "landscape-with-mountains"), for: .normal)
+            mapType.setImage(#imageLiteral(resourceName: "Group_1404"), for: .normal)
         }else {
-            mapType.setImage(#imageLiteral(resourceName: "google-drive-image copy copy"), for: .normal)
+            mapType.setImage(#imageLiteral(resourceName: "Group_1404-1"), for: .normal)
         }
     }
     
@@ -180,10 +180,10 @@ class SetLocationOfOfficeViewController: UIViewController, CLLocationManagerDele
     
     @IBAction func mapTypeAction(_ sender: UIButton) {
         if mapView.mapType == .satellite {
-            mapType.setImage(#imageLiteral(resourceName: "google-drive-image copy copy"), for: .normal)
+            mapType.setImage(#imageLiteral(resourceName: "Group_1404-1"), for: .normal)
             mapView.mapType = .terrain
         }else {
-            mapType.setImage(#imageLiteral(resourceName: "landscape-with-mountains"), for: .normal)
+            mapType.setImage(#imageLiteral(resourceName: "Group_1404"), for: .normal)
             mapView.mapType = .satellite
         }
     }
@@ -280,7 +280,7 @@ class SetLocationOfOfficeViewController: UIViewController, CLLocationManagerDele
             "Long": self.long,
             "SectionID": SectionID
         ]
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/RegCompany", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/RegCompany", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             switch response.result {
             case .success:
@@ -293,6 +293,11 @@ class SetLocationOfOfficeViewController: UIViewController, CLLocationManagerDele
                     secondView.modalPresentationStyle = .custom
                     self.present(secondView, animated: true)
                 }
+                else if(json["result"].stringValue == "Exist" && json["Status"].stringValue == "false")
+                {
+                    Toast.long(message:"رقم الجوال مسجل بالفعل")
+                }
+            
                 
             case .failure(let error):
                 print(error)

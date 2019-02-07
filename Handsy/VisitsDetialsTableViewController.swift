@@ -140,14 +140,14 @@ class VisitsDetialsTableViewController: UITableViewController {
         }
     }
     
-       var AlertController: UIAlertController!
+    var AlertController: UIAlertController!
     override func viewDidLoad() {
         super.viewDidLoad()
-         CountCustomerNotification()
-         discrbtion.textContainerInset = UIEdgeInsetsMake(-3, 0, 0, 0)
+        
+        discrbtion.textContainerInset = UIEdgeInsetsMake(-3, 0, 0, 0)
         ClientReplayTF.textContainerInset = UIEdgeInsetsMake(-3, 0, 0, 0)
         loderview.isHidden = true
-             detialsBtnView.isHidden = true
+        detialsBtnView.isHidden = true
         loderview.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         self.view.addSubview(loderview)
         
@@ -166,18 +166,18 @@ class VisitsDetialsTableViewController: UITableViewController {
         }
         
         AlertController = UIAlertController(title:"" , message: "اختر الخريطة", preferredStyle: UIAlertControllerStyle.actionSheet)
-
+        
         let Google = UIAlertAction(title: "جوجل ماب", style: UIAlertActionStyle.default, handler: { (action) in
             self.openMapsForLocationgoogle(Lat:self.LatBranch, Lng:self.LngBranch)
         })
         let MapKit = UIAlertAction(title: "الخرائط", style: UIAlertActionStyle.default, handler: { (action) in
             self.openMapsForLocation(Lat:self.LatBranch, Lng:self.LngBranch)
         })
-
+        
         let Cancel = UIAlertAction(title: "رجوع", style: UIAlertActionStyle.cancel, handler: { (action) in
             //
         })
-
+        
         self.AlertController.addAction(Google)
         self.AlertController.addAction(MapKit)
         self.AlertController.addAction(Cancel)
@@ -203,11 +203,13 @@ class VisitsDetialsTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-         CountCustomerNotification()
+       
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
             GetMeetingWaitingByMeetingID()
+            CountCustomerNotification()
+            
         }else{
             visitsDetialsModel.loadItems()
             print("Internet Connection not Available!")
@@ -215,7 +217,9 @@ class VisitsDetialsTableViewController: UITableViewController {
                 let visitsDetials = visitsDetialsModel.returnProjectDetials(at: MeetingID)
                 self.visitsDetialsArray = [visitsDetials!]
                 self.ComapnyNameFunc(EmpName: visitsDetialsArray[0].EmpName!, companyName: visitsDetialsArray[0].ComapnyName!, companyLogo: visitsDetialsArray[0].Logo!, JobName: visitsDetialsArray[0].JobName!)
+                
                 self.setDetiales(condition: "offline")
+                self.messageCountLabel.isHidden = true
             }
         }
     }
@@ -231,16 +235,16 @@ class VisitsDetialsTableViewController: UITableViewController {
     func GetMeetingWaitingByMeetingID(){
         loderview.isHidden = false
         detialsBtnView.isHidden = true
-           let sv = UIViewController.displaySpinner(onView: view)
+        let sv = UIViewController.displaySpinner(onView: view)
         let parameters: Parameters = [
             "meetingID": MeetingID
         ]
         
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetMeetingWaitingByMeetingID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetMeetingWaitingByMeetingID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             let json = JSON(response.result.value!)
-            let requestProjectObj = VisitsDetialsArray(Address: json["Address"].stringValue, ComapnyName: json["ComapnyName"].stringValue, Logo: json["Logo"].stringValue, visitTitle: json["Title"].stringValue, MeetingStatus: json["MeetingStatus"].stringValue, Description: json["Description"].stringValue, Notes: json["Notes"].stringValue, Start: json["Start"].stringValue, TimeStartMeeting: json["TimeStartMeeting"].stringValue, StartTime: json["StartTime"].stringValue, ProjectBildTypeName: json["ProjectBildTypeName"].stringValue, Mobile: json["Mobile"].stringValue, EmpName: json["EmpName"].stringValue, Replay: json["Replay"].stringValue, DateReply: json["DateReply"].stringValue, EndTime: json["EndTime"].stringValue, LatBranch: json["LatBranch"].doubleValue, LngBranch: json["LngBranch"].doubleValue, JobName: json["JobName"].stringValue, ClientReply: json["ClientReply"].stringValue, MeetingID: json["MeetingID"].stringValue, ProjectId: json["ProjectId"].stringValue, CompanyInfoID: json["CompanyInfoID"].stringValue, IsCompany: json["IsCompany"].stringValue)
+            let requestProjectObj = VisitsDetialsArray(Address: json["Address"].stringValue, ComapnyName: json["ComapnyName"].stringValue, Logo: json["Logo"].stringValue, visitTitle: json["Title"].stringValue, MeetingStatus: json["MeetingStatus"].stringValue, Description: json["Description"].stringValue, Notes: json["Notes"].stringValue, Start: json["Start"].stringValue, TimeStartMeeting: json["TimeStartMeeting"].stringValue, StartTime: json["StartTime"].stringValue, ProjectBildTypeName: json["ProjectBildTypeName"].stringValue, Mobile: json["Mobile"].stringValue, EmpName: json["EmpName"].stringValue, Replay: json["Replay"].stringValue, DateReply: json["DateReply"].stringValue, EndTime: json["EndTime"].stringValue, LatBranch: json["LatBranch"].doubleValue, LngBranch: json["LngBranch"].doubleValue, JobName: json["JobName"].stringValue, ClientReply: json["ClientReply"].stringValue, MeetingID: json["MeetingID"].stringValue, ProjectId: json["ProjectId"].stringValue, CompanyInfoID: json["CompanyInfoID"].stringValue, IsCompany: json["IsCompany"].stringValue,SakNum: json["SakNum"].stringValue)
             
             self.Address = json["Address"].stringValue
             self.ComapnyName = json["ComapnyName"].stringValue
@@ -269,10 +273,11 @@ class VisitsDetialsTableViewController: UITableViewController {
             self.SakNum = json["SakNum"].stringValue
             if self.ProjectId != ""
             {
-                 self.GetCountMessageUnReaded()
+                self.GetCountMessageUnReaded()
             }
-           
+            
             self.visitsDetialsArray.append(requestProjectObj)
+       
             for i in self.visitsDetialsArray {
                 self.visitsDetialsModel.append(i)
             }
@@ -289,15 +294,15 @@ class VisitsDetialsTableViewController: UITableViewController {
     func ComapnyNameFunc(EmpName: String ,companyName: String, companyLogo: String, JobName: String){
         EngNameLabel.text = EmpName
         companyNameLabel.text = companyName
-//        JopNameLabel.text = JobName
+        //        JopNameLabel.text = JobName
         let trimmedString = companyLogo.trimmingCharacters(in: .whitespaces)
-//        if let url = URL.init(string: trimmedString) {
-//            companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
-//        } else{
-//            print("nil")
-//        }
+        //        if let url = URL.init(string: trimmedString) {
+        //            companyImageOut.hnk_setImageFromURL(url, placeholder: #imageLiteral(resourceName: "officePlaceholder"))
+        //        } else{
+        //            print("nil")
+        //        }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -308,15 +313,15 @@ class VisitsDetialsTableViewController: UITableViewController {
         if condition == "online" {
             if (SakNum != "")
             {
-                 SakNumber.text = SakNum
+                SakNumber.text = SakNum
             }else
             {
-            SakNumber.text = ProjectId
+                SakNumber.text = ProjectId
             }
             DataStart.text = Start
             if MeetingStatus == "0"{
                 status.text = "انتظار الموافقة"
-               StatusView.backgroundColor = #colorLiteral(red: 0.9459478259, green: 0.7699176669, blue: 0.05561546981, alpha: 1)
+                StatusView.backgroundColor = #colorLiteral(red: 0.9459478259, green: 0.7699176669, blue: 0.05561546981, alpha: 1)
                 //status.textColor = #colorLiteral(red: 0.9411764706, green: 0.7647058824, blue: 0.1882352941, alpha: 1)
                 OKVisit.isEnabled = true
                 CancelVisit.isEnabled = true
@@ -324,8 +329,8 @@ class VisitsDetialsTableViewController: UITableViewController {
                 buttonsView.isHidden = false
             }else if MeetingStatus == "1"{
                 status.text = "تمت المقابلة"
-//                statusImage.image = #imageLiteral(resourceName: "Green")
-//                //status.textColor = #colorLiteral(red: 0.2235294118, green: 0.7921568627, blue: 0.4549019608, alpha: 1)
+                //                statusImage.image = #imageLiteral(resourceName: "Green")
+                //                //status.textColor = #colorLiteral(red: 0.2235294118, green: 0.7921568627, blue: 0.4549019608, alpha: 1)
                 StatusView.backgroundColor = #colorLiteral(red: 0.1812162697, green: 0.7981202602, blue: 0.4416504204, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
@@ -333,36 +338,36 @@ class VisitsDetialsTableViewController: UITableViewController {
                 buttonsView.isHidden = true
             }else if MeetingStatus == "2"{
                 status.text = "ملغية"
-//                statusImage.image = #imageLiteral(resourceName: "Orange")
+                //                statusImage.image = #imageLiteral(resourceName: "Orange")
                 //status.textColor = #colorLiteral(red: 0.8941176471, green: 0.4941176471, blue: 0.1882352941, alpha: 1)
-                 StatusView.backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.4941176471, blue: 0.1882352941, alpha: 1)
+                StatusView.backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.4941176471, blue: 0.1882352941, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
                 PauseVisit.isEnabled = false
                 buttonsView.isHidden = true
             }else if MeetingStatus == "3"{
                 status.text = "فائته"
-//                statusImage.image = #imageLiteral(resourceName: "Red")
+                //                statusImage.image = #imageLiteral(resourceName: "Red")
                 //status.textColor = #colorLiteral(red: 0.8980392157, green: 0.3019607843, blue: 0.2588235294, alpha: 1)
-                 StatusView.backgroundColor =  #colorLiteral(red: 0.8980392157, green: 0.3019607843, blue: 0.2588235294, alpha: 1)
+                StatusView.backgroundColor =  #colorLiteral(red: 0.8980392157, green: 0.3019607843, blue: 0.2588235294, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
                 PauseVisit.isEnabled = false
                 buttonsView.isHidden = true
             }else if MeetingStatus == "4"{
                 status.text = "مؤجلة"
-//                statusImage.image = #imageLiteral(resourceName: "Blue")
+                //                statusImage.image = #imageLiteral(resourceName: "Blue")
                 //status.textColor = #colorLiteral(red: 0.2274509804, green: 0.6, blue: 0.8470588235, alpha: 1)
-                 StatusView.backgroundColor =  #colorLiteral(red: 0.2274509804, green: 0.6, blue: 0.8470588235, alpha: 1)
+                StatusView.backgroundColor =  #colorLiteral(red: 0.2274509804, green: 0.6, blue: 0.8470588235, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
                 PauseVisit.isEnabled = false
                 buttonsView.isHidden = true
             }else if MeetingStatus == "5"{
                 status.text = "انتظار المقابلة"
-//                statusImage.image = #imageLiteral(resourceName: "تم الانجاز-1")
+                //                statusImage.image = #imageLiteral(resourceName: "تم الانجاز-1")
                 //status.textColor = #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
-                 StatusView.backgroundColor = #colorLiteral(red: 0.1812162697, green: 0.7981202602, blue: 0.4416504204, alpha: 1)
+                StatusView.backgroundColor = #colorLiteral(red: 0.1812162697, green: 0.7981202602, blue: 0.4416504204, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
                 PauseVisit.isEnabled = false
@@ -385,7 +390,7 @@ class VisitsDetialsTableViewController: UITableViewController {
                 Dis_view.isHidden = true
             }
             
-//            discrbtion.text = Description
+            //            discrbtion.text = Description
             
             
             adjustUITextViewHeight(arg: discrbtion)
@@ -405,11 +410,19 @@ class VisitsDetialsTableViewController: UITableViewController {
             }
             tableView.reloadData()
         }else {
+            print(visitsDetialsArray[0].SakNum)
+            if (visitsDetialsArray[0].SakNum != "")
+            {
+                SakNumber.text = visitsDetialsArray[0].SakNum
+            }else
+            {
+                SakNumber.text = visitsDetialsArray[0].ProjectId
+            }
             DataStart.text = visitsDetialsArray[0].Start
             if visitsDetialsArray[0].MeetingStatus == "0"{
                 status.text = "انتظار الموافقة"
-//                statusImage.image = #imageLiteral(resourceName: "Yellow")
-                  StatusView.backgroundColor = #colorLiteral(red: 0.9459478259, green: 0.7699176669, blue: 0.05561546981, alpha: 1)
+                //                statusImage.image = #imageLiteral(resourceName: "Yellow")
+                StatusView.backgroundColor = #colorLiteral(red: 0.9459478259, green: 0.7699176669, blue: 0.05561546981, alpha: 1)
                 //status.textColor = #colorLiteral(red: 0.9411764706, green: 0.7647058824, blue: 0.1882352941, alpha: 1)
                 OKVisit.isEnabled = true
                 CancelVisit.isEnabled = true
@@ -417,8 +430,8 @@ class VisitsDetialsTableViewController: UITableViewController {
                 buttonsView.isHidden = false
             }else if visitsDetialsArray[0].MeetingStatus == "1"{
                 status.text = "تمت المقابلة"
-//                statusImage.image = #imageLiteral(resourceName: "Green")
-                  StatusView.backgroundColor = #colorLiteral(red: 0.2235294118, green: 0.7921568627, blue: 0.4549019608, alpha: 1)
+                //                statusImage.image = #imageLiteral(resourceName: "Green")
+                StatusView.backgroundColor = #colorLiteral(red: 0.2235294118, green: 0.7921568627, blue: 0.4549019608, alpha: 1)
                 //status.textColor = #colorLiteral(red: 0.2235294118, green: 0.7921568627, blue: 0.4549019608, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
@@ -426,8 +439,8 @@ class VisitsDetialsTableViewController: UITableViewController {
                 buttonsView.isHidden = true
             }else if visitsDetialsArray[0].MeetingStatus == "2"{
                 status.text = "ملغية"
-//                statusImage.image = #imageLiteral(resourceName: "Orange")
-                  StatusView.backgroundColor =  #colorLiteral(red: 0.8941176471, green: 0.4941176471, blue: 0.1882352941, alpha: 1)
+                //                statusImage.image = #imageLiteral(resourceName: "Orange")
+                StatusView.backgroundColor =  #colorLiteral(red: 0.8941176471, green: 0.4941176471, blue: 0.1882352941, alpha: 1)
                 //status.textColor = #colorLiteral(red: 0.8941176471, green: 0.4941176471, blue: 0.1882352941, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
@@ -435,8 +448,8 @@ class VisitsDetialsTableViewController: UITableViewController {
                 buttonsView.isHidden = true
             }else if visitsDetialsArray[0].MeetingStatus == "3"{
                 status.text = "فائته"
-//                statusImage.image = #imageLiteral(resourceName: "Red")
-                  StatusView.backgroundColor = #colorLiteral(red: 0.8980392157, green: 0.3019607843, blue: 0.2588235294, alpha: 1)
+                //                statusImage.image = #imageLiteral(resourceName: "Red")
+                StatusView.backgroundColor = #colorLiteral(red: 0.8980392157, green: 0.3019607843, blue: 0.2588235294, alpha: 1)
                 //status.textColor = #colorLiteral(red: 0.8980392157, green: 0.3019607843, blue: 0.2588235294, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
@@ -444,8 +457,8 @@ class VisitsDetialsTableViewController: UITableViewController {
                 buttonsView.isHidden = true
             }else if visitsDetialsArray[0].MeetingStatus == "4"{
                 status.text = "مؤجلة"
-//                statusImage.image = #imageLiteral(resourceName: "Blue")
-                  StatusView.backgroundColor = #colorLiteral(red: 0.2274509804, green: 0.6, blue: 0.8470588235, alpha: 1)
+                //                statusImage.image = #imageLiteral(resourceName: "Blue")
+                StatusView.backgroundColor = #colorLiteral(red: 0.2274509804, green: 0.6, blue: 0.8470588235, alpha: 1)
                 //status.textColor = #colorLiteral(red: 0.2274509804, green: 0.6, blue: 0.8470588235, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
@@ -453,8 +466,8 @@ class VisitsDetialsTableViewController: UITableViewController {
                 buttonsView.isHidden = true
             }else if visitsDetialsArray[0].MeetingStatus == "5"{
                 status.text = "انتظار المقابلة"
-//                statusImage.image = #imageLiteral(resourceName: "تم الانجاز-1")
-                  StatusView.backgroundColor =  #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
+                //                statusImage.image = #imageLiteral(resourceName: "تم الانجاز-1")
+                StatusView.backgroundColor =  #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
                 //status.textColor = #colorLiteral(red: 0.1882352941, green: 0.6784313725, blue: 0.3882352941, alpha: 1)
                 OKVisit.isEnabled = false
                 CancelVisit.isEnabled = false
@@ -477,7 +490,7 @@ class VisitsDetialsTableViewController: UITableViewController {
             } else {
                 discrbtion.isHidden = true
             }
-              SakNumber.text = visitsDetialsArray[0].ProjectId
+           
             adjustUITextViewHeight(arg: discrbtion)
             adjustUITextViewHeight(arg: EngReplay)
             ClientReplayTF.text = visitsDetialsArray[0].ClientReply
@@ -512,17 +525,17 @@ class VisitsDetialsTableViewController: UITableViewController {
     }
     
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 1
     }
-
+    
     @IBAction func visitCancel(_ sender: UIButton) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "VisitsAndDetails", bundle: nil)
         let secondView = storyBoard.instantiateViewController(withIdentifier: "AlertVisitCancelViewController") as! AlertVisitCancelViewController
@@ -583,24 +596,24 @@ class VisitsDetialsTableViewController: UITableViewController {
         
         self.present(AlertController, animated: true, completion: nil)
         
-//        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
-//
-//        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
-//            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
-//                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(dLati),\(dLang)&zoom=14&views=traffic&q=\(dLati),\(dLang)")!, options: [:], completionHandler: nil)
-//            } else {
-//                print("Can't use comgooglemaps://")
-//                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(dLati),\(dLang)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
-//            }
-//        }))
-//
-//        alertAction.addAction(UIAlertAction(title: "الخرائط", style: .default, handler: { action in
-//            self.openMapsForLocation()
-//        }))
-//
-//        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
-//        }))
-//        self.present(alertAction, animated: true, completion: nil)
+        //        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
+        //
+        //        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
+        //            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+        //                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(dLati),\(dLang)&zoom=14&views=traffic&q=\(dLati),\(dLang)")!, options: [:], completionHandler: nil)
+        //            } else {
+        //                print("Can't use comgooglemaps://")
+        //                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(dLati),\(dLang)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
+        //            }
+        //        }))
+        //
+        //        alertAction.addAction(UIAlertAction(title: "الخرائط", style: .default, handler: { action in
+        //            self.openMapsForLocation()
+        //        }))
+        //
+        //        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
+        //        }))
+        //        self.present(alertAction, animated: true, completion: nil)
         
     }
     
@@ -628,7 +641,7 @@ class VisitsDetialsTableViewController: UITableViewController {
         
         let parameters: Parameters = ["projectId": ProjectId]
         
-        Alamofire.request("http://smusers.promit2030.co/api/ApiService/GetCountMessageUnReaded", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetCountMessageUnReaded", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             let json = JSON(response.result.value!)
             let MessageCount = json["MessageCount"].stringValue
@@ -677,18 +690,18 @@ class VisitsDetialsTableViewController: UITableViewController {
     var NotiProjectCount = 0
     var NotiMessageCount = 0
     var NotiTotalCount = 0
-     let applicationl = UIApplication.shared
+    let applicationl = UIApplication.shared
     
     func setAppBadge() {
         let count = NotiTotalCount
         print(count)
-
+        
         
         if count != 0 {
             let second = tabBarController?.tabBar
             second?.items![1].badgeValue = "\(count)"
             second?.items![1].badgeColor = #colorLiteral(red: 0.3058823529, green: 0.5058823529, blue: 0.5333333333, alpha: 1)
-
+            
         }else
         {
             let second = tabBarController?.tabBar
@@ -701,7 +714,7 @@ class VisitsDetialsTableViewController: UITableViewController {
         let parameters: Parameters = [
             "CustmoerId":CustmoerId
         ]
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json = JSON(response.result.value!)
@@ -731,7 +744,7 @@ class VisitsDetialsTableViewController: UITableViewController {
 extension VisitsDetialsTableViewController: reloadApi {
     func reload() {
         viewWillAppear(false)
-//        viewDidLoad()
+        //        viewDidLoad()
     }
 }
 extension VisitsDetialsTableViewController: UIPopoverPresentationControllerDelegate {

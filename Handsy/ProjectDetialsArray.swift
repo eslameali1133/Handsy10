@@ -85,8 +85,9 @@ class ProjectDetialsArray: NSObject, NSCoding {
     var NotifiCount: Int?
     var FileCount: String?
     var ProjectFileCount: String?
+    var DocCount:String?
     
-    init(ProjectId: String, ProjectsPaymentsCost: String, CountNotPaid: String, CountPaid: String, EmpImage: String, BranchID: String, BranchName: String, CustmoerName: String, CustomerEmail: String, CustomerMobile: String, CustomerNationalId: String, DataSake: String, DateLicence: String, EmpMobile: String, EmpName: String, GroundId: String, IsDeleted: String, JobName: String, LatBranch: Double, LatPrj: String, LicenceNum: String, LngBranch: Double, LngPrj: String, Notes: String, PlanId: String, ProjectInvoice: String, ProjectContract: String, ProjectStatusNum: String, ProjectBildTypeId: String, ProjectEngComment: String, ProjectStatusColor: String, ProjectStatusID: String, ProjectStatusName: String, ProjectTitle: String, ProjectTypeId: String, ProjectTypeName: String, SakNum: String, Space: String, Status: String, TotalNotPaid: String, TotalPaid: String, ZoomBranch: String, ZoomPrj: String, projectOrderContractPhotoPath: String, ProvincesName: String, SectoinName: String, ProjectsOrdersCellarErea: String, ProjectsOrdersReFloorErea: String, ProjectsOrdersSupplementErea: String, ProjectsOrdersSupplementExternalErea: String, ProjectsOrdersFloorErea: String, ProjectsOrdersLandErea: String, ProjectsOrdersFloorNummber: String, ProjectsOrdersTotalBildErea: String, ProjectsPaymentsWork: String, ProjectsPaymentsDiscount: String, CompanyInfoID: String, ComapnyName: String, CompanyAddress: String, Logo: String, isCompany: String, DesignNewCount: String, DesignCount: String, Meetingcount: String, MeetingDate: String, MeetingTime: String, ProjectLastComment: String, ProjectLastTpye: String, ProjectCommentOther: String, LastDesignStagesID: String, LastMeetingID: String, MeetingNotifiCount: String, DesignNotifiCount: String, NotifiCount: Int, FileCount: String, ProjectFileCount: String) {
+    init(ProjectId: String, ProjectsPaymentsCost: String, CountNotPaid: String, CountPaid: String, EmpImage: String, BranchID: String, BranchName: String, CustmoerName: String, CustomerEmail: String, CustomerMobile: String, CustomerNationalId: String, DataSake: String, DateLicence: String, EmpMobile: String, EmpName: String, GroundId: String, IsDeleted: String, JobName: String, LatBranch: Double, LatPrj: String, LicenceNum: String, LngBranch: Double, LngPrj: String, Notes: String, PlanId: String, ProjectInvoice: String, ProjectContract: String, ProjectStatusNum: String, ProjectBildTypeId: String, ProjectEngComment: String, ProjectStatusColor: String, ProjectStatusID: String, ProjectStatusName: String, ProjectTitle: String, ProjectTypeId: String, ProjectTypeName: String, SakNum: String, Space: String, Status: String, TotalNotPaid: String, TotalPaid: String, ZoomBranch: String, ZoomPrj: String, projectOrderContractPhotoPath: String, ProvincesName: String, SectoinName: String, ProjectsOrdersCellarErea: String, ProjectsOrdersReFloorErea: String, ProjectsOrdersSupplementErea: String, ProjectsOrdersSupplementExternalErea: String, ProjectsOrdersFloorErea: String, ProjectsOrdersLandErea: String, ProjectsOrdersFloorNummber: String, ProjectsOrdersTotalBildErea: String, ProjectsPaymentsWork: String, ProjectsPaymentsDiscount: String, CompanyInfoID: String, ComapnyName: String, CompanyAddress: String, Logo: String, isCompany: String, DesignNewCount: String, DesignCount: String, Meetingcount: String, MeetingDate: String, MeetingTime: String, ProjectLastComment: String, ProjectLastTpye: String, ProjectCommentOther: String, LastDesignStagesID: String, LastMeetingID: String, MeetingNotifiCount: String, DesignNotifiCount: String, NotifiCount: Int, FileCount: String, ProjectFileCount: String,DocCount: String) {
         self.ProjectId = ProjectId
         self.ProjectsPaymentsCost = ProjectsPaymentsCost
         self.CountNotPaid = CountNotPaid
@@ -163,6 +164,7 @@ class ProjectDetialsArray: NSObject, NSCoding {
         self.NotifiCount = NotifiCount
         self.FileCount = FileCount
         self.ProjectFileCount = ProjectFileCount
+        self.DocCount = DocCount
     }
     
         public required init?(coder aDecoder: NSCoder) {
@@ -242,6 +244,7 @@ class ProjectDetialsArray: NSObject, NSCoding {
         self.Meetingcount = aDecoder.decodeObject(forKey: "Meetingcount") as? String
         self.FileCount = aDecoder.decodeObject(forKey: "FileCount") as? String
         self.ProjectFileCount = aDecoder.decodeObject(forKey: "ProjectFileCount") as? String
+            self.DocCount =  aDecoder.decodeObject(forKey: "DocCount") as? String
     }
     
     public func encode(with aCoder: NSCoder) {
@@ -320,8 +323,11 @@ class ProjectDetialsArray: NSObject, NSCoding {
         aCoder.encode(self.Meetingcount, forKey: "Meetingcount")
         aCoder.encode(self.FileCount, forKey: "FileCount")
         aCoder.encode(self.ProjectFileCount, forKey: "ProjectFileCount")
+         aCoder.encode(self.DocCount, forKey: "DocCount")
     }
 }
+
+
 
 class ProjectsDetialsModel : NSObject {
     

@@ -630,7 +630,7 @@ dvc.Expsort = Exp_sort
         ]
         print(Parameters)
         var markersArray = [GMSMarker]()
-        Alamofire.request("http://smusers.promit2030.co/api/ApiService/GetOffices", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetOffices", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             switch response.result {
             case .success:
@@ -889,6 +889,9 @@ dvc.Expsort = Exp_sort
         {
             let storyBoard : UIStoryboard = UIStoryboard(name: "NewProject", bundle:nil)
             let secondView = storyBoard.instantiateViewController(withIdentifier: "DetailsOfOfficeTableViewControllerNot") as! DetailsOfOfficeTableViewControllerNot
+            print(self.arrayOfResulr)
+              print( self.indexi)
+              print(self.isCompany)
             secondView.arrayOfResulr = self.arrayOfResulr
             secondView.index = self.indexi
             secondView.isCompany = self.isCompany

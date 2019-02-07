@@ -231,7 +231,17 @@ class AllNotficationViewController: UIViewController, UITableViewDelegate, UITab
             secondView.nour = "loll"
             secondView.ProjectId = ProjectId!
             self.navigationController?.pushViewController(secondView, animated: true)
-        }else {
+        }else if type == "11" {
+            let File = allNotifications[indexPath.row].File
+            
+            let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
+            let secondView = storyBoard.instantiateViewController(withIdentifier: "ShowContractViewController") as! ShowContractViewController
+            secondView.url = File!
+            secondView.condition = "posh11"
+            secondView.Webtitle = "عرض السعر"
+            self.navigationController?.pushViewController(secondView, animated: true)
+        }
+        else {
             print("type: \(type)")
         }
     }
@@ -240,7 +250,7 @@ class AllNotficationViewController: UIViewController, UITableViewDelegate, UITab
         let parameters: Parameters = [
             "NotificationID": NotificationID
         ]
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/MarkNotifyReadByNotifyID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/MarkNotifyReadByNotifyID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
         }
@@ -266,7 +276,7 @@ class AllNotficationViewController: UIViewController, UITableViewDelegate, UITab
         let parameters: Parameters = [
             "CustmoerId":CustmoerId
         ]
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json = JSON(response.result.value!)

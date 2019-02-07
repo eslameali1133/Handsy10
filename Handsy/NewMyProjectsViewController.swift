@@ -128,6 +128,13 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
                 
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 appDelegate.window?.rootViewController = sub
+            }else if trypNotification == "11" {
+                let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
+                let secondView = storyBoard.instantiateViewController(withIdentifier: "ShowContractViewController") as! ShowContractViewController
+                secondView.url = Filegl
+                secondView.condition = "sds"
+                  secondView.Webtitle = "عرض السعر"
+                self.navigationController?.pushViewController(secondView, animated: true)
             }
                 
             else if trypNotification == "9" {
@@ -157,18 +164,13 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
             self.navViewOut.widthAnchor.constraint(equalToConstant: self.view.frame.width-20).isActive = true
             self.navigationItem.titleView = self.navViewOut
         }
-        if qustion == 0 {
-            qustion = 1
-            GetMobileUpdate()
-        }else {
-            print("No New Update in store")
-        }
+       
         NothingLabel.text = "لا يوجد مشاريع حاليه ! \n إضغط مشروع جديد"
         DispatchQueue.main.async {
             self.NothingLabel.isHidden = true
             self.AlertImage.isHidden = true
         }
-        self.navigationItem.hidesBackButton = true
+     
         MyProjectsTableView.delegate = self
         MyProjectsTableView.dataSource = self
         model.delegate = self
@@ -266,7 +268,24 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
-        GetEmptByMobileNum()
+        
+        if Reachability.isConnectedToNetwork(){
+            print("Internet Connection Available!")
+            GetEmptByMobileNum()
+            if qustion == 0 {
+                qustion = 1
+                GetMobileUpdate()
+            }else {
+                print("No New Update in store")
+            }
+               self.navigationItem.hidesBackButton = true
+        }else{
+            print("Internet Connection not Available!")
+            self.projectModel.loadItems()
+            self.myProjects = self.projectModel.projects
+            self.MyProjectsTableView.reloadData()
+        }
+      
        
     }
     
@@ -287,7 +306,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         let parameters : Parameters = [
             "TypeID": "2"
         ]
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetMobileUpdate", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetMobileUpdate", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             switch response.result {
             case .success:
@@ -550,33 +569,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         let dLang = myProjects[index!].LngBranch
         self.LatBranch = myProjects[index!].LatBranch
         self.LngBranch = myProjects[index!].LngBranch
-        
-//        let alertAction = UIAlertController(title: "اختر الخريطة", message: "", preferredStyle: .alert)
-//
-//        alertAction.addAction(UIAlertAction(title: "جوجل ماب", style: .default, handler: { action in
-//            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
-//                UIApplication.shared.open(URL(string: "comgooglemaps://?center=\(dLati),\(dLang)&zoom=14&views=traffic&q=\(dLati),\(dLang)")!, options: [:], completionHandler: nil)
-//            } else {
-//                print("Can't use comgooglemaps://")
-//                UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(dLati),\(dLang)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
-//            }
-//        }))
-//
-//        alertAction.addAction(UIAlertAction(title: "الخرئط", style: .default, handler: { action in
-//            let location = CLLocation(latitude: dLati, longitude: dLang)
-//            print(location.coordinate)
-//            MKMapView.openMapsWith(location) { (error) in
-//                if error != nil {
-//                    print("Could not open maps" + error!.localizedDescription)
-//                }
-//            }
-//        }))
-//
-//        alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
-//        }))
-//         self.present(alertAction, animated: true, completion: nil)
-        
-        
+
         if Helper.isDeviceiPad() {
             
             if let popoverController = AlertController.popoverPresentationController {
@@ -626,7 +619,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     func ReadAllMessageForCust(ProjectId: String) {
-        Alamofire.request("http://smusers.promit2030.co/api/ApiService/ReadAllMessageForCust?ProjectId=\(ProjectId)", method: .post, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/api/ApiService/ReadAllMessageForCust?ProjectId=\(ProjectId)", method: .post, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
         }
     }
@@ -635,7 +628,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
         let parameters: Parameters = [
             "CustmoerId":CustmoerId
         ]
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json = JSON(response.result.value!)
@@ -694,7 +687,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
             "DeviceID":DeviceID
         ]
         
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/PushInsertUpdate", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/PushInsertUpdate", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             let json = JSON(response.result.value!)
             print(json)
             if json == "Deleted"
@@ -724,7 +717,7 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
     
     func GetEmptByMobileNum() {
         let mobile = UserDefaults.standard.string(forKey: "mobile")!
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetEmptByMobileNum?mobileNum=\(mobile)", method: .get).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetEmptByMobileNum?mobileNum=\(mobile)", method: .get).responseJSON { response in
             debugPrint(response)
             
             switch response.result {
@@ -742,13 +735,14 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
                     if Reachability.isConnectedToNetwork(){
                         print("Internet Connection Available!")
                         self.model.GetProjectByCustID(view: self.view, VC: self)
+                         self.CountCustomerNotification()
                     }else{
                         print("Internet Connection not Available!")
                         self.projectModel.loadItems()
                         self.myProjects = self.projectModel.projects
                         self.MyProjectsTableView.reloadData()
                     }
-                    self.CountCustomerNotification()
+                   
                 } else {
                     UserDefaults.standard.set(json["UserId"].stringValue, forKey: "UserId")
                     UserDefaults.standard.set(json["CustmoerId"].stringValue, forKey: "CustmoerId")
@@ -763,9 +757,10 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
                         print("Internet Connection not Available!")
                         self.projectModel.loadItems()
                         self.myProjects = self.projectModel.projects
+                           self.MyProjectsTableView.isHidden = false
                         self.MyProjectsTableView.reloadData()
                     }
-                    self.CountCustomerNotification()
+                   
                 }
             case .failure(let error):
                 print(error)
@@ -777,7 +772,17 @@ class NewMyProjectsViewController: UIViewController, UITableViewDelegate, UITabl
                 }))
                 
                 alertAction.addAction(UIAlertAction(title: "رجوع", style: .cancel, handler: { action in
-                     self.PushInsertUpdate()
+                    if Reachability.isConnectedToNetwork(){
+                        print("Internet Connection Available!")
+                         self.PushInsertUpdate()
+                    }else{
+                        print("Internet Connection not Available!")
+                        self.projectModel.loadItems()
+                        self.myProjects = self.projectModel.projects
+                           self.MyProjectsTableView.isHidden = false
+                        self.MyProjectsTableView.reloadData()
+                    }
+                   
                 }))
                 
                 self.present(alertAction, animated: true, completion: nil)

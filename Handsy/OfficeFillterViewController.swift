@@ -141,7 +141,7 @@ class OfficeFillterViewController: UIViewController {
         
         if CustmoerId == nil
         {
-
+ self.applicationl.applicationIconBadgeNumber = 0
             self.navigationController?.setNavigationBarHidden(true, animated: animated)
               self.tabBarController?.tabBar.isHidden = true
         }else
@@ -212,7 +212,7 @@ class OfficeFillterViewController: UIViewController {
         let parameters: Parameters = [
             "CustmoerId":CustmoerId
         ]
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json = JSON(response.result.value!)

@@ -280,7 +280,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     
     override func viewDidLoad() {
           super.viewDidLoad()
-      CountCustomerNotification()
+     
         detialsBtnView.isHidden = true
         
         detialsBtnView.isHidden = true
@@ -377,6 +377,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             UIApplication.shared.open(URL(string: "http://maps.google.com/maps?q=\(Lat),\(Lng)&zoom=14&views=traffic")!, options: [:], completionHandler: nil)
         }
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         messageCountLabel.isHidden = true
@@ -384,6 +385,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             print("Internet Connection Available!")
             GetProjectByProjectId()
             GetCountMessageUnReaded()
+             CountCustomerNotification()
         }else{
             projectsDetialsModel.loadItems()
             print("Internet Connection not Available!")
@@ -391,6 +393,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
                 if projectsDetialsModel.returnProjectDetials(at: searchResu[index!].ProjectId) != nil {
                     let detials = projectsDetialsModel.returnProjectDetials(at: searchResu[index!].ProjectId)
                     self.ProjectOfResult = [detials!]
+                    print(detials)
                 }
             }else{
                 if projectsDetialsModel.returnProjectDetials(at: ProjectId) != nil {
@@ -652,29 +655,32 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     
     func setThirdSection() {
       
-        print(DesignCount)
+        print(ProjectOfResult[0].DesignCount)
         
-        if DesignCount != "0" {
+        if ProjectOfResult[0].DesignCount != "0" {
             print("Design: \(DesignCountcheck)")
             newDesignsCountLabel.isHidden = false
-            newDesignsCountLabel.text = DesignCount
+            newDesignsCountLabel.text = ProjectOfResult[0].DesignCount
         } else {
             newDesignsCountLabel.isHidden = true
         }
         
-        if FileCount != "0"
+        if ProjectOfResult[0].FileCount != "0"
         {
             FileCountLabel.isHidden = false
-            FileCountLabel.text = FileCount
+            FileCountLabel.text = ProjectOfResult[0].FileCount
         }else
         {
              FileCountLabel.isHidden = true
         }
         
-        if DocCount != "0"
+        if self.ProjectOfResult[0].DocCount != nil
         {
+            if  ProjectOfResult[0].DocCount != "0"
+            {
             DocCountLabel.isHidden = false
-            DocCountLabel.text = DocCount
+            DocCountLabel.text = ProjectOfResult[0].DocCount
+            }
         }else
         {
             DocCountLabel.isHidden = true
@@ -683,16 +689,16 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     }
     
     func setFourthSection() {
-        print(self.ProjectOfResult[0].MeetingNotifiCount)
-        print(self.ProjectOfResult[0].Meetingcount)
-        if MeetingCount != "" {
+      
+        print( ProjectOfResult[0].Meetingcount)
+        if ProjectOfResult[0].Meetingcount != "" {
             //            newVisitsCountImage.isHidden = false
-            if MeetingCount == "0" {
+            if ProjectOfResult[0].Meetingcount == "0" {
                 newVisitsCountLabel.isHidden = true
             }else {
                 newVisitsCountLabel.isHidden = false
             }
-            newVisitsCountLabel.text = MeetingCount
+            newVisitsCountLabel.text = ProjectOfResult[0].Meetingcount
         } else {
             //            newVisitsCountImage.isHidden = true
             newVisitsCountLabel.isHidden = true
@@ -772,7 +778,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             "projectId" : ProjectId
         ]
         
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/ProjectCancel", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/ProjectCancel", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             let json = JSON(response.result.value!)
             
@@ -890,7 +896,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             "companyInfoID": CompanyInfoID
         ]
         
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetOfficeByCompanyInfoID", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetOfficeByCompanyInfoID", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             switch response.result {
             case .success:
@@ -1067,11 +1073,11 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             ]
         }
         
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetProjectByProjectId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetProjectByProjectId", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             let json = JSON(response.result.value!)
-            let requestProjectObj = ProjectDetialsArray(ProjectId: json["ProjectId"].stringValue, ProjectsPaymentsCost: json["ProjectsPaymentsCost"].stringValue, CountNotPaid: json["CountNotPaid"].stringValue, CountPaid: json["CountPaid"].stringValue, EmpImage: json["EmpImage"].stringValue, BranchID: json["BranchID"].stringValue, BranchName: json["BranchName"].stringValue, CustmoerName: json["CustmoerName"].stringValue, CustomerEmail: json["CustomerEmail"].stringValue, CustomerMobile: json["CustomerMobile"].stringValue, CustomerNationalId: json["CustomerNationalId"].stringValue, DataSake: json["DataSake"].stringValue, DateLicence: json["DateLicence"].stringValue, EmpMobile: json["EmpMobile"].stringValue, EmpName: json["EmpName"].stringValue, GroundId: json["GroundId"].stringValue, IsDeleted: json["IsDeleted"].stringValue, JobName: json["JobName"].stringValue, LatBranch: json["LatBranch"].doubleValue, LatPrj: json["LatPrj"].stringValue, LicenceNum: json["LicenceNum"].stringValue, LngBranch: json["LngBranch"].doubleValue, LngPrj: json["LngPrj"].stringValue, Notes: json["Notes"].stringValue, PlanId: json["PlanId"].stringValue, ProjectInvoice: json["ProjectInvoice"].stringValue, ProjectContract: json["ProjectContract"].stringValue, ProjectStatusNum: json["ProjectStatusNum"].stringValue, ProjectBildTypeId: json["ProjectBildTypeId"].stringValue, ProjectEngComment: json["ProjectEngComment"].stringValue, ProjectStatusColor: json["ProjectStatusColor"].stringValue, ProjectStatusID: json["ProjectStatusID"].stringValue, ProjectStatusName: json["ProjectStatusName"].stringValue, ProjectTitle: json["ProjectTitle"].stringValue, ProjectTypeId: json["ProjectTypeId"].stringValue, ProjectTypeName: json["ProjectTypeName"].stringValue, SakNum: json["SakNum"].stringValue, Space: json["Space"].stringValue, Status: json["Status"].stringValue, TotalNotPaid: json["TotalNotPaid"].stringValue, TotalPaid: json["TotalPaid"].stringValue, ZoomBranch: json["ZoomBranch"].stringValue, ZoomPrj: json["ZoomPrj"].stringValue, projectOrderContractPhotoPath: json["projectOrderContractPhotoPath"].stringValue, ProvincesName: json["ProvincesName"].stringValue, SectoinName: json["SectoinName"].stringValue, ProjectsOrdersCellarErea: json["ProjectsOrdersCellarErea"].stringValue, ProjectsOrdersReFloorErea: json["ProjectsOrdersReFloorErea"].stringValue, ProjectsOrdersSupplementErea: json["ProjectsOrdersSupplementErea"].stringValue, ProjectsOrdersSupplementExternalErea: json["ProjectsOrdersSupplementExternalErea"].stringValue, ProjectsOrdersFloorErea: json["ProjectsOrdersFloorErea"].stringValue, ProjectsOrdersLandErea: json["ProjectsOrdersLandErea"].stringValue, ProjectsOrdersFloorNummber: json["ProjectsOrdersFloorNummber"].stringValue, ProjectsOrdersTotalBildErea: json["ProjectsOrdersTotalBildErea"].stringValue, ProjectsPaymentsWork: json["ProjectsPaymentsWork"].stringValue, ProjectsPaymentsDiscount: json["ProjectsPaymentsDiscount"].stringValue, CompanyInfoID: json["CompanyInfoID"].stringValue, ComapnyName: json["ComapnyName"].stringValue, CompanyAddress: json["Address"].stringValue, Logo: json["Logo"].stringValue, isCompany: json["IsCompany"].stringValue, DesignNewCount: json["DesignNewCount"].stringValue, DesignCount: json["DesignCount"].stringValue, Meetingcount: json["Meetingcount"].stringValue, MeetingDate: json["MeetingDate"].stringValue, MeetingTime: json["MeetingTime"].stringValue, ProjectLastComment: json["ProjectLastComment"].stringValue, ProjectLastTpye: json["ProjectLastTpye"].stringValue, ProjectCommentOther: json["ProjectCommentOther"].stringValue, LastDesignStagesID: json["LastDesignStagesID"].stringValue, LastMeetingID: json["LastMeetingID"].stringValue, MeetingNotifiCount: json["MeetingNotifiCount"].stringValue, DesignNotifiCount: json["DesignNotifiCount"].stringValue, NotifiCount: json["NotifiCount"].intValue, FileCount: json["FileCount"].stringValue, ProjectFileCount: json["ProjectFileCount"].stringValue)
+            let requestProjectObj = ProjectDetialsArray(ProjectId: json["ProjectId"].stringValue, ProjectsPaymentsCost: json["ProjectsPaymentsCost"].stringValue, CountNotPaid: json["CountNotPaid"].stringValue, CountPaid: json["CountPaid"].stringValue, EmpImage: json["EmpImage"].stringValue, BranchID: json["BranchID"].stringValue, BranchName: json["BranchName"].stringValue, CustmoerName: json["CustmoerName"].stringValue, CustomerEmail: json["CustomerEmail"].stringValue, CustomerMobile: json["CustomerMobile"].stringValue, CustomerNationalId: json["CustomerNationalId"].stringValue, DataSake: json["DataSake"].stringValue, DateLicence: json["DateLicence"].stringValue, EmpMobile: json["EmpMobile"].stringValue, EmpName: json["EmpName"].stringValue, GroundId: json["GroundId"].stringValue, IsDeleted: json["IsDeleted"].stringValue, JobName: json["JobName"].stringValue, LatBranch: json["LatBranch"].doubleValue, LatPrj: json["LatPrj"].stringValue, LicenceNum: json["LicenceNum"].stringValue, LngBranch: json["LngBranch"].doubleValue, LngPrj: json["LngPrj"].stringValue, Notes: json["Notes"].stringValue, PlanId: json["PlanId"].stringValue, ProjectInvoice: json["ProjectInvoice"].stringValue, ProjectContract: json["ProjectContract"].stringValue, ProjectStatusNum: json["ProjectStatusNum"].stringValue, ProjectBildTypeId: json["ProjectBildTypeId"].stringValue, ProjectEngComment: json["ProjectEngComment"].stringValue, ProjectStatusColor: json["ProjectStatusColor"].stringValue, ProjectStatusID: json["ProjectStatusID"].stringValue, ProjectStatusName: json["ProjectStatusName"].stringValue, ProjectTitle: json["ProjectTitle"].stringValue, ProjectTypeId: json["ProjectTypeId"].stringValue, ProjectTypeName: json["ProjectTypeName"].stringValue, SakNum: json["SakNum"].stringValue, Space: json["Space"].stringValue, Status: json["Status"].stringValue, TotalNotPaid: json["TotalNotPaid"].stringValue, TotalPaid: json["TotalPaid"].stringValue, ZoomBranch: json["ZoomBranch"].stringValue, ZoomPrj: json["ZoomPrj"].stringValue, projectOrderContractPhotoPath: json["projectOrderContractPhotoPath"].stringValue, ProvincesName: json["ProvincesName"].stringValue, SectoinName: json["SectoinName"].stringValue, ProjectsOrdersCellarErea: json["ProjectsOrdersCellarErea"].stringValue, ProjectsOrdersReFloorErea: json["ProjectsOrdersReFloorErea"].stringValue, ProjectsOrdersSupplementErea: json["ProjectsOrdersSupplementErea"].stringValue, ProjectsOrdersSupplementExternalErea: json["ProjectsOrdersSupplementExternalErea"].stringValue, ProjectsOrdersFloorErea: json["ProjectsOrdersFloorErea"].stringValue, ProjectsOrdersLandErea: json["ProjectsOrdersLandErea"].stringValue, ProjectsOrdersFloorNummber: json["ProjectsOrdersFloorNummber"].stringValue, ProjectsOrdersTotalBildErea: json["ProjectsOrdersTotalBildErea"].stringValue, ProjectsPaymentsWork: json["ProjectsPaymentsWork"].stringValue, ProjectsPaymentsDiscount: json["ProjectsPaymentsDiscount"].stringValue, CompanyInfoID: json["CompanyInfoID"].stringValue, ComapnyName: json["ComapnyName"].stringValue, CompanyAddress: json["Address"].stringValue, Logo: json["Logo"].stringValue, isCompany: json["IsCompany"].stringValue, DesignNewCount: json["DesignNewCount"].stringValue, DesignCount: json["DesignCount"].stringValue, Meetingcount: json["Meetingcount"].stringValue, MeetingDate: json["MeetingDate"].stringValue, MeetingTime: json["MeetingTime"].stringValue, ProjectLastComment: json["ProjectLastComment"].stringValue, ProjectLastTpye: json["ProjectLastTpye"].stringValue, ProjectCommentOther: json["ProjectCommentOther"].stringValue, LastDesignStagesID: json["LastDesignStagesID"].stringValue, LastMeetingID: json["LastMeetingID"].stringValue, MeetingNotifiCount: json["MeetingNotifiCount"].stringValue, DesignNotifiCount: json["DesignNotifiCount"].stringValue, NotifiCount: json["NotifiCount"].intValue, FileCount: json["FileCount"].stringValue, ProjectFileCount: json["ProjectFileCount"].stringValue,DocCount: json["DocCount"].stringValue)
             UserDefaults.standard.set(json["CompanyInfoID"].stringValue, forKey: "companyInfoID")
             self.ProjectOfResult.removeAll()
             self.ProjectOfResult.append(requestProjectObj)
@@ -1213,7 +1219,16 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             secondView.ProjectId = ProjectId
             secondView.Webtitle = "العقد"
             self.navigationController?.pushViewController(secondView, animated: true)
-        } else if ProjectContract == "2" {
+        } else if ProjectContract == "5" {
+            let storyBoard : UIStoryboard = UIStoryboard(name: "ProjectsAndEdit", bundle:nil)
+            let secondView = storyBoard.instantiateViewController(withIdentifier: "ShowContractViewController") as! ShowContractViewController
+            print(openContract)
+            secondView.condition = "contract5"
+            secondView.url = openContract
+            secondView.ProjectId = ProjectId
+            secondView.Webtitle = "عرض السعر"
+        }
+        else if ProjectContract == "2" {
             let storyBoard : UIStoryboard = UIStoryboard(name: "DesignsAndDetails", bundle:nil)
             let secondView = storyBoard.instantiateViewController(withIdentifier: "openPdfViewController") as! openPdfViewController
             secondView.url = openContract
@@ -1291,8 +1306,8 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     
     @IBAction func goDesignsViewController(_ sender: UIButton) {
         let desCount = DesignCount
-        print(DesignCount)
-        if DesignCount == "" || DesignCount == "0" {
+        print(self.ProjectOfResult[0].DesignCount)
+        if self.ProjectOfResult[0].DesignCount == "" || self.ProjectOfResult[0].DesignCount == "0" {
             Toast.long(message: "لا يوجد لك تصاميم حالياً")
         } else {
             let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
@@ -1317,9 +1332,9 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     }
     
     @IBAction func goVisitsViewController(_ sender: UIButton) {
-        let meetingCount = MeetingCount
-        print(MeetingCount)
-        if MeetingCount == "" || MeetingCount == "0" {
+        let meetingCount = self.ProjectOfResult[0].Meetingcount
+        print(self.ProjectOfResult[0].Meetingcount)
+        if  self.ProjectOfResult[0].Meetingcount == "" ||  self.ProjectOfResult[0].Meetingcount == "0" {
             Toast.long(message: "لا يوجد زيارات لك حالياً")
         }else {
             let storyBoard : UIStoryboard = UIStoryboard(name: "NewHome", bundle:nil)
@@ -1345,8 +1360,8 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     
     
     @IBAction func MyFilesBtn(_ sender: UIButton) {
-           print(DocCount)
-        if self.DocCount == "0" {
+           print(self.ProjectOfResult[0].DocCount)
+        if  self.ProjectOfResult[0].DocCount == "0" || self.ProjectOfResult[0].DocCount == nil  {
             Toast.long(message: "لايوجد وثائق للارض")
         }else {
             let storyBoard : UIStoryboard = UIStoryboard(name: "MyFilesAndMoney", bundle:nil)
@@ -1380,8 +1395,8 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
     }
     
     @IBAction func ProjectFilesBtn(_ sender: UIButton) {
-      print(FileCount)
-        if self.FileCount == "0" {
+      print(self.ProjectOfResult[0].FileCount)
+        if self.ProjectOfResult[0].FileCount == "0" {
             Toast.long(message: "لايوجد ملفات للمشروع")
         }else {
             let storyBoard : UIStoryboard = UIStoryboard(name: "MyFilesAndMoney", bundle:nil)
@@ -1441,7 +1456,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
             ]
         }
         
-        Alamofire.request("http://smusers.promit2030.co/api/ApiService/GetCountMessageUnReaded", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetCountMessageUnReaded", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             let json = JSON(response.result.value!)
             let MessageCount = json["MessageCount"].stringValue
@@ -1486,7 +1501,7 @@ class NewProjectDetialsFilterTableViewController: UITableViewController {
         let parameters: Parameters = [
             "CustmoerId":CustmoerId
         ]
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json = JSON(response.result.value!)

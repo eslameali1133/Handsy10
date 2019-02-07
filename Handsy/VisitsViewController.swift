@@ -88,30 +88,14 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         visitsModel.removeAllItems()
         for i in self.model.resultArray {
+            print(i.SakNum)
             self.visitsModel.append(i)
         }
         // Tell the tableview to reload
         tableView.reloadData()
     }
     
-//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return 20
-//    }
-//
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let view = UIView()
-//        view.backgroundColor = UIColor.clear
-//        return view
-//    }
-//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-//        return 20
-//    }
-//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-//        let view = UIView()
-//        view.backgroundColor = UIColor.clear
-//        return view
-//    }
-    
+
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 10
     }
@@ -150,6 +134,7 @@ class VisitsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         cell.companyAddress.text = searchResu[indexPath.section].EmpName
       
         
+        print(searchResu[indexPath.section])
         if  searchResu[indexPath.section].SakNum != ""
         {
               cell.SakNumber.text = searchResu[indexPath.section].SakNum

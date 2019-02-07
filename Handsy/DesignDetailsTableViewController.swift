@@ -132,6 +132,7 @@ class DesignDetailsTableViewController: UITableViewController {
             GetDesignsByDesignStagesID()
         }else{
             designsDetialsModel.loadItems()
+             self.messageCountLabel.isHidden = false
             print("Internet Connection not Available!")
             if designsDetialsModel.returnProjectDetials(at: DesignStagesID) != nil {
                 let designsDetials = designsDetialsModel.returnProjectDetials(at: DesignStagesID)
@@ -205,7 +206,7 @@ class DesignDetailsTableViewController: UITableViewController {
             "designStagesID": self.DesignStagesID
         ]
         print(parameters)
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetDesignsByDesignStagesID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetDesignsByDesignStagesID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             let json = JSON(response.result.value!)
@@ -560,7 +561,7 @@ class DesignDetailsTableViewController: UITableViewController {
             "companyInfoID": CompanyInfoID
         ]
         
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetOfficeByCompanyInfoID", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetOfficeByCompanyInfoID", method: .get, parameters: Parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             
             let json = JSON(response.result.value!)
@@ -659,7 +660,7 @@ class DesignDetailsTableViewController: UITableViewController {
         
         let parameters: Parameters = ["projectId": ProjectId]
         
-        Alamofire.request("http://smusers.promit2030.co/api/ApiService/GetCountMessageUnReaded", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetCountMessageUnReaded", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             let json = JSON(response.result.value!)
             let MessageCount = json["MessageCount"].stringValue

@@ -1114,12 +1114,12 @@
                                             </label>
                                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Ps-WF-AnQ">
                                                 <rect key="frame" x="315" y="93" width="40" height="40"/>
-                                                <color key="backgroundColor" red="0.086274509799999996" green="0.086274509799999996" blue="0.086274509799999996" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="0AU-tQ-TdI"/>
                                                     <constraint firstAttribute="width" constant="40" id="ayd-G0-LkZ"/>
                                                 </constraints>
-                                                <state key="normal" image="landscape-with-mountains"/>
+                                                <state key="normal" image="Group_1404"/>
                                                 <connections>
                                                     <action selector="mapTypeAction:" destination="XFd-uV-WtW" eventType="touchUpInside" id="7ob-lh-eem"/>
                                                 </connections>
@@ -1327,10 +1327,10 @@
     </scenes>
     <resources>
         <image name="EngBtnIcon1" width="151" height="151"/>
+        <image name="Group_1404" width="41" height="41"/>
         <image name="OfficeBtnIcon1" width="151" height="151"/>
         <image name="downarrow" width="24" height="24"/>
         <image name="gold phone" width="512" height="512"/>
-        <image name="landscape-with-mountains" width="512" height="512"/>
         <image name="nextGray" width="55" height="55"/>
         <image name="nextGreen" width="55" height="55"/>
         <image name="officeDone" width="18" height="14"/>

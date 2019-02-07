@@ -147,7 +147,7 @@ class DetailsDesignTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-            CountCustomerNotification()
+        
 //        cus_note_title.tex
         DetailsDes.textContainerInset = UIEdgeInsetsMake(-1, 0, 0, 0)
         NotesCus.textContainerInset = UIEdgeInsetsMake(-1, 0, 0, 10)
@@ -169,7 +169,9 @@ class DetailsDesignTableViewController: UITableViewController {
             print("Internet Connection Available!")
             self.messageCountLabel.isHidden = true
             GetDesignsByDesignStagesID()
+              CountCustomerNotification()
         }else{
+             self.messageCountLabel.isHidden = true
             designsDetialsModel.loadItems()
             print("Internet Connection not Available!")
             if designsDetialsModel.returnProjectDetials(at: designStagesID) != nil {
@@ -221,7 +223,7 @@ detialsBtnView.isHidden = true
             "designStagesID": designStagesID
         ]
         
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetDesignsByDesignStagesID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetDesignsByDesignStagesID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             let json = JSON(response.result.value!)
             let requestProjectObj = DesignsDetialsArray(CreateDate: json["CreateDate"].stringValue, DesignFile: json["DesignFile"].stringValue, DesignStagesID: json["DesignStagesID"].stringValue, Details: json["Details"].stringValue, EmpName: json["EmpName"].stringValue, mobileStr: json["Mobile"].stringValue, ProjectBildTypeName: json["ProjectBildTypeName"].stringValue, ProjectStatusID: json["ProjectStatusID"].stringValue, SakNum: json["SakNum"].stringValue, StagesDetailsName: json["StagesDetailsName"].stringValue, Status: json["Status"].stringValue, ClientReply: json["ClientReply"].stringValue, EmpReply: json["EmpReply"].stringValue, ComapnyName: json["ComapnyName"].stringValue, LatBranch: json["LatBranch"].doubleValue, LngBranch: json["LngBranch"].doubleValue, JobName: json["JobName"].stringValue, Address: json["Address"].stringValue, Logo: json["Logo"].stringValue, ProjectId: json["ProjectId"].stringValue, CompanyInfoID: json["CompanyInfoID"].stringValue, IsCompany: json["IsCompany"].stringValue)
@@ -641,7 +643,7 @@ detialsBtnView.isHidden = true
         
         let parameters: Parameters = ["projectId": ProjectId]
         
-        Alamofire.request("http://smusers.promit2030.co/api/ApiService/GetCountMessageUnReaded", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/api/ApiService/GetCountMessageUnReaded", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             debugPrint(response)
             let json = JSON(response.result.value!)
             let MessageCount = json["MessageCount"].stringValue
@@ -820,7 +822,7 @@ detialsBtnView.isHidden = true
         let parameters: Parameters = [
             "CustmoerId":CustmoerId
         ]
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json = JSON(response.result.value!)

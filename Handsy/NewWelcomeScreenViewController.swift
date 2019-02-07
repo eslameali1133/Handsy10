@@ -109,7 +109,10 @@ class NewWelcomeScreenViewController: UIViewController {
             let CustmoerId = UserDefaults.standard.string(forKey: "CustmoerId")
             if CustmoerId != nil
             {
-                CountCustomerNotification()
+                 if Reachability.isConnectedToNetwork(){
+                    CountCustomerNotification()
+                    
+                }
             }
             viewUpdateVersion.isHidden = true
             DispatchQueue.main.async {
@@ -151,7 +154,10 @@ class NewWelcomeScreenViewController: UIViewController {
     }
     
     @objc func resetCount() {
-        ChechProRate()
+        
+            ChechProRate()
+        
+       
         print(self.checkProjectsRate)
         
         
@@ -342,7 +348,7 @@ class NewWelcomeScreenViewController: UIViewController {
         let parameters: Parameters = [
             "CustmoerId":CustmoerId
         ]
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/CountCustomerNotification", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json = JSON(response.result.value!)

@@ -33,7 +33,8 @@ class VisitsDetialsArray: NSObject, NSCoding {
     var ProjectId: String?
     var CompanyInfoID: String?
     var IsCompany: String?
-    init(Address: String, ComapnyName: String, Logo: String, visitTitle: String, MeetingStatus: String, Description: String, Notes: String, Start: String, TimeStartMeeting: String, StartTime: String, ProjectBildTypeName: String, Mobile: String, EmpName: String, Replay: String, DateReply: String, EndTime: String, LatBranch: Double, LngBranch: Double, JobName: String, ClientReply: String, MeetingID: String, ProjectId: String, CompanyInfoID: String, IsCompany: String) {
+    var SakNum: String?
+    init(Address: String, ComapnyName: String, Logo: String, visitTitle: String, MeetingStatus: String, Description: String, Notes: String, Start: String, TimeStartMeeting: String, StartTime: String, ProjectBildTypeName: String, Mobile: String, EmpName: String, Replay: String, DateReply: String, EndTime: String, LatBranch: Double, LngBranch: Double, JobName: String, ClientReply: String, MeetingID: String, ProjectId: String, CompanyInfoID: String, IsCompany: String,SakNum: String) {
         self.Address = Address
         self.ComapnyName = ComapnyName
         self.Logo = Logo
@@ -58,6 +59,7 @@ class VisitsDetialsArray: NSObject, NSCoding {
         self.ProjectId = ProjectId
         self.CompanyInfoID = CompanyInfoID
         self.IsCompany = IsCompany
+        self.SakNum = SakNum
     }
     public required init?(coder aDecoder: NSCoder) {
         self.Address = aDecoder.decodeObject(forKey: "Address") as? String
@@ -84,6 +86,7 @@ class VisitsDetialsArray: NSObject, NSCoding {
         self.ProjectId = aDecoder.decodeObject(forKey: "ProjectId") as? String
         self.CompanyInfoID = aDecoder.decodeObject(forKey: "CompanyInfoID") as? String
         self.IsCompany = aDecoder.decodeObject(forKey: "IsCompany") as? String
+         self.SakNum = aDecoder.decodeObject(forKey: "SakNum") as? String
     }
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(self.Address, forKey: "Address")
@@ -110,6 +113,7 @@ class VisitsDetialsArray: NSObject, NSCoding {
         aCoder.encode(self.ProjectId, forKey: "ProjectId")
         aCoder.encode(self.CompanyInfoID, forKey: "CompanyInfoID")
         aCoder.encode(self.IsCompany, forKey: "IsCompany")
+       aCoder.encode(self.SakNum, forKey: "SakNum")
     }
 }
 
@@ -149,6 +153,7 @@ class VisitsDetialsModel : NSObject {
     }
     
     func returnProjectDetials(at meetingID: String) -> VisitsDetialsArray? {
+    
         return visitsDetialsArray.filter({ $0.MeetingID == MeetingID}).first!
     }
     

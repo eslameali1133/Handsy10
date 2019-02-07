@@ -419,7 +419,7 @@ class DetailsOfOfficeTableViewControllerNot: UITableViewController, UICollection
         }
         
         
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetAbout", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetAbout", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json = JSON(response.result.value!)
@@ -598,7 +598,7 @@ class DetailsOfOfficeTableViewControllerNot: UITableViewController, UICollection
             ]
         }
         
-        Alamofire.request("http://smusers.promit2030.co/Service1.svc/GetOfficeByCompanyInfoID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request("http://smusers.promit2030.com/Service1.svc/GetOfficeByCompanyInfoID", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json = JSON(response.result.value!)
@@ -612,7 +612,7 @@ class DetailsOfOfficeTableViewControllerNot: UITableViewController, UICollection
                 self.BranchFB = json["BranchFB"].stringValue
                 self.BranchID = json["BranchID"].stringValue
                 self.BranchName = json["BranchName"].stringValue
-                //            print(json["ComapnyName"].stringValue)
+                print(json["ComapnyName"].stringValue)
                 self.navigationItem.title = json["ComapnyName"].stringValue
                 self.ComapnyName = json["ComapnyName"].stringValue
                 self.CommercialNumber = json["CommercialNumber"].stringValue
